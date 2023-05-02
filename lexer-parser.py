@@ -5,22 +5,22 @@ import sys
 #  LEXER
 reserved = {
     'script' : 'SCRIPT',        # script
-    'var' : 'VAR',
-    'func' : 'FUNC',
+    'var' : 'VAR',              # var
+    'func' : 'FUNC',            # func
     'DO' : 'DO',                # DO main function
-    'if' : 'IF',
-    'True{' : 'IF_TRUE',
-    'False{' : 'IF_FALSE',
-    'while' : 'WHILE',
-    'for' : 'FOR',
-    'returns' : 'RETURNS',
-    'get' : 'READ',
-    'put' : 'WRITE',
-    'copy' : 'READ_FILE',
-    'int' : 'INT',
-    'float' : 'FLOAT',
-    'char' : 'CHAR',
-    'void' : 'VOID',
+    'if' : 'IF',                # if
+    'True{' : 'IF_TRUE',        # True{ part of if condition
+    'False{' : 'IF_FALSE',      # False{ part of if condition
+    'while' : 'WHILE',          # while
+    'for' : 'FOR',              # for
+    'returns' : 'RETURNS',      # returns statement
+    'get' : 'READ',             # read from terminal
+    'put' : 'WRITE',            # write on terminal
+    'copy' : 'READ_FILE',       # read from file, to be used to add data to a dataframe
+    'int' : 'INT',              # int
+    'float' : 'FLOAT',          # float
+    'char' : 'CHAR',            # char
+    'void' : 'VOID',            # void
     'mean' : 'MEAN',            # mean special function
     'mode' : 'MODE',            # mode special function
     'median' : 'MEDIAN',        # median special function
@@ -129,62 +129,312 @@ def t_error(t):
 #lexer = lex.lex(debug=True)
 lexer = lex.lex()
 
-def test_lexer():
-  lexer.input('''
-                script example01;
+precedence = (
+    ('left', 'PLUS', 'MINUS'),
+    ('left', 'MULT', 'DIV'),
+)
 
-                !!Variables globales
-                var int -> x, y;
-                var dataframe -> df1, df2;
+# PARSER
+def p_programa(p):
+    '''
+    programa : SCRIPT ID SEMICOLON varp funcp bloque
+    varp : var varp 
+         | empty
+    funcp : func funcp 
+          | empty
+    '''
+    p[0] = None
 
-                !!Funciones
-                func float -> half(int -> x1){
-                    returns x1/2;
-                }
+def p_bloque(p):
+    '''
+    bloque : DO LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET
+    estatutop : estatuto estatutop 
+              | empty
+    '''
+    p[0] = None
 
-                func void -> leerVariable(){
-                    var int -> x;
-                get(x);
-                    while(x < 3){
-                    get(x);
-                }
-                }
+def p_tipo_simp(p):
+    '''
+    tipo_simp : INT 
+              | FLOAT 
+              | CHAR
+    '''
+    p[0] = None
 
-                DO
-                {
+def p_tipo_comp(p):
+    '''
+    tipo_comp : DATAFRAME 
+              | file
+    '''
+    p[0] = None
 
-                df1 = copy("DatosEnero2023.csv");
-                df2 = df1;
+def p_copy(p):
+    '''
+    copy : READ_FILE LEFT_PARENT file RIGHT_PARENT SEMICOLON
+    '''
+    p[0] = None
 
-                var int -> jumpSize;
-                jumpSize = leerVariable();
+def p_file(p):
+    '''
+    file : ID
+    '''
+    p[0] = None
 
-                i = 0;
-                for(i = 0; jumpSize){
-                    df1[0,i] = -1;
-                }
+def p_variable(p):
+    '''
+    variable : ID indexp
+    indexp : LEFT_SQR_BRACKET exp indexpp RIGHT_SQR_BRACKET 
+           | empty
+    indexpp : COMMA exp 
+            | empty
+    '''
+    p[0] = None
 
-                !! Draws boxplot of edited df1 and original df2 dataframes 
-                put(boxplot(df1));
-                put(boxplot(df2));
-                    
-                    if(mean(df1) > mean(df2))
-                True{
-                    put("El mayor promedio es el de dataframe df1 con ");
-                    put(mean(df1));
-                }False{
-                    put("El mayor promedio es el de dataframe df2 con ");
-                    put(mean(df2));
-                }                      
-                }
-                      
-              ''')
+def p_llamada(p):
+    '''
+    llamada : ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON
+    expp : COMMA exp expp 
+         | empty
+    '''
+    p[0] = None
+
+def p_var(p):
+    '''
+    var : VAR v ARROW idp SEMICOLON
+    v : DATAFRAME 
+      | tipo_simp vp
+    vp : LEFT_SQR_BRACKET CTEI vpp RIGHT_SQR_BRACKET 
+       | empty
+    vpp : COMMA CTEI 
+        | empty
+    idp : ID
+        | COMMA ID idp
+        | empty
+    '''
+    p[0] = None
+
+def p_func(p):
+    '''
+    func : FUNC returnval ARROW ID LEFT_PARENT param RIGHT_PARENT LEFT_CUR_BRACKET varp estatutop RIGHT_CUR_BRACKET
+    returnval : tipo_simp 
+              | VOID
+    '''
+    p[0] = None
+
+def p_param(p):
+    '''
+    param : tipo_simp ARROW ID paramp 
+          | empty
+    paramp : COMMA param paramp 
+           | empty
+    '''
+    p[0] = None
+
+def p_estatuto(p):
+    '''
+    estatuto : asign
+             | llamada
+             | lee
+             | escribe
+             | condicion
+             | ciclow
+             | ciclof
+             | funcesp
+             | return
+             | copy
+    '''
+    p[0] = None
+
+def p_asign(p):
+    '''
+    asign : variable ASIGN exp SEMICOLON
+    '''
+    p[0] = None
+
+def p_lee(p):
+    '''
+    lee : READ LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    '''
+    p[0] = None
+
+def p_escribe(p):
+    '''
+    escribe :  WRITE LEFT_PARENT escribep RIGHT_PARENT SEMICOLON
+    escribep : exp 
+             | LETRERO
+    '''
+    p[0] = None
+
+def p_return(p):
+    '''
+    return : RETURNS exp SEMICOLON
+    '''
+    p[0] = None
+
+def p_exp(p):
+    '''
+    exp : exprel logic
+    logic : logicsig exprel logic 
+          | empty
+    logicsig : AND 
+             | OR
+    '''
+    p[0] = None
+
+def p_exprel(p):
+    '''
+    exprel : e relacionalp
+    relacionalp : relsig e relacionalp 
+                | empty
+    relsig : LESS_THAN 
+           | GREATER_THAN 
+           | EQUALS 
+           | NOTEQUALS
+    '''
+    p[0] = None
+
+def p_e(p):
+    '''
+    e : t tp
+    tp : tsig t tp 
+       | empty
+    tsig : PLUS 
+         | MINUS
+    '''
+    p[0] = None
+
+def p_t(p):
+    '''
+    t : f fp
+    fp : fsig f fp 
+       | empty
+    fsig : MULT 
+         | DIV
+    '''
+    p[0] = None
+
+def p_f(p):
+    '''
+    f : LEFT_PARENT exp RIGHT_PARENT
+      | CTEI
+      | CTEF
+      | CTEC
+      | variable
+      | llamada
+    '''
+    p[0] = None
+
+def p_condicion(p):
+    '''
+    condicion : IF LEFT_PARENT exp RIGHT_PARENT IF_TRUE estatutop RIGHT_CUR_BRACKET falsop
+    falsop : IF_FALSE estatutop RIGHT_CUR_BRACKET 
+           | empty
+    '''
+    p[0] = None
+
+def p_ciclow(p):
+    '''
+    ciclow : WHILE LEFT_PARENT exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET
+    '''
+    p[0] = None
+
+def p_ciclof(p):
+    '''
+    ciclof : FOR LEFT_PARENT asign exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET
+    '''
+    p[0] = None
+
+def p_funcesp(p):
+    '''
+    funcesp : mean
+            | mode
+            | median
+            | variance
+            | max
+            | min
+            | staddes
+            | boxplot
+            | linreg
+    '''
+    p[0] = None
+
+def p_mean(p):
+    '''
+    mean : MEAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    '''
+    p[0] = None
+
+def p_mode(p):
+    '''
+    mode : MODE LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    '''
+    p[0] = None
+
+def p_median(p):
+    '''
+    median : MEDIAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    '''
+    p[0] = None
+
+def p_variance(p):
+    '''
+    variance : VARIANCE LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    '''
+    p[0] = None
+
+def p_max(p):
+    '''
+    max : MAX LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    '''
+    p[0] = None
+
+def p_min(p):
+    '''
+    min : MIN LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    '''
+    p[0] = None
+
+def p_staddes(p):
+    '''
+    staddes : STADDES LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    '''
+    p[0] = None
+
+def p_boxplot(p):
+    '''
+    boxplot : BOXPLOT LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    '''
+    p[0] = None
+
+def p_linreg(p):
+    '''
+    linreg : LINREG LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    '''
+    p[0] = None
+
+def p_empty(p):
+    '''
+    empty :'''
+    pass
+
+def p_error(p):
+  if p:
+      print("Syntax error at '%s'" % p.value)
+  else:
+      print("Syntax error at EOF")
+
+# Build the parser
+parser = yacc.yacc(debug=True)
+
+def test(file_name):
+  file = open(file_name)
+  print("\nTesting: {}".format(file_name))
 
   while True:
-    tok = lexer.token()
-    if not tok:
-      break;
+    line = file.readline()
+    if (line):
+      parser.parse(line)
+    else: 
+      break
 
-    print(tok)
-
-test_lexer()
+test("test.txt")
