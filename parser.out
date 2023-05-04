@@ -1,0 +1,4268 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    COMMENT
+
+Grammar
+
+Rule 0     S' -> programa
+Rule 1     programa -> SCRIPT ID SEMICOLON varp funcp bloque
+Rule 2     varp -> var varp
+Rule 3     varp -> empty
+Rule 4     funcp -> func funcp
+Rule 5     funcp -> empty
+Rule 6     bloque -> DO LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET
+Rule 7     estatutop -> estatuto estatutop
+Rule 8     estatutop -> empty
+Rule 9     tipo_simp -> INT
+Rule 10    tipo_simp -> FLOAT
+Rule 11    tipo_simp -> CHAR
+Rule 12    tipo_comp -> DATAFRAME
+Rule 13    tipo_comp -> file
+Rule 14    copy -> READ_FILE LEFT_PARENT file RIGHT_PARENT SEMICOLON
+Rule 15    file -> ID
+Rule 16    variable -> ID indexp
+Rule 17    indexp -> LEFT_SQR_BRACKET exp indexpp RIGHT_SQR_BRACKET
+Rule 18    indexp -> empty
+Rule 19    indexpp -> COMMA exp
+Rule 20    indexpp -> empty
+Rule 21    llamada -> ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON
+Rule 22    expp -> COMMA exp expp
+Rule 23    expp -> empty
+Rule 24    var -> VAR v ARROW idp SEMICOLON
+Rule 25    v -> DATAFRAME
+Rule 26    v -> tipo_simp vp
+Rule 27    vp -> LEFT_SQR_BRACKET CTEI vpp RIGHT_SQR_BRACKET
+Rule 28    vp -> empty
+Rule 29    vpp -> COMMA CTEI
+Rule 30    vpp -> empty
+Rule 31    idp -> ID
+Rule 32    idp -> COMMA ID idp
+Rule 33    idp -> empty
+Rule 34    func -> FUNC returnval ARROW ID LEFT_PARENT param RIGHT_PARENT LEFT_CUR_BRACKET varp estatutop RIGHT_CUR_BRACKET
+Rule 35    returnval -> tipo_simp
+Rule 36    returnval -> VOID
+Rule 37    param -> tipo_simp ARROW ID paramp
+Rule 38    param -> empty
+Rule 39    paramp -> COMMA param paramp
+Rule 40    paramp -> empty
+Rule 41    estatuto -> asign
+Rule 42    estatuto -> llamada
+Rule 43    estatuto -> lee
+Rule 44    estatuto -> escribe
+Rule 45    estatuto -> condicion
+Rule 46    estatuto -> ciclow
+Rule 47    estatuto -> ciclof
+Rule 48    estatuto -> funcesp
+Rule 49    estatuto -> return
+Rule 50    estatuto -> copy
+Rule 51    asign -> variable ASIGN exp SEMICOLON
+Rule 52    lee -> READ LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+Rule 53    escribe -> WRITE LEFT_PARENT escribep RIGHT_PARENT SEMICOLON
+Rule 54    escribep -> exp
+Rule 55    escribep -> LETRERO
+Rule 56    return -> RETURNS exp SEMICOLON
+Rule 57    exp -> exprel logic
+Rule 58    logic -> logicsig exprel logic
+Rule 59    logic -> empty
+Rule 60    logicsig -> AND
+Rule 61    logicsig -> OR
+Rule 62    exprel -> e relacionalp
+Rule 63    relacionalp -> relsig e relacionalp
+Rule 64    relacionalp -> empty
+Rule 65    relsig -> LESS_THAN
+Rule 66    relsig -> GREATER_THAN
+Rule 67    relsig -> EQUALS
+Rule 68    relsig -> NOTEQUALS
+Rule 69    e -> t tp
+Rule 70    tp -> tsig t tp
+Rule 71    tp -> empty
+Rule 72    tsig -> PLUS
+Rule 73    tsig -> MINUS
+Rule 74    t -> f fp
+Rule 75    fp -> fsig f fp
+Rule 76    fp -> empty
+Rule 77    fsig -> MULT
+Rule 78    fsig -> DIV
+Rule 79    f -> LEFT_PARENT exp RIGHT_PARENT
+Rule 80    f -> CTEI
+Rule 81    f -> CTEF
+Rule 82    f -> CTEC
+Rule 83    f -> variable
+Rule 84    f -> llamada
+Rule 85    condicion -> IF LEFT_PARENT exp RIGHT_PARENT IF_TRUE estatutop RIGHT_CUR_BRACKET falsop
+Rule 86    falsop -> IF_FALSE estatutop RIGHT_CUR_BRACKET
+Rule 87    falsop -> empty
+Rule 88    ciclow -> WHILE LEFT_PARENT exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET
+Rule 89    ciclof -> FOR LEFT_PARENT asign exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET
+Rule 90    funcesp -> mean
+Rule 91    funcesp -> mode
+Rule 92    funcesp -> median
+Rule 93    funcesp -> variance
+Rule 94    funcesp -> max
+Rule 95    funcesp -> min
+Rule 96    funcesp -> staddes
+Rule 97    funcesp -> boxplot
+Rule 98    funcesp -> linreg
+Rule 99    mean -> MEAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+Rule 100   mode -> MODE LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+Rule 101   median -> MEDIAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+Rule 102   variance -> VARIANCE LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+Rule 103   max -> MAX LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+Rule 104   min -> MIN LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+Rule 105   staddes -> STADDES LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+Rule 106   boxplot -> BOXPLOT LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+Rule 107   linreg -> LINREG LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+Rule 108   empty -> <empty>
+
+Terminals, with rules where they appear
+
+AND                  : 60
+ARROW                : 24 34 37
+ASIGN                : 51
+BOXPLOT              : 106
+CHAR                 : 11
+COMMA                : 19 22 29 32 39
+COMMENT              : 
+CTEC                 : 82
+CTEF                 : 81
+CTEI                 : 27 29 80
+DATAFRAME            : 12 25
+DIV                  : 78
+DO                   : 6
+EQUALS               : 67
+FLOAT                : 10
+FOR                  : 89
+FUNC                 : 34
+GREATER_THAN         : 66
+ID                   : 1 15 16 21 31 32 34 37
+IF                   : 85
+IF_FALSE             : 86
+IF_TRUE              : 85
+INT                  : 9
+LEFT_CUR_BRACKET     : 6 34 88 89
+LEFT_PARENT          : 14 21 34 52 53 79 85 88 89 99 100 101 102 103 104 105 106 107
+LEFT_SQR_BRACKET     : 17 27
+LESS_THAN            : 65
+LETRERO              : 55
+LINREG               : 107
+MAX                  : 103
+MEAN                 : 99
+MEDIAN               : 101
+MIN                  : 104
+MINUS                : 73
+MODE                 : 100
+MULT                 : 77
+NOTEQUALS            : 68
+OR                   : 61
+PLUS                 : 72
+READ                 : 52
+READ_FILE            : 14
+RETURNS              : 56
+RIGHT_CUR_BRACKET    : 6 34 85 86 88 89
+RIGHT_PARENT         : 14 21 34 52 53 79 85 88 89 99 100 101 102 103 104 105 106 107
+RIGHT_SQR_BRACKET    : 17 27
+SCRIPT               : 1
+SEMICOLON            : 1 14 21 24 51 52 53 56 99 100 101 102 103 104 105 106 107
+STADDES              : 105
+VAR                  : 24
+VARIANCE             : 102
+VOID                 : 36
+WHILE                : 88
+WRITE                : 53
+error                : 
+
+Nonterminals, with rules where they appear
+
+asign                : 41 89
+bloque               : 1
+boxplot              : 97
+ciclof               : 47
+ciclow               : 46
+condicion            : 45
+copy                 : 50
+e                    : 62 63
+empty                : 3 5 8 18 20 23 28 30 33 38 40 59 64 71 76 87
+escribe              : 44
+escribep             : 53
+estatuto             : 7
+estatutop            : 6 7 34 85 86 88 89
+exp                  : 17 19 21 22 51 54 56 79 85 88 89
+expp                 : 21 22
+exprel               : 57 58
+f                    : 74 75
+falsop               : 85
+file                 : 13 14
+fp                   : 74 75
+fsig                 : 75
+func                 : 4
+funcesp              : 48
+funcp                : 1 4
+idp                  : 24 32
+indexp               : 16
+indexpp              : 17
+lee                  : 43
+linreg               : 98
+llamada              : 42 84
+logic                : 57 58
+logicsig             : 58
+max                  : 94
+mean                 : 90
+median               : 92
+min                  : 95
+mode                 : 91
+param                : 34 39
+paramp               : 37 39
+programa             : 0
+relacionalp          : 62 63
+relsig               : 63
+return               : 49
+returnval            : 34
+staddes              : 96
+t                    : 69 70
+tipo_comp            : 
+tipo_simp            : 26 35 37
+tp                   : 69 70
+tsig                 : 70
+v                    : 24
+var                  : 2
+variable             : 51 52 83 99 100 101 102 103 104 105 106 107
+variance             : 93
+varp                 : 1 2 34
+vp                   : 26
+vpp                  : 27
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . programa
+    (1) programa -> . SCRIPT ID SEMICOLON varp funcp bloque
+
+    SCRIPT          shift and go to state 2
+
+    programa                       shift and go to state 1
+
+state 1
+
+    (0) S' -> programa .
+
+
+
+state 2
+
+    (1) programa -> SCRIPT . ID SEMICOLON varp funcp bloque
+
+    ID              shift and go to state 3
+
+
+state 3
+
+    (1) programa -> SCRIPT ID . SEMICOLON varp funcp bloque
+
+    SEMICOLON       shift and go to state 4
+
+
+state 4
+
+    (1) programa -> SCRIPT ID SEMICOLON . varp funcp bloque
+    (2) varp -> . var varp
+    (3) varp -> . empty
+    (24) var -> . VAR v ARROW idp SEMICOLON
+    (108) empty -> .
+
+    VAR             shift and go to state 8
+    FUNC            reduce using rule 108 (empty -> .)
+    DO              reduce using rule 108 (empty -> .)
+
+    varp                           shift and go to state 5
+    var                            shift and go to state 6
+    empty                          shift and go to state 7
+
+state 5
+
+    (1) programa -> SCRIPT ID SEMICOLON varp . funcp bloque
+    (4) funcp -> . func funcp
+    (5) funcp -> . empty
+    (34) func -> . FUNC returnval ARROW ID LEFT_PARENT param RIGHT_PARENT LEFT_CUR_BRACKET varp estatutop RIGHT_CUR_BRACKET
+    (108) empty -> .
+
+    FUNC            shift and go to state 12
+    DO              reduce using rule 108 (empty -> .)
+
+    funcp                          shift and go to state 9
+    func                           shift and go to state 10
+    empty                          shift and go to state 11
+
+state 6
+
+    (2) varp -> var . varp
+    (2) varp -> . var varp
+    (3) varp -> . empty
+    (24) var -> . VAR v ARROW idp SEMICOLON
+    (108) empty -> .
+
+    VAR             shift and go to state 8
+    FUNC            reduce using rule 108 (empty -> .)
+    DO              reduce using rule 108 (empty -> .)
+    ID              reduce using rule 108 (empty -> .)
+    READ            reduce using rule 108 (empty -> .)
+    WRITE           reduce using rule 108 (empty -> .)
+    IF              reduce using rule 108 (empty -> .)
+    WHILE           reduce using rule 108 (empty -> .)
+    FOR             reduce using rule 108 (empty -> .)
+    RETURNS         reduce using rule 108 (empty -> .)
+    READ_FILE       reduce using rule 108 (empty -> .)
+    MEAN            reduce using rule 108 (empty -> .)
+    MODE            reduce using rule 108 (empty -> .)
+    MEDIAN          reduce using rule 108 (empty -> .)
+    VARIANCE        reduce using rule 108 (empty -> .)
+    MAX             reduce using rule 108 (empty -> .)
+    MIN             reduce using rule 108 (empty -> .)
+    STADDES         reduce using rule 108 (empty -> .)
+    BOXPLOT         reduce using rule 108 (empty -> .)
+    LINREG          reduce using rule 108 (empty -> .)
+    RIGHT_CUR_BRACKET reduce using rule 108 (empty -> .)
+
+    var                            shift and go to state 6
+    varp                           shift and go to state 13
+    empty                          shift and go to state 7
+
+state 7
+
+    (3) varp -> empty .
+
+    FUNC            reduce using rule 3 (varp -> empty .)
+    DO              reduce using rule 3 (varp -> empty .)
+    ID              reduce using rule 3 (varp -> empty .)
+    READ            reduce using rule 3 (varp -> empty .)
+    WRITE           reduce using rule 3 (varp -> empty .)
+    IF              reduce using rule 3 (varp -> empty .)
+    WHILE           reduce using rule 3 (varp -> empty .)
+    FOR             reduce using rule 3 (varp -> empty .)
+    RETURNS         reduce using rule 3 (varp -> empty .)
+    READ_FILE       reduce using rule 3 (varp -> empty .)
+    MEAN            reduce using rule 3 (varp -> empty .)
+    MODE            reduce using rule 3 (varp -> empty .)
+    MEDIAN          reduce using rule 3 (varp -> empty .)
+    VARIANCE        reduce using rule 3 (varp -> empty .)
+    MAX             reduce using rule 3 (varp -> empty .)
+    MIN             reduce using rule 3 (varp -> empty .)
+    STADDES         reduce using rule 3 (varp -> empty .)
+    BOXPLOT         reduce using rule 3 (varp -> empty .)
+    LINREG          reduce using rule 3 (varp -> empty .)
+    RIGHT_CUR_BRACKET reduce using rule 3 (varp -> empty .)
+
+
+state 8
+
+    (24) var -> VAR . v ARROW idp SEMICOLON
+    (25) v -> . DATAFRAME
+    (26) v -> . tipo_simp vp
+    (9) tipo_simp -> . INT
+    (10) tipo_simp -> . FLOAT
+    (11) tipo_simp -> . CHAR
+
+    DATAFRAME       shift and go to state 15
+    INT             shift and go to state 17
+    FLOAT           shift and go to state 18
+    CHAR            shift and go to state 19
+
+    v                              shift and go to state 14
+    tipo_simp                      shift and go to state 16
+
+state 9
+
+    (1) programa -> SCRIPT ID SEMICOLON varp funcp . bloque
+    (6) bloque -> . DO LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET
+
+    DO              shift and go to state 21
+
+    bloque                         shift and go to state 20
+
+state 10
+
+    (4) funcp -> func . funcp
+    (4) funcp -> . func funcp
+    (5) funcp -> . empty
+    (34) func -> . FUNC returnval ARROW ID LEFT_PARENT param RIGHT_PARENT LEFT_CUR_BRACKET varp estatutop RIGHT_CUR_BRACKET
+    (108) empty -> .
+
+    FUNC            shift and go to state 12
+    DO              reduce using rule 108 (empty -> .)
+
+    func                           shift and go to state 10
+    funcp                          shift and go to state 22
+    empty                          shift and go to state 11
+
+state 11
+
+    (5) funcp -> empty .
+
+    DO              reduce using rule 5 (funcp -> empty .)
+
+
+state 12
+
+    (34) func -> FUNC . returnval ARROW ID LEFT_PARENT param RIGHT_PARENT LEFT_CUR_BRACKET varp estatutop RIGHT_CUR_BRACKET
+    (35) returnval -> . tipo_simp
+    (36) returnval -> . VOID
+    (9) tipo_simp -> . INT
+    (10) tipo_simp -> . FLOAT
+    (11) tipo_simp -> . CHAR
+
+    VOID            shift and go to state 25
+    INT             shift and go to state 17
+    FLOAT           shift and go to state 18
+    CHAR            shift and go to state 19
+
+    returnval                      shift and go to state 23
+    tipo_simp                      shift and go to state 24
+
+state 13
+
+    (2) varp -> var varp .
+
+    FUNC            reduce using rule 2 (varp -> var varp .)
+    DO              reduce using rule 2 (varp -> var varp .)
+    ID              reduce using rule 2 (varp -> var varp .)
+    READ            reduce using rule 2 (varp -> var varp .)
+    WRITE           reduce using rule 2 (varp -> var varp .)
+    IF              reduce using rule 2 (varp -> var varp .)
+    WHILE           reduce using rule 2 (varp -> var varp .)
+    FOR             reduce using rule 2 (varp -> var varp .)
+    RETURNS         reduce using rule 2 (varp -> var varp .)
+    READ_FILE       reduce using rule 2 (varp -> var varp .)
+    MEAN            reduce using rule 2 (varp -> var varp .)
+    MODE            reduce using rule 2 (varp -> var varp .)
+    MEDIAN          reduce using rule 2 (varp -> var varp .)
+    VARIANCE        reduce using rule 2 (varp -> var varp .)
+    MAX             reduce using rule 2 (varp -> var varp .)
+    MIN             reduce using rule 2 (varp -> var varp .)
+    STADDES         reduce using rule 2 (varp -> var varp .)
+    BOXPLOT         reduce using rule 2 (varp -> var varp .)
+    LINREG          reduce using rule 2 (varp -> var varp .)
+    RIGHT_CUR_BRACKET reduce using rule 2 (varp -> var varp .)
+
+
+state 14
+
+    (24) var -> VAR v . ARROW idp SEMICOLON
+
+    ARROW           shift and go to state 26
+
+
+state 15
+
+    (25) v -> DATAFRAME .
+
+    ARROW           reduce using rule 25 (v -> DATAFRAME .)
+
+
+state 16
+
+    (26) v -> tipo_simp . vp
+    (27) vp -> . LEFT_SQR_BRACKET CTEI vpp RIGHT_SQR_BRACKET
+    (28) vp -> . empty
+    (108) empty -> .
+
+    LEFT_SQR_BRACKET shift and go to state 28
+    ARROW           reduce using rule 108 (empty -> .)
+
+    vp                             shift and go to state 27
+    empty                          shift and go to state 29
+
+state 17
+
+    (9) tipo_simp -> INT .
+
+    LEFT_SQR_BRACKET reduce using rule 9 (tipo_simp -> INT .)
+    ARROW           reduce using rule 9 (tipo_simp -> INT .)
+
+
+state 18
+
+    (10) tipo_simp -> FLOAT .
+
+    LEFT_SQR_BRACKET reduce using rule 10 (tipo_simp -> FLOAT .)
+    ARROW           reduce using rule 10 (tipo_simp -> FLOAT .)
+
+
+state 19
+
+    (11) tipo_simp -> CHAR .
+
+    LEFT_SQR_BRACKET reduce using rule 11 (tipo_simp -> CHAR .)
+    ARROW           reduce using rule 11 (tipo_simp -> CHAR .)
+
+
+state 20
+
+    (1) programa -> SCRIPT ID SEMICOLON varp funcp bloque .
+
+    $end            reduce using rule 1 (programa -> SCRIPT ID SEMICOLON varp funcp bloque .)
+
+
+state 21
+
+    (6) bloque -> DO . LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET
+
+    LEFT_CUR_BRACKET shift and go to state 30
+
+
+state 22
+
+    (4) funcp -> func funcp .
+
+    DO              reduce using rule 4 (funcp -> func funcp .)
+
+
+state 23
+
+    (34) func -> FUNC returnval . ARROW ID LEFT_PARENT param RIGHT_PARENT LEFT_CUR_BRACKET varp estatutop RIGHT_CUR_BRACKET
+
+    ARROW           shift and go to state 31
+
+
+state 24
+
+    (35) returnval -> tipo_simp .
+
+    ARROW           reduce using rule 35 (returnval -> tipo_simp .)
+
+
+state 25
+
+    (36) returnval -> VOID .
+
+    ARROW           reduce using rule 36 (returnval -> VOID .)
+
+
+state 26
+
+    (24) var -> VAR v ARROW . idp SEMICOLON
+    (31) idp -> . ID
+    (32) idp -> . COMMA ID idp
+    (33) idp -> . empty
+    (108) empty -> .
+
+    ID              shift and go to state 33
+    COMMA           shift and go to state 34
+    SEMICOLON       reduce using rule 108 (empty -> .)
+
+    idp                            shift and go to state 32
+    empty                          shift and go to state 35
+
+state 27
+
+    (26) v -> tipo_simp vp .
+
+    ARROW           reduce using rule 26 (v -> tipo_simp vp .)
+
+
+state 28
+
+    (27) vp -> LEFT_SQR_BRACKET . CTEI vpp RIGHT_SQR_BRACKET
+
+    CTEI            shift and go to state 36
+
+
+state 29
+
+    (28) vp -> empty .
+
+    ARROW           reduce using rule 28 (vp -> empty .)
+
+
+state 30
+
+    (6) bloque -> DO LEFT_CUR_BRACKET . estatutop RIGHT_CUR_BRACKET
+    (7) estatutop -> . estatuto estatutop
+    (8) estatutop -> . empty
+    (41) estatuto -> . asign
+    (42) estatuto -> . llamada
+    (43) estatuto -> . lee
+    (44) estatuto -> . escribe
+    (45) estatuto -> . condicion
+    (46) estatuto -> . ciclow
+    (47) estatuto -> . ciclof
+    (48) estatuto -> . funcesp
+    (49) estatuto -> . return
+    (50) estatuto -> . copy
+    (108) empty -> .
+    (51) asign -> . variable ASIGN exp SEMICOLON
+    (21) llamada -> . ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON
+    (52) lee -> . READ LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (53) escribe -> . WRITE LEFT_PARENT escribep RIGHT_PARENT SEMICOLON
+    (85) condicion -> . IF LEFT_PARENT exp RIGHT_PARENT IF_TRUE estatutop RIGHT_CUR_BRACKET falsop
+    (88) ciclow -> . WHILE LEFT_PARENT exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET
+    (89) ciclof -> . FOR LEFT_PARENT asign exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET
+    (90) funcesp -> . mean
+    (91) funcesp -> . mode
+    (92) funcesp -> . median
+    (93) funcesp -> . variance
+    (94) funcesp -> . max
+    (95) funcesp -> . min
+    (96) funcesp -> . staddes
+    (97) funcesp -> . boxplot
+    (98) funcesp -> . linreg
+    (56) return -> . RETURNS exp SEMICOLON
+    (14) copy -> . READ_FILE LEFT_PARENT file RIGHT_PARENT SEMICOLON
+    (16) variable -> . ID indexp
+    (99) mean -> . MEAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (100) mode -> . MODE LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (101) median -> . MEDIAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (102) variance -> . VARIANCE LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (103) max -> . MAX LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (104) min -> . MIN LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (105) staddes -> . STADDES LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (106) boxplot -> . BOXPLOT LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (107) linreg -> . LINREG LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+
+    RIGHT_CUR_BRACKET reduce using rule 108 (empty -> .)
+    ID              shift and go to state 51
+    READ            shift and go to state 52
+    WRITE           shift and go to state 53
+    IF              shift and go to state 54
+    WHILE           shift and go to state 55
+    FOR             shift and go to state 56
+    RETURNS         shift and go to state 66
+    READ_FILE       shift and go to state 67
+    MEAN            shift and go to state 68
+    MODE            shift and go to state 69
+    MEDIAN          shift and go to state 70
+    VARIANCE        shift and go to state 71
+    MAX             shift and go to state 72
+    MIN             shift and go to state 73
+    STADDES         shift and go to state 74
+    BOXPLOT         shift and go to state 75
+    LINREG          shift and go to state 76
+
+    estatutop                      shift and go to state 37
+    estatuto                       shift and go to state 38
+    empty                          shift and go to state 39
+    asign                          shift and go to state 40
+    llamada                        shift and go to state 41
+    lee                            shift and go to state 42
+    escribe                        shift and go to state 43
+    condicion                      shift and go to state 44
+    ciclow                         shift and go to state 45
+    ciclof                         shift and go to state 46
+    funcesp                        shift and go to state 47
+    return                         shift and go to state 48
+    copy                           shift and go to state 49
+    variable                       shift and go to state 50
+    mean                           shift and go to state 57
+    mode                           shift and go to state 58
+    median                         shift and go to state 59
+    variance                       shift and go to state 60
+    max                            shift and go to state 61
+    min                            shift and go to state 62
+    staddes                        shift and go to state 63
+    boxplot                        shift and go to state 64
+    linreg                         shift and go to state 65
+
+state 31
+
+    (34) func -> FUNC returnval ARROW . ID LEFT_PARENT param RIGHT_PARENT LEFT_CUR_BRACKET varp estatutop RIGHT_CUR_BRACKET
+
+    ID              shift and go to state 77
+
+
+state 32
+
+    (24) var -> VAR v ARROW idp . SEMICOLON
+
+    SEMICOLON       shift and go to state 78
+
+
+state 33
+
+    (31) idp -> ID .
+
+    SEMICOLON       reduce using rule 31 (idp -> ID .)
+
+
+state 34
+
+    (32) idp -> COMMA . ID idp
+
+    ID              shift and go to state 79
+
+
+state 35
+
+    (33) idp -> empty .
+
+    SEMICOLON       reduce using rule 33 (idp -> empty .)
+
+
+state 36
+
+    (27) vp -> LEFT_SQR_BRACKET CTEI . vpp RIGHT_SQR_BRACKET
+    (29) vpp -> . COMMA CTEI
+    (30) vpp -> . empty
+    (108) empty -> .
+
+    COMMA           shift and go to state 81
+    RIGHT_SQR_BRACKET reduce using rule 108 (empty -> .)
+
+    vpp                            shift and go to state 80
+    empty                          shift and go to state 82
+
+state 37
+
+    (6) bloque -> DO LEFT_CUR_BRACKET estatutop . RIGHT_CUR_BRACKET
+
+    RIGHT_CUR_BRACKET shift and go to state 83
+
+
+state 38
+
+    (7) estatutop -> estatuto . estatutop
+    (7) estatutop -> . estatuto estatutop
+    (8) estatutop -> . empty
+    (41) estatuto -> . asign
+    (42) estatuto -> . llamada
+    (43) estatuto -> . lee
+    (44) estatuto -> . escribe
+    (45) estatuto -> . condicion
+    (46) estatuto -> . ciclow
+    (47) estatuto -> . ciclof
+    (48) estatuto -> . funcesp
+    (49) estatuto -> . return
+    (50) estatuto -> . copy
+    (108) empty -> .
+    (51) asign -> . variable ASIGN exp SEMICOLON
+    (21) llamada -> . ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON
+    (52) lee -> . READ LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (53) escribe -> . WRITE LEFT_PARENT escribep RIGHT_PARENT SEMICOLON
+    (85) condicion -> . IF LEFT_PARENT exp RIGHT_PARENT IF_TRUE estatutop RIGHT_CUR_BRACKET falsop
+    (88) ciclow -> . WHILE LEFT_PARENT exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET
+    (89) ciclof -> . FOR LEFT_PARENT asign exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET
+    (90) funcesp -> . mean
+    (91) funcesp -> . mode
+    (92) funcesp -> . median
+    (93) funcesp -> . variance
+    (94) funcesp -> . max
+    (95) funcesp -> . min
+    (96) funcesp -> . staddes
+    (97) funcesp -> . boxplot
+    (98) funcesp -> . linreg
+    (56) return -> . RETURNS exp SEMICOLON
+    (14) copy -> . READ_FILE LEFT_PARENT file RIGHT_PARENT SEMICOLON
+    (16) variable -> . ID indexp
+    (99) mean -> . MEAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (100) mode -> . MODE LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (101) median -> . MEDIAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (102) variance -> . VARIANCE LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (103) max -> . MAX LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (104) min -> . MIN LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (105) staddes -> . STADDES LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (106) boxplot -> . BOXPLOT LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (107) linreg -> . LINREG LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+
+    RIGHT_CUR_BRACKET reduce using rule 108 (empty -> .)
+    ID              shift and go to state 51
+    READ            shift and go to state 52
+    WRITE           shift and go to state 53
+    IF              shift and go to state 54
+    WHILE           shift and go to state 55
+    FOR             shift and go to state 56
+    RETURNS         shift and go to state 66
+    READ_FILE       shift and go to state 67
+    MEAN            shift and go to state 68
+    MODE            shift and go to state 69
+    MEDIAN          shift and go to state 70
+    VARIANCE        shift and go to state 71
+    MAX             shift and go to state 72
+    MIN             shift and go to state 73
+    STADDES         shift and go to state 74
+    BOXPLOT         shift and go to state 75
+    LINREG          shift and go to state 76
+
+    estatuto                       shift and go to state 38
+    estatutop                      shift and go to state 84
+    empty                          shift and go to state 39
+    asign                          shift and go to state 40
+    llamada                        shift and go to state 41
+    lee                            shift and go to state 42
+    escribe                        shift and go to state 43
+    condicion                      shift and go to state 44
+    ciclow                         shift and go to state 45
+    ciclof                         shift and go to state 46
+    funcesp                        shift and go to state 47
+    return                         shift and go to state 48
+    copy                           shift and go to state 49
+    variable                       shift and go to state 50
+    mean                           shift and go to state 57
+    mode                           shift and go to state 58
+    median                         shift and go to state 59
+    variance                       shift and go to state 60
+    max                            shift and go to state 61
+    min                            shift and go to state 62
+    staddes                        shift and go to state 63
+    boxplot                        shift and go to state 64
+    linreg                         shift and go to state 65
+
+state 39
+
+    (8) estatutop -> empty .
+
+    RIGHT_CUR_BRACKET reduce using rule 8 (estatutop -> empty .)
+
+
+state 40
+
+    (41) estatuto -> asign .
+
+    ID              reduce using rule 41 (estatuto -> asign .)
+    READ            reduce using rule 41 (estatuto -> asign .)
+    WRITE           reduce using rule 41 (estatuto -> asign .)
+    IF              reduce using rule 41 (estatuto -> asign .)
+    WHILE           reduce using rule 41 (estatuto -> asign .)
+    FOR             reduce using rule 41 (estatuto -> asign .)
+    RETURNS         reduce using rule 41 (estatuto -> asign .)
+    READ_FILE       reduce using rule 41 (estatuto -> asign .)
+    MEAN            reduce using rule 41 (estatuto -> asign .)
+    MODE            reduce using rule 41 (estatuto -> asign .)
+    MEDIAN          reduce using rule 41 (estatuto -> asign .)
+    VARIANCE        reduce using rule 41 (estatuto -> asign .)
+    MAX             reduce using rule 41 (estatuto -> asign .)
+    MIN             reduce using rule 41 (estatuto -> asign .)
+    STADDES         reduce using rule 41 (estatuto -> asign .)
+    BOXPLOT         reduce using rule 41 (estatuto -> asign .)
+    LINREG          reduce using rule 41 (estatuto -> asign .)
+    RIGHT_CUR_BRACKET reduce using rule 41 (estatuto -> asign .)
+
+
+state 41
+
+    (42) estatuto -> llamada .
+
+    ID              reduce using rule 42 (estatuto -> llamada .)
+    READ            reduce using rule 42 (estatuto -> llamada .)
+    WRITE           reduce using rule 42 (estatuto -> llamada .)
+    IF              reduce using rule 42 (estatuto -> llamada .)
+    WHILE           reduce using rule 42 (estatuto -> llamada .)
+    FOR             reduce using rule 42 (estatuto -> llamada .)
+    RETURNS         reduce using rule 42 (estatuto -> llamada .)
+    READ_FILE       reduce using rule 42 (estatuto -> llamada .)
+    MEAN            reduce using rule 42 (estatuto -> llamada .)
+    MODE            reduce using rule 42 (estatuto -> llamada .)
+    MEDIAN          reduce using rule 42 (estatuto -> llamada .)
+    VARIANCE        reduce using rule 42 (estatuto -> llamada .)
+    MAX             reduce using rule 42 (estatuto -> llamada .)
+    MIN             reduce using rule 42 (estatuto -> llamada .)
+    STADDES         reduce using rule 42 (estatuto -> llamada .)
+    BOXPLOT         reduce using rule 42 (estatuto -> llamada .)
+    LINREG          reduce using rule 42 (estatuto -> llamada .)
+    RIGHT_CUR_BRACKET reduce using rule 42 (estatuto -> llamada .)
+
+
+state 42
+
+    (43) estatuto -> lee .
+
+    ID              reduce using rule 43 (estatuto -> lee .)
+    READ            reduce using rule 43 (estatuto -> lee .)
+    WRITE           reduce using rule 43 (estatuto -> lee .)
+    IF              reduce using rule 43 (estatuto -> lee .)
+    WHILE           reduce using rule 43 (estatuto -> lee .)
+    FOR             reduce using rule 43 (estatuto -> lee .)
+    RETURNS         reduce using rule 43 (estatuto -> lee .)
+    READ_FILE       reduce using rule 43 (estatuto -> lee .)
+    MEAN            reduce using rule 43 (estatuto -> lee .)
+    MODE            reduce using rule 43 (estatuto -> lee .)
+    MEDIAN          reduce using rule 43 (estatuto -> lee .)
+    VARIANCE        reduce using rule 43 (estatuto -> lee .)
+    MAX             reduce using rule 43 (estatuto -> lee .)
+    MIN             reduce using rule 43 (estatuto -> lee .)
+    STADDES         reduce using rule 43 (estatuto -> lee .)
+    BOXPLOT         reduce using rule 43 (estatuto -> lee .)
+    LINREG          reduce using rule 43 (estatuto -> lee .)
+    RIGHT_CUR_BRACKET reduce using rule 43 (estatuto -> lee .)
+
+
+state 43
+
+    (44) estatuto -> escribe .
+
+    ID              reduce using rule 44 (estatuto -> escribe .)
+    READ            reduce using rule 44 (estatuto -> escribe .)
+    WRITE           reduce using rule 44 (estatuto -> escribe .)
+    IF              reduce using rule 44 (estatuto -> escribe .)
+    WHILE           reduce using rule 44 (estatuto -> escribe .)
+    FOR             reduce using rule 44 (estatuto -> escribe .)
+    RETURNS         reduce using rule 44 (estatuto -> escribe .)
+    READ_FILE       reduce using rule 44 (estatuto -> escribe .)
+    MEAN            reduce using rule 44 (estatuto -> escribe .)
+    MODE            reduce using rule 44 (estatuto -> escribe .)
+    MEDIAN          reduce using rule 44 (estatuto -> escribe .)
+    VARIANCE        reduce using rule 44 (estatuto -> escribe .)
+    MAX             reduce using rule 44 (estatuto -> escribe .)
+    MIN             reduce using rule 44 (estatuto -> escribe .)
+    STADDES         reduce using rule 44 (estatuto -> escribe .)
+    BOXPLOT         reduce using rule 44 (estatuto -> escribe .)
+    LINREG          reduce using rule 44 (estatuto -> escribe .)
+    RIGHT_CUR_BRACKET reduce using rule 44 (estatuto -> escribe .)
+
+
+state 44
+
+    (45) estatuto -> condicion .
+
+    ID              reduce using rule 45 (estatuto -> condicion .)
+    READ            reduce using rule 45 (estatuto -> condicion .)
+    WRITE           reduce using rule 45 (estatuto -> condicion .)
+    IF              reduce using rule 45 (estatuto -> condicion .)
+    WHILE           reduce using rule 45 (estatuto -> condicion .)
+    FOR             reduce using rule 45 (estatuto -> condicion .)
+    RETURNS         reduce using rule 45 (estatuto -> condicion .)
+    READ_FILE       reduce using rule 45 (estatuto -> condicion .)
+    MEAN            reduce using rule 45 (estatuto -> condicion .)
+    MODE            reduce using rule 45 (estatuto -> condicion .)
+    MEDIAN          reduce using rule 45 (estatuto -> condicion .)
+    VARIANCE        reduce using rule 45 (estatuto -> condicion .)
+    MAX             reduce using rule 45 (estatuto -> condicion .)
+    MIN             reduce using rule 45 (estatuto -> condicion .)
+    STADDES         reduce using rule 45 (estatuto -> condicion .)
+    BOXPLOT         reduce using rule 45 (estatuto -> condicion .)
+    LINREG          reduce using rule 45 (estatuto -> condicion .)
+    RIGHT_CUR_BRACKET reduce using rule 45 (estatuto -> condicion .)
+
+
+state 45
+
+    (46) estatuto -> ciclow .
+
+    ID              reduce using rule 46 (estatuto -> ciclow .)
+    READ            reduce using rule 46 (estatuto -> ciclow .)
+    WRITE           reduce using rule 46 (estatuto -> ciclow .)
+    IF              reduce using rule 46 (estatuto -> ciclow .)
+    WHILE           reduce using rule 46 (estatuto -> ciclow .)
+    FOR             reduce using rule 46 (estatuto -> ciclow .)
+    RETURNS         reduce using rule 46 (estatuto -> ciclow .)
+    READ_FILE       reduce using rule 46 (estatuto -> ciclow .)
+    MEAN            reduce using rule 46 (estatuto -> ciclow .)
+    MODE            reduce using rule 46 (estatuto -> ciclow .)
+    MEDIAN          reduce using rule 46 (estatuto -> ciclow .)
+    VARIANCE        reduce using rule 46 (estatuto -> ciclow .)
+    MAX             reduce using rule 46 (estatuto -> ciclow .)
+    MIN             reduce using rule 46 (estatuto -> ciclow .)
+    STADDES         reduce using rule 46 (estatuto -> ciclow .)
+    BOXPLOT         reduce using rule 46 (estatuto -> ciclow .)
+    LINREG          reduce using rule 46 (estatuto -> ciclow .)
+    RIGHT_CUR_BRACKET reduce using rule 46 (estatuto -> ciclow .)
+
+
+state 46
+
+    (47) estatuto -> ciclof .
+
+    ID              reduce using rule 47 (estatuto -> ciclof .)
+    READ            reduce using rule 47 (estatuto -> ciclof .)
+    WRITE           reduce using rule 47 (estatuto -> ciclof .)
+    IF              reduce using rule 47 (estatuto -> ciclof .)
+    WHILE           reduce using rule 47 (estatuto -> ciclof .)
+    FOR             reduce using rule 47 (estatuto -> ciclof .)
+    RETURNS         reduce using rule 47 (estatuto -> ciclof .)
+    READ_FILE       reduce using rule 47 (estatuto -> ciclof .)
+    MEAN            reduce using rule 47 (estatuto -> ciclof .)
+    MODE            reduce using rule 47 (estatuto -> ciclof .)
+    MEDIAN          reduce using rule 47 (estatuto -> ciclof .)
+    VARIANCE        reduce using rule 47 (estatuto -> ciclof .)
+    MAX             reduce using rule 47 (estatuto -> ciclof .)
+    MIN             reduce using rule 47 (estatuto -> ciclof .)
+    STADDES         reduce using rule 47 (estatuto -> ciclof .)
+    BOXPLOT         reduce using rule 47 (estatuto -> ciclof .)
+    LINREG          reduce using rule 47 (estatuto -> ciclof .)
+    RIGHT_CUR_BRACKET reduce using rule 47 (estatuto -> ciclof .)
+
+
+state 47
+
+    (48) estatuto -> funcesp .
+
+    ID              reduce using rule 48 (estatuto -> funcesp .)
+    READ            reduce using rule 48 (estatuto -> funcesp .)
+    WRITE           reduce using rule 48 (estatuto -> funcesp .)
+    IF              reduce using rule 48 (estatuto -> funcesp .)
+    WHILE           reduce using rule 48 (estatuto -> funcesp .)
+    FOR             reduce using rule 48 (estatuto -> funcesp .)
+    RETURNS         reduce using rule 48 (estatuto -> funcesp .)
+    READ_FILE       reduce using rule 48 (estatuto -> funcesp .)
+    MEAN            reduce using rule 48 (estatuto -> funcesp .)
+    MODE            reduce using rule 48 (estatuto -> funcesp .)
+    MEDIAN          reduce using rule 48 (estatuto -> funcesp .)
+    VARIANCE        reduce using rule 48 (estatuto -> funcesp .)
+    MAX             reduce using rule 48 (estatuto -> funcesp .)
+    MIN             reduce using rule 48 (estatuto -> funcesp .)
+    STADDES         reduce using rule 48 (estatuto -> funcesp .)
+    BOXPLOT         reduce using rule 48 (estatuto -> funcesp .)
+    LINREG          reduce using rule 48 (estatuto -> funcesp .)
+    RIGHT_CUR_BRACKET reduce using rule 48 (estatuto -> funcesp .)
+
+
+state 48
+
+    (49) estatuto -> return .
+
+    ID              reduce using rule 49 (estatuto -> return .)
+    READ            reduce using rule 49 (estatuto -> return .)
+    WRITE           reduce using rule 49 (estatuto -> return .)
+    IF              reduce using rule 49 (estatuto -> return .)
+    WHILE           reduce using rule 49 (estatuto -> return .)
+    FOR             reduce using rule 49 (estatuto -> return .)
+    RETURNS         reduce using rule 49 (estatuto -> return .)
+    READ_FILE       reduce using rule 49 (estatuto -> return .)
+    MEAN            reduce using rule 49 (estatuto -> return .)
+    MODE            reduce using rule 49 (estatuto -> return .)
+    MEDIAN          reduce using rule 49 (estatuto -> return .)
+    VARIANCE        reduce using rule 49 (estatuto -> return .)
+    MAX             reduce using rule 49 (estatuto -> return .)
+    MIN             reduce using rule 49 (estatuto -> return .)
+    STADDES         reduce using rule 49 (estatuto -> return .)
+    BOXPLOT         reduce using rule 49 (estatuto -> return .)
+    LINREG          reduce using rule 49 (estatuto -> return .)
+    RIGHT_CUR_BRACKET reduce using rule 49 (estatuto -> return .)
+
+
+state 49
+
+    (50) estatuto -> copy .
+
+    ID              reduce using rule 50 (estatuto -> copy .)
+    READ            reduce using rule 50 (estatuto -> copy .)
+    WRITE           reduce using rule 50 (estatuto -> copy .)
+    IF              reduce using rule 50 (estatuto -> copy .)
+    WHILE           reduce using rule 50 (estatuto -> copy .)
+    FOR             reduce using rule 50 (estatuto -> copy .)
+    RETURNS         reduce using rule 50 (estatuto -> copy .)
+    READ_FILE       reduce using rule 50 (estatuto -> copy .)
+    MEAN            reduce using rule 50 (estatuto -> copy .)
+    MODE            reduce using rule 50 (estatuto -> copy .)
+    MEDIAN          reduce using rule 50 (estatuto -> copy .)
+    VARIANCE        reduce using rule 50 (estatuto -> copy .)
+    MAX             reduce using rule 50 (estatuto -> copy .)
+    MIN             reduce using rule 50 (estatuto -> copy .)
+    STADDES         reduce using rule 50 (estatuto -> copy .)
+    BOXPLOT         reduce using rule 50 (estatuto -> copy .)
+    LINREG          reduce using rule 50 (estatuto -> copy .)
+    RIGHT_CUR_BRACKET reduce using rule 50 (estatuto -> copy .)
+
+
+state 50
+
+    (51) asign -> variable . ASIGN exp SEMICOLON
+
+    ASIGN           shift and go to state 85
+
+
+state 51
+
+    (21) llamada -> ID . LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON
+    (16) variable -> ID . indexp
+    (17) indexp -> . LEFT_SQR_BRACKET exp indexpp RIGHT_SQR_BRACKET
+    (18) indexp -> . empty
+    (108) empty -> .
+
+    LEFT_PARENT     shift and go to state 86
+    LEFT_SQR_BRACKET shift and go to state 88
+    ASIGN           reduce using rule 108 (empty -> .)
+
+    indexp                         shift and go to state 87
+    empty                          shift and go to state 89
+
+state 52
+
+    (52) lee -> READ . LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+
+    LEFT_PARENT     shift and go to state 90
+
+
+state 53
+
+    (53) escribe -> WRITE . LEFT_PARENT escribep RIGHT_PARENT SEMICOLON
+
+    LEFT_PARENT     shift and go to state 91
+
+
+state 54
+
+    (85) condicion -> IF . LEFT_PARENT exp RIGHT_PARENT IF_TRUE estatutop RIGHT_CUR_BRACKET falsop
+
+    LEFT_PARENT     shift and go to state 92
+
+
+state 55
+
+    (88) ciclow -> WHILE . LEFT_PARENT exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET
+
+    LEFT_PARENT     shift and go to state 93
+
+
+state 56
+
+    (89) ciclof -> FOR . LEFT_PARENT asign exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET
+
+    LEFT_PARENT     shift and go to state 94
+
+
+state 57
+
+    (90) funcesp -> mean .
+
+    ID              reduce using rule 90 (funcesp -> mean .)
+    READ            reduce using rule 90 (funcesp -> mean .)
+    WRITE           reduce using rule 90 (funcesp -> mean .)
+    IF              reduce using rule 90 (funcesp -> mean .)
+    WHILE           reduce using rule 90 (funcesp -> mean .)
+    FOR             reduce using rule 90 (funcesp -> mean .)
+    RETURNS         reduce using rule 90 (funcesp -> mean .)
+    READ_FILE       reduce using rule 90 (funcesp -> mean .)
+    MEAN            reduce using rule 90 (funcesp -> mean .)
+    MODE            reduce using rule 90 (funcesp -> mean .)
+    MEDIAN          reduce using rule 90 (funcesp -> mean .)
+    VARIANCE        reduce using rule 90 (funcesp -> mean .)
+    MAX             reduce using rule 90 (funcesp -> mean .)
+    MIN             reduce using rule 90 (funcesp -> mean .)
+    STADDES         reduce using rule 90 (funcesp -> mean .)
+    BOXPLOT         reduce using rule 90 (funcesp -> mean .)
+    LINREG          reduce using rule 90 (funcesp -> mean .)
+    RIGHT_CUR_BRACKET reduce using rule 90 (funcesp -> mean .)
+
+
+state 58
+
+    (91) funcesp -> mode .
+
+    ID              reduce using rule 91 (funcesp -> mode .)
+    READ            reduce using rule 91 (funcesp -> mode .)
+    WRITE           reduce using rule 91 (funcesp -> mode .)
+    IF              reduce using rule 91 (funcesp -> mode .)
+    WHILE           reduce using rule 91 (funcesp -> mode .)
+    FOR             reduce using rule 91 (funcesp -> mode .)
+    RETURNS         reduce using rule 91 (funcesp -> mode .)
+    READ_FILE       reduce using rule 91 (funcesp -> mode .)
+    MEAN            reduce using rule 91 (funcesp -> mode .)
+    MODE            reduce using rule 91 (funcesp -> mode .)
+    MEDIAN          reduce using rule 91 (funcesp -> mode .)
+    VARIANCE        reduce using rule 91 (funcesp -> mode .)
+    MAX             reduce using rule 91 (funcesp -> mode .)
+    MIN             reduce using rule 91 (funcesp -> mode .)
+    STADDES         reduce using rule 91 (funcesp -> mode .)
+    BOXPLOT         reduce using rule 91 (funcesp -> mode .)
+    LINREG          reduce using rule 91 (funcesp -> mode .)
+    RIGHT_CUR_BRACKET reduce using rule 91 (funcesp -> mode .)
+
+
+state 59
+
+    (92) funcesp -> median .
+
+    ID              reduce using rule 92 (funcesp -> median .)
+    READ            reduce using rule 92 (funcesp -> median .)
+    WRITE           reduce using rule 92 (funcesp -> median .)
+    IF              reduce using rule 92 (funcesp -> median .)
+    WHILE           reduce using rule 92 (funcesp -> median .)
+    FOR             reduce using rule 92 (funcesp -> median .)
+    RETURNS         reduce using rule 92 (funcesp -> median .)
+    READ_FILE       reduce using rule 92 (funcesp -> median .)
+    MEAN            reduce using rule 92 (funcesp -> median .)
+    MODE            reduce using rule 92 (funcesp -> median .)
+    MEDIAN          reduce using rule 92 (funcesp -> median .)
+    VARIANCE        reduce using rule 92 (funcesp -> median .)
+    MAX             reduce using rule 92 (funcesp -> median .)
+    MIN             reduce using rule 92 (funcesp -> median .)
+    STADDES         reduce using rule 92 (funcesp -> median .)
+    BOXPLOT         reduce using rule 92 (funcesp -> median .)
+    LINREG          reduce using rule 92 (funcesp -> median .)
+    RIGHT_CUR_BRACKET reduce using rule 92 (funcesp -> median .)
+
+
+state 60
+
+    (93) funcesp -> variance .
+
+    ID              reduce using rule 93 (funcesp -> variance .)
+    READ            reduce using rule 93 (funcesp -> variance .)
+    WRITE           reduce using rule 93 (funcesp -> variance .)
+    IF              reduce using rule 93 (funcesp -> variance .)
+    WHILE           reduce using rule 93 (funcesp -> variance .)
+    FOR             reduce using rule 93 (funcesp -> variance .)
+    RETURNS         reduce using rule 93 (funcesp -> variance .)
+    READ_FILE       reduce using rule 93 (funcesp -> variance .)
+    MEAN            reduce using rule 93 (funcesp -> variance .)
+    MODE            reduce using rule 93 (funcesp -> variance .)
+    MEDIAN          reduce using rule 93 (funcesp -> variance .)
+    VARIANCE        reduce using rule 93 (funcesp -> variance .)
+    MAX             reduce using rule 93 (funcesp -> variance .)
+    MIN             reduce using rule 93 (funcesp -> variance .)
+    STADDES         reduce using rule 93 (funcesp -> variance .)
+    BOXPLOT         reduce using rule 93 (funcesp -> variance .)
+    LINREG          reduce using rule 93 (funcesp -> variance .)
+    RIGHT_CUR_BRACKET reduce using rule 93 (funcesp -> variance .)
+
+
+state 61
+
+    (94) funcesp -> max .
+
+    ID              reduce using rule 94 (funcesp -> max .)
+    READ            reduce using rule 94 (funcesp -> max .)
+    WRITE           reduce using rule 94 (funcesp -> max .)
+    IF              reduce using rule 94 (funcesp -> max .)
+    WHILE           reduce using rule 94 (funcesp -> max .)
+    FOR             reduce using rule 94 (funcesp -> max .)
+    RETURNS         reduce using rule 94 (funcesp -> max .)
+    READ_FILE       reduce using rule 94 (funcesp -> max .)
+    MEAN            reduce using rule 94 (funcesp -> max .)
+    MODE            reduce using rule 94 (funcesp -> max .)
+    MEDIAN          reduce using rule 94 (funcesp -> max .)
+    VARIANCE        reduce using rule 94 (funcesp -> max .)
+    MAX             reduce using rule 94 (funcesp -> max .)
+    MIN             reduce using rule 94 (funcesp -> max .)
+    STADDES         reduce using rule 94 (funcesp -> max .)
+    BOXPLOT         reduce using rule 94 (funcesp -> max .)
+    LINREG          reduce using rule 94 (funcesp -> max .)
+    RIGHT_CUR_BRACKET reduce using rule 94 (funcesp -> max .)
+
+
+state 62
+
+    (95) funcesp -> min .
+
+    ID              reduce using rule 95 (funcesp -> min .)
+    READ            reduce using rule 95 (funcesp -> min .)
+    WRITE           reduce using rule 95 (funcesp -> min .)
+    IF              reduce using rule 95 (funcesp -> min .)
+    WHILE           reduce using rule 95 (funcesp -> min .)
+    FOR             reduce using rule 95 (funcesp -> min .)
+    RETURNS         reduce using rule 95 (funcesp -> min .)
+    READ_FILE       reduce using rule 95 (funcesp -> min .)
+    MEAN            reduce using rule 95 (funcesp -> min .)
+    MODE            reduce using rule 95 (funcesp -> min .)
+    MEDIAN          reduce using rule 95 (funcesp -> min .)
+    VARIANCE        reduce using rule 95 (funcesp -> min .)
+    MAX             reduce using rule 95 (funcesp -> min .)
+    MIN             reduce using rule 95 (funcesp -> min .)
+    STADDES         reduce using rule 95 (funcesp -> min .)
+    BOXPLOT         reduce using rule 95 (funcesp -> min .)
+    LINREG          reduce using rule 95 (funcesp -> min .)
+    RIGHT_CUR_BRACKET reduce using rule 95 (funcesp -> min .)
+
+
+state 63
+
+    (96) funcesp -> staddes .
+
+    ID              reduce using rule 96 (funcesp -> staddes .)
+    READ            reduce using rule 96 (funcesp -> staddes .)
+    WRITE           reduce using rule 96 (funcesp -> staddes .)
+    IF              reduce using rule 96 (funcesp -> staddes .)
+    WHILE           reduce using rule 96 (funcesp -> staddes .)
+    FOR             reduce using rule 96 (funcesp -> staddes .)
+    RETURNS         reduce using rule 96 (funcesp -> staddes .)
+    READ_FILE       reduce using rule 96 (funcesp -> staddes .)
+    MEAN            reduce using rule 96 (funcesp -> staddes .)
+    MODE            reduce using rule 96 (funcesp -> staddes .)
+    MEDIAN          reduce using rule 96 (funcesp -> staddes .)
+    VARIANCE        reduce using rule 96 (funcesp -> staddes .)
+    MAX             reduce using rule 96 (funcesp -> staddes .)
+    MIN             reduce using rule 96 (funcesp -> staddes .)
+    STADDES         reduce using rule 96 (funcesp -> staddes .)
+    BOXPLOT         reduce using rule 96 (funcesp -> staddes .)
+    LINREG          reduce using rule 96 (funcesp -> staddes .)
+    RIGHT_CUR_BRACKET reduce using rule 96 (funcesp -> staddes .)
+
+
+state 64
+
+    (97) funcesp -> boxplot .
+
+    ID              reduce using rule 97 (funcesp -> boxplot .)
+    READ            reduce using rule 97 (funcesp -> boxplot .)
+    WRITE           reduce using rule 97 (funcesp -> boxplot .)
+    IF              reduce using rule 97 (funcesp -> boxplot .)
+    WHILE           reduce using rule 97 (funcesp -> boxplot .)
+    FOR             reduce using rule 97 (funcesp -> boxplot .)
+    RETURNS         reduce using rule 97 (funcesp -> boxplot .)
+    READ_FILE       reduce using rule 97 (funcesp -> boxplot .)
+    MEAN            reduce using rule 97 (funcesp -> boxplot .)
+    MODE            reduce using rule 97 (funcesp -> boxplot .)
+    MEDIAN          reduce using rule 97 (funcesp -> boxplot .)
+    VARIANCE        reduce using rule 97 (funcesp -> boxplot .)
+    MAX             reduce using rule 97 (funcesp -> boxplot .)
+    MIN             reduce using rule 97 (funcesp -> boxplot .)
+    STADDES         reduce using rule 97 (funcesp -> boxplot .)
+    BOXPLOT         reduce using rule 97 (funcesp -> boxplot .)
+    LINREG          reduce using rule 97 (funcesp -> boxplot .)
+    RIGHT_CUR_BRACKET reduce using rule 97 (funcesp -> boxplot .)
+
+
+state 65
+
+    (98) funcesp -> linreg .
+
+    ID              reduce using rule 98 (funcesp -> linreg .)
+    READ            reduce using rule 98 (funcesp -> linreg .)
+    WRITE           reduce using rule 98 (funcesp -> linreg .)
+    IF              reduce using rule 98 (funcesp -> linreg .)
+    WHILE           reduce using rule 98 (funcesp -> linreg .)
+    FOR             reduce using rule 98 (funcesp -> linreg .)
+    RETURNS         reduce using rule 98 (funcesp -> linreg .)
+    READ_FILE       reduce using rule 98 (funcesp -> linreg .)
+    MEAN            reduce using rule 98 (funcesp -> linreg .)
+    MODE            reduce using rule 98 (funcesp -> linreg .)
+    MEDIAN          reduce using rule 98 (funcesp -> linreg .)
+    VARIANCE        reduce using rule 98 (funcesp -> linreg .)
+    MAX             reduce using rule 98 (funcesp -> linreg .)
+    MIN             reduce using rule 98 (funcesp -> linreg .)
+    STADDES         reduce using rule 98 (funcesp -> linreg .)
+    BOXPLOT         reduce using rule 98 (funcesp -> linreg .)
+    LINREG          reduce using rule 98 (funcesp -> linreg .)
+    RIGHT_CUR_BRACKET reduce using rule 98 (funcesp -> linreg .)
+
+
+state 66
+
+    (56) return -> RETURNS . exp SEMICOLON
+    (57) exp -> . exprel logic
+    (62) exprel -> . e relacionalp
+    (69) e -> . t tp
+    (74) t -> . f fp
+    (79) f -> . LEFT_PARENT exp RIGHT_PARENT
+    (80) f -> . CTEI
+    (81) f -> . CTEF
+    (82) f -> . CTEC
+    (83) f -> . variable
+    (84) f -> . llamada
+    (16) variable -> . ID indexp
+    (21) llamada -> . ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON
+
+    LEFT_PARENT     shift and go to state 100
+    CTEI            shift and go to state 101
+    CTEF            shift and go to state 102
+    CTEC            shift and go to state 103
+    ID              shift and go to state 106
+
+    exp                            shift and go to state 95
+    exprel                         shift and go to state 96
+    e                              shift and go to state 97
+    t                              shift and go to state 98
+    f                              shift and go to state 99
+    variable                       shift and go to state 104
+    llamada                        shift and go to state 105
+
+state 67
+
+    (14) copy -> READ_FILE . LEFT_PARENT file RIGHT_PARENT SEMICOLON
+
+    LEFT_PARENT     shift and go to state 107
+
+
+state 68
+
+    (99) mean -> MEAN . LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+
+    LEFT_PARENT     shift and go to state 108
+
+
+state 69
+
+    (100) mode -> MODE . LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+
+    LEFT_PARENT     shift and go to state 109
+
+
+state 70
+
+    (101) median -> MEDIAN . LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+
+    LEFT_PARENT     shift and go to state 110
+
+
+state 71
+
+    (102) variance -> VARIANCE . LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+
+    LEFT_PARENT     shift and go to state 111
+
+
+state 72
+
+    (103) max -> MAX . LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+
+    LEFT_PARENT     shift and go to state 112
+
+
+state 73
+
+    (104) min -> MIN . LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+
+    LEFT_PARENT     shift and go to state 113
+
+
+state 74
+
+    (105) staddes -> STADDES . LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+
+    LEFT_PARENT     shift and go to state 114
+
+
+state 75
+
+    (106) boxplot -> BOXPLOT . LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+
+    LEFT_PARENT     shift and go to state 115
+
+
+state 76
+
+    (107) linreg -> LINREG . LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+
+    LEFT_PARENT     shift and go to state 116
+
+
+state 77
+
+    (34) func -> FUNC returnval ARROW ID . LEFT_PARENT param RIGHT_PARENT LEFT_CUR_BRACKET varp estatutop RIGHT_CUR_BRACKET
+
+    LEFT_PARENT     shift and go to state 117
+
+
+state 78
+
+    (24) var -> VAR v ARROW idp SEMICOLON .
+
+    VAR             reduce using rule 24 (var -> VAR v ARROW idp SEMICOLON .)
+    FUNC            reduce using rule 24 (var -> VAR v ARROW idp SEMICOLON .)
+    DO              reduce using rule 24 (var -> VAR v ARROW idp SEMICOLON .)
+    ID              reduce using rule 24 (var -> VAR v ARROW idp SEMICOLON .)
+    READ            reduce using rule 24 (var -> VAR v ARROW idp SEMICOLON .)
+    WRITE           reduce using rule 24 (var -> VAR v ARROW idp SEMICOLON .)
+    IF              reduce using rule 24 (var -> VAR v ARROW idp SEMICOLON .)
+    WHILE           reduce using rule 24 (var -> VAR v ARROW idp SEMICOLON .)
+    FOR             reduce using rule 24 (var -> VAR v ARROW idp SEMICOLON .)
+    RETURNS         reduce using rule 24 (var -> VAR v ARROW idp SEMICOLON .)
+    READ_FILE       reduce using rule 24 (var -> VAR v ARROW idp SEMICOLON .)
+    MEAN            reduce using rule 24 (var -> VAR v ARROW idp SEMICOLON .)
+    MODE            reduce using rule 24 (var -> VAR v ARROW idp SEMICOLON .)
+    MEDIAN          reduce using rule 24 (var -> VAR v ARROW idp SEMICOLON .)
+    VARIANCE        reduce using rule 24 (var -> VAR v ARROW idp SEMICOLON .)
+    MAX             reduce using rule 24 (var -> VAR v ARROW idp SEMICOLON .)
+    MIN             reduce using rule 24 (var -> VAR v ARROW idp SEMICOLON .)
+    STADDES         reduce using rule 24 (var -> VAR v ARROW idp SEMICOLON .)
+    BOXPLOT         reduce using rule 24 (var -> VAR v ARROW idp SEMICOLON .)
+    LINREG          reduce using rule 24 (var -> VAR v ARROW idp SEMICOLON .)
+    RIGHT_CUR_BRACKET reduce using rule 24 (var -> VAR v ARROW idp SEMICOLON .)
+
+
+state 79
+
+    (32) idp -> COMMA ID . idp
+    (31) idp -> . ID
+    (32) idp -> . COMMA ID idp
+    (33) idp -> . empty
+    (108) empty -> .
+
+    ID              shift and go to state 33
+    COMMA           shift and go to state 34
+    SEMICOLON       reduce using rule 108 (empty -> .)
+
+    idp                            shift and go to state 118
+    empty                          shift and go to state 35
+
+state 80
+
+    (27) vp -> LEFT_SQR_BRACKET CTEI vpp . RIGHT_SQR_BRACKET
+
+    RIGHT_SQR_BRACKET shift and go to state 119
+
+
+state 81
+
+    (29) vpp -> COMMA . CTEI
+
+    CTEI            shift and go to state 120
+
+
+state 82
+
+    (30) vpp -> empty .
+
+    RIGHT_SQR_BRACKET reduce using rule 30 (vpp -> empty .)
+
+
+state 83
+
+    (6) bloque -> DO LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET .
+
+    $end            reduce using rule 6 (bloque -> DO LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET .)
+
+
+state 84
+
+    (7) estatutop -> estatuto estatutop .
+
+    RIGHT_CUR_BRACKET reduce using rule 7 (estatutop -> estatuto estatutop .)
+
+
+state 85
+
+    (51) asign -> variable ASIGN . exp SEMICOLON
+    (57) exp -> . exprel logic
+    (62) exprel -> . e relacionalp
+    (69) e -> . t tp
+    (74) t -> . f fp
+    (79) f -> . LEFT_PARENT exp RIGHT_PARENT
+    (80) f -> . CTEI
+    (81) f -> . CTEF
+    (82) f -> . CTEC
+    (83) f -> . variable
+    (84) f -> . llamada
+    (16) variable -> . ID indexp
+    (21) llamada -> . ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON
+
+    LEFT_PARENT     shift and go to state 100
+    CTEI            shift and go to state 101
+    CTEF            shift and go to state 102
+    CTEC            shift and go to state 103
+    ID              shift and go to state 106
+
+    variable                       shift and go to state 104
+    exp                            shift and go to state 121
+    exprel                         shift and go to state 96
+    e                              shift and go to state 97
+    t                              shift and go to state 98
+    f                              shift and go to state 99
+    llamada                        shift and go to state 105
+
+state 86
+
+    (21) llamada -> ID LEFT_PARENT . exp expp RIGHT_PARENT SEMICOLON
+    (57) exp -> . exprel logic
+    (62) exprel -> . e relacionalp
+    (69) e -> . t tp
+    (74) t -> . f fp
+    (79) f -> . LEFT_PARENT exp RIGHT_PARENT
+    (80) f -> . CTEI
+    (81) f -> . CTEF
+    (82) f -> . CTEC
+    (83) f -> . variable
+    (84) f -> . llamada
+    (16) variable -> . ID indexp
+    (21) llamada -> . ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON
+
+    LEFT_PARENT     shift and go to state 100
+    CTEI            shift and go to state 101
+    CTEF            shift and go to state 102
+    CTEC            shift and go to state 103
+    ID              shift and go to state 106
+
+    exp                            shift and go to state 122
+    exprel                         shift and go to state 96
+    e                              shift and go to state 97
+    t                              shift and go to state 98
+    f                              shift and go to state 99
+    variable                       shift and go to state 104
+    llamada                        shift and go to state 105
+
+state 87
+
+    (16) variable -> ID indexp .
+
+    ASIGN           reduce using rule 16 (variable -> ID indexp .)
+    MULT            reduce using rule 16 (variable -> ID indexp .)
+    DIV             reduce using rule 16 (variable -> ID indexp .)
+    PLUS            reduce using rule 16 (variable -> ID indexp .)
+    MINUS           reduce using rule 16 (variable -> ID indexp .)
+    LESS_THAN       reduce using rule 16 (variable -> ID indexp .)
+    GREATER_THAN    reduce using rule 16 (variable -> ID indexp .)
+    EQUALS          reduce using rule 16 (variable -> ID indexp .)
+    NOTEQUALS       reduce using rule 16 (variable -> ID indexp .)
+    AND             reduce using rule 16 (variable -> ID indexp .)
+    OR              reduce using rule 16 (variable -> ID indexp .)
+    SEMICOLON       reduce using rule 16 (variable -> ID indexp .)
+    COMMA           reduce using rule 16 (variable -> ID indexp .)
+    RIGHT_PARENT    reduce using rule 16 (variable -> ID indexp .)
+    RIGHT_SQR_BRACKET reduce using rule 16 (variable -> ID indexp .)
+
+
+state 88
+
+    (17) indexp -> LEFT_SQR_BRACKET . exp indexpp RIGHT_SQR_BRACKET
+    (57) exp -> . exprel logic
+    (62) exprel -> . e relacionalp
+    (69) e -> . t tp
+    (74) t -> . f fp
+    (79) f -> . LEFT_PARENT exp RIGHT_PARENT
+    (80) f -> . CTEI
+    (81) f -> . CTEF
+    (82) f -> . CTEC
+    (83) f -> . variable
+    (84) f -> . llamada
+    (16) variable -> . ID indexp
+    (21) llamada -> . ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON
+
+    LEFT_PARENT     shift and go to state 100
+    CTEI            shift and go to state 101
+    CTEF            shift and go to state 102
+    CTEC            shift and go to state 103
+    ID              shift and go to state 106
+
+    exp                            shift and go to state 123
+    exprel                         shift and go to state 96
+    e                              shift and go to state 97
+    t                              shift and go to state 98
+    f                              shift and go to state 99
+    variable                       shift and go to state 104
+    llamada                        shift and go to state 105
+
+state 89
+
+    (18) indexp -> empty .
+
+    ASIGN           reduce using rule 18 (indexp -> empty .)
+    MULT            reduce using rule 18 (indexp -> empty .)
+    DIV             reduce using rule 18 (indexp -> empty .)
+    PLUS            reduce using rule 18 (indexp -> empty .)
+    MINUS           reduce using rule 18 (indexp -> empty .)
+    LESS_THAN       reduce using rule 18 (indexp -> empty .)
+    GREATER_THAN    reduce using rule 18 (indexp -> empty .)
+    EQUALS          reduce using rule 18 (indexp -> empty .)
+    NOTEQUALS       reduce using rule 18 (indexp -> empty .)
+    AND             reduce using rule 18 (indexp -> empty .)
+    OR              reduce using rule 18 (indexp -> empty .)
+    SEMICOLON       reduce using rule 18 (indexp -> empty .)
+    COMMA           reduce using rule 18 (indexp -> empty .)
+    RIGHT_PARENT    reduce using rule 18 (indexp -> empty .)
+    RIGHT_SQR_BRACKET reduce using rule 18 (indexp -> empty .)
+
+
+state 90
+
+    (52) lee -> READ LEFT_PARENT . variable RIGHT_PARENT SEMICOLON
+    (16) variable -> . ID indexp
+
+    ID              shift and go to state 125
+
+    variable                       shift and go to state 124
+
+state 91
+
+    (53) escribe -> WRITE LEFT_PARENT . escribep RIGHT_PARENT SEMICOLON
+    (54) escribep -> . exp
+    (55) escribep -> . LETRERO
+    (57) exp -> . exprel logic
+    (62) exprel -> . e relacionalp
+    (69) e -> . t tp
+    (74) t -> . f fp
+    (79) f -> . LEFT_PARENT exp RIGHT_PARENT
+    (80) f -> . CTEI
+    (81) f -> . CTEF
+    (82) f -> . CTEC
+    (83) f -> . variable
+    (84) f -> . llamada
+    (16) variable -> . ID indexp
+    (21) llamada -> . ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON
+
+    LETRERO         shift and go to state 128
+    LEFT_PARENT     shift and go to state 100
+    CTEI            shift and go to state 101
+    CTEF            shift and go to state 102
+    CTEC            shift and go to state 103
+    ID              shift and go to state 106
+
+    escribep                       shift and go to state 126
+    exp                            shift and go to state 127
+    exprel                         shift and go to state 96
+    e                              shift and go to state 97
+    t                              shift and go to state 98
+    f                              shift and go to state 99
+    variable                       shift and go to state 104
+    llamada                        shift and go to state 105
+
+state 92
+
+    (85) condicion -> IF LEFT_PARENT . exp RIGHT_PARENT IF_TRUE estatutop RIGHT_CUR_BRACKET falsop
+    (57) exp -> . exprel logic
+    (62) exprel -> . e relacionalp
+    (69) e -> . t tp
+    (74) t -> . f fp
+    (79) f -> . LEFT_PARENT exp RIGHT_PARENT
+    (80) f -> . CTEI
+    (81) f -> . CTEF
+    (82) f -> . CTEC
+    (83) f -> . variable
+    (84) f -> . llamada
+    (16) variable -> . ID indexp
+    (21) llamada -> . ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON
+
+    LEFT_PARENT     shift and go to state 100
+    CTEI            shift and go to state 101
+    CTEF            shift and go to state 102
+    CTEC            shift and go to state 103
+    ID              shift and go to state 106
+
+    exp                            shift and go to state 129
+    exprel                         shift and go to state 96
+    e                              shift and go to state 97
+    t                              shift and go to state 98
+    f                              shift and go to state 99
+    variable                       shift and go to state 104
+    llamada                        shift and go to state 105
+
+state 93
+
+    (88) ciclow -> WHILE LEFT_PARENT . exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET
+    (57) exp -> . exprel logic
+    (62) exprel -> . e relacionalp
+    (69) e -> . t tp
+    (74) t -> . f fp
+    (79) f -> . LEFT_PARENT exp RIGHT_PARENT
+    (80) f -> . CTEI
+    (81) f -> . CTEF
+    (82) f -> . CTEC
+    (83) f -> . variable
+    (84) f -> . llamada
+    (16) variable -> . ID indexp
+    (21) llamada -> . ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON
+
+    LEFT_PARENT     shift and go to state 100
+    CTEI            shift and go to state 101
+    CTEF            shift and go to state 102
+    CTEC            shift and go to state 103
+    ID              shift and go to state 106
+
+    exp                            shift and go to state 130
+    exprel                         shift and go to state 96
+    e                              shift and go to state 97
+    t                              shift and go to state 98
+    f                              shift and go to state 99
+    variable                       shift and go to state 104
+    llamada                        shift and go to state 105
+
+state 94
+
+    (89) ciclof -> FOR LEFT_PARENT . asign exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET
+    (51) asign -> . variable ASIGN exp SEMICOLON
+    (16) variable -> . ID indexp
+
+    ID              shift and go to state 125
+
+    asign                          shift and go to state 131
+    variable                       shift and go to state 50
+
+state 95
+
+    (56) return -> RETURNS exp . SEMICOLON
+
+    SEMICOLON       shift and go to state 132
+
+
+state 96
+
+    (57) exp -> exprel . logic
+    (58) logic -> . logicsig exprel logic
+    (59) logic -> . empty
+    (60) logicsig -> . AND
+    (61) logicsig -> . OR
+    (108) empty -> .
+
+    AND             shift and go to state 136
+    OR              shift and go to state 137
+    SEMICOLON       reduce using rule 108 (empty -> .)
+    COMMA           reduce using rule 108 (empty -> .)
+    RIGHT_PARENT    reduce using rule 108 (empty -> .)
+    RIGHT_SQR_BRACKET reduce using rule 108 (empty -> .)
+
+    logic                          shift and go to state 133
+    logicsig                       shift and go to state 134
+    empty                          shift and go to state 135
+
+state 97
+
+    (62) exprel -> e . relacionalp
+    (63) relacionalp -> . relsig e relacionalp
+    (64) relacionalp -> . empty
+    (65) relsig -> . LESS_THAN
+    (66) relsig -> . GREATER_THAN
+    (67) relsig -> . EQUALS
+    (68) relsig -> . NOTEQUALS
+    (108) empty -> .
+
+    LESS_THAN       shift and go to state 141
+    GREATER_THAN    shift and go to state 142
+    EQUALS          shift and go to state 143
+    NOTEQUALS       shift and go to state 144
+    AND             reduce using rule 108 (empty -> .)
+    OR              reduce using rule 108 (empty -> .)
+    SEMICOLON       reduce using rule 108 (empty -> .)
+    COMMA           reduce using rule 108 (empty -> .)
+    RIGHT_PARENT    reduce using rule 108 (empty -> .)
+    RIGHT_SQR_BRACKET reduce using rule 108 (empty -> .)
+
+    relacionalp                    shift and go to state 138
+    relsig                         shift and go to state 139
+    empty                          shift and go to state 140
+
+state 98
+
+    (69) e -> t . tp
+    (70) tp -> . tsig t tp
+    (71) tp -> . empty
+    (72) tsig -> . PLUS
+    (73) tsig -> . MINUS
+    (108) empty -> .
+
+    PLUS            shift and go to state 148
+    MINUS           shift and go to state 149
+    LESS_THAN       reduce using rule 108 (empty -> .)
+    GREATER_THAN    reduce using rule 108 (empty -> .)
+    EQUALS          reduce using rule 108 (empty -> .)
+    NOTEQUALS       reduce using rule 108 (empty -> .)
+    AND             reduce using rule 108 (empty -> .)
+    OR              reduce using rule 108 (empty -> .)
+    SEMICOLON       reduce using rule 108 (empty -> .)
+    COMMA           reduce using rule 108 (empty -> .)
+    RIGHT_PARENT    reduce using rule 108 (empty -> .)
+    RIGHT_SQR_BRACKET reduce using rule 108 (empty -> .)
+
+    tp                             shift and go to state 145
+    tsig                           shift and go to state 146
+    empty                          shift and go to state 147
+
+state 99
+
+    (74) t -> f . fp
+    (75) fp -> . fsig f fp
+    (76) fp -> . empty
+    (77) fsig -> . MULT
+    (78) fsig -> . DIV
+    (108) empty -> .
+
+    MULT            shift and go to state 153
+    DIV             shift and go to state 154
+    PLUS            reduce using rule 108 (empty -> .)
+    MINUS           reduce using rule 108 (empty -> .)
+    LESS_THAN       reduce using rule 108 (empty -> .)
+    GREATER_THAN    reduce using rule 108 (empty -> .)
+    EQUALS          reduce using rule 108 (empty -> .)
+    NOTEQUALS       reduce using rule 108 (empty -> .)
+    AND             reduce using rule 108 (empty -> .)
+    OR              reduce using rule 108 (empty -> .)
+    SEMICOLON       reduce using rule 108 (empty -> .)
+    COMMA           reduce using rule 108 (empty -> .)
+    RIGHT_PARENT    reduce using rule 108 (empty -> .)
+    RIGHT_SQR_BRACKET reduce using rule 108 (empty -> .)
+
+    fp                             shift and go to state 150
+    fsig                           shift and go to state 151
+    empty                          shift and go to state 152
+
+state 100
+
+    (79) f -> LEFT_PARENT . exp RIGHT_PARENT
+    (57) exp -> . exprel logic
+    (62) exprel -> . e relacionalp
+    (69) e -> . t tp
+    (74) t -> . f fp
+    (79) f -> . LEFT_PARENT exp RIGHT_PARENT
+    (80) f -> . CTEI
+    (81) f -> . CTEF
+    (82) f -> . CTEC
+    (83) f -> . variable
+    (84) f -> . llamada
+    (16) variable -> . ID indexp
+    (21) llamada -> . ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON
+
+    LEFT_PARENT     shift and go to state 100
+    CTEI            shift and go to state 101
+    CTEF            shift and go to state 102
+    CTEC            shift and go to state 103
+    ID              shift and go to state 106
+
+    exp                            shift and go to state 155
+    exprel                         shift and go to state 96
+    e                              shift and go to state 97
+    t                              shift and go to state 98
+    f                              shift and go to state 99
+    variable                       shift and go to state 104
+    llamada                        shift and go to state 105
+
+state 101
+
+    (80) f -> CTEI .
+
+    MULT            reduce using rule 80 (f -> CTEI .)
+    DIV             reduce using rule 80 (f -> CTEI .)
+    PLUS            reduce using rule 80 (f -> CTEI .)
+    MINUS           reduce using rule 80 (f -> CTEI .)
+    LESS_THAN       reduce using rule 80 (f -> CTEI .)
+    GREATER_THAN    reduce using rule 80 (f -> CTEI .)
+    EQUALS          reduce using rule 80 (f -> CTEI .)
+    NOTEQUALS       reduce using rule 80 (f -> CTEI .)
+    AND             reduce using rule 80 (f -> CTEI .)
+    OR              reduce using rule 80 (f -> CTEI .)
+    SEMICOLON       reduce using rule 80 (f -> CTEI .)
+    COMMA           reduce using rule 80 (f -> CTEI .)
+    RIGHT_PARENT    reduce using rule 80 (f -> CTEI .)
+    RIGHT_SQR_BRACKET reduce using rule 80 (f -> CTEI .)
+
+
+state 102
+
+    (81) f -> CTEF .
+
+    MULT            reduce using rule 81 (f -> CTEF .)
+    DIV             reduce using rule 81 (f -> CTEF .)
+    PLUS            reduce using rule 81 (f -> CTEF .)
+    MINUS           reduce using rule 81 (f -> CTEF .)
+    LESS_THAN       reduce using rule 81 (f -> CTEF .)
+    GREATER_THAN    reduce using rule 81 (f -> CTEF .)
+    EQUALS          reduce using rule 81 (f -> CTEF .)
+    NOTEQUALS       reduce using rule 81 (f -> CTEF .)
+    AND             reduce using rule 81 (f -> CTEF .)
+    OR              reduce using rule 81 (f -> CTEF .)
+    SEMICOLON       reduce using rule 81 (f -> CTEF .)
+    COMMA           reduce using rule 81 (f -> CTEF .)
+    RIGHT_PARENT    reduce using rule 81 (f -> CTEF .)
+    RIGHT_SQR_BRACKET reduce using rule 81 (f -> CTEF .)
+
+
+state 103
+
+    (82) f -> CTEC .
+
+    MULT            reduce using rule 82 (f -> CTEC .)
+    DIV             reduce using rule 82 (f -> CTEC .)
+    PLUS            reduce using rule 82 (f -> CTEC .)
+    MINUS           reduce using rule 82 (f -> CTEC .)
+    LESS_THAN       reduce using rule 82 (f -> CTEC .)
+    GREATER_THAN    reduce using rule 82 (f -> CTEC .)
+    EQUALS          reduce using rule 82 (f -> CTEC .)
+    NOTEQUALS       reduce using rule 82 (f -> CTEC .)
+    AND             reduce using rule 82 (f -> CTEC .)
+    OR              reduce using rule 82 (f -> CTEC .)
+    SEMICOLON       reduce using rule 82 (f -> CTEC .)
+    COMMA           reduce using rule 82 (f -> CTEC .)
+    RIGHT_PARENT    reduce using rule 82 (f -> CTEC .)
+    RIGHT_SQR_BRACKET reduce using rule 82 (f -> CTEC .)
+
+
+state 104
+
+    (83) f -> variable .
+
+    MULT            reduce using rule 83 (f -> variable .)
+    DIV             reduce using rule 83 (f -> variable .)
+    PLUS            reduce using rule 83 (f -> variable .)
+    MINUS           reduce using rule 83 (f -> variable .)
+    LESS_THAN       reduce using rule 83 (f -> variable .)
+    GREATER_THAN    reduce using rule 83 (f -> variable .)
+    EQUALS          reduce using rule 83 (f -> variable .)
+    NOTEQUALS       reduce using rule 83 (f -> variable .)
+    AND             reduce using rule 83 (f -> variable .)
+    OR              reduce using rule 83 (f -> variable .)
+    SEMICOLON       reduce using rule 83 (f -> variable .)
+    COMMA           reduce using rule 83 (f -> variable .)
+    RIGHT_PARENT    reduce using rule 83 (f -> variable .)
+    RIGHT_SQR_BRACKET reduce using rule 83 (f -> variable .)
+
+
+state 105
+
+    (84) f -> llamada .
+
+    MULT            reduce using rule 84 (f -> llamada .)
+    DIV             reduce using rule 84 (f -> llamada .)
+    PLUS            reduce using rule 84 (f -> llamada .)
+    MINUS           reduce using rule 84 (f -> llamada .)
+    LESS_THAN       reduce using rule 84 (f -> llamada .)
+    GREATER_THAN    reduce using rule 84 (f -> llamada .)
+    EQUALS          reduce using rule 84 (f -> llamada .)
+    NOTEQUALS       reduce using rule 84 (f -> llamada .)
+    AND             reduce using rule 84 (f -> llamada .)
+    OR              reduce using rule 84 (f -> llamada .)
+    SEMICOLON       reduce using rule 84 (f -> llamada .)
+    COMMA           reduce using rule 84 (f -> llamada .)
+    RIGHT_PARENT    reduce using rule 84 (f -> llamada .)
+    RIGHT_SQR_BRACKET reduce using rule 84 (f -> llamada .)
+
+
+state 106
+
+    (16) variable -> ID . indexp
+    (21) llamada -> ID . LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON
+    (17) indexp -> . LEFT_SQR_BRACKET exp indexpp RIGHT_SQR_BRACKET
+    (18) indexp -> . empty
+    (108) empty -> .
+
+    LEFT_PARENT     shift and go to state 86
+    LEFT_SQR_BRACKET shift and go to state 88
+    MULT            reduce using rule 108 (empty -> .)
+    DIV             reduce using rule 108 (empty -> .)
+    PLUS            reduce using rule 108 (empty -> .)
+    MINUS           reduce using rule 108 (empty -> .)
+    LESS_THAN       reduce using rule 108 (empty -> .)
+    GREATER_THAN    reduce using rule 108 (empty -> .)
+    EQUALS          reduce using rule 108 (empty -> .)
+    NOTEQUALS       reduce using rule 108 (empty -> .)
+    AND             reduce using rule 108 (empty -> .)
+    OR              reduce using rule 108 (empty -> .)
+    SEMICOLON       reduce using rule 108 (empty -> .)
+    COMMA           reduce using rule 108 (empty -> .)
+    RIGHT_PARENT    reduce using rule 108 (empty -> .)
+    RIGHT_SQR_BRACKET reduce using rule 108 (empty -> .)
+
+    indexp                         shift and go to state 87
+    empty                          shift and go to state 89
+
+state 107
+
+    (14) copy -> READ_FILE LEFT_PARENT . file RIGHT_PARENT SEMICOLON
+    (15) file -> . ID
+
+    ID              shift and go to state 157
+
+    file                           shift and go to state 156
+
+state 108
+
+    (99) mean -> MEAN LEFT_PARENT . variable RIGHT_PARENT SEMICOLON
+    (16) variable -> . ID indexp
+
+    ID              shift and go to state 125
+
+    variable                       shift and go to state 158
+
+state 109
+
+    (100) mode -> MODE LEFT_PARENT . variable RIGHT_PARENT SEMICOLON
+    (16) variable -> . ID indexp
+
+    ID              shift and go to state 125
+
+    variable                       shift and go to state 159
+
+state 110
+
+    (101) median -> MEDIAN LEFT_PARENT . variable RIGHT_PARENT SEMICOLON
+    (16) variable -> . ID indexp
+
+    ID              shift and go to state 125
+
+    variable                       shift and go to state 160
+
+state 111
+
+    (102) variance -> VARIANCE LEFT_PARENT . variable RIGHT_PARENT SEMICOLON
+    (16) variable -> . ID indexp
+
+    ID              shift and go to state 125
+
+    variable                       shift and go to state 161
+
+state 112
+
+    (103) max -> MAX LEFT_PARENT . variable RIGHT_PARENT SEMICOLON
+    (16) variable -> . ID indexp
+
+    ID              shift and go to state 125
+
+    variable                       shift and go to state 162
+
+state 113
+
+    (104) min -> MIN LEFT_PARENT . variable RIGHT_PARENT SEMICOLON
+    (16) variable -> . ID indexp
+
+    ID              shift and go to state 125
+
+    variable                       shift and go to state 163
+
+state 114
+
+    (105) staddes -> STADDES LEFT_PARENT . variable RIGHT_PARENT SEMICOLON
+    (16) variable -> . ID indexp
+
+    ID              shift and go to state 125
+
+    variable                       shift and go to state 164
+
+state 115
+
+    (106) boxplot -> BOXPLOT LEFT_PARENT . variable RIGHT_PARENT SEMICOLON
+    (16) variable -> . ID indexp
+
+    ID              shift and go to state 125
+
+    variable                       shift and go to state 165
+
+state 116
+
+    (107) linreg -> LINREG LEFT_PARENT . variable RIGHT_PARENT SEMICOLON
+    (16) variable -> . ID indexp
+
+    ID              shift and go to state 125
+
+    variable                       shift and go to state 166
+
+state 117
+
+    (34) func -> FUNC returnval ARROW ID LEFT_PARENT . param RIGHT_PARENT LEFT_CUR_BRACKET varp estatutop RIGHT_CUR_BRACKET
+    (37) param -> . tipo_simp ARROW ID paramp
+    (38) param -> . empty
+    (9) tipo_simp -> . INT
+    (10) tipo_simp -> . FLOAT
+    (11) tipo_simp -> . CHAR
+    (108) empty -> .
+
+    INT             shift and go to state 17
+    FLOAT           shift and go to state 18
+    CHAR            shift and go to state 19
+    RIGHT_PARENT    reduce using rule 108 (empty -> .)
+
+    param                          shift and go to state 167
+    tipo_simp                      shift and go to state 168
+    empty                          shift and go to state 169
+
+state 118
+
+    (32) idp -> COMMA ID idp .
+
+    SEMICOLON       reduce using rule 32 (idp -> COMMA ID idp .)
+
+
+state 119
+
+    (27) vp -> LEFT_SQR_BRACKET CTEI vpp RIGHT_SQR_BRACKET .
+
+    ARROW           reduce using rule 27 (vp -> LEFT_SQR_BRACKET CTEI vpp RIGHT_SQR_BRACKET .)
+
+
+state 120
+
+    (29) vpp -> COMMA CTEI .
+
+    RIGHT_SQR_BRACKET reduce using rule 29 (vpp -> COMMA CTEI .)
+
+
+state 121
+
+    (51) asign -> variable ASIGN exp . SEMICOLON
+
+    SEMICOLON       shift and go to state 170
+
+
+state 122
+
+    (21) llamada -> ID LEFT_PARENT exp . expp RIGHT_PARENT SEMICOLON
+    (22) expp -> . COMMA exp expp
+    (23) expp -> . empty
+    (108) empty -> .
+
+    COMMA           shift and go to state 172
+    RIGHT_PARENT    reduce using rule 108 (empty -> .)
+
+    expp                           shift and go to state 171
+    empty                          shift and go to state 173
+
+state 123
+
+    (17) indexp -> LEFT_SQR_BRACKET exp . indexpp RIGHT_SQR_BRACKET
+    (19) indexpp -> . COMMA exp
+    (20) indexpp -> . empty
+    (108) empty -> .
+
+    COMMA           shift and go to state 175
+    RIGHT_SQR_BRACKET reduce using rule 108 (empty -> .)
+
+    indexpp                        shift and go to state 174
+    empty                          shift and go to state 176
+
+state 124
+
+    (52) lee -> READ LEFT_PARENT variable . RIGHT_PARENT SEMICOLON
+
+    RIGHT_PARENT    shift and go to state 177
+
+
+state 125
+
+    (16) variable -> ID . indexp
+    (17) indexp -> . LEFT_SQR_BRACKET exp indexpp RIGHT_SQR_BRACKET
+    (18) indexp -> . empty
+    (108) empty -> .
+
+    LEFT_SQR_BRACKET shift and go to state 88
+    RIGHT_PARENT    reduce using rule 108 (empty -> .)
+    ASIGN           reduce using rule 108 (empty -> .)
+
+    indexp                         shift and go to state 87
+    empty                          shift and go to state 89
+
+state 126
+
+    (53) escribe -> WRITE LEFT_PARENT escribep . RIGHT_PARENT SEMICOLON
+
+    RIGHT_PARENT    shift and go to state 178
+
+
+state 127
+
+    (54) escribep -> exp .
+
+    RIGHT_PARENT    reduce using rule 54 (escribep -> exp .)
+
+
+state 128
+
+    (55) escribep -> LETRERO .
+
+    RIGHT_PARENT    reduce using rule 55 (escribep -> LETRERO .)
+
+
+state 129
+
+    (85) condicion -> IF LEFT_PARENT exp . RIGHT_PARENT IF_TRUE estatutop RIGHT_CUR_BRACKET falsop
+
+    RIGHT_PARENT    shift and go to state 179
+
+
+state 130
+
+    (88) ciclow -> WHILE LEFT_PARENT exp . RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET
+
+    RIGHT_PARENT    shift and go to state 180
+
+
+state 131
+
+    (89) ciclof -> FOR LEFT_PARENT asign . exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET
+    (57) exp -> . exprel logic
+    (62) exprel -> . e relacionalp
+    (69) e -> . t tp
+    (74) t -> . f fp
+    (79) f -> . LEFT_PARENT exp RIGHT_PARENT
+    (80) f -> . CTEI
+    (81) f -> . CTEF
+    (82) f -> . CTEC
+    (83) f -> . variable
+    (84) f -> . llamada
+    (16) variable -> . ID indexp
+    (21) llamada -> . ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON
+
+    LEFT_PARENT     shift and go to state 100
+    CTEI            shift and go to state 101
+    CTEF            shift and go to state 102
+    CTEC            shift and go to state 103
+    ID              shift and go to state 106
+
+    exp                            shift and go to state 181
+    exprel                         shift and go to state 96
+    e                              shift and go to state 97
+    t                              shift and go to state 98
+    f                              shift and go to state 99
+    variable                       shift and go to state 104
+    llamada                        shift and go to state 105
+
+state 132
+
+    (56) return -> RETURNS exp SEMICOLON .
+
+    ID              reduce using rule 56 (return -> RETURNS exp SEMICOLON .)
+    READ            reduce using rule 56 (return -> RETURNS exp SEMICOLON .)
+    WRITE           reduce using rule 56 (return -> RETURNS exp SEMICOLON .)
+    IF              reduce using rule 56 (return -> RETURNS exp SEMICOLON .)
+    WHILE           reduce using rule 56 (return -> RETURNS exp SEMICOLON .)
+    FOR             reduce using rule 56 (return -> RETURNS exp SEMICOLON .)
+    RETURNS         reduce using rule 56 (return -> RETURNS exp SEMICOLON .)
+    READ_FILE       reduce using rule 56 (return -> RETURNS exp SEMICOLON .)
+    MEAN            reduce using rule 56 (return -> RETURNS exp SEMICOLON .)
+    MODE            reduce using rule 56 (return -> RETURNS exp SEMICOLON .)
+    MEDIAN          reduce using rule 56 (return -> RETURNS exp SEMICOLON .)
+    VARIANCE        reduce using rule 56 (return -> RETURNS exp SEMICOLON .)
+    MAX             reduce using rule 56 (return -> RETURNS exp SEMICOLON .)
+    MIN             reduce using rule 56 (return -> RETURNS exp SEMICOLON .)
+    STADDES         reduce using rule 56 (return -> RETURNS exp SEMICOLON .)
+    BOXPLOT         reduce using rule 56 (return -> RETURNS exp SEMICOLON .)
+    LINREG          reduce using rule 56 (return -> RETURNS exp SEMICOLON .)
+    RIGHT_CUR_BRACKET reduce using rule 56 (return -> RETURNS exp SEMICOLON .)
+
+
+state 133
+
+    (57) exp -> exprel logic .
+
+    SEMICOLON       reduce using rule 57 (exp -> exprel logic .)
+    COMMA           reduce using rule 57 (exp -> exprel logic .)
+    RIGHT_PARENT    reduce using rule 57 (exp -> exprel logic .)
+    RIGHT_SQR_BRACKET reduce using rule 57 (exp -> exprel logic .)
+
+
+state 134
+
+    (58) logic -> logicsig . exprel logic
+    (62) exprel -> . e relacionalp
+    (69) e -> . t tp
+    (74) t -> . f fp
+    (79) f -> . LEFT_PARENT exp RIGHT_PARENT
+    (80) f -> . CTEI
+    (81) f -> . CTEF
+    (82) f -> . CTEC
+    (83) f -> . variable
+    (84) f -> . llamada
+    (16) variable -> . ID indexp
+    (21) llamada -> . ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON
+
+    LEFT_PARENT     shift and go to state 100
+    CTEI            shift and go to state 101
+    CTEF            shift and go to state 102
+    CTEC            shift and go to state 103
+    ID              shift and go to state 106
+
+    exprel                         shift and go to state 182
+    e                              shift and go to state 97
+    t                              shift and go to state 98
+    f                              shift and go to state 99
+    variable                       shift and go to state 104
+    llamada                        shift and go to state 105
+
+state 135
+
+    (59) logic -> empty .
+
+    SEMICOLON       reduce using rule 59 (logic -> empty .)
+    COMMA           reduce using rule 59 (logic -> empty .)
+    RIGHT_PARENT    reduce using rule 59 (logic -> empty .)
+    RIGHT_SQR_BRACKET reduce using rule 59 (logic -> empty .)
+
+
+state 136
+
+    (60) logicsig -> AND .
+
+    LEFT_PARENT     reduce using rule 60 (logicsig -> AND .)
+    CTEI            reduce using rule 60 (logicsig -> AND .)
+    CTEF            reduce using rule 60 (logicsig -> AND .)
+    CTEC            reduce using rule 60 (logicsig -> AND .)
+    ID              reduce using rule 60 (logicsig -> AND .)
+
+
+state 137
+
+    (61) logicsig -> OR .
+
+    LEFT_PARENT     reduce using rule 61 (logicsig -> OR .)
+    CTEI            reduce using rule 61 (logicsig -> OR .)
+    CTEF            reduce using rule 61 (logicsig -> OR .)
+    CTEC            reduce using rule 61 (logicsig -> OR .)
+    ID              reduce using rule 61 (logicsig -> OR .)
+
+
+state 138
+
+    (62) exprel -> e relacionalp .
+
+    AND             reduce using rule 62 (exprel -> e relacionalp .)
+    OR              reduce using rule 62 (exprel -> e relacionalp .)
+    SEMICOLON       reduce using rule 62 (exprel -> e relacionalp .)
+    COMMA           reduce using rule 62 (exprel -> e relacionalp .)
+    RIGHT_PARENT    reduce using rule 62 (exprel -> e relacionalp .)
+    RIGHT_SQR_BRACKET reduce using rule 62 (exprel -> e relacionalp .)
+
+
+state 139
+
+    (63) relacionalp -> relsig . e relacionalp
+    (69) e -> . t tp
+    (74) t -> . f fp
+    (79) f -> . LEFT_PARENT exp RIGHT_PARENT
+    (80) f -> . CTEI
+    (81) f -> . CTEF
+    (82) f -> . CTEC
+    (83) f -> . variable
+    (84) f -> . llamada
+    (16) variable -> . ID indexp
+    (21) llamada -> . ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON
+
+    LEFT_PARENT     shift and go to state 100
+    CTEI            shift and go to state 101
+    CTEF            shift and go to state 102
+    CTEC            shift and go to state 103
+    ID              shift and go to state 106
+
+    e                              shift and go to state 183
+    t                              shift and go to state 98
+    f                              shift and go to state 99
+    variable                       shift and go to state 104
+    llamada                        shift and go to state 105
+
+state 140
+
+    (64) relacionalp -> empty .
+
+    AND             reduce using rule 64 (relacionalp -> empty .)
+    OR              reduce using rule 64 (relacionalp -> empty .)
+    SEMICOLON       reduce using rule 64 (relacionalp -> empty .)
+    COMMA           reduce using rule 64 (relacionalp -> empty .)
+    RIGHT_PARENT    reduce using rule 64 (relacionalp -> empty .)
+    RIGHT_SQR_BRACKET reduce using rule 64 (relacionalp -> empty .)
+
+
+state 141
+
+    (65) relsig -> LESS_THAN .
+
+    LEFT_PARENT     reduce using rule 65 (relsig -> LESS_THAN .)
+    CTEI            reduce using rule 65 (relsig -> LESS_THAN .)
+    CTEF            reduce using rule 65 (relsig -> LESS_THAN .)
+    CTEC            reduce using rule 65 (relsig -> LESS_THAN .)
+    ID              reduce using rule 65 (relsig -> LESS_THAN .)
+
+
+state 142
+
+    (66) relsig -> GREATER_THAN .
+
+    LEFT_PARENT     reduce using rule 66 (relsig -> GREATER_THAN .)
+    CTEI            reduce using rule 66 (relsig -> GREATER_THAN .)
+    CTEF            reduce using rule 66 (relsig -> GREATER_THAN .)
+    CTEC            reduce using rule 66 (relsig -> GREATER_THAN .)
+    ID              reduce using rule 66 (relsig -> GREATER_THAN .)
+
+
+state 143
+
+    (67) relsig -> EQUALS .
+
+    LEFT_PARENT     reduce using rule 67 (relsig -> EQUALS .)
+    CTEI            reduce using rule 67 (relsig -> EQUALS .)
+    CTEF            reduce using rule 67 (relsig -> EQUALS .)
+    CTEC            reduce using rule 67 (relsig -> EQUALS .)
+    ID              reduce using rule 67 (relsig -> EQUALS .)
+
+
+state 144
+
+    (68) relsig -> NOTEQUALS .
+
+    LEFT_PARENT     reduce using rule 68 (relsig -> NOTEQUALS .)
+    CTEI            reduce using rule 68 (relsig -> NOTEQUALS .)
+    CTEF            reduce using rule 68 (relsig -> NOTEQUALS .)
+    CTEC            reduce using rule 68 (relsig -> NOTEQUALS .)
+    ID              reduce using rule 68 (relsig -> NOTEQUALS .)
+
+
+state 145
+
+    (69) e -> t tp .
+
+    LESS_THAN       reduce using rule 69 (e -> t tp .)
+    GREATER_THAN    reduce using rule 69 (e -> t tp .)
+    EQUALS          reduce using rule 69 (e -> t tp .)
+    NOTEQUALS       reduce using rule 69 (e -> t tp .)
+    AND             reduce using rule 69 (e -> t tp .)
+    OR              reduce using rule 69 (e -> t tp .)
+    SEMICOLON       reduce using rule 69 (e -> t tp .)
+    COMMA           reduce using rule 69 (e -> t tp .)
+    RIGHT_PARENT    reduce using rule 69 (e -> t tp .)
+    RIGHT_SQR_BRACKET reduce using rule 69 (e -> t tp .)
+
+
+state 146
+
+    (70) tp -> tsig . t tp
+    (74) t -> . f fp
+    (79) f -> . LEFT_PARENT exp RIGHT_PARENT
+    (80) f -> . CTEI
+    (81) f -> . CTEF
+    (82) f -> . CTEC
+    (83) f -> . variable
+    (84) f -> . llamada
+    (16) variable -> . ID indexp
+    (21) llamada -> . ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON
+
+    LEFT_PARENT     shift and go to state 100
+    CTEI            shift and go to state 101
+    CTEF            shift and go to state 102
+    CTEC            shift and go to state 103
+    ID              shift and go to state 106
+
+    t                              shift and go to state 184
+    f                              shift and go to state 99
+    variable                       shift and go to state 104
+    llamada                        shift and go to state 105
+
+state 147
+
+    (71) tp -> empty .
+
+    LESS_THAN       reduce using rule 71 (tp -> empty .)
+    GREATER_THAN    reduce using rule 71 (tp -> empty .)
+    EQUALS          reduce using rule 71 (tp -> empty .)
+    NOTEQUALS       reduce using rule 71 (tp -> empty .)
+    AND             reduce using rule 71 (tp -> empty .)
+    OR              reduce using rule 71 (tp -> empty .)
+    SEMICOLON       reduce using rule 71 (tp -> empty .)
+    COMMA           reduce using rule 71 (tp -> empty .)
+    RIGHT_PARENT    reduce using rule 71 (tp -> empty .)
+    RIGHT_SQR_BRACKET reduce using rule 71 (tp -> empty .)
+
+
+state 148
+
+    (72) tsig -> PLUS .
+
+    LEFT_PARENT     reduce using rule 72 (tsig -> PLUS .)
+    CTEI            reduce using rule 72 (tsig -> PLUS .)
+    CTEF            reduce using rule 72 (tsig -> PLUS .)
+    CTEC            reduce using rule 72 (tsig -> PLUS .)
+    ID              reduce using rule 72 (tsig -> PLUS .)
+
+
+state 149
+
+    (73) tsig -> MINUS .
+
+    LEFT_PARENT     reduce using rule 73 (tsig -> MINUS .)
+    CTEI            reduce using rule 73 (tsig -> MINUS .)
+    CTEF            reduce using rule 73 (tsig -> MINUS .)
+    CTEC            reduce using rule 73 (tsig -> MINUS .)
+    ID              reduce using rule 73 (tsig -> MINUS .)
+
+
+state 150
+
+    (74) t -> f fp .
+
+    PLUS            reduce using rule 74 (t -> f fp .)
+    MINUS           reduce using rule 74 (t -> f fp .)
+    LESS_THAN       reduce using rule 74 (t -> f fp .)
+    GREATER_THAN    reduce using rule 74 (t -> f fp .)
+    EQUALS          reduce using rule 74 (t -> f fp .)
+    NOTEQUALS       reduce using rule 74 (t -> f fp .)
+    AND             reduce using rule 74 (t -> f fp .)
+    OR              reduce using rule 74 (t -> f fp .)
+    SEMICOLON       reduce using rule 74 (t -> f fp .)
+    COMMA           reduce using rule 74 (t -> f fp .)
+    RIGHT_PARENT    reduce using rule 74 (t -> f fp .)
+    RIGHT_SQR_BRACKET reduce using rule 74 (t -> f fp .)
+
+
+state 151
+
+    (75) fp -> fsig . f fp
+    (79) f -> . LEFT_PARENT exp RIGHT_PARENT
+    (80) f -> . CTEI
+    (81) f -> . CTEF
+    (82) f -> . CTEC
+    (83) f -> . variable
+    (84) f -> . llamada
+    (16) variable -> . ID indexp
+    (21) llamada -> . ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON
+
+    LEFT_PARENT     shift and go to state 100
+    CTEI            shift and go to state 101
+    CTEF            shift and go to state 102
+    CTEC            shift and go to state 103
+    ID              shift and go to state 106
+
+    f                              shift and go to state 185
+    variable                       shift and go to state 104
+    llamada                        shift and go to state 105
+
+state 152
+
+    (76) fp -> empty .
+
+    PLUS            reduce using rule 76 (fp -> empty .)
+    MINUS           reduce using rule 76 (fp -> empty .)
+    LESS_THAN       reduce using rule 76 (fp -> empty .)
+    GREATER_THAN    reduce using rule 76 (fp -> empty .)
+    EQUALS          reduce using rule 76 (fp -> empty .)
+    NOTEQUALS       reduce using rule 76 (fp -> empty .)
+    AND             reduce using rule 76 (fp -> empty .)
+    OR              reduce using rule 76 (fp -> empty .)
+    SEMICOLON       reduce using rule 76 (fp -> empty .)
+    COMMA           reduce using rule 76 (fp -> empty .)
+    RIGHT_PARENT    reduce using rule 76 (fp -> empty .)
+    RIGHT_SQR_BRACKET reduce using rule 76 (fp -> empty .)
+
+
+state 153
+
+    (77) fsig -> MULT .
+
+    LEFT_PARENT     reduce using rule 77 (fsig -> MULT .)
+    CTEI            reduce using rule 77 (fsig -> MULT .)
+    CTEF            reduce using rule 77 (fsig -> MULT .)
+    CTEC            reduce using rule 77 (fsig -> MULT .)
+    ID              reduce using rule 77 (fsig -> MULT .)
+
+
+state 154
+
+    (78) fsig -> DIV .
+
+    LEFT_PARENT     reduce using rule 78 (fsig -> DIV .)
+    CTEI            reduce using rule 78 (fsig -> DIV .)
+    CTEF            reduce using rule 78 (fsig -> DIV .)
+    CTEC            reduce using rule 78 (fsig -> DIV .)
+    ID              reduce using rule 78 (fsig -> DIV .)
+
+
+state 155
+
+    (79) f -> LEFT_PARENT exp . RIGHT_PARENT
+
+    RIGHT_PARENT    shift and go to state 186
+
+
+state 156
+
+    (14) copy -> READ_FILE LEFT_PARENT file . RIGHT_PARENT SEMICOLON
+
+    RIGHT_PARENT    shift and go to state 187
+
+
+state 157
+
+    (15) file -> ID .
+
+    RIGHT_PARENT    reduce using rule 15 (file -> ID .)
+
+
+state 158
+
+    (99) mean -> MEAN LEFT_PARENT variable . RIGHT_PARENT SEMICOLON
+
+    RIGHT_PARENT    shift and go to state 188
+
+
+state 159
+
+    (100) mode -> MODE LEFT_PARENT variable . RIGHT_PARENT SEMICOLON
+
+    RIGHT_PARENT    shift and go to state 189
+
+
+state 160
+
+    (101) median -> MEDIAN LEFT_PARENT variable . RIGHT_PARENT SEMICOLON
+
+    RIGHT_PARENT    shift and go to state 190
+
+
+state 161
+
+    (102) variance -> VARIANCE LEFT_PARENT variable . RIGHT_PARENT SEMICOLON
+
+    RIGHT_PARENT    shift and go to state 191
+
+
+state 162
+
+    (103) max -> MAX LEFT_PARENT variable . RIGHT_PARENT SEMICOLON
+
+    RIGHT_PARENT    shift and go to state 192
+
+
+state 163
+
+    (104) min -> MIN LEFT_PARENT variable . RIGHT_PARENT SEMICOLON
+
+    RIGHT_PARENT    shift and go to state 193
+
+
+state 164
+
+    (105) staddes -> STADDES LEFT_PARENT variable . RIGHT_PARENT SEMICOLON
+
+    RIGHT_PARENT    shift and go to state 194
+
+
+state 165
+
+    (106) boxplot -> BOXPLOT LEFT_PARENT variable . RIGHT_PARENT SEMICOLON
+
+    RIGHT_PARENT    shift and go to state 195
+
+
+state 166
+
+    (107) linreg -> LINREG LEFT_PARENT variable . RIGHT_PARENT SEMICOLON
+
+    RIGHT_PARENT    shift and go to state 196
+
+
+state 167
+
+    (34) func -> FUNC returnval ARROW ID LEFT_PARENT param . RIGHT_PARENT LEFT_CUR_BRACKET varp estatutop RIGHT_CUR_BRACKET
+
+    RIGHT_PARENT    shift and go to state 197
+
+
+state 168
+
+    (37) param -> tipo_simp . ARROW ID paramp
+
+    ARROW           shift and go to state 198
+
+
+state 169
+
+    (38) param -> empty .
+
+    RIGHT_PARENT    reduce using rule 38 (param -> empty .)
+    COMMA           reduce using rule 38 (param -> empty .)
+
+
+state 170
+
+    (51) asign -> variable ASIGN exp SEMICOLON .
+
+    ID              reduce using rule 51 (asign -> variable ASIGN exp SEMICOLON .)
+    READ            reduce using rule 51 (asign -> variable ASIGN exp SEMICOLON .)
+    WRITE           reduce using rule 51 (asign -> variable ASIGN exp SEMICOLON .)
+    IF              reduce using rule 51 (asign -> variable ASIGN exp SEMICOLON .)
+    WHILE           reduce using rule 51 (asign -> variable ASIGN exp SEMICOLON .)
+    FOR             reduce using rule 51 (asign -> variable ASIGN exp SEMICOLON .)
+    RETURNS         reduce using rule 51 (asign -> variable ASIGN exp SEMICOLON .)
+    READ_FILE       reduce using rule 51 (asign -> variable ASIGN exp SEMICOLON .)
+    MEAN            reduce using rule 51 (asign -> variable ASIGN exp SEMICOLON .)
+    MODE            reduce using rule 51 (asign -> variable ASIGN exp SEMICOLON .)
+    MEDIAN          reduce using rule 51 (asign -> variable ASIGN exp SEMICOLON .)
+    VARIANCE        reduce using rule 51 (asign -> variable ASIGN exp SEMICOLON .)
+    MAX             reduce using rule 51 (asign -> variable ASIGN exp SEMICOLON .)
+    MIN             reduce using rule 51 (asign -> variable ASIGN exp SEMICOLON .)
+    STADDES         reduce using rule 51 (asign -> variable ASIGN exp SEMICOLON .)
+    BOXPLOT         reduce using rule 51 (asign -> variable ASIGN exp SEMICOLON .)
+    LINREG          reduce using rule 51 (asign -> variable ASIGN exp SEMICOLON .)
+    RIGHT_CUR_BRACKET reduce using rule 51 (asign -> variable ASIGN exp SEMICOLON .)
+    LEFT_PARENT     reduce using rule 51 (asign -> variable ASIGN exp SEMICOLON .)
+    CTEI            reduce using rule 51 (asign -> variable ASIGN exp SEMICOLON .)
+    CTEF            reduce using rule 51 (asign -> variable ASIGN exp SEMICOLON .)
+    CTEC            reduce using rule 51 (asign -> variable ASIGN exp SEMICOLON .)
+
+
+state 171
+
+    (21) llamada -> ID LEFT_PARENT exp expp . RIGHT_PARENT SEMICOLON
+
+    RIGHT_PARENT    shift and go to state 199
+
+
+state 172
+
+    (22) expp -> COMMA . exp expp
+    (57) exp -> . exprel logic
+    (62) exprel -> . e relacionalp
+    (69) e -> . t tp
+    (74) t -> . f fp
+    (79) f -> . LEFT_PARENT exp RIGHT_PARENT
+    (80) f -> . CTEI
+    (81) f -> . CTEF
+    (82) f -> . CTEC
+    (83) f -> . variable
+    (84) f -> . llamada
+    (16) variable -> . ID indexp
+    (21) llamada -> . ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON
+
+    LEFT_PARENT     shift and go to state 100
+    CTEI            shift and go to state 101
+    CTEF            shift and go to state 102
+    CTEC            shift and go to state 103
+    ID              shift and go to state 106
+
+    exp                            shift and go to state 200
+    exprel                         shift and go to state 96
+    e                              shift and go to state 97
+    t                              shift and go to state 98
+    f                              shift and go to state 99
+    variable                       shift and go to state 104
+    llamada                        shift and go to state 105
+
+state 173
+
+    (23) expp -> empty .
+
+    RIGHT_PARENT    reduce using rule 23 (expp -> empty .)
+
+
+state 174
+
+    (17) indexp -> LEFT_SQR_BRACKET exp indexpp . RIGHT_SQR_BRACKET
+
+    RIGHT_SQR_BRACKET shift and go to state 201
+
+
+state 175
+
+    (19) indexpp -> COMMA . exp
+    (57) exp -> . exprel logic
+    (62) exprel -> . e relacionalp
+    (69) e -> . t tp
+    (74) t -> . f fp
+    (79) f -> . LEFT_PARENT exp RIGHT_PARENT
+    (80) f -> . CTEI
+    (81) f -> . CTEF
+    (82) f -> . CTEC
+    (83) f -> . variable
+    (84) f -> . llamada
+    (16) variable -> . ID indexp
+    (21) llamada -> . ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON
+
+    LEFT_PARENT     shift and go to state 100
+    CTEI            shift and go to state 101
+    CTEF            shift and go to state 102
+    CTEC            shift and go to state 103
+    ID              shift and go to state 106
+
+    exp                            shift and go to state 202
+    exprel                         shift and go to state 96
+    e                              shift and go to state 97
+    t                              shift and go to state 98
+    f                              shift and go to state 99
+    variable                       shift and go to state 104
+    llamada                        shift and go to state 105
+
+state 176
+
+    (20) indexpp -> empty .
+
+    RIGHT_SQR_BRACKET reduce using rule 20 (indexpp -> empty .)
+
+
+state 177
+
+    (52) lee -> READ LEFT_PARENT variable RIGHT_PARENT . SEMICOLON
+
+    SEMICOLON       shift and go to state 203
+
+
+state 178
+
+    (53) escribe -> WRITE LEFT_PARENT escribep RIGHT_PARENT . SEMICOLON
+
+    SEMICOLON       shift and go to state 204
+
+
+state 179
+
+    (85) condicion -> IF LEFT_PARENT exp RIGHT_PARENT . IF_TRUE estatutop RIGHT_CUR_BRACKET falsop
+
+    IF_TRUE         shift and go to state 205
+
+
+state 180
+
+    (88) ciclow -> WHILE LEFT_PARENT exp RIGHT_PARENT . LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET
+
+    LEFT_CUR_BRACKET shift and go to state 206
+
+
+state 181
+
+    (89) ciclof -> FOR LEFT_PARENT asign exp . RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET
+
+    RIGHT_PARENT    shift and go to state 207
+
+
+state 182
+
+    (58) logic -> logicsig exprel . logic
+    (58) logic -> . logicsig exprel logic
+    (59) logic -> . empty
+    (60) logicsig -> . AND
+    (61) logicsig -> . OR
+    (108) empty -> .
+
+    AND             shift and go to state 136
+    OR              shift and go to state 137
+    SEMICOLON       reduce using rule 108 (empty -> .)
+    COMMA           reduce using rule 108 (empty -> .)
+    RIGHT_PARENT    reduce using rule 108 (empty -> .)
+    RIGHT_SQR_BRACKET reduce using rule 108 (empty -> .)
+
+    logicsig                       shift and go to state 134
+    logic                          shift and go to state 208
+    empty                          shift and go to state 135
+
+state 183
+
+    (63) relacionalp -> relsig e . relacionalp
+    (63) relacionalp -> . relsig e relacionalp
+    (64) relacionalp -> . empty
+    (65) relsig -> . LESS_THAN
+    (66) relsig -> . GREATER_THAN
+    (67) relsig -> . EQUALS
+    (68) relsig -> . NOTEQUALS
+    (108) empty -> .
+
+    LESS_THAN       shift and go to state 141
+    GREATER_THAN    shift and go to state 142
+    EQUALS          shift and go to state 143
+    NOTEQUALS       shift and go to state 144
+    AND             reduce using rule 108 (empty -> .)
+    OR              reduce using rule 108 (empty -> .)
+    SEMICOLON       reduce using rule 108 (empty -> .)
+    COMMA           reduce using rule 108 (empty -> .)
+    RIGHT_PARENT    reduce using rule 108 (empty -> .)
+    RIGHT_SQR_BRACKET reduce using rule 108 (empty -> .)
+
+    relsig                         shift and go to state 139
+    relacionalp                    shift and go to state 209
+    empty                          shift and go to state 140
+
+state 184
+
+    (70) tp -> tsig t . tp
+    (70) tp -> . tsig t tp
+    (71) tp -> . empty
+    (72) tsig -> . PLUS
+    (73) tsig -> . MINUS
+    (108) empty -> .
+
+    PLUS            shift and go to state 148
+    MINUS           shift and go to state 149
+    LESS_THAN       reduce using rule 108 (empty -> .)
+    GREATER_THAN    reduce using rule 108 (empty -> .)
+    EQUALS          reduce using rule 108 (empty -> .)
+    NOTEQUALS       reduce using rule 108 (empty -> .)
+    AND             reduce using rule 108 (empty -> .)
+    OR              reduce using rule 108 (empty -> .)
+    SEMICOLON       reduce using rule 108 (empty -> .)
+    COMMA           reduce using rule 108 (empty -> .)
+    RIGHT_PARENT    reduce using rule 108 (empty -> .)
+    RIGHT_SQR_BRACKET reduce using rule 108 (empty -> .)
+
+    tsig                           shift and go to state 146
+    tp                             shift and go to state 210
+    empty                          shift and go to state 147
+
+state 185
+
+    (75) fp -> fsig f . fp
+    (75) fp -> . fsig f fp
+    (76) fp -> . empty
+    (77) fsig -> . MULT
+    (78) fsig -> . DIV
+    (108) empty -> .
+
+    MULT            shift and go to state 153
+    DIV             shift and go to state 154
+    PLUS            reduce using rule 108 (empty -> .)
+    MINUS           reduce using rule 108 (empty -> .)
+    LESS_THAN       reduce using rule 108 (empty -> .)
+    GREATER_THAN    reduce using rule 108 (empty -> .)
+    EQUALS          reduce using rule 108 (empty -> .)
+    NOTEQUALS       reduce using rule 108 (empty -> .)
+    AND             reduce using rule 108 (empty -> .)
+    OR              reduce using rule 108 (empty -> .)
+    SEMICOLON       reduce using rule 108 (empty -> .)
+    COMMA           reduce using rule 108 (empty -> .)
+    RIGHT_PARENT    reduce using rule 108 (empty -> .)
+    RIGHT_SQR_BRACKET reduce using rule 108 (empty -> .)
+
+    fsig                           shift and go to state 151
+    fp                             shift and go to state 211
+    empty                          shift and go to state 152
+
+state 186
+
+    (79) f -> LEFT_PARENT exp RIGHT_PARENT .
+
+    MULT            reduce using rule 79 (f -> LEFT_PARENT exp RIGHT_PARENT .)
+    DIV             reduce using rule 79 (f -> LEFT_PARENT exp RIGHT_PARENT .)
+    PLUS            reduce using rule 79 (f -> LEFT_PARENT exp RIGHT_PARENT .)
+    MINUS           reduce using rule 79 (f -> LEFT_PARENT exp RIGHT_PARENT .)
+    LESS_THAN       reduce using rule 79 (f -> LEFT_PARENT exp RIGHT_PARENT .)
+    GREATER_THAN    reduce using rule 79 (f -> LEFT_PARENT exp RIGHT_PARENT .)
+    EQUALS          reduce using rule 79 (f -> LEFT_PARENT exp RIGHT_PARENT .)
+    NOTEQUALS       reduce using rule 79 (f -> LEFT_PARENT exp RIGHT_PARENT .)
+    AND             reduce using rule 79 (f -> LEFT_PARENT exp RIGHT_PARENT .)
+    OR              reduce using rule 79 (f -> LEFT_PARENT exp RIGHT_PARENT .)
+    SEMICOLON       reduce using rule 79 (f -> LEFT_PARENT exp RIGHT_PARENT .)
+    COMMA           reduce using rule 79 (f -> LEFT_PARENT exp RIGHT_PARENT .)
+    RIGHT_PARENT    reduce using rule 79 (f -> LEFT_PARENT exp RIGHT_PARENT .)
+    RIGHT_SQR_BRACKET reduce using rule 79 (f -> LEFT_PARENT exp RIGHT_PARENT .)
+
+
+state 187
+
+    (14) copy -> READ_FILE LEFT_PARENT file RIGHT_PARENT . SEMICOLON
+
+    SEMICOLON       shift and go to state 212
+
+
+state 188
+
+    (99) mean -> MEAN LEFT_PARENT variable RIGHT_PARENT . SEMICOLON
+
+    SEMICOLON       shift and go to state 213
+
+
+state 189
+
+    (100) mode -> MODE LEFT_PARENT variable RIGHT_PARENT . SEMICOLON
+
+    SEMICOLON       shift and go to state 214
+
+
+state 190
+
+    (101) median -> MEDIAN LEFT_PARENT variable RIGHT_PARENT . SEMICOLON
+
+    SEMICOLON       shift and go to state 215
+
+
+state 191
+
+    (102) variance -> VARIANCE LEFT_PARENT variable RIGHT_PARENT . SEMICOLON
+
+    SEMICOLON       shift and go to state 216
+
+
+state 192
+
+    (103) max -> MAX LEFT_PARENT variable RIGHT_PARENT . SEMICOLON
+
+    SEMICOLON       shift and go to state 217
+
+
+state 193
+
+    (104) min -> MIN LEFT_PARENT variable RIGHT_PARENT . SEMICOLON
+
+    SEMICOLON       shift and go to state 218
+
+
+state 194
+
+    (105) staddes -> STADDES LEFT_PARENT variable RIGHT_PARENT . SEMICOLON
+
+    SEMICOLON       shift and go to state 219
+
+
+state 195
+
+    (106) boxplot -> BOXPLOT LEFT_PARENT variable RIGHT_PARENT . SEMICOLON
+
+    SEMICOLON       shift and go to state 220
+
+
+state 196
+
+    (107) linreg -> LINREG LEFT_PARENT variable RIGHT_PARENT . SEMICOLON
+
+    SEMICOLON       shift and go to state 221
+
+
+state 197
+
+    (34) func -> FUNC returnval ARROW ID LEFT_PARENT param RIGHT_PARENT . LEFT_CUR_BRACKET varp estatutop RIGHT_CUR_BRACKET
+
+    LEFT_CUR_BRACKET shift and go to state 222
+
+
+state 198
+
+    (37) param -> tipo_simp ARROW . ID paramp
+
+    ID              shift and go to state 223
+
+
+state 199
+
+    (21) llamada -> ID LEFT_PARENT exp expp RIGHT_PARENT . SEMICOLON
+
+    SEMICOLON       shift and go to state 224
+
+
+state 200
+
+    (22) expp -> COMMA exp . expp
+    (22) expp -> . COMMA exp expp
+    (23) expp -> . empty
+    (108) empty -> .
+
+    COMMA           shift and go to state 172
+    RIGHT_PARENT    reduce using rule 108 (empty -> .)
+
+    expp                           shift and go to state 225
+    empty                          shift and go to state 173
+
+state 201
+
+    (17) indexp -> LEFT_SQR_BRACKET exp indexpp RIGHT_SQR_BRACKET .
+
+    ASIGN           reduce using rule 17 (indexp -> LEFT_SQR_BRACKET exp indexpp RIGHT_SQR_BRACKET .)
+    MULT            reduce using rule 17 (indexp -> LEFT_SQR_BRACKET exp indexpp RIGHT_SQR_BRACKET .)
+    DIV             reduce using rule 17 (indexp -> LEFT_SQR_BRACKET exp indexpp RIGHT_SQR_BRACKET .)
+    PLUS            reduce using rule 17 (indexp -> LEFT_SQR_BRACKET exp indexpp RIGHT_SQR_BRACKET .)
+    MINUS           reduce using rule 17 (indexp -> LEFT_SQR_BRACKET exp indexpp RIGHT_SQR_BRACKET .)
+    LESS_THAN       reduce using rule 17 (indexp -> LEFT_SQR_BRACKET exp indexpp RIGHT_SQR_BRACKET .)
+    GREATER_THAN    reduce using rule 17 (indexp -> LEFT_SQR_BRACKET exp indexpp RIGHT_SQR_BRACKET .)
+    EQUALS          reduce using rule 17 (indexp -> LEFT_SQR_BRACKET exp indexpp RIGHT_SQR_BRACKET .)
+    NOTEQUALS       reduce using rule 17 (indexp -> LEFT_SQR_BRACKET exp indexpp RIGHT_SQR_BRACKET .)
+    AND             reduce using rule 17 (indexp -> LEFT_SQR_BRACKET exp indexpp RIGHT_SQR_BRACKET .)
+    OR              reduce using rule 17 (indexp -> LEFT_SQR_BRACKET exp indexpp RIGHT_SQR_BRACKET .)
+    SEMICOLON       reduce using rule 17 (indexp -> LEFT_SQR_BRACKET exp indexpp RIGHT_SQR_BRACKET .)
+    COMMA           reduce using rule 17 (indexp -> LEFT_SQR_BRACKET exp indexpp RIGHT_SQR_BRACKET .)
+    RIGHT_PARENT    reduce using rule 17 (indexp -> LEFT_SQR_BRACKET exp indexpp RIGHT_SQR_BRACKET .)
+    RIGHT_SQR_BRACKET reduce using rule 17 (indexp -> LEFT_SQR_BRACKET exp indexpp RIGHT_SQR_BRACKET .)
+
+
+state 202
+
+    (19) indexpp -> COMMA exp .
+
+    RIGHT_SQR_BRACKET reduce using rule 19 (indexpp -> COMMA exp .)
+
+
+state 203
+
+    (52) lee -> READ LEFT_PARENT variable RIGHT_PARENT SEMICOLON .
+
+    ID              reduce using rule 52 (lee -> READ LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    READ            reduce using rule 52 (lee -> READ LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    WRITE           reduce using rule 52 (lee -> READ LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    IF              reduce using rule 52 (lee -> READ LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    WHILE           reduce using rule 52 (lee -> READ LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    FOR             reduce using rule 52 (lee -> READ LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    RETURNS         reduce using rule 52 (lee -> READ LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    READ_FILE       reduce using rule 52 (lee -> READ LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    MEAN            reduce using rule 52 (lee -> READ LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    MODE            reduce using rule 52 (lee -> READ LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    MEDIAN          reduce using rule 52 (lee -> READ LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    VARIANCE        reduce using rule 52 (lee -> READ LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    MAX             reduce using rule 52 (lee -> READ LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    MIN             reduce using rule 52 (lee -> READ LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    STADDES         reduce using rule 52 (lee -> READ LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    BOXPLOT         reduce using rule 52 (lee -> READ LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    LINREG          reduce using rule 52 (lee -> READ LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    RIGHT_CUR_BRACKET reduce using rule 52 (lee -> READ LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+
+
+state 204
+
+    (53) escribe -> WRITE LEFT_PARENT escribep RIGHT_PARENT SEMICOLON .
+
+    ID              reduce using rule 53 (escribe -> WRITE LEFT_PARENT escribep RIGHT_PARENT SEMICOLON .)
+    READ            reduce using rule 53 (escribe -> WRITE LEFT_PARENT escribep RIGHT_PARENT SEMICOLON .)
+    WRITE           reduce using rule 53 (escribe -> WRITE LEFT_PARENT escribep RIGHT_PARENT SEMICOLON .)
+    IF              reduce using rule 53 (escribe -> WRITE LEFT_PARENT escribep RIGHT_PARENT SEMICOLON .)
+    WHILE           reduce using rule 53 (escribe -> WRITE LEFT_PARENT escribep RIGHT_PARENT SEMICOLON .)
+    FOR             reduce using rule 53 (escribe -> WRITE LEFT_PARENT escribep RIGHT_PARENT SEMICOLON .)
+    RETURNS         reduce using rule 53 (escribe -> WRITE LEFT_PARENT escribep RIGHT_PARENT SEMICOLON .)
+    READ_FILE       reduce using rule 53 (escribe -> WRITE LEFT_PARENT escribep RIGHT_PARENT SEMICOLON .)
+    MEAN            reduce using rule 53 (escribe -> WRITE LEFT_PARENT escribep RIGHT_PARENT SEMICOLON .)
+    MODE            reduce using rule 53 (escribe -> WRITE LEFT_PARENT escribep RIGHT_PARENT SEMICOLON .)
+    MEDIAN          reduce using rule 53 (escribe -> WRITE LEFT_PARENT escribep RIGHT_PARENT SEMICOLON .)
+    VARIANCE        reduce using rule 53 (escribe -> WRITE LEFT_PARENT escribep RIGHT_PARENT SEMICOLON .)
+    MAX             reduce using rule 53 (escribe -> WRITE LEFT_PARENT escribep RIGHT_PARENT SEMICOLON .)
+    MIN             reduce using rule 53 (escribe -> WRITE LEFT_PARENT escribep RIGHT_PARENT SEMICOLON .)
+    STADDES         reduce using rule 53 (escribe -> WRITE LEFT_PARENT escribep RIGHT_PARENT SEMICOLON .)
+    BOXPLOT         reduce using rule 53 (escribe -> WRITE LEFT_PARENT escribep RIGHT_PARENT SEMICOLON .)
+    LINREG          reduce using rule 53 (escribe -> WRITE LEFT_PARENT escribep RIGHT_PARENT SEMICOLON .)
+    RIGHT_CUR_BRACKET reduce using rule 53 (escribe -> WRITE LEFT_PARENT escribep RIGHT_PARENT SEMICOLON .)
+
+
+state 205
+
+    (85) condicion -> IF LEFT_PARENT exp RIGHT_PARENT IF_TRUE . estatutop RIGHT_CUR_BRACKET falsop
+    (7) estatutop -> . estatuto estatutop
+    (8) estatutop -> . empty
+    (41) estatuto -> . asign
+    (42) estatuto -> . llamada
+    (43) estatuto -> . lee
+    (44) estatuto -> . escribe
+    (45) estatuto -> . condicion
+    (46) estatuto -> . ciclow
+    (47) estatuto -> . ciclof
+    (48) estatuto -> . funcesp
+    (49) estatuto -> . return
+    (50) estatuto -> . copy
+    (108) empty -> .
+    (51) asign -> . variable ASIGN exp SEMICOLON
+    (21) llamada -> . ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON
+    (52) lee -> . READ LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (53) escribe -> . WRITE LEFT_PARENT escribep RIGHT_PARENT SEMICOLON
+    (85) condicion -> . IF LEFT_PARENT exp RIGHT_PARENT IF_TRUE estatutop RIGHT_CUR_BRACKET falsop
+    (88) ciclow -> . WHILE LEFT_PARENT exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET
+    (89) ciclof -> . FOR LEFT_PARENT asign exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET
+    (90) funcesp -> . mean
+    (91) funcesp -> . mode
+    (92) funcesp -> . median
+    (93) funcesp -> . variance
+    (94) funcesp -> . max
+    (95) funcesp -> . min
+    (96) funcesp -> . staddes
+    (97) funcesp -> . boxplot
+    (98) funcesp -> . linreg
+    (56) return -> . RETURNS exp SEMICOLON
+    (14) copy -> . READ_FILE LEFT_PARENT file RIGHT_PARENT SEMICOLON
+    (16) variable -> . ID indexp
+    (99) mean -> . MEAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (100) mode -> . MODE LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (101) median -> . MEDIAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (102) variance -> . VARIANCE LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (103) max -> . MAX LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (104) min -> . MIN LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (105) staddes -> . STADDES LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (106) boxplot -> . BOXPLOT LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (107) linreg -> . LINREG LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+
+    RIGHT_CUR_BRACKET reduce using rule 108 (empty -> .)
+    ID              shift and go to state 51
+    READ            shift and go to state 52
+    WRITE           shift and go to state 53
+    IF              shift and go to state 54
+    WHILE           shift and go to state 55
+    FOR             shift and go to state 56
+    RETURNS         shift and go to state 66
+    READ_FILE       shift and go to state 67
+    MEAN            shift and go to state 68
+    MODE            shift and go to state 69
+    MEDIAN          shift and go to state 70
+    VARIANCE        shift and go to state 71
+    MAX             shift and go to state 72
+    MIN             shift and go to state 73
+    STADDES         shift and go to state 74
+    BOXPLOT         shift and go to state 75
+    LINREG          shift and go to state 76
+
+    estatutop                      shift and go to state 226
+    estatuto                       shift and go to state 38
+    empty                          shift and go to state 39
+    asign                          shift and go to state 40
+    llamada                        shift and go to state 41
+    lee                            shift and go to state 42
+    escribe                        shift and go to state 43
+    condicion                      shift and go to state 44
+    ciclow                         shift and go to state 45
+    ciclof                         shift and go to state 46
+    funcesp                        shift and go to state 47
+    return                         shift and go to state 48
+    copy                           shift and go to state 49
+    variable                       shift and go to state 50
+    mean                           shift and go to state 57
+    mode                           shift and go to state 58
+    median                         shift and go to state 59
+    variance                       shift and go to state 60
+    max                            shift and go to state 61
+    min                            shift and go to state 62
+    staddes                        shift and go to state 63
+    boxplot                        shift and go to state 64
+    linreg                         shift and go to state 65
+
+state 206
+
+    (88) ciclow -> WHILE LEFT_PARENT exp RIGHT_PARENT LEFT_CUR_BRACKET . estatutop RIGHT_CUR_BRACKET
+    (7) estatutop -> . estatuto estatutop
+    (8) estatutop -> . empty
+    (41) estatuto -> . asign
+    (42) estatuto -> . llamada
+    (43) estatuto -> . lee
+    (44) estatuto -> . escribe
+    (45) estatuto -> . condicion
+    (46) estatuto -> . ciclow
+    (47) estatuto -> . ciclof
+    (48) estatuto -> . funcesp
+    (49) estatuto -> . return
+    (50) estatuto -> . copy
+    (108) empty -> .
+    (51) asign -> . variable ASIGN exp SEMICOLON
+    (21) llamada -> . ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON
+    (52) lee -> . READ LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (53) escribe -> . WRITE LEFT_PARENT escribep RIGHT_PARENT SEMICOLON
+    (85) condicion -> . IF LEFT_PARENT exp RIGHT_PARENT IF_TRUE estatutop RIGHT_CUR_BRACKET falsop
+    (88) ciclow -> . WHILE LEFT_PARENT exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET
+    (89) ciclof -> . FOR LEFT_PARENT asign exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET
+    (90) funcesp -> . mean
+    (91) funcesp -> . mode
+    (92) funcesp -> . median
+    (93) funcesp -> . variance
+    (94) funcesp -> . max
+    (95) funcesp -> . min
+    (96) funcesp -> . staddes
+    (97) funcesp -> . boxplot
+    (98) funcesp -> . linreg
+    (56) return -> . RETURNS exp SEMICOLON
+    (14) copy -> . READ_FILE LEFT_PARENT file RIGHT_PARENT SEMICOLON
+    (16) variable -> . ID indexp
+    (99) mean -> . MEAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (100) mode -> . MODE LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (101) median -> . MEDIAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (102) variance -> . VARIANCE LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (103) max -> . MAX LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (104) min -> . MIN LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (105) staddes -> . STADDES LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (106) boxplot -> . BOXPLOT LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (107) linreg -> . LINREG LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+
+    RIGHT_CUR_BRACKET reduce using rule 108 (empty -> .)
+    ID              shift and go to state 51
+    READ            shift and go to state 52
+    WRITE           shift and go to state 53
+    IF              shift and go to state 54
+    WHILE           shift and go to state 55
+    FOR             shift and go to state 56
+    RETURNS         shift and go to state 66
+    READ_FILE       shift and go to state 67
+    MEAN            shift and go to state 68
+    MODE            shift and go to state 69
+    MEDIAN          shift and go to state 70
+    VARIANCE        shift and go to state 71
+    MAX             shift and go to state 72
+    MIN             shift and go to state 73
+    STADDES         shift and go to state 74
+    BOXPLOT         shift and go to state 75
+    LINREG          shift and go to state 76
+
+    estatutop                      shift and go to state 227
+    estatuto                       shift and go to state 38
+    empty                          shift and go to state 39
+    asign                          shift and go to state 40
+    llamada                        shift and go to state 41
+    lee                            shift and go to state 42
+    escribe                        shift and go to state 43
+    condicion                      shift and go to state 44
+    ciclow                         shift and go to state 45
+    ciclof                         shift and go to state 46
+    funcesp                        shift and go to state 47
+    return                         shift and go to state 48
+    copy                           shift and go to state 49
+    variable                       shift and go to state 50
+    mean                           shift and go to state 57
+    mode                           shift and go to state 58
+    median                         shift and go to state 59
+    variance                       shift and go to state 60
+    max                            shift and go to state 61
+    min                            shift and go to state 62
+    staddes                        shift and go to state 63
+    boxplot                        shift and go to state 64
+    linreg                         shift and go to state 65
+
+state 207
+
+    (89) ciclof -> FOR LEFT_PARENT asign exp RIGHT_PARENT . LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET
+
+    LEFT_CUR_BRACKET shift and go to state 228
+
+
+state 208
+
+    (58) logic -> logicsig exprel logic .
+
+    SEMICOLON       reduce using rule 58 (logic -> logicsig exprel logic .)
+    COMMA           reduce using rule 58 (logic -> logicsig exprel logic .)
+    RIGHT_PARENT    reduce using rule 58 (logic -> logicsig exprel logic .)
+    RIGHT_SQR_BRACKET reduce using rule 58 (logic -> logicsig exprel logic .)
+
+
+state 209
+
+    (63) relacionalp -> relsig e relacionalp .
+
+    AND             reduce using rule 63 (relacionalp -> relsig e relacionalp .)
+    OR              reduce using rule 63 (relacionalp -> relsig e relacionalp .)
+    SEMICOLON       reduce using rule 63 (relacionalp -> relsig e relacionalp .)
+    COMMA           reduce using rule 63 (relacionalp -> relsig e relacionalp .)
+    RIGHT_PARENT    reduce using rule 63 (relacionalp -> relsig e relacionalp .)
+    RIGHT_SQR_BRACKET reduce using rule 63 (relacionalp -> relsig e relacionalp .)
+
+
+state 210
+
+    (70) tp -> tsig t tp .
+
+    LESS_THAN       reduce using rule 70 (tp -> tsig t tp .)
+    GREATER_THAN    reduce using rule 70 (tp -> tsig t tp .)
+    EQUALS          reduce using rule 70 (tp -> tsig t tp .)
+    NOTEQUALS       reduce using rule 70 (tp -> tsig t tp .)
+    AND             reduce using rule 70 (tp -> tsig t tp .)
+    OR              reduce using rule 70 (tp -> tsig t tp .)
+    SEMICOLON       reduce using rule 70 (tp -> tsig t tp .)
+    COMMA           reduce using rule 70 (tp -> tsig t tp .)
+    RIGHT_PARENT    reduce using rule 70 (tp -> tsig t tp .)
+    RIGHT_SQR_BRACKET reduce using rule 70 (tp -> tsig t tp .)
+
+
+state 211
+
+    (75) fp -> fsig f fp .
+
+    PLUS            reduce using rule 75 (fp -> fsig f fp .)
+    MINUS           reduce using rule 75 (fp -> fsig f fp .)
+    LESS_THAN       reduce using rule 75 (fp -> fsig f fp .)
+    GREATER_THAN    reduce using rule 75 (fp -> fsig f fp .)
+    EQUALS          reduce using rule 75 (fp -> fsig f fp .)
+    NOTEQUALS       reduce using rule 75 (fp -> fsig f fp .)
+    AND             reduce using rule 75 (fp -> fsig f fp .)
+    OR              reduce using rule 75 (fp -> fsig f fp .)
+    SEMICOLON       reduce using rule 75 (fp -> fsig f fp .)
+    COMMA           reduce using rule 75 (fp -> fsig f fp .)
+    RIGHT_PARENT    reduce using rule 75 (fp -> fsig f fp .)
+    RIGHT_SQR_BRACKET reduce using rule 75 (fp -> fsig f fp .)
+
+
+state 212
+
+    (14) copy -> READ_FILE LEFT_PARENT file RIGHT_PARENT SEMICOLON .
+
+    ID              reduce using rule 14 (copy -> READ_FILE LEFT_PARENT file RIGHT_PARENT SEMICOLON .)
+    READ            reduce using rule 14 (copy -> READ_FILE LEFT_PARENT file RIGHT_PARENT SEMICOLON .)
+    WRITE           reduce using rule 14 (copy -> READ_FILE LEFT_PARENT file RIGHT_PARENT SEMICOLON .)
+    IF              reduce using rule 14 (copy -> READ_FILE LEFT_PARENT file RIGHT_PARENT SEMICOLON .)
+    WHILE           reduce using rule 14 (copy -> READ_FILE LEFT_PARENT file RIGHT_PARENT SEMICOLON .)
+    FOR             reduce using rule 14 (copy -> READ_FILE LEFT_PARENT file RIGHT_PARENT SEMICOLON .)
+    RETURNS         reduce using rule 14 (copy -> READ_FILE LEFT_PARENT file RIGHT_PARENT SEMICOLON .)
+    READ_FILE       reduce using rule 14 (copy -> READ_FILE LEFT_PARENT file RIGHT_PARENT SEMICOLON .)
+    MEAN            reduce using rule 14 (copy -> READ_FILE LEFT_PARENT file RIGHT_PARENT SEMICOLON .)
+    MODE            reduce using rule 14 (copy -> READ_FILE LEFT_PARENT file RIGHT_PARENT SEMICOLON .)
+    MEDIAN          reduce using rule 14 (copy -> READ_FILE LEFT_PARENT file RIGHT_PARENT SEMICOLON .)
+    VARIANCE        reduce using rule 14 (copy -> READ_FILE LEFT_PARENT file RIGHT_PARENT SEMICOLON .)
+    MAX             reduce using rule 14 (copy -> READ_FILE LEFT_PARENT file RIGHT_PARENT SEMICOLON .)
+    MIN             reduce using rule 14 (copy -> READ_FILE LEFT_PARENT file RIGHT_PARENT SEMICOLON .)
+    STADDES         reduce using rule 14 (copy -> READ_FILE LEFT_PARENT file RIGHT_PARENT SEMICOLON .)
+    BOXPLOT         reduce using rule 14 (copy -> READ_FILE LEFT_PARENT file RIGHT_PARENT SEMICOLON .)
+    LINREG          reduce using rule 14 (copy -> READ_FILE LEFT_PARENT file RIGHT_PARENT SEMICOLON .)
+    RIGHT_CUR_BRACKET reduce using rule 14 (copy -> READ_FILE LEFT_PARENT file RIGHT_PARENT SEMICOLON .)
+
+
+state 213
+
+    (99) mean -> MEAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .
+
+    ID              reduce using rule 99 (mean -> MEAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    READ            reduce using rule 99 (mean -> MEAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    WRITE           reduce using rule 99 (mean -> MEAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    IF              reduce using rule 99 (mean -> MEAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    WHILE           reduce using rule 99 (mean -> MEAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    FOR             reduce using rule 99 (mean -> MEAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    RETURNS         reduce using rule 99 (mean -> MEAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    READ_FILE       reduce using rule 99 (mean -> MEAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    MEAN            reduce using rule 99 (mean -> MEAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    MODE            reduce using rule 99 (mean -> MEAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    MEDIAN          reduce using rule 99 (mean -> MEAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    VARIANCE        reduce using rule 99 (mean -> MEAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    MAX             reduce using rule 99 (mean -> MEAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    MIN             reduce using rule 99 (mean -> MEAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    STADDES         reduce using rule 99 (mean -> MEAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    BOXPLOT         reduce using rule 99 (mean -> MEAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    LINREG          reduce using rule 99 (mean -> MEAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    RIGHT_CUR_BRACKET reduce using rule 99 (mean -> MEAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+
+
+state 214
+
+    (100) mode -> MODE LEFT_PARENT variable RIGHT_PARENT SEMICOLON .
+
+    ID              reduce using rule 100 (mode -> MODE LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    READ            reduce using rule 100 (mode -> MODE LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    WRITE           reduce using rule 100 (mode -> MODE LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    IF              reduce using rule 100 (mode -> MODE LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    WHILE           reduce using rule 100 (mode -> MODE LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    FOR             reduce using rule 100 (mode -> MODE LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    RETURNS         reduce using rule 100 (mode -> MODE LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    READ_FILE       reduce using rule 100 (mode -> MODE LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    MEAN            reduce using rule 100 (mode -> MODE LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    MODE            reduce using rule 100 (mode -> MODE LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    MEDIAN          reduce using rule 100 (mode -> MODE LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    VARIANCE        reduce using rule 100 (mode -> MODE LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    MAX             reduce using rule 100 (mode -> MODE LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    MIN             reduce using rule 100 (mode -> MODE LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    STADDES         reduce using rule 100 (mode -> MODE LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    BOXPLOT         reduce using rule 100 (mode -> MODE LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    LINREG          reduce using rule 100 (mode -> MODE LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    RIGHT_CUR_BRACKET reduce using rule 100 (mode -> MODE LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+
+
+state 215
+
+    (101) median -> MEDIAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .
+
+    ID              reduce using rule 101 (median -> MEDIAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    READ            reduce using rule 101 (median -> MEDIAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    WRITE           reduce using rule 101 (median -> MEDIAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    IF              reduce using rule 101 (median -> MEDIAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    WHILE           reduce using rule 101 (median -> MEDIAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    FOR             reduce using rule 101 (median -> MEDIAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    RETURNS         reduce using rule 101 (median -> MEDIAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    READ_FILE       reduce using rule 101 (median -> MEDIAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    MEAN            reduce using rule 101 (median -> MEDIAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    MODE            reduce using rule 101 (median -> MEDIAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    MEDIAN          reduce using rule 101 (median -> MEDIAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    VARIANCE        reduce using rule 101 (median -> MEDIAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    MAX             reduce using rule 101 (median -> MEDIAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    MIN             reduce using rule 101 (median -> MEDIAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    STADDES         reduce using rule 101 (median -> MEDIAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    BOXPLOT         reduce using rule 101 (median -> MEDIAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    LINREG          reduce using rule 101 (median -> MEDIAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    RIGHT_CUR_BRACKET reduce using rule 101 (median -> MEDIAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+
+
+state 216
+
+    (102) variance -> VARIANCE LEFT_PARENT variable RIGHT_PARENT SEMICOLON .
+
+    ID              reduce using rule 102 (variance -> VARIANCE LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    READ            reduce using rule 102 (variance -> VARIANCE LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    WRITE           reduce using rule 102 (variance -> VARIANCE LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    IF              reduce using rule 102 (variance -> VARIANCE LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    WHILE           reduce using rule 102 (variance -> VARIANCE LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    FOR             reduce using rule 102 (variance -> VARIANCE LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    RETURNS         reduce using rule 102 (variance -> VARIANCE LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    READ_FILE       reduce using rule 102 (variance -> VARIANCE LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    MEAN            reduce using rule 102 (variance -> VARIANCE LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    MODE            reduce using rule 102 (variance -> VARIANCE LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    MEDIAN          reduce using rule 102 (variance -> VARIANCE LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    VARIANCE        reduce using rule 102 (variance -> VARIANCE LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    MAX             reduce using rule 102 (variance -> VARIANCE LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    MIN             reduce using rule 102 (variance -> VARIANCE LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    STADDES         reduce using rule 102 (variance -> VARIANCE LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    BOXPLOT         reduce using rule 102 (variance -> VARIANCE LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    LINREG          reduce using rule 102 (variance -> VARIANCE LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    RIGHT_CUR_BRACKET reduce using rule 102 (variance -> VARIANCE LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+
+
+state 217
+
+    (103) max -> MAX LEFT_PARENT variable RIGHT_PARENT SEMICOLON .
+
+    ID              reduce using rule 103 (max -> MAX LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    READ            reduce using rule 103 (max -> MAX LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    WRITE           reduce using rule 103 (max -> MAX LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    IF              reduce using rule 103 (max -> MAX LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    WHILE           reduce using rule 103 (max -> MAX LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    FOR             reduce using rule 103 (max -> MAX LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    RETURNS         reduce using rule 103 (max -> MAX LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    READ_FILE       reduce using rule 103 (max -> MAX LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    MEAN            reduce using rule 103 (max -> MAX LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    MODE            reduce using rule 103 (max -> MAX LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    MEDIAN          reduce using rule 103 (max -> MAX LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    VARIANCE        reduce using rule 103 (max -> MAX LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    MAX             reduce using rule 103 (max -> MAX LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    MIN             reduce using rule 103 (max -> MAX LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    STADDES         reduce using rule 103 (max -> MAX LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    BOXPLOT         reduce using rule 103 (max -> MAX LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    LINREG          reduce using rule 103 (max -> MAX LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    RIGHT_CUR_BRACKET reduce using rule 103 (max -> MAX LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+
+
+state 218
+
+    (104) min -> MIN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .
+
+    ID              reduce using rule 104 (min -> MIN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    READ            reduce using rule 104 (min -> MIN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    WRITE           reduce using rule 104 (min -> MIN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    IF              reduce using rule 104 (min -> MIN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    WHILE           reduce using rule 104 (min -> MIN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    FOR             reduce using rule 104 (min -> MIN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    RETURNS         reduce using rule 104 (min -> MIN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    READ_FILE       reduce using rule 104 (min -> MIN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    MEAN            reduce using rule 104 (min -> MIN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    MODE            reduce using rule 104 (min -> MIN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    MEDIAN          reduce using rule 104 (min -> MIN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    VARIANCE        reduce using rule 104 (min -> MIN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    MAX             reduce using rule 104 (min -> MIN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    MIN             reduce using rule 104 (min -> MIN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    STADDES         reduce using rule 104 (min -> MIN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    BOXPLOT         reduce using rule 104 (min -> MIN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    LINREG          reduce using rule 104 (min -> MIN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    RIGHT_CUR_BRACKET reduce using rule 104 (min -> MIN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+
+
+state 219
+
+    (105) staddes -> STADDES LEFT_PARENT variable RIGHT_PARENT SEMICOLON .
+
+    ID              reduce using rule 105 (staddes -> STADDES LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    READ            reduce using rule 105 (staddes -> STADDES LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    WRITE           reduce using rule 105 (staddes -> STADDES LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    IF              reduce using rule 105 (staddes -> STADDES LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    WHILE           reduce using rule 105 (staddes -> STADDES LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    FOR             reduce using rule 105 (staddes -> STADDES LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    RETURNS         reduce using rule 105 (staddes -> STADDES LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    READ_FILE       reduce using rule 105 (staddes -> STADDES LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    MEAN            reduce using rule 105 (staddes -> STADDES LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    MODE            reduce using rule 105 (staddes -> STADDES LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    MEDIAN          reduce using rule 105 (staddes -> STADDES LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    VARIANCE        reduce using rule 105 (staddes -> STADDES LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    MAX             reduce using rule 105 (staddes -> STADDES LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    MIN             reduce using rule 105 (staddes -> STADDES LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    STADDES         reduce using rule 105 (staddes -> STADDES LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    BOXPLOT         reduce using rule 105 (staddes -> STADDES LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    LINREG          reduce using rule 105 (staddes -> STADDES LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    RIGHT_CUR_BRACKET reduce using rule 105 (staddes -> STADDES LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+
+
+state 220
+
+    (106) boxplot -> BOXPLOT LEFT_PARENT variable RIGHT_PARENT SEMICOLON .
+
+    ID              reduce using rule 106 (boxplot -> BOXPLOT LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    READ            reduce using rule 106 (boxplot -> BOXPLOT LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    WRITE           reduce using rule 106 (boxplot -> BOXPLOT LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    IF              reduce using rule 106 (boxplot -> BOXPLOT LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    WHILE           reduce using rule 106 (boxplot -> BOXPLOT LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    FOR             reduce using rule 106 (boxplot -> BOXPLOT LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    RETURNS         reduce using rule 106 (boxplot -> BOXPLOT LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    READ_FILE       reduce using rule 106 (boxplot -> BOXPLOT LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    MEAN            reduce using rule 106 (boxplot -> BOXPLOT LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    MODE            reduce using rule 106 (boxplot -> BOXPLOT LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    MEDIAN          reduce using rule 106 (boxplot -> BOXPLOT LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    VARIANCE        reduce using rule 106 (boxplot -> BOXPLOT LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    MAX             reduce using rule 106 (boxplot -> BOXPLOT LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    MIN             reduce using rule 106 (boxplot -> BOXPLOT LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    STADDES         reduce using rule 106 (boxplot -> BOXPLOT LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    BOXPLOT         reduce using rule 106 (boxplot -> BOXPLOT LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    LINREG          reduce using rule 106 (boxplot -> BOXPLOT LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    RIGHT_CUR_BRACKET reduce using rule 106 (boxplot -> BOXPLOT LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+
+
+state 221
+
+    (107) linreg -> LINREG LEFT_PARENT variable RIGHT_PARENT SEMICOLON .
+
+    ID              reduce using rule 107 (linreg -> LINREG LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    READ            reduce using rule 107 (linreg -> LINREG LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    WRITE           reduce using rule 107 (linreg -> LINREG LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    IF              reduce using rule 107 (linreg -> LINREG LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    WHILE           reduce using rule 107 (linreg -> LINREG LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    FOR             reduce using rule 107 (linreg -> LINREG LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    RETURNS         reduce using rule 107 (linreg -> LINREG LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    READ_FILE       reduce using rule 107 (linreg -> LINREG LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    MEAN            reduce using rule 107 (linreg -> LINREG LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    MODE            reduce using rule 107 (linreg -> LINREG LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    MEDIAN          reduce using rule 107 (linreg -> LINREG LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    VARIANCE        reduce using rule 107 (linreg -> LINREG LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    MAX             reduce using rule 107 (linreg -> LINREG LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    MIN             reduce using rule 107 (linreg -> LINREG LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    STADDES         reduce using rule 107 (linreg -> LINREG LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    BOXPLOT         reduce using rule 107 (linreg -> LINREG LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    LINREG          reduce using rule 107 (linreg -> LINREG LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+    RIGHT_CUR_BRACKET reduce using rule 107 (linreg -> LINREG LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
+
+
+state 222
+
+    (34) func -> FUNC returnval ARROW ID LEFT_PARENT param RIGHT_PARENT LEFT_CUR_BRACKET . varp estatutop RIGHT_CUR_BRACKET
+    (2) varp -> . var varp
+    (3) varp -> . empty
+    (24) var -> . VAR v ARROW idp SEMICOLON
+    (108) empty -> .
+
+    VAR             shift and go to state 8
+    ID              reduce using rule 108 (empty -> .)
+    READ            reduce using rule 108 (empty -> .)
+    WRITE           reduce using rule 108 (empty -> .)
+    IF              reduce using rule 108 (empty -> .)
+    WHILE           reduce using rule 108 (empty -> .)
+    FOR             reduce using rule 108 (empty -> .)
+    RETURNS         reduce using rule 108 (empty -> .)
+    READ_FILE       reduce using rule 108 (empty -> .)
+    MEAN            reduce using rule 108 (empty -> .)
+    MODE            reduce using rule 108 (empty -> .)
+    MEDIAN          reduce using rule 108 (empty -> .)
+    VARIANCE        reduce using rule 108 (empty -> .)
+    MAX             reduce using rule 108 (empty -> .)
+    MIN             reduce using rule 108 (empty -> .)
+    STADDES         reduce using rule 108 (empty -> .)
+    BOXPLOT         reduce using rule 108 (empty -> .)
+    LINREG          reduce using rule 108 (empty -> .)
+    RIGHT_CUR_BRACKET reduce using rule 108 (empty -> .)
+
+    varp                           shift and go to state 229
+    var                            shift and go to state 6
+    empty                          shift and go to state 7
+
+state 223
+
+    (37) param -> tipo_simp ARROW ID . paramp
+    (39) paramp -> . COMMA param paramp
+    (40) paramp -> . empty
+    (108) empty -> .
+
+  ! shift/reduce conflict for COMMA resolved as shift
+    COMMA           shift and go to state 231
+    RIGHT_PARENT    reduce using rule 108 (empty -> .)
+
+  ! COMMA           [ reduce using rule 108 (empty -> .) ]
+
+    paramp                         shift and go to state 230
+    empty                          shift and go to state 232
+
+state 224
+
+    (21) llamada -> ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON .
+
+    ID              reduce using rule 21 (llamada -> ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON .)
+    READ            reduce using rule 21 (llamada -> ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON .)
+    WRITE           reduce using rule 21 (llamada -> ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON .)
+    IF              reduce using rule 21 (llamada -> ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON .)
+    WHILE           reduce using rule 21 (llamada -> ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON .)
+    FOR             reduce using rule 21 (llamada -> ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON .)
+    RETURNS         reduce using rule 21 (llamada -> ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON .)
+    READ_FILE       reduce using rule 21 (llamada -> ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON .)
+    MEAN            reduce using rule 21 (llamada -> ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON .)
+    MODE            reduce using rule 21 (llamada -> ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON .)
+    MEDIAN          reduce using rule 21 (llamada -> ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON .)
+    VARIANCE        reduce using rule 21 (llamada -> ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON .)
+    MAX             reduce using rule 21 (llamada -> ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON .)
+    MIN             reduce using rule 21 (llamada -> ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON .)
+    STADDES         reduce using rule 21 (llamada -> ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON .)
+    BOXPLOT         reduce using rule 21 (llamada -> ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON .)
+    LINREG          reduce using rule 21 (llamada -> ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON .)
+    RIGHT_CUR_BRACKET reduce using rule 21 (llamada -> ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON .)
+    MULT            reduce using rule 21 (llamada -> ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON .)
+    DIV             reduce using rule 21 (llamada -> ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON .)
+    PLUS            reduce using rule 21 (llamada -> ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON .)
+    MINUS           reduce using rule 21 (llamada -> ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON .)
+    LESS_THAN       reduce using rule 21 (llamada -> ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON .)
+    GREATER_THAN    reduce using rule 21 (llamada -> ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON .)
+    EQUALS          reduce using rule 21 (llamada -> ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON .)
+    NOTEQUALS       reduce using rule 21 (llamada -> ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON .)
+    AND             reduce using rule 21 (llamada -> ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON .)
+    OR              reduce using rule 21 (llamada -> ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON .)
+    SEMICOLON       reduce using rule 21 (llamada -> ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON .)
+    COMMA           reduce using rule 21 (llamada -> ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON .)
+    RIGHT_PARENT    reduce using rule 21 (llamada -> ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON .)
+    RIGHT_SQR_BRACKET reduce using rule 21 (llamada -> ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON .)
+
+
+state 225
+
+    (22) expp -> COMMA exp expp .
+
+    RIGHT_PARENT    reduce using rule 22 (expp -> COMMA exp expp .)
+
+
+state 226
+
+    (85) condicion -> IF LEFT_PARENT exp RIGHT_PARENT IF_TRUE estatutop . RIGHT_CUR_BRACKET falsop
+
+    RIGHT_CUR_BRACKET shift and go to state 233
+
+
+state 227
+
+    (88) ciclow -> WHILE LEFT_PARENT exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop . RIGHT_CUR_BRACKET
+
+    RIGHT_CUR_BRACKET shift and go to state 234
+
+
+state 228
+
+    (89) ciclof -> FOR LEFT_PARENT asign exp RIGHT_PARENT LEFT_CUR_BRACKET . estatutop RIGHT_CUR_BRACKET
+    (7) estatutop -> . estatuto estatutop
+    (8) estatutop -> . empty
+    (41) estatuto -> . asign
+    (42) estatuto -> . llamada
+    (43) estatuto -> . lee
+    (44) estatuto -> . escribe
+    (45) estatuto -> . condicion
+    (46) estatuto -> . ciclow
+    (47) estatuto -> . ciclof
+    (48) estatuto -> . funcesp
+    (49) estatuto -> . return
+    (50) estatuto -> . copy
+    (108) empty -> .
+    (51) asign -> . variable ASIGN exp SEMICOLON
+    (21) llamada -> . ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON
+    (52) lee -> . READ LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (53) escribe -> . WRITE LEFT_PARENT escribep RIGHT_PARENT SEMICOLON
+    (85) condicion -> . IF LEFT_PARENT exp RIGHT_PARENT IF_TRUE estatutop RIGHT_CUR_BRACKET falsop
+    (88) ciclow -> . WHILE LEFT_PARENT exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET
+    (89) ciclof -> . FOR LEFT_PARENT asign exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET
+    (90) funcesp -> . mean
+    (91) funcesp -> . mode
+    (92) funcesp -> . median
+    (93) funcesp -> . variance
+    (94) funcesp -> . max
+    (95) funcesp -> . min
+    (96) funcesp -> . staddes
+    (97) funcesp -> . boxplot
+    (98) funcesp -> . linreg
+    (56) return -> . RETURNS exp SEMICOLON
+    (14) copy -> . READ_FILE LEFT_PARENT file RIGHT_PARENT SEMICOLON
+    (16) variable -> . ID indexp
+    (99) mean -> . MEAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (100) mode -> . MODE LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (101) median -> . MEDIAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (102) variance -> . VARIANCE LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (103) max -> . MAX LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (104) min -> . MIN LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (105) staddes -> . STADDES LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (106) boxplot -> . BOXPLOT LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (107) linreg -> . LINREG LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+
+    RIGHT_CUR_BRACKET reduce using rule 108 (empty -> .)
+    ID              shift and go to state 51
+    READ            shift and go to state 52
+    WRITE           shift and go to state 53
+    IF              shift and go to state 54
+    WHILE           shift and go to state 55
+    FOR             shift and go to state 56
+    RETURNS         shift and go to state 66
+    READ_FILE       shift and go to state 67
+    MEAN            shift and go to state 68
+    MODE            shift and go to state 69
+    MEDIAN          shift and go to state 70
+    VARIANCE        shift and go to state 71
+    MAX             shift and go to state 72
+    MIN             shift and go to state 73
+    STADDES         shift and go to state 74
+    BOXPLOT         shift and go to state 75
+    LINREG          shift and go to state 76
+
+    asign                          shift and go to state 40
+    estatutop                      shift and go to state 235
+    estatuto                       shift and go to state 38
+    empty                          shift and go to state 39
+    llamada                        shift and go to state 41
+    lee                            shift and go to state 42
+    escribe                        shift and go to state 43
+    condicion                      shift and go to state 44
+    ciclow                         shift and go to state 45
+    ciclof                         shift and go to state 46
+    funcesp                        shift and go to state 47
+    return                         shift and go to state 48
+    copy                           shift and go to state 49
+    variable                       shift and go to state 50
+    mean                           shift and go to state 57
+    mode                           shift and go to state 58
+    median                         shift and go to state 59
+    variance                       shift and go to state 60
+    max                            shift and go to state 61
+    min                            shift and go to state 62
+    staddes                        shift and go to state 63
+    boxplot                        shift and go to state 64
+    linreg                         shift and go to state 65
+
+state 229
+
+    (34) func -> FUNC returnval ARROW ID LEFT_PARENT param RIGHT_PARENT LEFT_CUR_BRACKET varp . estatutop RIGHT_CUR_BRACKET
+    (7) estatutop -> . estatuto estatutop
+    (8) estatutop -> . empty
+    (41) estatuto -> . asign
+    (42) estatuto -> . llamada
+    (43) estatuto -> . lee
+    (44) estatuto -> . escribe
+    (45) estatuto -> . condicion
+    (46) estatuto -> . ciclow
+    (47) estatuto -> . ciclof
+    (48) estatuto -> . funcesp
+    (49) estatuto -> . return
+    (50) estatuto -> . copy
+    (108) empty -> .
+    (51) asign -> . variable ASIGN exp SEMICOLON
+    (21) llamada -> . ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON
+    (52) lee -> . READ LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (53) escribe -> . WRITE LEFT_PARENT escribep RIGHT_PARENT SEMICOLON
+    (85) condicion -> . IF LEFT_PARENT exp RIGHT_PARENT IF_TRUE estatutop RIGHT_CUR_BRACKET falsop
+    (88) ciclow -> . WHILE LEFT_PARENT exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET
+    (89) ciclof -> . FOR LEFT_PARENT asign exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET
+    (90) funcesp -> . mean
+    (91) funcesp -> . mode
+    (92) funcesp -> . median
+    (93) funcesp -> . variance
+    (94) funcesp -> . max
+    (95) funcesp -> . min
+    (96) funcesp -> . staddes
+    (97) funcesp -> . boxplot
+    (98) funcesp -> . linreg
+    (56) return -> . RETURNS exp SEMICOLON
+    (14) copy -> . READ_FILE LEFT_PARENT file RIGHT_PARENT SEMICOLON
+    (16) variable -> . ID indexp
+    (99) mean -> . MEAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (100) mode -> . MODE LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (101) median -> . MEDIAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (102) variance -> . VARIANCE LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (103) max -> . MAX LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (104) min -> . MIN LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (105) staddes -> . STADDES LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (106) boxplot -> . BOXPLOT LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (107) linreg -> . LINREG LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+
+    RIGHT_CUR_BRACKET reduce using rule 108 (empty -> .)
+    ID              shift and go to state 51
+    READ            shift and go to state 52
+    WRITE           shift and go to state 53
+    IF              shift and go to state 54
+    WHILE           shift and go to state 55
+    FOR             shift and go to state 56
+    RETURNS         shift and go to state 66
+    READ_FILE       shift and go to state 67
+    MEAN            shift and go to state 68
+    MODE            shift and go to state 69
+    MEDIAN          shift and go to state 70
+    VARIANCE        shift and go to state 71
+    MAX             shift and go to state 72
+    MIN             shift and go to state 73
+    STADDES         shift and go to state 74
+    BOXPLOT         shift and go to state 75
+    LINREG          shift and go to state 76
+
+    estatutop                      shift and go to state 236
+    estatuto                       shift and go to state 38
+    empty                          shift and go to state 39
+    asign                          shift and go to state 40
+    llamada                        shift and go to state 41
+    lee                            shift and go to state 42
+    escribe                        shift and go to state 43
+    condicion                      shift and go to state 44
+    ciclow                         shift and go to state 45
+    ciclof                         shift and go to state 46
+    funcesp                        shift and go to state 47
+    return                         shift and go to state 48
+    copy                           shift and go to state 49
+    variable                       shift and go to state 50
+    mean                           shift and go to state 57
+    mode                           shift and go to state 58
+    median                         shift and go to state 59
+    variance                       shift and go to state 60
+    max                            shift and go to state 61
+    min                            shift and go to state 62
+    staddes                        shift and go to state 63
+    boxplot                        shift and go to state 64
+    linreg                         shift and go to state 65
+
+state 230
+
+    (37) param -> tipo_simp ARROW ID paramp .
+
+    RIGHT_PARENT    reduce using rule 37 (param -> tipo_simp ARROW ID paramp .)
+    COMMA           reduce using rule 37 (param -> tipo_simp ARROW ID paramp .)
+
+
+state 231
+
+    (39) paramp -> COMMA . param paramp
+    (37) param -> . tipo_simp ARROW ID paramp
+    (38) param -> . empty
+    (9) tipo_simp -> . INT
+    (10) tipo_simp -> . FLOAT
+    (11) tipo_simp -> . CHAR
+    (108) empty -> .
+
+    INT             shift and go to state 17
+    FLOAT           shift and go to state 18
+    CHAR            shift and go to state 19
+    RIGHT_PARENT    reduce using rule 108 (empty -> .)
+    COMMA           reduce using rule 108 (empty -> .)
+
+    param                          shift and go to state 237
+    tipo_simp                      shift and go to state 168
+    empty                          shift and go to state 169
+
+state 232
+
+    (40) paramp -> empty .
+
+    RIGHT_PARENT    reduce using rule 40 (paramp -> empty .)
+    COMMA           reduce using rule 40 (paramp -> empty .)
+
+
+state 233
+
+    (85) condicion -> IF LEFT_PARENT exp RIGHT_PARENT IF_TRUE estatutop RIGHT_CUR_BRACKET . falsop
+    (86) falsop -> . IF_FALSE estatutop RIGHT_CUR_BRACKET
+    (87) falsop -> . empty
+    (108) empty -> .
+
+    IF_FALSE        shift and go to state 239
+    ID              reduce using rule 108 (empty -> .)
+    READ            reduce using rule 108 (empty -> .)
+    WRITE           reduce using rule 108 (empty -> .)
+    IF              reduce using rule 108 (empty -> .)
+    WHILE           reduce using rule 108 (empty -> .)
+    FOR             reduce using rule 108 (empty -> .)
+    RETURNS         reduce using rule 108 (empty -> .)
+    READ_FILE       reduce using rule 108 (empty -> .)
+    MEAN            reduce using rule 108 (empty -> .)
+    MODE            reduce using rule 108 (empty -> .)
+    MEDIAN          reduce using rule 108 (empty -> .)
+    VARIANCE        reduce using rule 108 (empty -> .)
+    MAX             reduce using rule 108 (empty -> .)
+    MIN             reduce using rule 108 (empty -> .)
+    STADDES         reduce using rule 108 (empty -> .)
+    BOXPLOT         reduce using rule 108 (empty -> .)
+    LINREG          reduce using rule 108 (empty -> .)
+    RIGHT_CUR_BRACKET reduce using rule 108 (empty -> .)
+
+    falsop                         shift and go to state 238
+    empty                          shift and go to state 240
+
+state 234
+
+    (88) ciclow -> WHILE LEFT_PARENT exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET .
+
+    ID              reduce using rule 88 (ciclow -> WHILE LEFT_PARENT exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET .)
+    READ            reduce using rule 88 (ciclow -> WHILE LEFT_PARENT exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET .)
+    WRITE           reduce using rule 88 (ciclow -> WHILE LEFT_PARENT exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET .)
+    IF              reduce using rule 88 (ciclow -> WHILE LEFT_PARENT exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET .)
+    WHILE           reduce using rule 88 (ciclow -> WHILE LEFT_PARENT exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET .)
+    FOR             reduce using rule 88 (ciclow -> WHILE LEFT_PARENT exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET .)
+    RETURNS         reduce using rule 88 (ciclow -> WHILE LEFT_PARENT exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET .)
+    READ_FILE       reduce using rule 88 (ciclow -> WHILE LEFT_PARENT exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET .)
+    MEAN            reduce using rule 88 (ciclow -> WHILE LEFT_PARENT exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET .)
+    MODE            reduce using rule 88 (ciclow -> WHILE LEFT_PARENT exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET .)
+    MEDIAN          reduce using rule 88 (ciclow -> WHILE LEFT_PARENT exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET .)
+    VARIANCE        reduce using rule 88 (ciclow -> WHILE LEFT_PARENT exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET .)
+    MAX             reduce using rule 88 (ciclow -> WHILE LEFT_PARENT exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET .)
+    MIN             reduce using rule 88 (ciclow -> WHILE LEFT_PARENT exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET .)
+    STADDES         reduce using rule 88 (ciclow -> WHILE LEFT_PARENT exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET .)
+    BOXPLOT         reduce using rule 88 (ciclow -> WHILE LEFT_PARENT exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET .)
+    LINREG          reduce using rule 88 (ciclow -> WHILE LEFT_PARENT exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET .)
+    RIGHT_CUR_BRACKET reduce using rule 88 (ciclow -> WHILE LEFT_PARENT exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET .)
+
+
+state 235
+
+    (89) ciclof -> FOR LEFT_PARENT asign exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop . RIGHT_CUR_BRACKET
+
+    RIGHT_CUR_BRACKET shift and go to state 241
+
+
+state 236
+
+    (34) func -> FUNC returnval ARROW ID LEFT_PARENT param RIGHT_PARENT LEFT_CUR_BRACKET varp estatutop . RIGHT_CUR_BRACKET
+
+    RIGHT_CUR_BRACKET shift and go to state 242
+
+
+state 237
+
+    (39) paramp -> COMMA param . paramp
+    (39) paramp -> . COMMA param paramp
+    (40) paramp -> . empty
+    (108) empty -> .
+
+  ! shift/reduce conflict for COMMA resolved as shift
+    COMMA           shift and go to state 231
+    RIGHT_PARENT    reduce using rule 108 (empty -> .)
+
+  ! COMMA           [ reduce using rule 108 (empty -> .) ]
+
+    paramp                         shift and go to state 243
+    empty                          shift and go to state 232
+
+state 238
+
+    (85) condicion -> IF LEFT_PARENT exp RIGHT_PARENT IF_TRUE estatutop RIGHT_CUR_BRACKET falsop .
+
+    ID              reduce using rule 85 (condicion -> IF LEFT_PARENT exp RIGHT_PARENT IF_TRUE estatutop RIGHT_CUR_BRACKET falsop .)
+    READ            reduce using rule 85 (condicion -> IF LEFT_PARENT exp RIGHT_PARENT IF_TRUE estatutop RIGHT_CUR_BRACKET falsop .)
+    WRITE           reduce using rule 85 (condicion -> IF LEFT_PARENT exp RIGHT_PARENT IF_TRUE estatutop RIGHT_CUR_BRACKET falsop .)
+    IF              reduce using rule 85 (condicion -> IF LEFT_PARENT exp RIGHT_PARENT IF_TRUE estatutop RIGHT_CUR_BRACKET falsop .)
+    WHILE           reduce using rule 85 (condicion -> IF LEFT_PARENT exp RIGHT_PARENT IF_TRUE estatutop RIGHT_CUR_BRACKET falsop .)
+    FOR             reduce using rule 85 (condicion -> IF LEFT_PARENT exp RIGHT_PARENT IF_TRUE estatutop RIGHT_CUR_BRACKET falsop .)
+    RETURNS         reduce using rule 85 (condicion -> IF LEFT_PARENT exp RIGHT_PARENT IF_TRUE estatutop RIGHT_CUR_BRACKET falsop .)
+    READ_FILE       reduce using rule 85 (condicion -> IF LEFT_PARENT exp RIGHT_PARENT IF_TRUE estatutop RIGHT_CUR_BRACKET falsop .)
+    MEAN            reduce using rule 85 (condicion -> IF LEFT_PARENT exp RIGHT_PARENT IF_TRUE estatutop RIGHT_CUR_BRACKET falsop .)
+    MODE            reduce using rule 85 (condicion -> IF LEFT_PARENT exp RIGHT_PARENT IF_TRUE estatutop RIGHT_CUR_BRACKET falsop .)
+    MEDIAN          reduce using rule 85 (condicion -> IF LEFT_PARENT exp RIGHT_PARENT IF_TRUE estatutop RIGHT_CUR_BRACKET falsop .)
+    VARIANCE        reduce using rule 85 (condicion -> IF LEFT_PARENT exp RIGHT_PARENT IF_TRUE estatutop RIGHT_CUR_BRACKET falsop .)
+    MAX             reduce using rule 85 (condicion -> IF LEFT_PARENT exp RIGHT_PARENT IF_TRUE estatutop RIGHT_CUR_BRACKET falsop .)
+    MIN             reduce using rule 85 (condicion -> IF LEFT_PARENT exp RIGHT_PARENT IF_TRUE estatutop RIGHT_CUR_BRACKET falsop .)
+    STADDES         reduce using rule 85 (condicion -> IF LEFT_PARENT exp RIGHT_PARENT IF_TRUE estatutop RIGHT_CUR_BRACKET falsop .)
+    BOXPLOT         reduce using rule 85 (condicion -> IF LEFT_PARENT exp RIGHT_PARENT IF_TRUE estatutop RIGHT_CUR_BRACKET falsop .)
+    LINREG          reduce using rule 85 (condicion -> IF LEFT_PARENT exp RIGHT_PARENT IF_TRUE estatutop RIGHT_CUR_BRACKET falsop .)
+    RIGHT_CUR_BRACKET reduce using rule 85 (condicion -> IF LEFT_PARENT exp RIGHT_PARENT IF_TRUE estatutop RIGHT_CUR_BRACKET falsop .)
+
+
+state 239
+
+    (86) falsop -> IF_FALSE . estatutop RIGHT_CUR_BRACKET
+    (7) estatutop -> . estatuto estatutop
+    (8) estatutop -> . empty
+    (41) estatuto -> . asign
+    (42) estatuto -> . llamada
+    (43) estatuto -> . lee
+    (44) estatuto -> . escribe
+    (45) estatuto -> . condicion
+    (46) estatuto -> . ciclow
+    (47) estatuto -> . ciclof
+    (48) estatuto -> . funcesp
+    (49) estatuto -> . return
+    (50) estatuto -> . copy
+    (108) empty -> .
+    (51) asign -> . variable ASIGN exp SEMICOLON
+    (21) llamada -> . ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON
+    (52) lee -> . READ LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (53) escribe -> . WRITE LEFT_PARENT escribep RIGHT_PARENT SEMICOLON
+    (85) condicion -> . IF LEFT_PARENT exp RIGHT_PARENT IF_TRUE estatutop RIGHT_CUR_BRACKET falsop
+    (88) ciclow -> . WHILE LEFT_PARENT exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET
+    (89) ciclof -> . FOR LEFT_PARENT asign exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET
+    (90) funcesp -> . mean
+    (91) funcesp -> . mode
+    (92) funcesp -> . median
+    (93) funcesp -> . variance
+    (94) funcesp -> . max
+    (95) funcesp -> . min
+    (96) funcesp -> . staddes
+    (97) funcesp -> . boxplot
+    (98) funcesp -> . linreg
+    (56) return -> . RETURNS exp SEMICOLON
+    (14) copy -> . READ_FILE LEFT_PARENT file RIGHT_PARENT SEMICOLON
+    (16) variable -> . ID indexp
+    (99) mean -> . MEAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (100) mode -> . MODE LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (101) median -> . MEDIAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (102) variance -> . VARIANCE LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (103) max -> . MAX LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (104) min -> . MIN LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (105) staddes -> . STADDES LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (106) boxplot -> . BOXPLOT LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    (107) linreg -> . LINREG LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+
+    RIGHT_CUR_BRACKET reduce using rule 108 (empty -> .)
+    ID              shift and go to state 51
+    READ            shift and go to state 52
+    WRITE           shift and go to state 53
+    IF              shift and go to state 54
+    WHILE           shift and go to state 55
+    FOR             shift and go to state 56
+    RETURNS         shift and go to state 66
+    READ_FILE       shift and go to state 67
+    MEAN            shift and go to state 68
+    MODE            shift and go to state 69
+    MEDIAN          shift and go to state 70
+    VARIANCE        shift and go to state 71
+    MAX             shift and go to state 72
+    MIN             shift and go to state 73
+    STADDES         shift and go to state 74
+    BOXPLOT         shift and go to state 75
+    LINREG          shift and go to state 76
+
+    estatutop                      shift and go to state 244
+    estatuto                       shift and go to state 38
+    empty                          shift and go to state 39
+    asign                          shift and go to state 40
+    llamada                        shift and go to state 41
+    lee                            shift and go to state 42
+    escribe                        shift and go to state 43
+    condicion                      shift and go to state 44
+    ciclow                         shift and go to state 45
+    ciclof                         shift and go to state 46
+    funcesp                        shift and go to state 47
+    return                         shift and go to state 48
+    copy                           shift and go to state 49
+    variable                       shift and go to state 50
+    mean                           shift and go to state 57
+    mode                           shift and go to state 58
+    median                         shift and go to state 59
+    variance                       shift and go to state 60
+    max                            shift and go to state 61
+    min                            shift and go to state 62
+    staddes                        shift and go to state 63
+    boxplot                        shift and go to state 64
+    linreg                         shift and go to state 65
+
+state 240
+
+    (87) falsop -> empty .
+
+    ID              reduce using rule 87 (falsop -> empty .)
+    READ            reduce using rule 87 (falsop -> empty .)
+    WRITE           reduce using rule 87 (falsop -> empty .)
+    IF              reduce using rule 87 (falsop -> empty .)
+    WHILE           reduce using rule 87 (falsop -> empty .)
+    FOR             reduce using rule 87 (falsop -> empty .)
+    RETURNS         reduce using rule 87 (falsop -> empty .)
+    READ_FILE       reduce using rule 87 (falsop -> empty .)
+    MEAN            reduce using rule 87 (falsop -> empty .)
+    MODE            reduce using rule 87 (falsop -> empty .)
+    MEDIAN          reduce using rule 87 (falsop -> empty .)
+    VARIANCE        reduce using rule 87 (falsop -> empty .)
+    MAX             reduce using rule 87 (falsop -> empty .)
+    MIN             reduce using rule 87 (falsop -> empty .)
+    STADDES         reduce using rule 87 (falsop -> empty .)
+    BOXPLOT         reduce using rule 87 (falsop -> empty .)
+    LINREG          reduce using rule 87 (falsop -> empty .)
+    RIGHT_CUR_BRACKET reduce using rule 87 (falsop -> empty .)
+
+
+state 241
+
+    (89) ciclof -> FOR LEFT_PARENT asign exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET .
+
+    ID              reduce using rule 89 (ciclof -> FOR LEFT_PARENT asign exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET .)
+    READ            reduce using rule 89 (ciclof -> FOR LEFT_PARENT asign exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET .)
+    WRITE           reduce using rule 89 (ciclof -> FOR LEFT_PARENT asign exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET .)
+    IF              reduce using rule 89 (ciclof -> FOR LEFT_PARENT asign exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET .)
+    WHILE           reduce using rule 89 (ciclof -> FOR LEFT_PARENT asign exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET .)
+    FOR             reduce using rule 89 (ciclof -> FOR LEFT_PARENT asign exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET .)
+    RETURNS         reduce using rule 89 (ciclof -> FOR LEFT_PARENT asign exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET .)
+    READ_FILE       reduce using rule 89 (ciclof -> FOR LEFT_PARENT asign exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET .)
+    MEAN            reduce using rule 89 (ciclof -> FOR LEFT_PARENT asign exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET .)
+    MODE            reduce using rule 89 (ciclof -> FOR LEFT_PARENT asign exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET .)
+    MEDIAN          reduce using rule 89 (ciclof -> FOR LEFT_PARENT asign exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET .)
+    VARIANCE        reduce using rule 89 (ciclof -> FOR LEFT_PARENT asign exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET .)
+    MAX             reduce using rule 89 (ciclof -> FOR LEFT_PARENT asign exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET .)
+    MIN             reduce using rule 89 (ciclof -> FOR LEFT_PARENT asign exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET .)
+    STADDES         reduce using rule 89 (ciclof -> FOR LEFT_PARENT asign exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET .)
+    BOXPLOT         reduce using rule 89 (ciclof -> FOR LEFT_PARENT asign exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET .)
+    LINREG          reduce using rule 89 (ciclof -> FOR LEFT_PARENT asign exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET .)
+    RIGHT_CUR_BRACKET reduce using rule 89 (ciclof -> FOR LEFT_PARENT asign exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET .)
+
+
+state 242
+
+    (34) func -> FUNC returnval ARROW ID LEFT_PARENT param RIGHT_PARENT LEFT_CUR_BRACKET varp estatutop RIGHT_CUR_BRACKET .
+
+    FUNC            reduce using rule 34 (func -> FUNC returnval ARROW ID LEFT_PARENT param RIGHT_PARENT LEFT_CUR_BRACKET varp estatutop RIGHT_CUR_BRACKET .)
+    DO              reduce using rule 34 (func -> FUNC returnval ARROW ID LEFT_PARENT param RIGHT_PARENT LEFT_CUR_BRACKET varp estatutop RIGHT_CUR_BRACKET .)
+
+
+state 243
+
+    (39) paramp -> COMMA param paramp .
+
+    RIGHT_PARENT    reduce using rule 39 (paramp -> COMMA param paramp .)
+    COMMA           reduce using rule 39 (paramp -> COMMA param paramp .)
+
+
+state 244
+
+    (86) falsop -> IF_FALSE estatutop . RIGHT_CUR_BRACKET
+
+    RIGHT_CUR_BRACKET shift and go to state 245
+
+
+state 245
+
+    (86) falsop -> IF_FALSE estatutop RIGHT_CUR_BRACKET .
+
+    ID              reduce using rule 86 (falsop -> IF_FALSE estatutop RIGHT_CUR_BRACKET .)
+    READ            reduce using rule 86 (falsop -> IF_FALSE estatutop RIGHT_CUR_BRACKET .)
+    WRITE           reduce using rule 86 (falsop -> IF_FALSE estatutop RIGHT_CUR_BRACKET .)
+    IF              reduce using rule 86 (falsop -> IF_FALSE estatutop RIGHT_CUR_BRACKET .)
+    WHILE           reduce using rule 86 (falsop -> IF_FALSE estatutop RIGHT_CUR_BRACKET .)
+    FOR             reduce using rule 86 (falsop -> IF_FALSE estatutop RIGHT_CUR_BRACKET .)
+    RETURNS         reduce using rule 86 (falsop -> IF_FALSE estatutop RIGHT_CUR_BRACKET .)
+    READ_FILE       reduce using rule 86 (falsop -> IF_FALSE estatutop RIGHT_CUR_BRACKET .)
+    MEAN            reduce using rule 86 (falsop -> IF_FALSE estatutop RIGHT_CUR_BRACKET .)
+    MODE            reduce using rule 86 (falsop -> IF_FALSE estatutop RIGHT_CUR_BRACKET .)
+    MEDIAN          reduce using rule 86 (falsop -> IF_FALSE estatutop RIGHT_CUR_BRACKET .)
+    VARIANCE        reduce using rule 86 (falsop -> IF_FALSE estatutop RIGHT_CUR_BRACKET .)
+    MAX             reduce using rule 86 (falsop -> IF_FALSE estatutop RIGHT_CUR_BRACKET .)
+    MIN             reduce using rule 86 (falsop -> IF_FALSE estatutop RIGHT_CUR_BRACKET .)
+    STADDES         reduce using rule 86 (falsop -> IF_FALSE estatutop RIGHT_CUR_BRACKET .)
+    BOXPLOT         reduce using rule 86 (falsop -> IF_FALSE estatutop RIGHT_CUR_BRACKET .)
+    LINREG          reduce using rule 86 (falsop -> IF_FALSE estatutop RIGHT_CUR_BRACKET .)
+    RIGHT_CUR_BRACKET reduce using rule 86 (falsop -> IF_FALSE estatutop RIGHT_CUR_BRACKET .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for COMMA in state 223 resolved as shift
+WARNING: shift/reduce conflict for COMMA in state 237 resolved as shift

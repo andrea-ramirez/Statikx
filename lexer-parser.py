@@ -1,6 +1,23 @@
 import ply.lex as lex
 import ply.yacc as yacc
 import sys
+from cuboSemantico import CuboSemantico
+
+# Directorio de funciones
+# {string, [string]}
+# {nombre, [tipo, direccionVirtual, apuntador]}
+dirFunc = {}
+
+# Tabla de constantes
+# {int, int}
+# {nombre, direccionVirtual}
+tablaConst = {}
+
+# Cubo Semántico
+semantica = CuboSemantico()
+# Se accede al cubo semantico de la siguiente forma:
+# print(semantica.tablaSimbolos[2][2]['+'])
+
 
 #  LEXER
 reserved = {
