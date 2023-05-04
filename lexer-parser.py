@@ -129,7 +129,9 @@ def t_COMMENT(t):
     pass
 
 def t_CTEC(t):
-  r'[a-zA-Z0-9!@#$%^&_]'
+  r'\'.?\''
+  t.value = t.value[:-1]
+  t.value = t.value[1:]
   t.value = ord(t.value)
   return t
 
@@ -145,6 +147,18 @@ def t_error(t):
 
 #lexer = lex.lex(debug=True)
 lexer = lex.lex()
+
+def test_lexer():
+  lexer.input('script d; DO { var char -> \'c\'; }')
+
+  while True:
+    tok = lexer.token()
+    if not tok:
+      break;
+
+    print(tok)
+
+test_lexer()
 
 precedence = (
     ('left', 'PLUS', 'MINUS'),
@@ -454,4 +468,4 @@ def test(file_name):
     else: 
       break
 
-test("test.txt")
+# test("test.txt")
