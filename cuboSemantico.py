@@ -298,5 +298,5 @@ class CuboSemantico:
     def _init_(self,tablaSimbolos):
         self.tablaSi = tablaSimbolos
 
-prueba = CuboSemantico()
-print(prueba.tablaSimbolos[1][2]['+'])
+# prueba = CuboSemantico()
+# print(prueba.tablaSimbolos[1][2]['+'])

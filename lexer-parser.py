@@ -1,7 +1,7 @@
 import ply.lex as lex
 import ply.yacc as yacc
-import sys
 from cuboSemantico import CuboSemantico
+import codecs
 
 # Directorio de funciones
 # {string, [string]}
@@ -26,8 +26,8 @@ reserved = {
     'func' : 'FUNC',            # func
     'DO' : 'DO',                # DO main function
     'if' : 'IF',                # if
-    'True{' : 'IF_TRUE',        # True{ part of if condition
-    'False{' : 'IF_FALSE',      # False{ part of if condition
+    'True' : 'IF_TRUE',         # True{ part of if condition
+    'False' : 'IF_FALSE',       # False{ part of if condition
     'while' : 'WHILE',          # while
     'for' : 'FOR',              # for
     'returns' : 'RETURNS',      # returns statement
@@ -144,10 +144,8 @@ def t_error(t):
 #lexer = lex.lex(debug=True)
 lexer = lex.lex()
 
-def test_lexer(file_name):
-    file = open(file_name)
-    print("\nTesting: {}".format(file_name))
-
+def test_lexer(fileName):
+    file = open(fileName)
     accum = ""
 
     while True:
@@ -157,8 +155,6 @@ def test_lexer(file_name):
         else: 
             break
 
-    print(accum)
-
     lexer.input(accum)
     while True:
         tok = lexer.token()
@@ -167,7 +163,7 @@ def test_lexer(file_name):
         print(tok)
 
 
-test_lexer("testPropuesta.txt")
+# test_lexer("testP.txt")
 
 precedence = (
     ('left', 'PLUS', 'MINUS'),
@@ -232,9 +228,11 @@ def p_variable(p):
 
 def p_llamada(p):
     '''
-    llamada : ID LEFT_PARENT exp expp RIGHT_PARENT SEMICOLON
-    expp : COMMA exp expp 
+    llamada : ID LEFT_PARENT expp RIGHT_PARENT SEMICOLON
+    expp : exp exppp
          | empty
+    exppp : COMMA exp exppp
+          | empty
     '''
     p[0] = None
 
@@ -361,13 +359,14 @@ def p_f(p):
       | CTEC
       | variable
       | llamada
+      | funcesp
     '''
     p[0] = None
 
 def p_condicion(p):
     '''
-    condicion : IF LEFT_PARENT exp RIGHT_PARENT IF_TRUE estatutop RIGHT_CUR_BRACKET falsop
-    falsop : IF_FALSE estatutop RIGHT_CUR_BRACKET 
+    condicion : IF LEFT_PARENT exp RIGHT_PARENT IF_TRUE LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET falsop
+    falsop : IF_FALSE  LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET 
            | empty
     '''
     p[0] = None
@@ -395,6 +394,7 @@ def p_funcesp(p):
             | staddes
             | boxplot
             | linreg
+            | copy
     '''
     p[0] = None
 
@@ -459,8 +459,6 @@ def p_empty(p):
 
 def p_error(p):
   if p:
-    #   print("Syntax error at '%s'" % p.value)
-    #   print(p.linepo)
     print("ERROR")
     print(f"{p.type}({p.value}) on line {p.lineno}")
   else:
@@ -469,69 +467,13 @@ def p_error(p):
 # Build the parser
 parser = yacc.yacc(debug=True)
 
-#Gives error at newline
-# def test(file_name):
-#   file = open(file_name)
-#   print("\nTesting: {}".format(file_name))
+filename = 'testPropuesta.txt'
+fp = codecs.open(filename, "r", "utf-8")
+text = fp.read()
+fp.close()
 
-#   while True:
-#     line = file.readline()
-#     if (line):
-#       parser.parse(line)
-#     else: 
-#       break
-
-parser.parse("""
-script example01;
-
-!!Variables globales
-var int -> x, y;
-var dataframe -> df1, df2;
-
-!!Funciones
-func float -> half(int -> x1){
-    returns x1/2;
-}
-
-func void -> leerVariable(){
-    var int -> x;
-    get(x);
-    while(x < 3){
-        get(x);
-    }
-}
-
-DO
-{
-
-    df1 = copy("DatosEnero2023.csv");
-    df2 = df1;
-
-    var int -> jumpSize;
-    jumpSize = leerVariable();
-
-    i = 0;
-    for(i = 0; jumpSize){
-        !! df1[0,i] = -1;
-        x = x + y;
-    }
-
-    !! Draws boxplot of edited df1 and original df2 dataframes 
-    put(boxplot(df1));
-    put(boxplot(df2));
-        
-    if(mean(df1) > mean(df2))
-    True{
-        put("El mayor promedio es el de dataframe df1 con ");
-        put(mean(df1));
-    }False{
-        put("El mayor promedio es el de dataframe df2 con ");
-        put(mean(df2));
-    }
-    
-}
-""")
-
-# test("test.txt")
-# # test("testPropuesta.txt")
-# test("testP.txt")
+with open(filename) as fp:
+    try:
+        yacc.parse(text)
+    except EOFError:
+        pass

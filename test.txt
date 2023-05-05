@@ -1,3 +1,1 @@
 script d ; DO { }
-script d ; DO { put(fd); }
-script d; var char -> c; DO { var char -> c; }
