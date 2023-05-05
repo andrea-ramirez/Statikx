@@ -1,0 +1,47 @@
+script example01;
+
+!!Variables globales
+var int -> x, y;
+var dataframe -> df1, df2;
+
+!!Funciones
+func float -> half(int -> x1){
+    returns x1/2;
+}
+
+func void -> leerVariable(){
+    var int -> x;
+    get(x);
+    while(x < 3){
+        get(x);
+    }
+}
+
+DO
+{
+
+    df1 = copy("DatosEnero2023.csv");
+    df2 = df1;
+
+    var int -> jumpSize;
+    jumpSize = leerVariable();
+
+    i = 0;
+    for(i = 0; jumpSize){
+        df1[0,i] = -1;
+    }
+
+    !! Draws boxplot of edited df1 and original df2 dataframes 
+    put(boxplot(df1));
+    put(boxplot(df2));
+        
+    if(mean(df1) > mean(df2))
+    True{
+        put("El mayor promedio es el de dataframe df1 con ");
+        put(mean(df1));
+    }False{
+        put("El mayor promedio es el de dataframe df2 con ");
+        put(mean(df2));
+    }
+    
+}

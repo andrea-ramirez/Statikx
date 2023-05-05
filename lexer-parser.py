@@ -47,12 +47,12 @@ reserved = {
     'stadDes' : 'STADDES',      # stadDes special function standard deviation
     'boxplot' : 'BOXPLOT',      # boxPlot special function
     'linReg' : 'LINREG',        # linReg special function simple linear regression
+    'dataframe' : 'DATAFRAME'   # dataframe donde cargar datos
 }
 
 tokens = [
     'ID',                   # id
     'LETRERO',              # "letreros"
-    'DATAFRAME',            # dataframe
     'CTEI',                 # constant int
     'CTEF',                 # constant float
     'CTEC',                 # constant char
@@ -78,10 +78,6 @@ tokens = [
     'COMMA',                # ,
     'COMMENT',              # comments initiated by two consecutive exclamation marks - !!MyComent
 ] + list(reserved.values())
-
-#  MISSING 
-# dataframe
-# checar character
 
 t_ASIGN= r'\='
 t_NOTEQUALS= r'!='
@@ -148,17 +144,30 @@ def t_error(t):
 #lexer = lex.lex(debug=True)
 lexer = lex.lex()
 
-def test_lexer():
-  lexer.input('script d; DO { var char -> \'c\'; }')
+def test_lexer(file_name):
+    file = open(file_name)
+    print("\nTesting: {}".format(file_name))
 
-  while True:
-    tok = lexer.token()
-    if not tok:
-      break;
+    accum = ""
 
-    print(tok)
+    while True:
+        line = file.readline()
+        if (line):
+            accum += line
+        else: 
+            break
 
-test_lexer()
+    print(accum)
+
+    lexer.input(accum)
+    while True:
+        tok = lexer.token()
+        if not tok:
+            break
+        print(tok)
+
+
+test_lexer("testPropuesta.txt")
 
 precedence = (
     ('left', 'PLUS', 'MINUS'),
@@ -178,7 +187,7 @@ def p_programa(p):
 
 def p_bloque(p):
     '''
-    bloque : DO LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET
+    bloque : DO LEFT_CUR_BRACKET varp funcp estatutop RIGHT_CUR_BRACKET
     estatutop : estatuto estatutop 
               | empty
     '''
@@ -201,7 +210,7 @@ def p_tipo_comp(p):
 
 def p_copy(p):
     '''
-    copy : READ_FILE LEFT_PARENT file RIGHT_PARENT SEMICOLON
+    copy : READ_FILE LEFT_PARENT LETRERO RIGHT_PARENT SEMICOLON
     '''
     p[0] = None
 
@@ -238,9 +247,9 @@ def p_var(p):
        | empty
     vpp : COMMA CTEI 
         | empty
-    idp : ID
-        | COMMA ID idp
-        | empty
+    idp : ID idpp
+    idpp : COMMA ID idpp
+         | empty
     '''
     p[0] = None
 
@@ -450,22 +459,79 @@ def p_empty(p):
 
 def p_error(p):
   if p:
-      print("Syntax error at '%s'" % p.value)
+    #   print("Syntax error at '%s'" % p.value)
+    #   print(p.linepo)
+    print("ERROR")
+    print(f"{p.type}({p.value}) on line {p.lineno}")
   else:
       print("Syntax error at EOF")
 
 # Build the parser
 parser = yacc.yacc(debug=True)
 
-def test(file_name):
-  file = open(file_name)
-  print("\nTesting: {}".format(file_name))
+#Gives error at newline
+# def test(file_name):
+#   file = open(file_name)
+#   print("\nTesting: {}".format(file_name))
 
-  while True:
-    line = file.readline()
-    if (line):
-      parser.parse(line)
-    else: 
-      break
+#   while True:
+#     line = file.readline()
+#     if (line):
+#       parser.parse(line)
+#     else: 
+#       break
+
+parser.parse("""
+script example01;
+
+!!Variables globales
+var int -> x, y;
+var dataframe -> df1, df2;
+
+!!Funciones
+func float -> half(int -> x1){
+    returns x1/2;
+}
+
+func void -> leerVariable(){
+    var int -> x;
+    get(x);
+    while(x < 3){
+        get(x);
+    }
+}
+
+DO
+{
+
+    df1 = copy("DatosEnero2023.csv");
+    df2 = df1;
+
+    var int -> jumpSize;
+    jumpSize = leerVariable();
+
+    i = 0;
+    for(i = 0; jumpSize){
+        !! df1[0,i] = -1;
+        x = x + y;
+    }
+
+    !! Draws boxplot of edited df1 and original df2 dataframes 
+    put(boxplot(df1));
+    put(boxplot(df2));
+        
+    if(mean(df1) > mean(df2))
+    True{
+        put("El mayor promedio es el de dataframe df1 con ");
+        put(mean(df1));
+    }False{
+        put("El mayor promedio es el de dataframe df2 con ");
+        put(mean(df2));
+    }
+    
+}
+""")
 
 # test("test.txt")
+# # test("testPropuesta.txt")
+# test("testP.txt")
