@@ -11,6 +11,7 @@ func float -> half(int -> x1){
 
 func void -> leerVariable(){
 	var int -> x;
+    var dataframe -> df1;
     get(x);
 	while(x < 3){
 	    get(x);
@@ -20,6 +21,11 @@ func void -> leerVariable(){
 DO
 {
     var int -> jumpSize;
+
+    func char -> probarChar(){
+        var int -> prueba;
+        returns 's';
+    }
 
     df1 = copy("DatosEnero2023.csv");;
     df2 = df1;

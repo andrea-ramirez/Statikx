@@ -1,12 +1,9 @@
 import ply.lex as lex
 import ply.yacc as yacc
 from cuboSemantico import CuboSemantico
+from directorioFunciones import DirectorioFunciones
 import codecs
-
-# Directorio de funciones
-# {string, [string]}
-# {nombre, [tipo, direccionVirtual, apuntador]}
-dirFunc = {}
+import json
 
 # Tabla de constantes
 # {int, int}
@@ -18,6 +15,9 @@ semantica = CuboSemantico()
 # Se accede al cubo semantico de la siguiente forma:
 # print(semantica.tablaSimbolos[2][2]['+'])
 
+currentScript = ""
+currentFunction = ""
+currentTypeVar = ""
 
 #  LEXER
 reserved = {
@@ -173,7 +173,7 @@ precedence = (
 # PARSER
 def p_programa(p):
     '''
-    programa : SCRIPT ID SEMICOLON varp funcp bloque
+    programa : SCRIPT pnCrearDirFunc ID pnScriptFuncDir SEMICOLON varp funcp bloque
     varp : var varp 
          | empty
     funcp : func funcp 
@@ -183,7 +183,7 @@ def p_programa(p):
 
 def p_bloque(p):
     '''
-    bloque : DO LEFT_CUR_BRACKET varp funcp estatutop RIGHT_CUR_BRACKET
+    bloque : DO LEFT_CUR_BRACKET varp funcp estatutop RIGHT_CUR_BRACKET pnEndScript
     estatutop : estatuto estatutop 
               | empty
     '''
@@ -191,9 +191,9 @@ def p_bloque(p):
 
 def p_tipo_simp(p):
     '''
-    tipo_simp : INT 
-              | FLOAT 
-              | CHAR
+    tipo_simp : INT pnSaveTypeVar
+              | FLOAT pnSaveTypeVar
+              | CHAR pnSaveTypeVar
     '''
     p[0] = None
 
@@ -238,24 +238,24 @@ def p_llamada(p):
 
 def p_var(p):
     '''
-    var : VAR v ARROW idp SEMICOLON
-    v : DATAFRAME 
+    var : VAR pnCheckTablaVar v ARROW idp SEMICOLON
+    v : DATAFRAME pnSaveTypeVar
       | tipo_simp vp
     vp : LEFT_SQR_BRACKET CTEI vpp RIGHT_SQR_BRACKET 
        | empty
     vpp : COMMA CTEI 
         | empty
-    idp : ID idpp
-    idpp : COMMA ID idpp
+    idp : ID pnCheckNameTablaVar idpp
+    idpp : COMMA ID pnCheckNameTablaVar idpp
          | empty
     '''
     p[0] = None
 
 def p_func(p):
     '''
-    func : FUNC returnval ARROW ID LEFT_PARENT param RIGHT_PARENT LEFT_CUR_BRACKET varp estatutop RIGHT_CUR_BRACKET
+    func : FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT param RIGHT_PARENT LEFT_CUR_BRACKET varp estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction
     returnval : tipo_simp 
-              | VOID
+              | VOID pnSaveTypeVar
     '''
     p[0] = None
 
@@ -452,6 +452,83 @@ def p_linreg(p):
     '''
     p[0] = None
 
+
+# Puntos neuralgicos
+
+# Crear Directorio de Funciones al principio del Script
+def p_pnCrearDirFunc(p):
+    '''
+    pnCrearDirFunc : empty
+    '''
+    p[0] = None
+    global dirFunc 
+    dirFunc = DirectorioFunciones()
+    # print("Se crea directorio de funciones")
+
+# Guardar registro de la funcion Script en DirFunc
+def p_pnScriptFuncDir(p):
+    '''
+    pnScriptFuncDir : empty
+    '''
+    global currentScript 
+    currentScript = p[-1]
+    dirFunc.insertNewScript(currentScript)
+    p[0] = None
+
+def p_pnCheckTablaVar(p):
+    '''
+    pnCheckTablaVar : empty
+    '''
+    # Función checa si ya existe una tabla de variables para esta función
+    dirFunc.createTablaVar(currentScript,currentFunction)
+    p[0] = None
+
+def p_pnSaveTypeVar(p):
+    '''
+    pnSaveTypeVar : empty
+    '''
+    global currentTypeVar 
+    currentTypeVar = p[-1]
+    # print("Se cambió currentTypeVar a: {}".format(currentTypeVar))
+    p[0] = None
+
+def p_pnCheckNameTablaVar(p):
+    '''
+    pnCheckNameTablaVar : empty
+    '''
+    dirFunc.insertVariable(p[-1],currentTypeVar,currentScript,currentFunction)
+    p[0] = None
+
+def p_pnAddFuncinDir(p):
+    '''
+    pnAddFuncinDir : empty
+    '''
+    global currentFunction
+    currentFunction = p[-1]
+    # print("Se cambió currentFunction a {}".format(currentFunction))
+
+    # Si quires insertar functions como variables dentro de modulos, I think it would be here.
+    # Check current function / script and so on, como en createTablaVar
+    dirFunc.insertNewFunction(p[-1],currentTypeVar)
+
+    p[0] = None
+
+def p_pnCloseCurrentFunction(p):
+    '''
+    pnCloseCurrentFunction : empty
+    '''
+    global currentFunction
+    currentFunction = ""
+    # Darle cuello a la función?
+    p[0] = None
+
+def p_pnEndScript(p):
+    '''
+    pnEndScript : empty
+    '''
+    dirFunc.endScript(currentScript)
+    p[0] = None
+
 def p_empty(p):
     '''
     empty :'''
@@ -463,6 +540,12 @@ def p_error(p):
     print(f"{p.type}({p.value}) on line {p.lineno}")
   else:
       print("Syntax error at EOF")
+
+#Function to print directorio de funciones
+def printDir():
+    print("\n\n\n\n")
+    prettyDirFunc = json.dumps(dirFunc.registrosFunciones,indent=4)
+    print(prettyDirFunc)
 
 # Build the parser
 parser = yacc.yacc(debug=True)
@@ -477,3 +560,5 @@ with open(filename) as fp:
         yacc.parse(text)
     except EOFError:
         pass
+
+# printDir()
