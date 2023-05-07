@@ -253,7 +253,7 @@ def p_var(p):
 
 def p_func(p):
     '''
-    func : FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT param RIGHT_PARENT LEFT_CUR_BRACKET varp estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction
+    func : FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar param RIGHT_PARENT LEFT_CUR_BRACKET varp estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction
     returnval : tipo_simp 
               | VOID pnSaveTypeVar
     '''
@@ -261,10 +261,13 @@ def p_func(p):
 
 def p_param(p):
     '''
-    param : tipo_simp ARROW ID paramp 
+    param : paramlist
           | empty
-    paramp : COMMA param paramp 
-           | empty
+    paramlist : tipoparam ARROW ID paramlistp
+    tipoparam : tipo_simp
+              | DATAFRAME
+    paramlistp : COMMA paramlist
+               | empty
     '''
     p[0] = None
 

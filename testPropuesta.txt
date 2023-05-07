@@ -5,7 +5,7 @@ var int -> x, y;
 var dataframe -> df1, df2;
 
 !!Funciones
-func float -> half(int -> x1){
+func float -> half(int -> x1, int -> x2){
 	returns x1/2;
 }
 
