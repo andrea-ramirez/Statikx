@@ -25,7 +25,7 @@ class DirectorioFunciones:
             sys.exit()
         else:
             self.registrosFunciones[nameFunction] = [returnValue,"","",""]
-            print("Se ha insertado al Directorio de Funciones la funcion {} con attributos {}".format(nameFunction,self.registrosFunciones[nameFunction]))
+            # print("Se ha insertado al Directorio de Funciones la funcion {} con attributos {}".format(nameFunction,self.registrosFunciones[nameFunction]))
 
     @classmethod
     def createTablaVar(self,currentScript,currentFunction):

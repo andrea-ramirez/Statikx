@@ -263,9 +263,9 @@ def p_param(p):
     '''
     param : paramlist
           | empty
-    paramlist : tipoparam ARROW ID paramlistp
+    paramlist : tipoparam ARROW ID pnAddParametersTablaVar paramlistp
     tipoparam : tipo_simp
-              | DATAFRAME
+              | DATAFRAME pnSaveTypeVar
     paramlistp : COMMA paramlist
                | empty
     '''
@@ -514,6 +514,14 @@ def p_pnAddFuncinDir(p):
     # Check current function / script and so on, como en createTablaVar
     dirFunc.insertNewFunction(p[-1],currentTypeVar)
 
+    p[0] = None
+
+def p_pnAddParametersTablaVar(p):
+    '''
+    pnAddParametersTablaVar : empty
+    '''
+    # Checar que el parametro no exista en tabla de variables e insertar
+    dirFunc.insertVariable(p[-1],currentTypeVar,currentScript,currentFunction)
     p[0] = None
 
 def p_pnCloseCurrentFunction(p):

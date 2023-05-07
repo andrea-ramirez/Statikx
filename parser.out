@@ -47,9 +47,9 @@ Rule 37    returnval -> tipo_simp
 Rule 38    returnval -> VOID pnSaveTypeVar
 Rule 39    param -> paramlist
 Rule 40    param -> empty
-Rule 41    paramlist -> tipoparam ARROW ID paramlistp
+Rule 41    paramlist -> tipoparam ARROW ID pnAddParametersTablaVar paramlistp
 Rule 42    tipoparam -> tipo_simp
-Rule 43    tipoparam -> DATAFRAME
+Rule 43    tipoparam -> DATAFRAME pnSaveTypeVar
 Rule 44    paramlistp -> COMMA paramlist
 Rule 45    paramlistp -> empty
 Rule 46    estatuto -> asign
@@ -127,9 +127,10 @@ Rule 117   pnCheckTablaVar -> empty
 Rule 118   pnSaveTypeVar -> empty
 Rule 119   pnCheckNameTablaVar -> empty
 Rule 120   pnAddFuncinDir -> empty
-Rule 121   pnCloseCurrentFunction -> empty
-Rule 122   pnEndScript -> empty
-Rule 123   empty -> <empty>
+Rule 121   pnAddParametersTablaVar -> empty
+Rule 122   pnCloseCurrentFunction -> empty
+Rule 123   pnEndScript -> empty
+Rule 124   empty -> <empty>
 
 Terminals, with rules where they appear
 
@@ -198,7 +199,7 @@ ciclow               : 51
 condicion            : 50
 copy                 : 55 105
 e                    : 67 68
-empty                : 3 5 8 18 20 23 25 30 32 35 40 45 64 69 76 81 93 115 116 117 118 119 120 121 122
+empty                : 3 5 8 18 20 23 25 30 32 35 40 45 64 69 76 81 93 115 116 117 118 119 120 121 122 123
 escribe              : 49
 escribep             : 58
 estatuto             : 7
@@ -233,12 +234,13 @@ param                : 36
 paramlist            : 39 44
 paramlistp           : 41
 pnAddFuncinDir       : 36
+pnAddParametersTablaVar : 41
 pnCheckNameTablaVar  : 33 34
 pnCheckTablaVar      : 26 36
 pnCloseCurrentFunction : 36
 pnCrearDirFunc       : 1
 pnEndScript          : 6
-pnSaveTypeVar        : 9 10 11 27 38
+pnSaveTypeVar        : 9 10 11 27 38 43
 pnScriptFuncDir      : 1
 programa             : 0
 relacionalp          : 67 68
@@ -281,9 +283,9 @@ state 2
 
     (1) programa -> SCRIPT . pnCrearDirFunc ID pnScriptFuncDir SEMICOLON varp funcp bloque
     (115) pnCrearDirFunc -> . empty
-    (123) empty -> .
+    (124) empty -> .
 
-    ID              reduce using rule 123 (empty -> .)
+    ID              reduce using rule 124 (empty -> .)
 
     pnCrearDirFunc                 shift and go to state 3
     empty                          shift and go to state 4
@@ -306,9 +308,9 @@ state 5
 
     (1) programa -> SCRIPT pnCrearDirFunc ID . pnScriptFuncDir SEMICOLON varp funcp bloque
     (116) pnScriptFuncDir -> . empty
-    (123) empty -> .
+    (124) empty -> .
 
-    SEMICOLON       reduce using rule 123 (empty -> .)
+    SEMICOLON       reduce using rule 124 (empty -> .)
 
     pnScriptFuncDir                shift and go to state 6
     empty                          shift and go to state 7
@@ -333,11 +335,11 @@ state 8
     (2) varp -> . var varp
     (3) varp -> . empty
     (26) var -> . VAR pnCheckTablaVar v ARROW idp SEMICOLON
-    (123) empty -> .
+    (124) empty -> .
 
     VAR             shift and go to state 12
-    FUNC            reduce using rule 123 (empty -> .)
-    DO              reduce using rule 123 (empty -> .)
+    FUNC            reduce using rule 124 (empty -> .)
+    DO              reduce using rule 124 (empty -> .)
 
     varp                           shift and go to state 9
     var                            shift and go to state 10
@@ -349,10 +351,10 @@ state 9
     (4) funcp -> . func funcp
     (5) funcp -> . empty
     (36) func -> . FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar param RIGHT_PARENT LEFT_CUR_BRACKET varp estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction
-    (123) empty -> .
+    (124) empty -> .
 
     FUNC            shift and go to state 16
-    DO              reduce using rule 123 (empty -> .)
+    DO              reduce using rule 124 (empty -> .)
 
     funcp                          shift and go to state 13
     func                           shift and go to state 14
@@ -364,29 +366,29 @@ state 10
     (2) varp -> . var varp
     (3) varp -> . empty
     (26) var -> . VAR pnCheckTablaVar v ARROW idp SEMICOLON
-    (123) empty -> .
+    (124) empty -> .
 
     VAR             shift and go to state 12
-    FUNC            reduce using rule 123 (empty -> .)
-    DO              reduce using rule 123 (empty -> .)
-    ID              reduce using rule 123 (empty -> .)
-    READ            reduce using rule 123 (empty -> .)
-    WRITE           reduce using rule 123 (empty -> .)
-    IF              reduce using rule 123 (empty -> .)
-    WHILE           reduce using rule 123 (empty -> .)
-    FOR             reduce using rule 123 (empty -> .)
-    RETURNS         reduce using rule 123 (empty -> .)
-    READ_FILE       reduce using rule 123 (empty -> .)
-    MEAN            reduce using rule 123 (empty -> .)
-    MODE            reduce using rule 123 (empty -> .)
-    MEDIAN          reduce using rule 123 (empty -> .)
-    VARIANCE        reduce using rule 123 (empty -> .)
-    MAX             reduce using rule 123 (empty -> .)
-    MIN             reduce using rule 123 (empty -> .)
-    STADDES         reduce using rule 123 (empty -> .)
-    BOXPLOT         reduce using rule 123 (empty -> .)
-    LINREG          reduce using rule 123 (empty -> .)
-    RIGHT_CUR_BRACKET reduce using rule 123 (empty -> .)
+    FUNC            reduce using rule 124 (empty -> .)
+    DO              reduce using rule 124 (empty -> .)
+    ID              reduce using rule 124 (empty -> .)
+    READ            reduce using rule 124 (empty -> .)
+    WRITE           reduce using rule 124 (empty -> .)
+    IF              reduce using rule 124 (empty -> .)
+    WHILE           reduce using rule 124 (empty -> .)
+    FOR             reduce using rule 124 (empty -> .)
+    RETURNS         reduce using rule 124 (empty -> .)
+    READ_FILE       reduce using rule 124 (empty -> .)
+    MEAN            reduce using rule 124 (empty -> .)
+    MODE            reduce using rule 124 (empty -> .)
+    MEDIAN          reduce using rule 124 (empty -> .)
+    VARIANCE        reduce using rule 124 (empty -> .)
+    MAX             reduce using rule 124 (empty -> .)
+    MIN             reduce using rule 124 (empty -> .)
+    STADDES         reduce using rule 124 (empty -> .)
+    BOXPLOT         reduce using rule 124 (empty -> .)
+    LINREG          reduce using rule 124 (empty -> .)
+    RIGHT_CUR_BRACKET reduce using rule 124 (empty -> .)
 
     var                            shift and go to state 10
     varp                           shift and go to state 17
@@ -422,12 +424,12 @@ state 12
 
     (26) var -> VAR . pnCheckTablaVar v ARROW idp SEMICOLON
     (117) pnCheckTablaVar -> . empty
-    (123) empty -> .
+    (124) empty -> .
 
-    DATAFRAME       reduce using rule 123 (empty -> .)
-    INT             reduce using rule 123 (empty -> .)
-    FLOAT           reduce using rule 123 (empty -> .)
-    CHAR            reduce using rule 123 (empty -> .)
+    DATAFRAME       reduce using rule 124 (empty -> .)
+    INT             reduce using rule 124 (empty -> .)
+    FLOAT           reduce using rule 124 (empty -> .)
+    CHAR            reduce using rule 124 (empty -> .)
 
     pnCheckTablaVar                shift and go to state 18
     empty                          shift and go to state 19
@@ -447,28 +449,28 @@ state 14
     (4) funcp -> . func funcp
     (5) funcp -> . empty
     (36) func -> . FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar param RIGHT_PARENT LEFT_CUR_BRACKET varp estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction
-    (123) empty -> .
+    (124) empty -> .
 
     FUNC            shift and go to state 16
-    DO              reduce using rule 123 (empty -> .)
-    ID              reduce using rule 123 (empty -> .)
-    READ            reduce using rule 123 (empty -> .)
-    WRITE           reduce using rule 123 (empty -> .)
-    IF              reduce using rule 123 (empty -> .)
-    WHILE           reduce using rule 123 (empty -> .)
-    FOR             reduce using rule 123 (empty -> .)
-    RETURNS         reduce using rule 123 (empty -> .)
-    READ_FILE       reduce using rule 123 (empty -> .)
-    MEAN            reduce using rule 123 (empty -> .)
-    MODE            reduce using rule 123 (empty -> .)
-    MEDIAN          reduce using rule 123 (empty -> .)
-    VARIANCE        reduce using rule 123 (empty -> .)
-    MAX             reduce using rule 123 (empty -> .)
-    MIN             reduce using rule 123 (empty -> .)
-    STADDES         reduce using rule 123 (empty -> .)
-    BOXPLOT         reduce using rule 123 (empty -> .)
-    LINREG          reduce using rule 123 (empty -> .)
-    RIGHT_CUR_BRACKET reduce using rule 123 (empty -> .)
+    DO              reduce using rule 124 (empty -> .)
+    ID              reduce using rule 124 (empty -> .)
+    READ            reduce using rule 124 (empty -> .)
+    WRITE           reduce using rule 124 (empty -> .)
+    IF              reduce using rule 124 (empty -> .)
+    WHILE           reduce using rule 124 (empty -> .)
+    FOR             reduce using rule 124 (empty -> .)
+    RETURNS         reduce using rule 124 (empty -> .)
+    READ_FILE       reduce using rule 124 (empty -> .)
+    MEAN            reduce using rule 124 (empty -> .)
+    MODE            reduce using rule 124 (empty -> .)
+    MEDIAN          reduce using rule 124 (empty -> .)
+    VARIANCE        reduce using rule 124 (empty -> .)
+    MAX             reduce using rule 124 (empty -> .)
+    MIN             reduce using rule 124 (empty -> .)
+    STADDES         reduce using rule 124 (empty -> .)
+    BOXPLOT         reduce using rule 124 (empty -> .)
+    LINREG          reduce using rule 124 (empty -> .)
+    RIGHT_CUR_BRACKET reduce using rule 124 (empty -> .)
 
     func                           shift and go to state 14
     funcp                          shift and go to state 22
@@ -627,9 +629,9 @@ state 25
 
     (38) returnval -> VOID . pnSaveTypeVar
     (118) pnSaveTypeVar -> . empty
-    (123) empty -> .
+    (124) empty -> .
 
-    ARROW           reduce using rule 123 (empty -> .)
+    ARROW           reduce using rule 124 (empty -> .)
 
     pnSaveTypeVar                  shift and go to state 34
     empty                          shift and go to state 35
@@ -638,10 +640,10 @@ state 26
 
     (9) tipo_simp -> INT . pnSaveTypeVar
     (118) pnSaveTypeVar -> . empty
-    (123) empty -> .
+    (124) empty -> .
 
-    ARROW           reduce using rule 123 (empty -> .)
-    LEFT_SQR_BRACKET reduce using rule 123 (empty -> .)
+    ARROW           reduce using rule 124 (empty -> .)
+    LEFT_SQR_BRACKET reduce using rule 124 (empty -> .)
 
     pnSaveTypeVar                  shift and go to state 36
     empty                          shift and go to state 35
@@ -650,10 +652,10 @@ state 27
 
     (10) tipo_simp -> FLOAT . pnSaveTypeVar
     (118) pnSaveTypeVar -> . empty
-    (123) empty -> .
+    (124) empty -> .
 
-    ARROW           reduce using rule 123 (empty -> .)
-    LEFT_SQR_BRACKET reduce using rule 123 (empty -> .)
+    ARROW           reduce using rule 124 (empty -> .)
+    LEFT_SQR_BRACKET reduce using rule 124 (empty -> .)
 
     pnSaveTypeVar                  shift and go to state 37
     empty                          shift and go to state 35
@@ -662,10 +664,10 @@ state 28
 
     (11) tipo_simp -> CHAR . pnSaveTypeVar
     (118) pnSaveTypeVar -> . empty
-    (123) empty -> .
+    (124) empty -> .
 
-    ARROW           reduce using rule 123 (empty -> .)
-    LEFT_SQR_BRACKET reduce using rule 123 (empty -> .)
+    ARROW           reduce using rule 124 (empty -> .)
+    LEFT_SQR_BRACKET reduce using rule 124 (empty -> .)
 
     pnSaveTypeVar                  shift and go to state 38
     empty                          shift and go to state 35
@@ -681,9 +683,9 @@ state 30
 
     (27) v -> DATAFRAME . pnSaveTypeVar
     (118) pnSaveTypeVar -> . empty
-    (123) empty -> .
+    (124) empty -> .
 
-    ARROW           reduce using rule 123 (empty -> .)
+    ARROW           reduce using rule 124 (empty -> .)
 
     pnSaveTypeVar                  shift and go to state 40
     empty                          shift and go to state 35
@@ -693,10 +695,10 @@ state 31
     (28) v -> tipo_simp . vp
     (29) vp -> . LEFT_SQR_BRACKET CTEI vpp RIGHT_SQR_BRACKET
     (30) vp -> . empty
-    (123) empty -> .
+    (124) empty -> .
 
     LEFT_SQR_BRACKET shift and go to state 42
-    ARROW           reduce using rule 123 (empty -> .)
+    ARROW           reduce using rule 124 (empty -> .)
 
     vp                             shift and go to state 41
     empty                          shift and go to state 43
@@ -707,28 +709,28 @@ state 32
     (2) varp -> . var varp
     (3) varp -> . empty
     (26) var -> . VAR pnCheckTablaVar v ARROW idp SEMICOLON
-    (123) empty -> .
+    (124) empty -> .
 
     VAR             shift and go to state 12
-    FUNC            reduce using rule 123 (empty -> .)
-    ID              reduce using rule 123 (empty -> .)
-    READ            reduce using rule 123 (empty -> .)
-    WRITE           reduce using rule 123 (empty -> .)
-    IF              reduce using rule 123 (empty -> .)
-    WHILE           reduce using rule 123 (empty -> .)
-    FOR             reduce using rule 123 (empty -> .)
-    RETURNS         reduce using rule 123 (empty -> .)
-    READ_FILE       reduce using rule 123 (empty -> .)
-    MEAN            reduce using rule 123 (empty -> .)
-    MODE            reduce using rule 123 (empty -> .)
-    MEDIAN          reduce using rule 123 (empty -> .)
-    VARIANCE        reduce using rule 123 (empty -> .)
-    MAX             reduce using rule 123 (empty -> .)
-    MIN             reduce using rule 123 (empty -> .)
-    STADDES         reduce using rule 123 (empty -> .)
-    BOXPLOT         reduce using rule 123 (empty -> .)
-    LINREG          reduce using rule 123 (empty -> .)
-    RIGHT_CUR_BRACKET reduce using rule 123 (empty -> .)
+    FUNC            reduce using rule 124 (empty -> .)
+    ID              reduce using rule 124 (empty -> .)
+    READ            reduce using rule 124 (empty -> .)
+    WRITE           reduce using rule 124 (empty -> .)
+    IF              reduce using rule 124 (empty -> .)
+    WHILE           reduce using rule 124 (empty -> .)
+    FOR             reduce using rule 124 (empty -> .)
+    RETURNS         reduce using rule 124 (empty -> .)
+    READ_FILE       reduce using rule 124 (empty -> .)
+    MEAN            reduce using rule 124 (empty -> .)
+    MODE            reduce using rule 124 (empty -> .)
+    MEDIAN          reduce using rule 124 (empty -> .)
+    VARIANCE        reduce using rule 124 (empty -> .)
+    MAX             reduce using rule 124 (empty -> .)
+    MIN             reduce using rule 124 (empty -> .)
+    STADDES         reduce using rule 124 (empty -> .)
+    BOXPLOT         reduce using rule 124 (empty -> .)
+    LINREG          reduce using rule 124 (empty -> .)
+    RIGHT_CUR_BRACKET reduce using rule 124 (empty -> .)
 
     varp                           shift and go to state 44
     var                            shift and go to state 10
@@ -823,27 +825,27 @@ state 44
     (4) funcp -> . func funcp
     (5) funcp -> . empty
     (36) func -> . FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar param RIGHT_PARENT LEFT_CUR_BRACKET varp estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction
-    (123) empty -> .
+    (124) empty -> .
 
     FUNC            shift and go to state 16
-    ID              reduce using rule 123 (empty -> .)
-    READ            reduce using rule 123 (empty -> .)
-    WRITE           reduce using rule 123 (empty -> .)
-    IF              reduce using rule 123 (empty -> .)
-    WHILE           reduce using rule 123 (empty -> .)
-    FOR             reduce using rule 123 (empty -> .)
-    RETURNS         reduce using rule 123 (empty -> .)
-    READ_FILE       reduce using rule 123 (empty -> .)
-    MEAN            reduce using rule 123 (empty -> .)
-    MODE            reduce using rule 123 (empty -> .)
-    MEDIAN          reduce using rule 123 (empty -> .)
-    VARIANCE        reduce using rule 123 (empty -> .)
-    MAX             reduce using rule 123 (empty -> .)
-    MIN             reduce using rule 123 (empty -> .)
-    STADDES         reduce using rule 123 (empty -> .)
-    BOXPLOT         reduce using rule 123 (empty -> .)
-    LINREG          reduce using rule 123 (empty -> .)
-    RIGHT_CUR_BRACKET reduce using rule 123 (empty -> .)
+    ID              reduce using rule 124 (empty -> .)
+    READ            reduce using rule 124 (empty -> .)
+    WRITE           reduce using rule 124 (empty -> .)
+    IF              reduce using rule 124 (empty -> .)
+    WHILE           reduce using rule 124 (empty -> .)
+    FOR             reduce using rule 124 (empty -> .)
+    RETURNS         reduce using rule 124 (empty -> .)
+    READ_FILE       reduce using rule 124 (empty -> .)
+    MEAN            reduce using rule 124 (empty -> .)
+    MODE            reduce using rule 124 (empty -> .)
+    MEDIAN          reduce using rule 124 (empty -> .)
+    VARIANCE        reduce using rule 124 (empty -> .)
+    MAX             reduce using rule 124 (empty -> .)
+    MIN             reduce using rule 124 (empty -> .)
+    STADDES         reduce using rule 124 (empty -> .)
+    BOXPLOT         reduce using rule 124 (empty -> .)
+    LINREG          reduce using rule 124 (empty -> .)
+    RIGHT_CUR_BRACKET reduce using rule 124 (empty -> .)
 
     funcp                          shift and go to state 49
     func                           shift and go to state 14
@@ -853,9 +855,9 @@ state 45
 
     (36) func -> FUNC returnval ARROW ID . pnAddFuncinDir LEFT_PARENT pnCheckTablaVar param RIGHT_PARENT LEFT_CUR_BRACKET varp estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction
     (120) pnAddFuncinDir -> . empty
-    (123) empty -> .
+    (124) empty -> .
 
-    LEFT_PARENT     reduce using rule 123 (empty -> .)
+    LEFT_PARENT     reduce using rule 124 (empty -> .)
 
     pnAddFuncinDir                 shift and go to state 50
     empty                          shift and go to state 51
@@ -871,10 +873,10 @@ state 47
 
     (33) idp -> ID . pnCheckNameTablaVar idpp
     (119) pnCheckNameTablaVar -> . empty
-    (123) empty -> .
+    (124) empty -> .
 
-    COMMA           reduce using rule 123 (empty -> .)
-    SEMICOLON       reduce using rule 123 (empty -> .)
+    COMMA           reduce using rule 124 (empty -> .)
+    SEMICOLON       reduce using rule 124 (empty -> .)
 
     pnCheckNameTablaVar            shift and go to state 53
     empty                          shift and go to state 54
@@ -884,10 +886,10 @@ state 48
     (29) vp -> LEFT_SQR_BRACKET CTEI . vpp RIGHT_SQR_BRACKET
     (31) vpp -> . COMMA CTEI
     (32) vpp -> . empty
-    (123) empty -> .
+    (124) empty -> .
 
     COMMA           shift and go to state 56
-    RIGHT_SQR_BRACKET reduce using rule 123 (empty -> .)
+    RIGHT_SQR_BRACKET reduce using rule 124 (empty -> .)
 
     vpp                            shift and go to state 55
     empty                          shift and go to state 57
@@ -907,7 +909,7 @@ state 49
     (53) estatuto -> . funcesp
     (54) estatuto -> . return
     (55) estatuto -> . copy
-    (123) empty -> .
+    (124) empty -> .
     (56) asign -> . variable ASIGN exp SEMICOLON
     (21) llamada -> . ID LEFT_PARENT expp RIGHT_PARENT SEMICOLON
     (57) lee -> . READ LEFT_PARENT variable RIGHT_PARENT SEMICOLON
@@ -938,7 +940,7 @@ state 49
     (113) boxplot -> . BOXPLOT LEFT_PARENT variable RIGHT_PARENT SEMICOLON
     (114) linreg -> . LINREG LEFT_PARENT variable RIGHT_PARENT SEMICOLON
 
-    RIGHT_CUR_BRACKET reduce using rule 123 (empty -> .)
+    RIGHT_CUR_BRACKET reduce using rule 124 (empty -> .)
     ID              shift and go to state 72
     READ            shift and go to state 73
     WRITE           shift and go to state 74
@@ -1027,10 +1029,10 @@ state 53
     (33) idp -> ID pnCheckNameTablaVar . idpp
     (34) idpp -> . COMMA ID pnCheckNameTablaVar idpp
     (35) idpp -> . empty
-    (123) empty -> .
+    (124) empty -> .
 
     COMMA           shift and go to state 100
-    SEMICOLON       reduce using rule 123 (empty -> .)
+    SEMICOLON       reduce using rule 124 (empty -> .)
 
     idpp                           shift and go to state 99
     empty                          shift and go to state 101
@@ -1086,7 +1088,7 @@ state 59
     (53) estatuto -> . funcesp
     (54) estatuto -> . return
     (55) estatuto -> . copy
-    (123) empty -> .
+    (124) empty -> .
     (56) asign -> . variable ASIGN exp SEMICOLON
     (21) llamada -> . ID LEFT_PARENT expp RIGHT_PARENT SEMICOLON
     (57) lee -> . READ LEFT_PARENT variable RIGHT_PARENT SEMICOLON
@@ -1117,7 +1119,7 @@ state 59
     (113) boxplot -> . BOXPLOT LEFT_PARENT variable RIGHT_PARENT SEMICOLON
     (114) linreg -> . LINREG LEFT_PARENT variable RIGHT_PARENT SEMICOLON
 
-    RIGHT_CUR_BRACKET reduce using rule 123 (empty -> .)
+    RIGHT_CUR_BRACKET reduce using rule 124 (empty -> .)
     ID              shift and go to state 72
     READ            shift and go to state 73
     WRITE           shift and go to state 74
@@ -1458,11 +1460,11 @@ state 72
     (16) variable -> ID . indexp
     (17) indexp -> . LEFT_SQR_BRACKET exp indexpp RIGHT_SQR_BRACKET
     (18) indexp -> . empty
-    (123) empty -> .
+    (124) empty -> .
 
     LEFT_PARENT     shift and go to state 107
     LEFT_SQR_BRACKET shift and go to state 109
-    ASIGN           reduce using rule 123 (empty -> .)
+    ASIGN           reduce using rule 124 (empty -> .)
 
     indexp                         shift and go to state 108
     empty                          shift and go to state 110
@@ -1990,13 +1992,13 @@ state 98
 
     (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT . pnCheckTablaVar param RIGHT_PARENT LEFT_CUR_BRACKET varp estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction
     (117) pnCheckTablaVar -> . empty
-    (123) empty -> .
+    (124) empty -> .
 
-    DATAFRAME       reduce using rule 123 (empty -> .)
-    INT             reduce using rule 123 (empty -> .)
-    FLOAT           reduce using rule 123 (empty -> .)
-    CHAR            reduce using rule 123 (empty -> .)
-    RIGHT_PARENT    reduce using rule 123 (empty -> .)
+    DATAFRAME       reduce using rule 124 (empty -> .)
+    INT             reduce using rule 124 (empty -> .)
+    FLOAT           reduce using rule 124 (empty -> .)
+    CHAR            reduce using rule 124 (empty -> .)
+    RIGHT_PARENT    reduce using rule 124 (empty -> .)
 
     pnCheckTablaVar                shift and go to state 140
     empty                          shift and go to state 19
@@ -2039,10 +2041,10 @@ state 103
 state 104
 
     (6) bloque -> DO LEFT_CUR_BRACKET varp funcp estatutop RIGHT_CUR_BRACKET . pnEndScript
-    (122) pnEndScript -> . empty
-    (123) empty -> .
+    (123) pnEndScript -> . empty
+    (124) empty -> .
 
-    $end            reduce using rule 123 (empty -> .)
+    $end            reduce using rule 124 (empty -> .)
 
     pnEndScript                    shift and go to state 142
     empty                          shift and go to state 143
@@ -2132,7 +2134,7 @@ state 107
     (22) expp -> . exp exppp
     (23) expp -> . empty
     (62) exp -> . exprel logic
-    (123) empty -> .
+    (124) empty -> .
     (67) exprel -> . e relacionalp
     (74) e -> . t tp
     (79) t -> . f fp
@@ -2166,7 +2168,7 @@ state 107
     (114) linreg -> . LINREG LEFT_PARENT variable RIGHT_PARENT SEMICOLON
     (14) copy -> . READ_FILE LEFT_PARENT LETRERO RIGHT_PARENT SEMICOLON
 
-    RIGHT_PARENT    reduce using rule 123 (empty -> .)
+    RIGHT_PARENT    reduce using rule 124 (empty -> .)
     LEFT_PARENT     shift and go to state 121
     CTEI            shift and go to state 122
     CTEF            shift and go to state 123
@@ -2572,14 +2574,14 @@ state 117
     (64) logic -> . empty
     (65) logicsig -> . AND
     (66) logicsig -> . OR
-    (123) empty -> .
+    (124) empty -> .
 
     AND             shift and go to state 161
     OR              shift and go to state 162
-    SEMICOLON       reduce using rule 123 (empty -> .)
-    COMMA           reduce using rule 123 (empty -> .)
-    RIGHT_PARENT    reduce using rule 123 (empty -> .)
-    RIGHT_SQR_BRACKET reduce using rule 123 (empty -> .)
+    SEMICOLON       reduce using rule 124 (empty -> .)
+    COMMA           reduce using rule 124 (empty -> .)
+    RIGHT_PARENT    reduce using rule 124 (empty -> .)
+    RIGHT_SQR_BRACKET reduce using rule 124 (empty -> .)
 
     logic                          shift and go to state 158
     logicsig                       shift and go to state 159
@@ -2594,18 +2596,18 @@ state 118
     (71) relsig -> . GREATER_THAN
     (72) relsig -> . EQUALS
     (73) relsig -> . NOTEQUALS
-    (123) empty -> .
+    (124) empty -> .
 
     LESS_THAN       shift and go to state 166
     GREATER_THAN    shift and go to state 167
     EQUALS          shift and go to state 168
     NOTEQUALS       shift and go to state 169
-    AND             reduce using rule 123 (empty -> .)
-    OR              reduce using rule 123 (empty -> .)
-    SEMICOLON       reduce using rule 123 (empty -> .)
-    COMMA           reduce using rule 123 (empty -> .)
-    RIGHT_PARENT    reduce using rule 123 (empty -> .)
-    RIGHT_SQR_BRACKET reduce using rule 123 (empty -> .)
+    AND             reduce using rule 124 (empty -> .)
+    OR              reduce using rule 124 (empty -> .)
+    SEMICOLON       reduce using rule 124 (empty -> .)
+    COMMA           reduce using rule 124 (empty -> .)
+    RIGHT_PARENT    reduce using rule 124 (empty -> .)
+    RIGHT_SQR_BRACKET reduce using rule 124 (empty -> .)
 
     relacionalp                    shift and go to state 163
     relsig                         shift and go to state 164
@@ -2618,20 +2620,20 @@ state 119
     (76) tp -> . empty
     (77) tsig -> . PLUS
     (78) tsig -> . MINUS
-    (123) empty -> .
+    (124) empty -> .
 
     PLUS            shift and go to state 173
     MINUS           shift and go to state 174
-    LESS_THAN       reduce using rule 123 (empty -> .)
-    GREATER_THAN    reduce using rule 123 (empty -> .)
-    EQUALS          reduce using rule 123 (empty -> .)
-    NOTEQUALS       reduce using rule 123 (empty -> .)
-    AND             reduce using rule 123 (empty -> .)
-    OR              reduce using rule 123 (empty -> .)
-    SEMICOLON       reduce using rule 123 (empty -> .)
-    COMMA           reduce using rule 123 (empty -> .)
-    RIGHT_PARENT    reduce using rule 123 (empty -> .)
-    RIGHT_SQR_BRACKET reduce using rule 123 (empty -> .)
+    LESS_THAN       reduce using rule 124 (empty -> .)
+    GREATER_THAN    reduce using rule 124 (empty -> .)
+    EQUALS          reduce using rule 124 (empty -> .)
+    NOTEQUALS       reduce using rule 124 (empty -> .)
+    AND             reduce using rule 124 (empty -> .)
+    OR              reduce using rule 124 (empty -> .)
+    SEMICOLON       reduce using rule 124 (empty -> .)
+    COMMA           reduce using rule 124 (empty -> .)
+    RIGHT_PARENT    reduce using rule 124 (empty -> .)
+    RIGHT_SQR_BRACKET reduce using rule 124 (empty -> .)
 
     tp                             shift and go to state 170
     tsig                           shift and go to state 171
@@ -2644,22 +2646,22 @@ state 120
     (81) fp -> . empty
     (82) fsig -> . MULT
     (83) fsig -> . DIV
-    (123) empty -> .
+    (124) empty -> .
 
     MULT            shift and go to state 178
     DIV             shift and go to state 179
-    PLUS            reduce using rule 123 (empty -> .)
-    MINUS           reduce using rule 123 (empty -> .)
-    LESS_THAN       reduce using rule 123 (empty -> .)
-    GREATER_THAN    reduce using rule 123 (empty -> .)
-    EQUALS          reduce using rule 123 (empty -> .)
-    NOTEQUALS       reduce using rule 123 (empty -> .)
-    AND             reduce using rule 123 (empty -> .)
-    OR              reduce using rule 123 (empty -> .)
-    SEMICOLON       reduce using rule 123 (empty -> .)
-    COMMA           reduce using rule 123 (empty -> .)
-    RIGHT_PARENT    reduce using rule 123 (empty -> .)
-    RIGHT_SQR_BRACKET reduce using rule 123 (empty -> .)
+    PLUS            reduce using rule 124 (empty -> .)
+    MINUS           reduce using rule 124 (empty -> .)
+    LESS_THAN       reduce using rule 124 (empty -> .)
+    GREATER_THAN    reduce using rule 124 (empty -> .)
+    EQUALS          reduce using rule 124 (empty -> .)
+    NOTEQUALS       reduce using rule 124 (empty -> .)
+    AND             reduce using rule 124 (empty -> .)
+    OR              reduce using rule 124 (empty -> .)
+    SEMICOLON       reduce using rule 124 (empty -> .)
+    COMMA           reduce using rule 124 (empty -> .)
+    RIGHT_PARENT    reduce using rule 124 (empty -> .)
+    RIGHT_SQR_BRACKET reduce using rule 124 (empty -> .)
 
     fp                             shift and go to state 175
     fsig                           shift and go to state 176
@@ -2863,24 +2865,24 @@ state 128
     (21) llamada -> ID . LEFT_PARENT expp RIGHT_PARENT SEMICOLON
     (17) indexp -> . LEFT_SQR_BRACKET exp indexpp RIGHT_SQR_BRACKET
     (18) indexp -> . empty
-    (123) empty -> .
+    (124) empty -> .
 
     LEFT_PARENT     shift and go to state 107
     LEFT_SQR_BRACKET shift and go to state 109
-    MULT            reduce using rule 123 (empty -> .)
-    DIV             reduce using rule 123 (empty -> .)
-    PLUS            reduce using rule 123 (empty -> .)
-    MINUS           reduce using rule 123 (empty -> .)
-    LESS_THAN       reduce using rule 123 (empty -> .)
-    GREATER_THAN    reduce using rule 123 (empty -> .)
-    EQUALS          reduce using rule 123 (empty -> .)
-    NOTEQUALS       reduce using rule 123 (empty -> .)
-    AND             reduce using rule 123 (empty -> .)
-    OR              reduce using rule 123 (empty -> .)
-    SEMICOLON       reduce using rule 123 (empty -> .)
-    COMMA           reduce using rule 123 (empty -> .)
-    RIGHT_PARENT    reduce using rule 123 (empty -> .)
-    RIGHT_SQR_BRACKET reduce using rule 123 (empty -> .)
+    MULT            reduce using rule 124 (empty -> .)
+    DIV             reduce using rule 124 (empty -> .)
+    PLUS            reduce using rule 124 (empty -> .)
+    MINUS           reduce using rule 124 (empty -> .)
+    LESS_THAN       reduce using rule 124 (empty -> .)
+    GREATER_THAN    reduce using rule 124 (empty -> .)
+    EQUALS          reduce using rule 124 (empty -> .)
+    NOTEQUALS       reduce using rule 124 (empty -> .)
+    AND             reduce using rule 124 (empty -> .)
+    OR              reduce using rule 124 (empty -> .)
+    SEMICOLON       reduce using rule 124 (empty -> .)
+    COMMA           reduce using rule 124 (empty -> .)
+    RIGHT_PARENT    reduce using rule 124 (empty -> .)
+    RIGHT_SQR_BRACKET reduce using rule 124 (empty -> .)
 
     indexp                         shift and go to state 108
     empty                          shift and go to state 110
@@ -2998,15 +3000,15 @@ state 140
     (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar . param RIGHT_PARENT LEFT_CUR_BRACKET varp estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction
     (39) param -> . paramlist
     (40) param -> . empty
-    (41) paramlist -> . tipoparam ARROW ID paramlistp
-    (123) empty -> .
+    (41) paramlist -> . tipoparam ARROW ID pnAddParametersTablaVar paramlistp
+    (124) empty -> .
     (42) tipoparam -> . tipo_simp
-    (43) tipoparam -> . DATAFRAME
+    (43) tipoparam -> . DATAFRAME pnSaveTypeVar
     (9) tipo_simp -> . INT pnSaveTypeVar
     (10) tipo_simp -> . FLOAT pnSaveTypeVar
     (11) tipo_simp -> . CHAR pnSaveTypeVar
 
-    RIGHT_PARENT    reduce using rule 123 (empty -> .)
+    RIGHT_PARENT    reduce using rule 124 (empty -> .)
     DATAFRAME       shift and go to state 196
     INT             shift and go to state 26
     FLOAT           shift and go to state 27
@@ -3022,10 +3024,10 @@ state 141
 
     (34) idpp -> COMMA ID . pnCheckNameTablaVar idpp
     (119) pnCheckNameTablaVar -> . empty
-    (123) empty -> .
+    (124) empty -> .
 
-    COMMA           reduce using rule 123 (empty -> .)
-    SEMICOLON       reduce using rule 123 (empty -> .)
+    COMMA           reduce using rule 124 (empty -> .)
+    SEMICOLON       reduce using rule 124 (empty -> .)
 
     pnCheckNameTablaVar            shift and go to state 197
     empty                          shift and go to state 54
@@ -3039,9 +3041,9 @@ state 142
 
 state 143
 
-    (122) pnEndScript -> empty .
+    (123) pnEndScript -> empty .
 
-    $end            reduce using rule 122 (pnEndScript -> empty .)
+    $end            reduce using rule 123 (pnEndScript -> empty .)
 
 
 state 144
@@ -3063,10 +3065,10 @@ state 146
     (22) expp -> exp . exppp
     (24) exppp -> . COMMA exp exppp
     (25) exppp -> . empty
-    (123) empty -> .
+    (124) empty -> .
 
     COMMA           shift and go to state 201
-    RIGHT_PARENT    reduce using rule 123 (empty -> .)
+    RIGHT_PARENT    reduce using rule 124 (empty -> .)
 
     exppp                          shift and go to state 200
     empty                          shift and go to state 202
@@ -3083,10 +3085,10 @@ state 148
     (17) indexp -> LEFT_SQR_BRACKET exp . indexpp RIGHT_SQR_BRACKET
     (19) indexpp -> . COMMA exp
     (20) indexpp -> . empty
-    (123) empty -> .
+    (124) empty -> .
 
     COMMA           shift and go to state 204
-    RIGHT_SQR_BRACKET reduce using rule 123 (empty -> .)
+    RIGHT_SQR_BRACKET reduce using rule 124 (empty -> .)
 
     indexpp                        shift and go to state 203
     empty                          shift and go to state 205
@@ -3103,11 +3105,11 @@ state 150
     (16) variable -> ID . indexp
     (17) indexp -> . LEFT_SQR_BRACKET exp indexpp RIGHT_SQR_BRACKET
     (18) indexp -> . empty
-    (123) empty -> .
+    (124) empty -> .
 
     LEFT_SQR_BRACKET shift and go to state 109
-    RIGHT_PARENT    reduce using rule 123 (empty -> .)
-    ASIGN           reduce using rule 123 (empty -> .)
+    RIGHT_PARENT    reduce using rule 124 (empty -> .)
+    ASIGN           reduce using rule 124 (empty -> .)
 
     indexp                         shift and go to state 108
     empty                          shift and go to state 110
@@ -3933,7 +3935,7 @@ state 193
 
 state 194
 
-    (41) paramlist -> tipoparam . ARROW ID paramlistp
+    (41) paramlist -> tipoparam . ARROW ID pnAddParametersTablaVar paramlistp
 
     ARROW           shift and go to state 227
 
@@ -3947,22 +3949,26 @@ state 195
 
 state 196
 
-    (43) tipoparam -> DATAFRAME .
+    (43) tipoparam -> DATAFRAME . pnSaveTypeVar
+    (118) pnSaveTypeVar -> . empty
+    (124) empty -> .
 
-    ARROW           reduce using rule 43 (tipoparam -> DATAFRAME .)
+    ARROW           reduce using rule 124 (empty -> .)
 
+    pnSaveTypeVar                  shift and go to state 228
+    empty                          shift and go to state 35
 
 state 197
 
     (34) idpp -> COMMA ID pnCheckNameTablaVar . idpp
     (34) idpp -> . COMMA ID pnCheckNameTablaVar idpp
     (35) idpp -> . empty
-    (123) empty -> .
+    (124) empty -> .
 
     COMMA           shift and go to state 100
-    SEMICOLON       reduce using rule 123 (empty -> .)
+    SEMICOLON       reduce using rule 124 (empty -> .)
 
-    idpp                           shift and go to state 228
+    idpp                           shift and go to state 229
     empty                          shift and go to state 101
 
 state 198
@@ -3997,7 +4003,7 @@ state 199
 
     (21) llamada -> ID LEFT_PARENT expp RIGHT_PARENT . SEMICOLON
 
-    SEMICOLON       shift and go to state 229
+    SEMICOLON       shift and go to state 230
 
 
 state 200
@@ -4060,7 +4066,7 @@ state 201
     LINREG          shift and go to state 97
     READ_FILE       shift and go to state 88
 
-    exp                            shift and go to state 230
+    exp                            shift and go to state 231
     exprel                         shift and go to state 117
     e                              shift and go to state 118
     t                              shift and go to state 119
@@ -4090,7 +4096,7 @@ state 203
 
     (17) indexp -> LEFT_SQR_BRACKET exp indexpp . RIGHT_SQR_BRACKET
 
-    RIGHT_SQR_BRACKET shift and go to state 231
+    RIGHT_SQR_BRACKET shift and go to state 232
 
 
 state 204
@@ -4146,7 +4152,7 @@ state 204
     LINREG          shift and go to state 97
     READ_FILE       shift and go to state 88
 
-    exp                            shift and go to state 232
+    exp                            shift and go to state 233
     exprel                         shift and go to state 117
     e                              shift and go to state 118
     t                              shift and go to state 119
@@ -4176,35 +4182,35 @@ state 206
 
     (57) lee -> READ LEFT_PARENT variable RIGHT_PARENT . SEMICOLON
 
-    SEMICOLON       shift and go to state 233
+    SEMICOLON       shift and go to state 234
 
 
 state 207
 
     (58) escribe -> WRITE LEFT_PARENT escribep RIGHT_PARENT . SEMICOLON
 
-    SEMICOLON       shift and go to state 234
+    SEMICOLON       shift and go to state 235
 
 
 state 208
 
     (91) condicion -> IF LEFT_PARENT exp RIGHT_PARENT . IF_TRUE LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET falsop
 
-    IF_TRUE         shift and go to state 235
+    IF_TRUE         shift and go to state 236
 
 
 state 209
 
     (94) ciclow -> WHILE LEFT_PARENT exp RIGHT_PARENT . LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET
 
-    LEFT_CUR_BRACKET shift and go to state 236
+    LEFT_CUR_BRACKET shift and go to state 237
 
 
 state 210
 
     (95) ciclof -> FOR LEFT_PARENT asign exp . RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET
 
-    RIGHT_PARENT    shift and go to state 237
+    RIGHT_PARENT    shift and go to state 238
 
 
 state 211
@@ -4214,17 +4220,17 @@ state 211
     (64) logic -> . empty
     (65) logicsig -> . AND
     (66) logicsig -> . OR
-    (123) empty -> .
+    (124) empty -> .
 
     AND             shift and go to state 161
     OR              shift and go to state 162
-    SEMICOLON       reduce using rule 123 (empty -> .)
-    COMMA           reduce using rule 123 (empty -> .)
-    RIGHT_PARENT    reduce using rule 123 (empty -> .)
-    RIGHT_SQR_BRACKET reduce using rule 123 (empty -> .)
+    SEMICOLON       reduce using rule 124 (empty -> .)
+    COMMA           reduce using rule 124 (empty -> .)
+    RIGHT_PARENT    reduce using rule 124 (empty -> .)
+    RIGHT_SQR_BRACKET reduce using rule 124 (empty -> .)
 
     logicsig                       shift and go to state 159
-    logic                          shift and go to state 238
+    logic                          shift and go to state 239
     empty                          shift and go to state 160
 
 state 212
@@ -4236,21 +4242,21 @@ state 212
     (71) relsig -> . GREATER_THAN
     (72) relsig -> . EQUALS
     (73) relsig -> . NOTEQUALS
-    (123) empty -> .
+    (124) empty -> .
 
     LESS_THAN       shift and go to state 166
     GREATER_THAN    shift and go to state 167
     EQUALS          shift and go to state 168
     NOTEQUALS       shift and go to state 169
-    AND             reduce using rule 123 (empty -> .)
-    OR              reduce using rule 123 (empty -> .)
-    SEMICOLON       reduce using rule 123 (empty -> .)
-    COMMA           reduce using rule 123 (empty -> .)
-    RIGHT_PARENT    reduce using rule 123 (empty -> .)
-    RIGHT_SQR_BRACKET reduce using rule 123 (empty -> .)
+    AND             reduce using rule 124 (empty -> .)
+    OR              reduce using rule 124 (empty -> .)
+    SEMICOLON       reduce using rule 124 (empty -> .)
+    COMMA           reduce using rule 124 (empty -> .)
+    RIGHT_PARENT    reduce using rule 124 (empty -> .)
+    RIGHT_SQR_BRACKET reduce using rule 124 (empty -> .)
 
     relsig                         shift and go to state 164
-    relacionalp                    shift and go to state 239
+    relacionalp                    shift and go to state 240
     empty                          shift and go to state 165
 
 state 213
@@ -4260,23 +4266,23 @@ state 213
     (76) tp -> . empty
     (77) tsig -> . PLUS
     (78) tsig -> . MINUS
-    (123) empty -> .
+    (124) empty -> .
 
     PLUS            shift and go to state 173
     MINUS           shift and go to state 174
-    LESS_THAN       reduce using rule 123 (empty -> .)
-    GREATER_THAN    reduce using rule 123 (empty -> .)
-    EQUALS          reduce using rule 123 (empty -> .)
-    NOTEQUALS       reduce using rule 123 (empty -> .)
-    AND             reduce using rule 123 (empty -> .)
-    OR              reduce using rule 123 (empty -> .)
-    SEMICOLON       reduce using rule 123 (empty -> .)
-    COMMA           reduce using rule 123 (empty -> .)
-    RIGHT_PARENT    reduce using rule 123 (empty -> .)
-    RIGHT_SQR_BRACKET reduce using rule 123 (empty -> .)
+    LESS_THAN       reduce using rule 124 (empty -> .)
+    GREATER_THAN    reduce using rule 124 (empty -> .)
+    EQUALS          reduce using rule 124 (empty -> .)
+    NOTEQUALS       reduce using rule 124 (empty -> .)
+    AND             reduce using rule 124 (empty -> .)
+    OR              reduce using rule 124 (empty -> .)
+    SEMICOLON       reduce using rule 124 (empty -> .)
+    COMMA           reduce using rule 124 (empty -> .)
+    RIGHT_PARENT    reduce using rule 124 (empty -> .)
+    RIGHT_SQR_BRACKET reduce using rule 124 (empty -> .)
 
     tsig                           shift and go to state 171
-    tp                             shift and go to state 240
+    tp                             shift and go to state 241
     empty                          shift and go to state 172
 
 state 214
@@ -4286,25 +4292,25 @@ state 214
     (81) fp -> . empty
     (82) fsig -> . MULT
     (83) fsig -> . DIV
-    (123) empty -> .
+    (124) empty -> .
 
     MULT            shift and go to state 178
     DIV             shift and go to state 179
-    PLUS            reduce using rule 123 (empty -> .)
-    MINUS           reduce using rule 123 (empty -> .)
-    LESS_THAN       reduce using rule 123 (empty -> .)
-    GREATER_THAN    reduce using rule 123 (empty -> .)
-    EQUALS          reduce using rule 123 (empty -> .)
-    NOTEQUALS       reduce using rule 123 (empty -> .)
-    AND             reduce using rule 123 (empty -> .)
-    OR              reduce using rule 123 (empty -> .)
-    SEMICOLON       reduce using rule 123 (empty -> .)
-    COMMA           reduce using rule 123 (empty -> .)
-    RIGHT_PARENT    reduce using rule 123 (empty -> .)
-    RIGHT_SQR_BRACKET reduce using rule 123 (empty -> .)
+    PLUS            reduce using rule 124 (empty -> .)
+    MINUS           reduce using rule 124 (empty -> .)
+    LESS_THAN       reduce using rule 124 (empty -> .)
+    GREATER_THAN    reduce using rule 124 (empty -> .)
+    EQUALS          reduce using rule 124 (empty -> .)
+    NOTEQUALS       reduce using rule 124 (empty -> .)
+    AND             reduce using rule 124 (empty -> .)
+    OR              reduce using rule 124 (empty -> .)
+    SEMICOLON       reduce using rule 124 (empty -> .)
+    COMMA           reduce using rule 124 (empty -> .)
+    RIGHT_PARENT    reduce using rule 124 (empty -> .)
+    RIGHT_SQR_BRACKET reduce using rule 124 (empty -> .)
 
     fsig                           shift and go to state 176
-    fp                             shift and go to state 241
+    fp                             shift and go to state 242
     empty                          shift and go to state 177
 
 state 215
@@ -4331,94 +4337,101 @@ state 216
 
     (14) copy -> READ_FILE LEFT_PARENT LETRERO RIGHT_PARENT . SEMICOLON
 
-    SEMICOLON       shift and go to state 242
+    SEMICOLON       shift and go to state 243
 
 
 state 217
 
     (106) mean -> MEAN LEFT_PARENT variable RIGHT_PARENT . SEMICOLON
 
-    SEMICOLON       shift and go to state 243
+    SEMICOLON       shift and go to state 244
 
 
 state 218
 
     (107) mode -> MODE LEFT_PARENT variable RIGHT_PARENT . SEMICOLON
 
-    SEMICOLON       shift and go to state 244
+    SEMICOLON       shift and go to state 245
 
 
 state 219
 
     (108) median -> MEDIAN LEFT_PARENT variable RIGHT_PARENT . SEMICOLON
 
-    SEMICOLON       shift and go to state 245
+    SEMICOLON       shift and go to state 246
 
 
 state 220
 
     (109) variance -> VARIANCE LEFT_PARENT variable RIGHT_PARENT . SEMICOLON
 
-    SEMICOLON       shift and go to state 246
+    SEMICOLON       shift and go to state 247
 
 
 state 221
 
     (110) max -> MAX LEFT_PARENT variable RIGHT_PARENT . SEMICOLON
 
-    SEMICOLON       shift and go to state 247
+    SEMICOLON       shift and go to state 248
 
 
 state 222
 
     (111) min -> MIN LEFT_PARENT variable RIGHT_PARENT . SEMICOLON
 
-    SEMICOLON       shift and go to state 248
+    SEMICOLON       shift and go to state 249
 
 
 state 223
 
     (112) staddes -> STADDES LEFT_PARENT variable RIGHT_PARENT . SEMICOLON
 
-    SEMICOLON       shift and go to state 249
+    SEMICOLON       shift and go to state 250
 
 
 state 224
 
     (113) boxplot -> BOXPLOT LEFT_PARENT variable RIGHT_PARENT . SEMICOLON
 
-    SEMICOLON       shift and go to state 250
+    SEMICOLON       shift and go to state 251
 
 
 state 225
 
     (114) linreg -> LINREG LEFT_PARENT variable RIGHT_PARENT . SEMICOLON
 
-    SEMICOLON       shift and go to state 251
+    SEMICOLON       shift and go to state 252
 
 
 state 226
 
     (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar param RIGHT_PARENT . LEFT_CUR_BRACKET varp estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction
 
-    LEFT_CUR_BRACKET shift and go to state 252
+    LEFT_CUR_BRACKET shift and go to state 253
 
 
 state 227
 
-    (41) paramlist -> tipoparam ARROW . ID paramlistp
+    (41) paramlist -> tipoparam ARROW . ID pnAddParametersTablaVar paramlistp
 
-    ID              shift and go to state 253
+    ID              shift and go to state 254
 
 
 state 228
+
+    (43) tipoparam -> DATAFRAME pnSaveTypeVar .
+
+    ARROW           reduce using rule 43 (tipoparam -> DATAFRAME pnSaveTypeVar .)
+
+
+state 229
 
     (34) idpp -> COMMA ID pnCheckNameTablaVar idpp .
 
     SEMICOLON       reduce using rule 34 (idpp -> COMMA ID pnCheckNameTablaVar idpp .)
 
 
-state 229
+state 230
 
     (21) llamada -> ID LEFT_PARENT expp RIGHT_PARENT SEMICOLON .
 
@@ -4456,20 +4469,20 @@ state 229
     RIGHT_SQR_BRACKET reduce using rule 21 (llamada -> ID LEFT_PARENT expp RIGHT_PARENT SEMICOLON .)
 
 
-state 230
+state 231
 
     (24) exppp -> COMMA exp . exppp
     (24) exppp -> . COMMA exp exppp
     (25) exppp -> . empty
-    (123) empty -> .
+    (124) empty -> .
 
     COMMA           shift and go to state 201
-    RIGHT_PARENT    reduce using rule 123 (empty -> .)
+    RIGHT_PARENT    reduce using rule 124 (empty -> .)
 
-    exppp                          shift and go to state 254
+    exppp                          shift and go to state 255
     empty                          shift and go to state 202
 
-state 231
+state 232
 
     (17) indexp -> LEFT_SQR_BRACKET exp indexpp RIGHT_SQR_BRACKET .
 
@@ -4490,14 +4503,14 @@ state 231
     RIGHT_SQR_BRACKET reduce using rule 17 (indexp -> LEFT_SQR_BRACKET exp indexpp RIGHT_SQR_BRACKET .)
 
 
-state 232
+state 233
 
     (19) indexpp -> COMMA exp .
 
     RIGHT_SQR_BRACKET reduce using rule 19 (indexpp -> COMMA exp .)
 
 
-state 233
+state 234
 
     (57) lee -> READ LEFT_PARENT variable RIGHT_PARENT SEMICOLON .
 
@@ -4521,7 +4534,7 @@ state 233
     RIGHT_CUR_BRACKET reduce using rule 57 (lee -> READ LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
 
 
-state 234
+state 235
 
     (58) escribe -> WRITE LEFT_PARENT escribep RIGHT_PARENT SEMICOLON .
 
@@ -4545,14 +4558,14 @@ state 234
     RIGHT_CUR_BRACKET reduce using rule 58 (escribe -> WRITE LEFT_PARENT escribep RIGHT_PARENT SEMICOLON .)
 
 
-state 235
+state 236
 
     (91) condicion -> IF LEFT_PARENT exp RIGHT_PARENT IF_TRUE . LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET falsop
 
-    LEFT_CUR_BRACKET shift and go to state 255
+    LEFT_CUR_BRACKET shift and go to state 256
 
 
-state 236
+state 237
 
     (94) ciclow -> WHILE LEFT_PARENT exp RIGHT_PARENT LEFT_CUR_BRACKET . estatutop RIGHT_CUR_BRACKET
     (7) estatutop -> . estatuto estatutop
@@ -4567,7 +4580,7 @@ state 236
     (53) estatuto -> . funcesp
     (54) estatuto -> . return
     (55) estatuto -> . copy
-    (123) empty -> .
+    (124) empty -> .
     (56) asign -> . variable ASIGN exp SEMICOLON
     (21) llamada -> . ID LEFT_PARENT expp RIGHT_PARENT SEMICOLON
     (57) lee -> . READ LEFT_PARENT variable RIGHT_PARENT SEMICOLON
@@ -4598,7 +4611,7 @@ state 236
     (113) boxplot -> . BOXPLOT LEFT_PARENT variable RIGHT_PARENT SEMICOLON
     (114) linreg -> . LINREG LEFT_PARENT variable RIGHT_PARENT SEMICOLON
 
-    RIGHT_CUR_BRACKET reduce using rule 123 (empty -> .)
+    RIGHT_CUR_BRACKET reduce using rule 124 (empty -> .)
     ID              shift and go to state 72
     READ            shift and go to state 73
     WRITE           shift and go to state 74
@@ -4617,7 +4630,7 @@ state 236
     BOXPLOT         shift and go to state 96
     LINREG          shift and go to state 97
 
-    estatutop                      shift and go to state 256
+    estatutop                      shift and go to state 257
     estatuto                       shift and go to state 59
     empty                          shift and go to state 60
     asign                          shift and go to state 61
@@ -4641,14 +4654,14 @@ state 236
     boxplot                        shift and go to state 85
     linreg                         shift and go to state 86
 
-state 237
+state 238
 
     (95) ciclof -> FOR LEFT_PARENT asign exp RIGHT_PARENT . LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET
 
-    LEFT_CUR_BRACKET shift and go to state 257
+    LEFT_CUR_BRACKET shift and go to state 258
 
 
-state 238
+state 239
 
     (63) logic -> logicsig exprel logic .
 
@@ -4658,7 +4671,7 @@ state 238
     RIGHT_SQR_BRACKET reduce using rule 63 (logic -> logicsig exprel logic .)
 
 
-state 239
+state 240
 
     (68) relacionalp -> relsig e relacionalp .
 
@@ -4670,7 +4683,7 @@ state 239
     RIGHT_SQR_BRACKET reduce using rule 68 (relacionalp -> relsig e relacionalp .)
 
 
-state 240
+state 241
 
     (75) tp -> tsig t tp .
 
@@ -4686,7 +4699,7 @@ state 240
     RIGHT_SQR_BRACKET reduce using rule 75 (tp -> tsig t tp .)
 
 
-state 241
+state 242
 
     (80) fp -> fsig f fp .
 
@@ -4704,7 +4717,7 @@ state 241
     RIGHT_SQR_BRACKET reduce using rule 80 (fp -> fsig f fp .)
 
 
-state 242
+state 243
 
     (14) copy -> READ_FILE LEFT_PARENT LETRERO RIGHT_PARENT SEMICOLON .
 
@@ -4742,7 +4755,7 @@ state 242
     RIGHT_SQR_BRACKET reduce using rule 14 (copy -> READ_FILE LEFT_PARENT LETRERO RIGHT_PARENT SEMICOLON .)
 
 
-state 243
+state 244
 
     (106) mean -> MEAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .
 
@@ -4780,7 +4793,7 @@ state 243
     RIGHT_SQR_BRACKET reduce using rule 106 (mean -> MEAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
 
 
-state 244
+state 245
 
     (107) mode -> MODE LEFT_PARENT variable RIGHT_PARENT SEMICOLON .
 
@@ -4818,7 +4831,7 @@ state 244
     RIGHT_SQR_BRACKET reduce using rule 107 (mode -> MODE LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
 
 
-state 245
+state 246
 
     (108) median -> MEDIAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .
 
@@ -4856,7 +4869,7 @@ state 245
     RIGHT_SQR_BRACKET reduce using rule 108 (median -> MEDIAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
 
 
-state 246
+state 247
 
     (109) variance -> VARIANCE LEFT_PARENT variable RIGHT_PARENT SEMICOLON .
 
@@ -4894,7 +4907,7 @@ state 246
     RIGHT_SQR_BRACKET reduce using rule 109 (variance -> VARIANCE LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
 
 
-state 247
+state 248
 
     (110) max -> MAX LEFT_PARENT variable RIGHT_PARENT SEMICOLON .
 
@@ -4932,7 +4945,7 @@ state 247
     RIGHT_SQR_BRACKET reduce using rule 110 (max -> MAX LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
 
 
-state 248
+state 249
 
     (111) min -> MIN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .
 
@@ -4970,7 +4983,7 @@ state 248
     RIGHT_SQR_BRACKET reduce using rule 111 (min -> MIN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
 
 
-state 249
+state 250
 
     (112) staddes -> STADDES LEFT_PARENT variable RIGHT_PARENT SEMICOLON .
 
@@ -5008,7 +5021,7 @@ state 249
     RIGHT_SQR_BRACKET reduce using rule 112 (staddes -> STADDES LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
 
 
-state 250
+state 251
 
     (113) boxplot -> BOXPLOT LEFT_PARENT variable RIGHT_PARENT SEMICOLON .
 
@@ -5046,7 +5059,7 @@ state 250
     RIGHT_SQR_BRACKET reduce using rule 113 (boxplot -> BOXPLOT LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
 
 
-state 251
+state 252
 
     (114) linreg -> LINREG LEFT_PARENT variable RIGHT_PARENT SEMICOLON .
 
@@ -5084,59 +5097,58 @@ state 251
     RIGHT_SQR_BRACKET reduce using rule 114 (linreg -> LINREG LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
 
 
-state 252
+state 253
 
     (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar param RIGHT_PARENT LEFT_CUR_BRACKET . varp estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction
     (2) varp -> . var varp
     (3) varp -> . empty
     (26) var -> . VAR pnCheckTablaVar v ARROW idp SEMICOLON
-    (123) empty -> .
+    (124) empty -> .
 
     VAR             shift and go to state 12
-    ID              reduce using rule 123 (empty -> .)
-    READ            reduce using rule 123 (empty -> .)
-    WRITE           reduce using rule 123 (empty -> .)
-    IF              reduce using rule 123 (empty -> .)
-    WHILE           reduce using rule 123 (empty -> .)
-    FOR             reduce using rule 123 (empty -> .)
-    RETURNS         reduce using rule 123 (empty -> .)
-    READ_FILE       reduce using rule 123 (empty -> .)
-    MEAN            reduce using rule 123 (empty -> .)
-    MODE            reduce using rule 123 (empty -> .)
-    MEDIAN          reduce using rule 123 (empty -> .)
-    VARIANCE        reduce using rule 123 (empty -> .)
-    MAX             reduce using rule 123 (empty -> .)
-    MIN             reduce using rule 123 (empty -> .)
-    STADDES         reduce using rule 123 (empty -> .)
-    BOXPLOT         reduce using rule 123 (empty -> .)
-    LINREG          reduce using rule 123 (empty -> .)
-    RIGHT_CUR_BRACKET reduce using rule 123 (empty -> .)
+    ID              reduce using rule 124 (empty -> .)
+    READ            reduce using rule 124 (empty -> .)
+    WRITE           reduce using rule 124 (empty -> .)
+    IF              reduce using rule 124 (empty -> .)
+    WHILE           reduce using rule 124 (empty -> .)
+    FOR             reduce using rule 124 (empty -> .)
+    RETURNS         reduce using rule 124 (empty -> .)
+    READ_FILE       reduce using rule 124 (empty -> .)
+    MEAN            reduce using rule 124 (empty -> .)
+    MODE            reduce using rule 124 (empty -> .)
+    MEDIAN          reduce using rule 124 (empty -> .)
+    VARIANCE        reduce using rule 124 (empty -> .)
+    MAX             reduce using rule 124 (empty -> .)
+    MIN             reduce using rule 124 (empty -> .)
+    STADDES         reduce using rule 124 (empty -> .)
+    BOXPLOT         reduce using rule 124 (empty -> .)
+    LINREG          reduce using rule 124 (empty -> .)
+    RIGHT_CUR_BRACKET reduce using rule 124 (empty -> .)
 
-    varp                           shift and go to state 258
+    varp                           shift and go to state 259
     var                            shift and go to state 10
     empty                          shift and go to state 11
 
-state 253
+state 254
 
-    (41) paramlist -> tipoparam ARROW ID . paramlistp
-    (44) paramlistp -> . COMMA paramlist
-    (45) paramlistp -> . empty
-    (123) empty -> .
+    (41) paramlist -> tipoparam ARROW ID . pnAddParametersTablaVar paramlistp
+    (121) pnAddParametersTablaVar -> . empty
+    (124) empty -> .
 
-    COMMA           shift and go to state 260
-    RIGHT_PARENT    reduce using rule 123 (empty -> .)
+    COMMA           reduce using rule 124 (empty -> .)
+    RIGHT_PARENT    reduce using rule 124 (empty -> .)
 
-    paramlistp                     shift and go to state 259
+    pnAddParametersTablaVar        shift and go to state 260
     empty                          shift and go to state 261
 
-state 254
+state 255
 
     (24) exppp -> COMMA exp exppp .
 
     RIGHT_PARENT    reduce using rule 24 (exppp -> COMMA exp exppp .)
 
 
-state 255
+state 256
 
     (91) condicion -> IF LEFT_PARENT exp RIGHT_PARENT IF_TRUE LEFT_CUR_BRACKET . estatutop RIGHT_CUR_BRACKET falsop
     (7) estatutop -> . estatuto estatutop
@@ -5151,7 +5163,7 @@ state 255
     (53) estatuto -> . funcesp
     (54) estatuto -> . return
     (55) estatuto -> . copy
-    (123) empty -> .
+    (124) empty -> .
     (56) asign -> . variable ASIGN exp SEMICOLON
     (21) llamada -> . ID LEFT_PARENT expp RIGHT_PARENT SEMICOLON
     (57) lee -> . READ LEFT_PARENT variable RIGHT_PARENT SEMICOLON
@@ -5182,7 +5194,7 @@ state 255
     (113) boxplot -> . BOXPLOT LEFT_PARENT variable RIGHT_PARENT SEMICOLON
     (114) linreg -> . LINREG LEFT_PARENT variable RIGHT_PARENT SEMICOLON
 
-    RIGHT_CUR_BRACKET reduce using rule 123 (empty -> .)
+    RIGHT_CUR_BRACKET reduce using rule 124 (empty -> .)
     ID              shift and go to state 72
     READ            shift and go to state 73
     WRITE           shift and go to state 74
@@ -5225,14 +5237,14 @@ state 255
     boxplot                        shift and go to state 85
     linreg                         shift and go to state 86
 
-state 256
+state 257
 
     (94) ciclow -> WHILE LEFT_PARENT exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop . RIGHT_CUR_BRACKET
 
     RIGHT_CUR_BRACKET shift and go to state 263
 
 
-state 257
+state 258
 
     (95) ciclof -> FOR LEFT_PARENT asign exp RIGHT_PARENT LEFT_CUR_BRACKET . estatutop RIGHT_CUR_BRACKET
     (7) estatutop -> . estatuto estatutop
@@ -5247,7 +5259,7 @@ state 257
     (53) estatuto -> . funcesp
     (54) estatuto -> . return
     (55) estatuto -> . copy
-    (123) empty -> .
+    (124) empty -> .
     (56) asign -> . variable ASIGN exp SEMICOLON
     (21) llamada -> . ID LEFT_PARENT expp RIGHT_PARENT SEMICOLON
     (57) lee -> . READ LEFT_PARENT variable RIGHT_PARENT SEMICOLON
@@ -5278,7 +5290,7 @@ state 257
     (113) boxplot -> . BOXPLOT LEFT_PARENT variable RIGHT_PARENT SEMICOLON
     (114) linreg -> . LINREG LEFT_PARENT variable RIGHT_PARENT SEMICOLON
 
-    RIGHT_CUR_BRACKET reduce using rule 123 (empty -> .)
+    RIGHT_CUR_BRACKET reduce using rule 124 (empty -> .)
     ID              shift and go to state 72
     READ            shift and go to state 73
     WRITE           shift and go to state 74
@@ -5321,7 +5333,7 @@ state 257
     boxplot                        shift and go to state 85
     linreg                         shift and go to state 86
 
-state 258
+state 259
 
     (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar param RIGHT_PARENT LEFT_CUR_BRACKET varp . estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction
     (7) estatutop -> . estatuto estatutop
@@ -5336,7 +5348,7 @@ state 258
     (53) estatuto -> . funcesp
     (54) estatuto -> . return
     (55) estatuto -> . copy
-    (123) empty -> .
+    (124) empty -> .
     (56) asign -> . variable ASIGN exp SEMICOLON
     (21) llamada -> . ID LEFT_PARENT expp RIGHT_PARENT SEMICOLON
     (57) lee -> . READ LEFT_PARENT variable RIGHT_PARENT SEMICOLON
@@ -5367,7 +5379,7 @@ state 258
     (113) boxplot -> . BOXPLOT LEFT_PARENT variable RIGHT_PARENT SEMICOLON
     (114) linreg -> . LINREG LEFT_PARENT variable RIGHT_PARENT SEMICOLON
 
-    RIGHT_CUR_BRACKET reduce using rule 123 (empty -> .)
+    RIGHT_CUR_BRACKET reduce using rule 124 (empty -> .)
     ID              shift and go to state 72
     READ            shift and go to state 73
     WRITE           shift and go to state 74
@@ -5410,44 +5422,32 @@ state 258
     boxplot                        shift and go to state 85
     linreg                         shift and go to state 86
 
-state 259
-
-    (41) paramlist -> tipoparam ARROW ID paramlistp .
-
-    RIGHT_PARENT    reduce using rule 41 (paramlist -> tipoparam ARROW ID paramlistp .)
-
-
 state 260
 
-    (44) paramlistp -> COMMA . paramlist
-    (41) paramlist -> . tipoparam ARROW ID paramlistp
-    (42) tipoparam -> . tipo_simp
-    (43) tipoparam -> . DATAFRAME
-    (9) tipo_simp -> . INT pnSaveTypeVar
-    (10) tipo_simp -> . FLOAT pnSaveTypeVar
-    (11) tipo_simp -> . CHAR pnSaveTypeVar
+    (41) paramlist -> tipoparam ARROW ID pnAddParametersTablaVar . paramlistp
+    (44) paramlistp -> . COMMA paramlist
+    (45) paramlistp -> . empty
+    (124) empty -> .
 
-    DATAFRAME       shift and go to state 196
-    INT             shift and go to state 26
-    FLOAT           shift and go to state 27
-    CHAR            shift and go to state 28
+    COMMA           shift and go to state 267
+    RIGHT_PARENT    reduce using rule 124 (empty -> .)
 
-    paramlist                      shift and go to state 266
-    tipoparam                      shift and go to state 194
-    tipo_simp                      shift and go to state 195
+    paramlistp                     shift and go to state 266
+    empty                          shift and go to state 268
 
 state 261
 
-    (45) paramlistp -> empty .
+    (121) pnAddParametersTablaVar -> empty .
 
-    RIGHT_PARENT    reduce using rule 45 (paramlistp -> empty .)
+    COMMA           reduce using rule 121 (pnAddParametersTablaVar -> empty .)
+    RIGHT_PARENT    reduce using rule 121 (pnAddParametersTablaVar -> empty .)
 
 
 state 262
 
     (91) condicion -> IF LEFT_PARENT exp RIGHT_PARENT IF_TRUE LEFT_CUR_BRACKET estatutop . RIGHT_CUR_BRACKET falsop
 
-    RIGHT_CUR_BRACKET shift and go to state 267
+    RIGHT_CUR_BRACKET shift and go to state 269
 
 
 state 263
@@ -5478,54 +5478,80 @@ state 264
 
     (95) ciclof -> FOR LEFT_PARENT asign exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop . RIGHT_CUR_BRACKET
 
-    RIGHT_CUR_BRACKET shift and go to state 268
+    RIGHT_CUR_BRACKET shift and go to state 270
 
 
 state 265
 
     (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar param RIGHT_PARENT LEFT_CUR_BRACKET varp estatutop . RIGHT_CUR_BRACKET pnCloseCurrentFunction
 
-    RIGHT_CUR_BRACKET shift and go to state 269
+    RIGHT_CUR_BRACKET shift and go to state 271
 
 
 state 266
 
-    (44) paramlistp -> COMMA paramlist .
+    (41) paramlist -> tipoparam ARROW ID pnAddParametersTablaVar paramlistp .
 
-    RIGHT_PARENT    reduce using rule 44 (paramlistp -> COMMA paramlist .)
+    RIGHT_PARENT    reduce using rule 41 (paramlist -> tipoparam ARROW ID pnAddParametersTablaVar paramlistp .)
 
 
 state 267
 
+    (44) paramlistp -> COMMA . paramlist
+    (41) paramlist -> . tipoparam ARROW ID pnAddParametersTablaVar paramlistp
+    (42) tipoparam -> . tipo_simp
+    (43) tipoparam -> . DATAFRAME pnSaveTypeVar
+    (9) tipo_simp -> . INT pnSaveTypeVar
+    (10) tipo_simp -> . FLOAT pnSaveTypeVar
+    (11) tipo_simp -> . CHAR pnSaveTypeVar
+
+    DATAFRAME       shift and go to state 196
+    INT             shift and go to state 26
+    FLOAT           shift and go to state 27
+    CHAR            shift and go to state 28
+
+    paramlist                      shift and go to state 272
+    tipoparam                      shift and go to state 194
+    tipo_simp                      shift and go to state 195
+
+state 268
+
+    (45) paramlistp -> empty .
+
+    RIGHT_PARENT    reduce using rule 45 (paramlistp -> empty .)
+
+
+state 269
+
     (91) condicion -> IF LEFT_PARENT exp RIGHT_PARENT IF_TRUE LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET . falsop
     (92) falsop -> . IF_FALSE LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET
     (93) falsop -> . empty
-    (123) empty -> .
+    (124) empty -> .
 
-    IF_FALSE        shift and go to state 271
-    ID              reduce using rule 123 (empty -> .)
-    READ            reduce using rule 123 (empty -> .)
-    WRITE           reduce using rule 123 (empty -> .)
-    IF              reduce using rule 123 (empty -> .)
-    WHILE           reduce using rule 123 (empty -> .)
-    FOR             reduce using rule 123 (empty -> .)
-    RETURNS         reduce using rule 123 (empty -> .)
-    READ_FILE       reduce using rule 123 (empty -> .)
-    MEAN            reduce using rule 123 (empty -> .)
-    MODE            reduce using rule 123 (empty -> .)
-    MEDIAN          reduce using rule 123 (empty -> .)
-    VARIANCE        reduce using rule 123 (empty -> .)
-    MAX             reduce using rule 123 (empty -> .)
-    MIN             reduce using rule 123 (empty -> .)
-    STADDES         reduce using rule 123 (empty -> .)
-    BOXPLOT         reduce using rule 123 (empty -> .)
-    LINREG          reduce using rule 123 (empty -> .)
-    RIGHT_CUR_BRACKET reduce using rule 123 (empty -> .)
+    IF_FALSE        shift and go to state 274
+    ID              reduce using rule 124 (empty -> .)
+    READ            reduce using rule 124 (empty -> .)
+    WRITE           reduce using rule 124 (empty -> .)
+    IF              reduce using rule 124 (empty -> .)
+    WHILE           reduce using rule 124 (empty -> .)
+    FOR             reduce using rule 124 (empty -> .)
+    RETURNS         reduce using rule 124 (empty -> .)
+    READ_FILE       reduce using rule 124 (empty -> .)
+    MEAN            reduce using rule 124 (empty -> .)
+    MODE            reduce using rule 124 (empty -> .)
+    MEDIAN          reduce using rule 124 (empty -> .)
+    VARIANCE        reduce using rule 124 (empty -> .)
+    MAX             reduce using rule 124 (empty -> .)
+    MIN             reduce using rule 124 (empty -> .)
+    STADDES         reduce using rule 124 (empty -> .)
+    BOXPLOT         reduce using rule 124 (empty -> .)
+    LINREG          reduce using rule 124 (empty -> .)
+    RIGHT_CUR_BRACKET reduce using rule 124 (empty -> .)
 
-    falsop                         shift and go to state 270
-    empty                          shift and go to state 272
+    falsop                         shift and go to state 273
+    empty                          shift and go to state 275
 
-state 268
+state 270
 
     (95) ciclof -> FOR LEFT_PARENT asign exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET .
 
@@ -5549,37 +5575,44 @@ state 268
     RIGHT_CUR_BRACKET reduce using rule 95 (ciclof -> FOR LEFT_PARENT asign exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET .)
 
 
-state 269
+state 271
 
     (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar param RIGHT_PARENT LEFT_CUR_BRACKET varp estatutop RIGHT_CUR_BRACKET . pnCloseCurrentFunction
-    (121) pnCloseCurrentFunction -> . empty
-    (123) empty -> .
+    (122) pnCloseCurrentFunction -> . empty
+    (124) empty -> .
 
-    FUNC            reduce using rule 123 (empty -> .)
-    DO              reduce using rule 123 (empty -> .)
-    ID              reduce using rule 123 (empty -> .)
-    READ            reduce using rule 123 (empty -> .)
-    WRITE           reduce using rule 123 (empty -> .)
-    IF              reduce using rule 123 (empty -> .)
-    WHILE           reduce using rule 123 (empty -> .)
-    FOR             reduce using rule 123 (empty -> .)
-    RETURNS         reduce using rule 123 (empty -> .)
-    READ_FILE       reduce using rule 123 (empty -> .)
-    MEAN            reduce using rule 123 (empty -> .)
-    MODE            reduce using rule 123 (empty -> .)
-    MEDIAN          reduce using rule 123 (empty -> .)
-    VARIANCE        reduce using rule 123 (empty -> .)
-    MAX             reduce using rule 123 (empty -> .)
-    MIN             reduce using rule 123 (empty -> .)
-    STADDES         reduce using rule 123 (empty -> .)
-    BOXPLOT         reduce using rule 123 (empty -> .)
-    LINREG          reduce using rule 123 (empty -> .)
-    RIGHT_CUR_BRACKET reduce using rule 123 (empty -> .)
+    FUNC            reduce using rule 124 (empty -> .)
+    DO              reduce using rule 124 (empty -> .)
+    ID              reduce using rule 124 (empty -> .)
+    READ            reduce using rule 124 (empty -> .)
+    WRITE           reduce using rule 124 (empty -> .)
+    IF              reduce using rule 124 (empty -> .)
+    WHILE           reduce using rule 124 (empty -> .)
+    FOR             reduce using rule 124 (empty -> .)
+    RETURNS         reduce using rule 124 (empty -> .)
+    READ_FILE       reduce using rule 124 (empty -> .)
+    MEAN            reduce using rule 124 (empty -> .)
+    MODE            reduce using rule 124 (empty -> .)
+    MEDIAN          reduce using rule 124 (empty -> .)
+    VARIANCE        reduce using rule 124 (empty -> .)
+    MAX             reduce using rule 124 (empty -> .)
+    MIN             reduce using rule 124 (empty -> .)
+    STADDES         reduce using rule 124 (empty -> .)
+    BOXPLOT         reduce using rule 124 (empty -> .)
+    LINREG          reduce using rule 124 (empty -> .)
+    RIGHT_CUR_BRACKET reduce using rule 124 (empty -> .)
 
-    pnCloseCurrentFunction         shift and go to state 273
-    empty                          shift and go to state 274
+    pnCloseCurrentFunction         shift and go to state 276
+    empty                          shift and go to state 277
 
-state 270
+state 272
+
+    (44) paramlistp -> COMMA paramlist .
+
+    RIGHT_PARENT    reduce using rule 44 (paramlistp -> COMMA paramlist .)
+
+
+state 273
 
     (91) condicion -> IF LEFT_PARENT exp RIGHT_PARENT IF_TRUE LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET falsop .
 
@@ -5603,14 +5636,14 @@ state 270
     RIGHT_CUR_BRACKET reduce using rule 91 (condicion -> IF LEFT_PARENT exp RIGHT_PARENT IF_TRUE LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET falsop .)
 
 
-state 271
+state 274
 
     (92) falsop -> IF_FALSE . LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET
 
-    LEFT_CUR_BRACKET shift and go to state 275
+    LEFT_CUR_BRACKET shift and go to state 278
 
 
-state 272
+state 275
 
     (93) falsop -> empty .
 
@@ -5634,7 +5667,7 @@ state 272
     RIGHT_CUR_BRACKET reduce using rule 93 (falsop -> empty .)
 
 
-state 273
+state 276
 
     (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar param RIGHT_PARENT LEFT_CUR_BRACKET varp estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction .
 
@@ -5660,33 +5693,33 @@ state 273
     RIGHT_CUR_BRACKET reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar param RIGHT_PARENT LEFT_CUR_BRACKET varp estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction .)
 
 
-state 274
+state 277
 
-    (121) pnCloseCurrentFunction -> empty .
+    (122) pnCloseCurrentFunction -> empty .
 
-    FUNC            reduce using rule 121 (pnCloseCurrentFunction -> empty .)
-    DO              reduce using rule 121 (pnCloseCurrentFunction -> empty .)
-    ID              reduce using rule 121 (pnCloseCurrentFunction -> empty .)
-    READ            reduce using rule 121 (pnCloseCurrentFunction -> empty .)
-    WRITE           reduce using rule 121 (pnCloseCurrentFunction -> empty .)
-    IF              reduce using rule 121 (pnCloseCurrentFunction -> empty .)
-    WHILE           reduce using rule 121 (pnCloseCurrentFunction -> empty .)
-    FOR             reduce using rule 121 (pnCloseCurrentFunction -> empty .)
-    RETURNS         reduce using rule 121 (pnCloseCurrentFunction -> empty .)
-    READ_FILE       reduce using rule 121 (pnCloseCurrentFunction -> empty .)
-    MEAN            reduce using rule 121 (pnCloseCurrentFunction -> empty .)
-    MODE            reduce using rule 121 (pnCloseCurrentFunction -> empty .)
-    MEDIAN          reduce using rule 121 (pnCloseCurrentFunction -> empty .)
-    VARIANCE        reduce using rule 121 (pnCloseCurrentFunction -> empty .)
-    MAX             reduce using rule 121 (pnCloseCurrentFunction -> empty .)
-    MIN             reduce using rule 121 (pnCloseCurrentFunction -> empty .)
-    STADDES         reduce using rule 121 (pnCloseCurrentFunction -> empty .)
-    BOXPLOT         reduce using rule 121 (pnCloseCurrentFunction -> empty .)
-    LINREG          reduce using rule 121 (pnCloseCurrentFunction -> empty .)
-    RIGHT_CUR_BRACKET reduce using rule 121 (pnCloseCurrentFunction -> empty .)
+    FUNC            reduce using rule 122 (pnCloseCurrentFunction -> empty .)
+    DO              reduce using rule 122 (pnCloseCurrentFunction -> empty .)
+    ID              reduce using rule 122 (pnCloseCurrentFunction -> empty .)
+    READ            reduce using rule 122 (pnCloseCurrentFunction -> empty .)
+    WRITE           reduce using rule 122 (pnCloseCurrentFunction -> empty .)
+    IF              reduce using rule 122 (pnCloseCurrentFunction -> empty .)
+    WHILE           reduce using rule 122 (pnCloseCurrentFunction -> empty .)
+    FOR             reduce using rule 122 (pnCloseCurrentFunction -> empty .)
+    RETURNS         reduce using rule 122 (pnCloseCurrentFunction -> empty .)
+    READ_FILE       reduce using rule 122 (pnCloseCurrentFunction -> empty .)
+    MEAN            reduce using rule 122 (pnCloseCurrentFunction -> empty .)
+    MODE            reduce using rule 122 (pnCloseCurrentFunction -> empty .)
+    MEDIAN          reduce using rule 122 (pnCloseCurrentFunction -> empty .)
+    VARIANCE        reduce using rule 122 (pnCloseCurrentFunction -> empty .)
+    MAX             reduce using rule 122 (pnCloseCurrentFunction -> empty .)
+    MIN             reduce using rule 122 (pnCloseCurrentFunction -> empty .)
+    STADDES         reduce using rule 122 (pnCloseCurrentFunction -> empty .)
+    BOXPLOT         reduce using rule 122 (pnCloseCurrentFunction -> empty .)
+    LINREG          reduce using rule 122 (pnCloseCurrentFunction -> empty .)
+    RIGHT_CUR_BRACKET reduce using rule 122 (pnCloseCurrentFunction -> empty .)
 
 
-state 275
+state 278
 
     (92) falsop -> IF_FALSE LEFT_CUR_BRACKET . estatutop RIGHT_CUR_BRACKET
     (7) estatutop -> . estatuto estatutop
@@ -5701,7 +5734,7 @@ state 275
     (53) estatuto -> . funcesp
     (54) estatuto -> . return
     (55) estatuto -> . copy
-    (123) empty -> .
+    (124) empty -> .
     (56) asign -> . variable ASIGN exp SEMICOLON
     (21) llamada -> . ID LEFT_PARENT expp RIGHT_PARENT SEMICOLON
     (57) lee -> . READ LEFT_PARENT variable RIGHT_PARENT SEMICOLON
@@ -5732,7 +5765,7 @@ state 275
     (113) boxplot -> . BOXPLOT LEFT_PARENT variable RIGHT_PARENT SEMICOLON
     (114) linreg -> . LINREG LEFT_PARENT variable RIGHT_PARENT SEMICOLON
 
-    RIGHT_CUR_BRACKET reduce using rule 123 (empty -> .)
+    RIGHT_CUR_BRACKET reduce using rule 124 (empty -> .)
     ID              shift and go to state 72
     READ            shift and go to state 73
     WRITE           shift and go to state 74
@@ -5751,7 +5784,7 @@ state 275
     BOXPLOT         shift and go to state 96
     LINREG          shift and go to state 97
 
-    estatutop                      shift and go to state 276
+    estatutop                      shift and go to state 279
     estatuto                       shift and go to state 59
     empty                          shift and go to state 60
     asign                          shift and go to state 61
@@ -5775,14 +5808,14 @@ state 275
     boxplot                        shift and go to state 85
     linreg                         shift and go to state 86
 
-state 276
+state 279
 
     (92) falsop -> IF_FALSE LEFT_CUR_BRACKET estatutop . RIGHT_CUR_BRACKET
 
-    RIGHT_CUR_BRACKET shift and go to state 277
+    RIGHT_CUR_BRACKET shift and go to state 280
 
 
-state 277
+state 280
 
     (92) falsop -> IF_FALSE LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET .
 
