@@ -366,9 +366,9 @@ def p_t(p):
 def p_f(p):
     '''
     f : LEFT_PARENT exp RIGHT_PARENT
-      | CTEI
-      | CTEF
-      | CTEC
+      | CTEI pnSaveCteI
+      | CTEF pnSaveCteF
+      | CTEC pnSaveCteC
       | variable
       | llamada
       | funcesp
@@ -550,6 +550,36 @@ def p_pnEndScript(p):
     dirFunc.endScript(currentScript)
     p[0] = None
 
+def p_pnSaveCteI(p):
+    '''
+    pnSaveCteI : empty
+    '''
+    print("ANDO HACIENDO LA TABLA DE CONSTANTESsd")
+    print(p[-1])
+    tablaConst[p[-1]] = ['2',"direccionVirtual"]
+    print(tablaConst)
+    p[0] = None
+
+def p_pnSaveCteF(p):
+    '''
+    pnSaveCteF : empty
+    '''
+    print("ANDO HACIENDO LA TABLA DE CONSTANTES sad")
+    print(p[-1])
+    tablaConst[p[-1]] = ['3',"direccionVirtual"]
+    print(tablaConst)
+    p[0] = None
+
+def p_pnSaveCteC(p):
+    '''
+    pnSaveCteC : empty
+    '''
+    print("ANDO HACIENDO LA TABLA DE CONSTANTES aver")
+    print(p[-1])
+    tablaConst[p[-1]] = ['4',"direccionVirtual"]
+    print(tablaConst)
+    p[0] = None
+
 # Cuadruplos
 
 def p_pnSaveOperandos(p):
@@ -720,3 +750,4 @@ with open(filename) as fp:
 print("\n\n\n FINAL")
 print(*cuadruplos.listaCuadruplos, sep="\n")
 print(list(pilaOperandos.queue))
+print(tablaConst)
