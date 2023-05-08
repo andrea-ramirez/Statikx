@@ -4,10 +4,12 @@ from cuboSemantico import CuboSemantico
 from directorioFunciones import DirectorioFunciones
 import codecs
 import json
+from queue import LifoQueue
+from cuadruplos import Cuadruplo
+import sys
 
 # Tabla de constantes
-# {int, int}
-# {nombre, direccionVirtual}
+# {nombre, tipo, direccionVirtual} Por ahora guardo el tipo, mientas no tenga el número de memoria con que checar el rango, o sea el tipo
 tablaConst = {}
 
 # Cubo Semántico
@@ -18,6 +20,13 @@ semantica = CuboSemantico()
 currentScript = ""
 currentFunction = ""
 currentTypeVar = ""
+
+cuadruplos = Cuadruplo()
+
+pilaOperadores = LifoQueue(maxsize=0)
+pilaOperandos = LifoQueue(maxsize=0)
+pilaTipo = LifoQueue(maxsize=0)
+identificadorTemporales = 0
 
 #  LEXER
 reserved = {
@@ -218,7 +227,7 @@ def p_file(p):
 
 def p_variable(p):
     '''
-    variable : ID indexp
+    variable : ID pnSaveOperandos indexp
     indexp : LEFT_SQR_BRACKET exp indexpp RIGHT_SQR_BRACKET 
            | empty
     indexpp : COMMA exp 
@@ -288,7 +297,7 @@ def p_estatuto(p):
 
 def p_asign(p):
     '''
-    asign : variable ASIGN exp SEMICOLON
+    asign : variable ASIGN pnSaveOperadorAsign exp pnCuadAsign SEMICOLON
     '''
     p[0] = None
 
@@ -336,21 +345,21 @@ def p_exprel(p):
 
 def p_e(p):
     '''
-    e : t tp
-    tp : tsig t tp 
+    e : t pnCuadPlMi tp
+    tp : tsig t pnCuadPlMi tp 
        | empty
-    tsig : PLUS 
-         | MINUS
+    tsig : PLUS pnSaveOperadorPlMi
+         | MINUS pnSaveOperadorPlMi
     '''
     p[0] = None
 
 def p_t(p):
     '''
-    t : f fp
-    fp : fsig f fp 
+    t : f pnCuadMuDi fp
+    fp : fsig f pnCuadMuDi fp 
        | empty
-    fsig : MULT 
-         | DIV
+    fsig : MULT pnSaveOperadorMuDi
+         | DIV pnSaveOperadorMuDi
     '''
     p[0] = None
 
@@ -537,8 +546,143 @@ def p_pnEndScript(p):
     '''
     pnEndScript : empty
     '''
+    # printDir()
     dirFunc.endScript(currentScript)
     p[0] = None
+
+# Cuadruplos
+
+def p_pnSaveOperandos(p):
+    '''
+    pnSaveOperandos : empty
+    '''
+    pilaOperandos.put(p[-1])
+
+    funcionActual = ""
+    if currentFunction == "":
+        funcionActual = currentScript
+    else:
+        funcionActual = currentFunction
+
+    # dirFunc.registrosFunciones[funcionActual][tablaVariables][nombreVariable][tipo]
+    pilaTipo.put(dirFunc.registrosFunciones[funcionActual][3][p[-1]][0])
+    p[0] = None
+
+def p_pnSaveOperadorPlMi(p):
+    '''
+    pnSaveOperadorPlMi : empty
+    '''
+    pilaOperadores.put(p[-1])
+    p[0] = None
+
+def p_pnSaveOperadorMuDi(p):
+    '''
+    pnSaveOperadorMuDi : empty
+    '''
+    pilaOperadores.put(p[-1])
+    p[0] = None
+
+def p_pnCuadPlMi(p):
+    '''
+    pnCuadPlMi : empty
+    '''
+    if pilaOperadores.qsize() > 0:
+        top = pilaOperadores.get()
+        pilaOperadores.put(top)
+
+        if top == '+' or top == '-':
+            rightOperand = pilaOperandos.get()
+            rightType = pilaTipo.get()
+            leftOperand = pilaOperandos.get()
+            leftType = pilaTipo.get()
+            operador = pilaOperadores.get()
+
+            resultType = semantica.tablaSimbolos[semantica.convertion[rightType]][semantica.convertion[leftType]][operador]
+
+            if resultType != 0:
+                # Sustituir con procedimiento avail
+                global identificadorTemporales 
+                identificadorTemporales += 1
+                temporalActual = "temporal{}".format(identificadorTemporales)
+
+                nuevoCuadruplo = [operador,leftOperand,rightOperand,temporalActual]
+                cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
+                pilaOperandos.put(temporalActual)
+                pilaTipo.put(resultType)
+                # missing: if any operand were a temporal space, return it to AVAIL
+            else:
+                print("ERROR: Type Mismatch")
+                # sys.exit()
+
+    p[0] = None
+
+def p_pnCuadMuDi(p):
+    '''
+    pnCuadMuDi : empty
+    '''
+    if pilaOperadores.qsize() > 0:
+        top = pilaOperadores.get()
+        pilaOperadores.put(top)
+
+        if top == '*' or top == '/':
+            rightOperand = pilaOperandos.get()
+            rightType = pilaTipo.get()
+            leftOperand = pilaOperandos.get()
+            leftType = pilaTipo.get()
+            operador = pilaOperadores.get()
+
+            resultType = semantica.tablaSimbolos[semantica.convertion[rightType]][semantica.convertion[leftType]][operador]
+
+            if resultType != 0:
+                # Sustituir con procedimiento avail
+                global identificadorTemporales 
+                identificadorTemporales += 1
+                temporalActual = "temporal{}".format(identificadorTemporales)
+
+                nuevoCuadruplo = [operador,leftOperand,rightOperand,temporalActual]
+                cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
+                pilaOperandos.put(temporalActual)
+                pilaTipo.put(resultType)
+                # missing: if any operand were a temporal space, return it to AVAIL
+            else:
+                print("ERROR: Type Mismatch")
+                # sys.exit()
+
+    p[0] = None
+
+def p_pnSaveOperadorAsign(p):
+    '''
+    pnSaveOperadorAsign : empty
+    '''
+    pilaOperadores.put(p[-1])
+    p[0] = None
+
+def p_pnCuadAsign(p):
+    '''
+    pnCuadAsign : empty
+    '''
+    if pilaOperadores.qsize() > 0:
+        top = pilaOperadores.get()
+        pilaOperadores.put(top)
+
+        if top == '=':
+            valor = pilaOperandos.get()
+            valorTipo = pilaTipo.get()
+            aAsignar = pilaOperandos.get()
+            aAsignarTipo = pilaTipo.get()
+
+            operador = pilaOperadores.get()
+            
+            if semantica.convertion[aAsignarTipo] == semantica.convertion[aAsignarTipo]:
+                nuevoCuadruplo = [operador,valor,"",aAsignar]
+                cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
+            else:
+                print("Se deben asignar valores del mismo tipo")
+                print(valorTipo,aAsignarTipo)
+                # sys.exit()
+
+    p[0] = None
+
 
 def p_empty(p):
     '''
@@ -561,7 +705,7 @@ def printDir():
 # Build the parser
 parser = yacc.yacc(debug=True)
 
-filename = 'testPropuesta.txt'
+filename = 'test.txt'
 fp = codecs.open(filename, "r", "utf-8")
 text = fp.read()
 fp.close()
@@ -573,3 +717,6 @@ with open(filename) as fp:
         pass
 
 # printDir()
+print("\n\n\n FINAL")
+print(*cuadruplos.listaCuadruplos, sep="\n")
+print(list(pilaOperandos.queue))

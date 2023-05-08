@@ -56,7 +56,7 @@ class DirectorioFunciones:
         else:
             #insertar valor a tabla de variables
             self.registrosFunciones[funcionInsertarVariable][3][nameVariable] = [returnValue,"direccionVirtual"]
-            print("Se ha insertado la variable {} en el registro de {}".format(nameVariable,funcionInsertarVariable))
+            # print("Se ha insertado la variable {} en el registro de {}".format(nameVariable,funcionInsertarVariable))
 
         
     @classmethod

@@ -1,3 +1,11 @@
-script d ; DO { }
-script d ; DO { put(fd); }
-script d; var char -> c; DO {  }
+script example02; 
+DO
+{ 
+    var int -> x;
+    var float -> y;
+    var int -> d;
+    var int -> z;
+
+    x = x + y - y / d;
+    y = x * x;
+}
