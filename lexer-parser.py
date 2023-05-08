@@ -366,7 +366,7 @@ def p_t(p):
 def p_f(p):
     '''
     f : LEFT_PARENT exp RIGHT_PARENT
-      | CTEI pnSaveCteI
+      | CTEI pnSaveCteI  pnSaveOperandoConstante
       | CTEF pnSaveCteF
       | CTEC pnSaveCteC
       | variable
@@ -554,30 +554,21 @@ def p_pnSaveCteI(p):
     '''
     pnSaveCteI : empty
     '''
-    print("ANDO HACIENDO LA TABLA DE CONSTANTESsd")
-    print(p[-1])
     tablaConst[p[-1]] = ['2',"direccionVirtual"]
-    print(tablaConst)
     p[0] = None
 
 def p_pnSaveCteF(p):
     '''
     pnSaveCteF : empty
     '''
-    print("ANDO HACIENDO LA TABLA DE CONSTANTES sad")
-    print(p[-1])
     tablaConst[p[-1]] = ['3',"direccionVirtual"]
-    print(tablaConst)
     p[0] = None
 
 def p_pnSaveCteC(p):
     '''
     pnSaveCteC : empty
     '''
-    print("ANDO HACIENDO LA TABLA DE CONSTANTES aver")
-    print(p[-1])
     tablaConst[p[-1]] = ['4',"direccionVirtual"]
-    print(tablaConst)
     p[0] = None
 
 # Cuadruplos
@@ -596,6 +587,14 @@ def p_pnSaveOperandos(p):
 
     # dirFunc.registrosFunciones[funcionActual][tablaVariables][nombreVariable][tipo]
     pilaTipo.put(dirFunc.registrosFunciones[funcionActual][3][p[-1]][0])
+    p[0] = None
+
+def p_pnSaveOperandoConstante(p):
+    '''
+    pnSaveOperandoConstante : empty
+    '''
+    pilaOperandos.put(p[-2])
+    pilaTipo.put(tablaConst[p[-2]][0])
     p[0] = None
 
 def p_pnSaveOperadorPlMi(p):
@@ -676,7 +675,7 @@ def p_pnCuadMuDi(p):
                 # missing: if any operand were a temporal space, return it to AVAIL
             else:
                 print("ERROR: Type Mismatch")
-                # sys.exit()
+            #     # sys.exit()
 
     p[0] = None
 
@@ -747,7 +746,5 @@ with open(filename) as fp:
         pass
 
 # printDir()
-print("\n\n\n FINAL")
+print("\n\n\n LISTA DE CUADRUPLOS")
 print(*cuadruplos.listaCuadruplos, sep="\n")
-print(list(pilaOperandos.queue))
-print(tablaConst)

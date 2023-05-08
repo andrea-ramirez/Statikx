@@ -4,8 +4,9 @@ DO
     var int -> x;
     var float -> y;
     var int -> d;
-    var int -> z;
+    var char -> z;
+    var char -> we;
 
-    x = x + y - y / d;
-    y = x * x;
+    y = x * x + x / y;
+    z = 3;
 }
