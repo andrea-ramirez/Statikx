@@ -296,12 +296,14 @@ class CuboSemantico:
     }
     convertion = {
         'int' : 2,
+        '2' : 2,
         2 : 2,
         'float' : 3,
+        '3' : 3,
         3 : 3,
         'char' : 4,
+        '4' : 4,
         4 : 4,
-
     }
     
     def _init_(self,tablaSimbolos):

@@ -367,8 +367,8 @@ def p_f(p):
     '''
     f : LEFT_PARENT exp RIGHT_PARENT
       | CTEI pnSaveCteI  pnSaveOperandoConstante
-      | CTEF pnSaveCteF
-      | CTEC pnSaveCteC
+      | CTEF pnSaveCteF pnSaveOperandoConstante
+      | CTEC pnSaveCteC pnSaveOperandoConstante
       | variable
       | llamada
       | funcesp
@@ -748,3 +748,5 @@ with open(filename) as fp:
 # printDir()
 print("\n\n\n LISTA DE CUADRUPLOS")
 print(*cuadruplos.listaCuadruplos, sep="\n")
+print("  \n\n")
+print(tablaConst)

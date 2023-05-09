@@ -7,6 +7,8 @@ DO
     var char -> z;
     var char -> we;
 
-    y = x * x + x / y;
+    y = x * x + x / 2;
     z = 3;
+    y = x + 5.0;
+    we = 'c';
 }

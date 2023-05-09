@@ -92,8 +92,8 @@ Rule 82    fsig -> MULT pnSaveOperadorMuDi
 Rule 83    fsig -> DIV pnSaveOperadorMuDi
 Rule 84    f -> LEFT_PARENT exp RIGHT_PARENT
 Rule 85    f -> CTEI pnSaveCteI pnSaveOperandoConstante
-Rule 86    f -> CTEF pnSaveCteF
-Rule 87    f -> CTEC pnSaveCteC
+Rule 86    f -> CTEF pnSaveCteF pnSaveOperandoConstante
+Rule 87    f -> CTEC pnSaveCteC pnSaveOperandoConstante
 Rule 88    f -> variable
 Rule 89    f -> llamada
 Rule 90    f -> funcesp
@@ -260,7 +260,7 @@ pnSaveCteI           : 85
 pnSaveOperadorAsign  : 56
 pnSaveOperadorMuDi   : 82 83
 pnSaveOperadorPlMi   : 77 78
-pnSaveOperandoConstante : 85
+pnSaveOperandoConstante : 85 86 87
 pnSaveOperandos      : 16
 pnSaveTypeVar        : 9 10 11 27 38 43
 pnScriptFuncDir      : 1
@@ -1876,8 +1876,8 @@ state 87
     (79) t -> . f pnCuadMuDi fp
     (84) f -> . LEFT_PARENT exp RIGHT_PARENT
     (85) f -> . CTEI pnSaveCteI pnSaveOperandoConstante
-    (86) f -> . CTEF pnSaveCteF
-    (87) f -> . CTEC pnSaveCteC
+    (86) f -> . CTEF pnSaveCteF pnSaveOperandoConstante
+    (87) f -> . CTEC pnSaveCteC pnSaveOperandoConstante
     (88) f -> . variable
     (89) f -> . llamada
     (90) f -> . funcesp
@@ -2114,8 +2114,8 @@ state 107
     (79) t -> . f pnCuadMuDi fp
     (84) f -> . LEFT_PARENT exp RIGHT_PARENT
     (85) f -> . CTEI pnSaveCteI pnSaveOperandoConstante
-    (86) f -> . CTEF pnSaveCteF
-    (87) f -> . CTEC pnSaveCteC
+    (86) f -> . CTEF pnSaveCteF pnSaveOperandoConstante
+    (87) f -> . CTEC pnSaveCteC pnSaveOperandoConstante
     (88) f -> . variable
     (89) f -> . llamada
     (90) f -> . funcesp
@@ -2249,8 +2249,8 @@ state 111
     (79) t -> . f pnCuadMuDi fp
     (84) f -> . LEFT_PARENT exp RIGHT_PARENT
     (85) f -> . CTEI pnSaveCteI pnSaveOperandoConstante
-    (86) f -> . CTEF pnSaveCteF
-    (87) f -> . CTEC pnSaveCteC
+    (86) f -> . CTEF pnSaveCteF pnSaveOperandoConstante
+    (87) f -> . CTEC pnSaveCteC pnSaveOperandoConstante
     (88) f -> . variable
     (89) f -> . llamada
     (90) f -> . funcesp
@@ -2323,8 +2323,8 @@ state 112
     (79) t -> . f pnCuadMuDi fp
     (84) f -> . LEFT_PARENT exp RIGHT_PARENT
     (85) f -> . CTEI pnSaveCteI pnSaveOperandoConstante
-    (86) f -> . CTEF pnSaveCteF
-    (87) f -> . CTEC pnSaveCteC
+    (86) f -> . CTEF pnSaveCteF pnSaveOperandoConstante
+    (87) f -> . CTEC pnSaveCteC pnSaveOperandoConstante
     (88) f -> . variable
     (89) f -> . llamada
     (90) f -> . funcesp
@@ -2395,8 +2395,8 @@ state 113
     (79) t -> . f pnCuadMuDi fp
     (84) f -> . LEFT_PARENT exp RIGHT_PARENT
     (85) f -> . CTEI pnSaveCteI pnSaveOperandoConstante
-    (86) f -> . CTEF pnSaveCteF
-    (87) f -> . CTEC pnSaveCteC
+    (86) f -> . CTEF pnSaveCteF pnSaveOperandoConstante
+    (87) f -> . CTEC pnSaveCteC pnSaveOperandoConstante
     (88) f -> . variable
     (89) f -> . llamada
     (90) f -> . funcesp
@@ -2577,8 +2577,8 @@ state 120
     (79) t -> . f pnCuadMuDi fp
     (84) f -> . LEFT_PARENT exp RIGHT_PARENT
     (85) f -> . CTEI pnSaveCteI pnSaveOperandoConstante
-    (86) f -> . CTEF pnSaveCteF
-    (87) f -> . CTEC pnSaveCteC
+    (86) f -> . CTEF pnSaveCteF pnSaveOperandoConstante
+    (87) f -> . CTEC pnSaveCteC pnSaveOperandoConstante
     (88) f -> . variable
     (89) f -> . llamada
     (90) f -> . funcesp
@@ -2666,7 +2666,7 @@ state 121
 
 state 122
 
-    (86) f -> CTEF . pnSaveCteF
+    (86) f -> CTEF . pnSaveCteF pnSaveOperandoConstante
     (125) pnSaveCteF -> . empty
     (135) empty -> .
 
@@ -2690,7 +2690,7 @@ state 122
 
 state 123
 
-    (87) f -> CTEC . pnSaveCteC
+    (87) f -> CTEC . pnSaveCteC pnSaveOperandoConstante
     (126) pnSaveCteC -> . empty
     (135) empty -> .
 
@@ -2967,8 +2967,8 @@ state 143
     (79) t -> . f pnCuadMuDi fp
     (84) f -> . LEFT_PARENT exp RIGHT_PARENT
     (85) f -> . CTEI pnSaveCteI pnSaveOperandoConstante
-    (86) f -> . CTEF pnSaveCteF
-    (87) f -> . CTEC pnSaveCteC
+    (86) f -> . CTEF pnSaveCteF pnSaveOperandoConstante
+    (87) f -> . CTEC pnSaveCteC pnSaveOperandoConstante
     (88) f -> . variable
     (89) f -> . llamada
     (90) f -> . funcesp
@@ -3108,8 +3108,8 @@ state 149
     (79) t -> . f pnCuadMuDi fp
     (84) f -> . LEFT_PARENT exp RIGHT_PARENT
     (85) f -> . CTEI pnSaveCteI pnSaveOperandoConstante
-    (86) f -> . CTEF pnSaveCteF
-    (87) f -> . CTEC pnSaveCteC
+    (86) f -> . CTEF pnSaveCteF pnSaveOperandoConstante
+    (87) f -> . CTEC pnSaveCteC pnSaveOperandoConstante
     (88) f -> . variable
     (89) f -> . llamada
     (90) f -> . funcesp
@@ -3256,8 +3256,8 @@ state 158
     (79) t -> . f pnCuadMuDi fp
     (84) f -> . LEFT_PARENT exp RIGHT_PARENT
     (85) f -> . CTEI pnSaveCteI pnSaveOperandoConstante
-    (86) f -> . CTEF pnSaveCteF
-    (87) f -> . CTEC pnSaveCteC
+    (86) f -> . CTEF pnSaveCteF pnSaveOperandoConstante
+    (87) f -> . CTEC pnSaveCteC pnSaveOperandoConstante
     (88) f -> . variable
     (89) f -> . llamada
     (90) f -> . funcesp
@@ -3361,8 +3361,8 @@ state 161
     (79) t -> . f pnCuadMuDi fp
     (84) f -> . LEFT_PARENT exp RIGHT_PARENT
     (85) f -> . CTEI pnSaveCteI pnSaveOperandoConstante
-    (86) f -> . CTEF pnSaveCteF
-    (87) f -> . CTEC pnSaveCteC
+    (86) f -> . CTEF pnSaveCteF pnSaveOperandoConstante
+    (87) f -> . CTEC pnSaveCteC pnSaveOperandoConstante
     (88) f -> . variable
     (89) f -> . llamada
     (90) f -> . funcesp
@@ -3494,8 +3494,8 @@ state 166
     (79) t -> . f pnCuadMuDi fp
     (84) f -> . LEFT_PARENT exp RIGHT_PARENT
     (85) f -> . CTEI pnSaveCteI pnSaveOperandoConstante
-    (86) f -> . CTEF pnSaveCteF
-    (87) f -> . CTEC pnSaveCteC
+    (86) f -> . CTEF pnSaveCteF pnSaveOperandoConstante
+    (87) f -> . CTEC pnSaveCteC pnSaveOperandoConstante
     (88) f -> . variable
     (89) f -> . llamada
     (90) f -> . funcesp
@@ -3796,23 +3796,27 @@ state 178
 
 state 179
 
-    (86) f -> CTEF pnSaveCteF .
+    (86) f -> CTEF pnSaveCteF . pnSaveOperandoConstante
+    (128) pnSaveOperandoConstante -> . empty
+    (135) empty -> .
 
-    MULT            reduce using rule 86 (f -> CTEF pnSaveCteF .)
-    DIV             reduce using rule 86 (f -> CTEF pnSaveCteF .)
-    PLUS            reduce using rule 86 (f -> CTEF pnSaveCteF .)
-    MINUS           reduce using rule 86 (f -> CTEF pnSaveCteF .)
-    LESS_THAN       reduce using rule 86 (f -> CTEF pnSaveCteF .)
-    GREATER_THAN    reduce using rule 86 (f -> CTEF pnSaveCteF .)
-    EQUALS          reduce using rule 86 (f -> CTEF pnSaveCteF .)
-    NOTEQUALS       reduce using rule 86 (f -> CTEF pnSaveCteF .)
-    AND             reduce using rule 86 (f -> CTEF pnSaveCteF .)
-    OR              reduce using rule 86 (f -> CTEF pnSaveCteF .)
-    SEMICOLON       reduce using rule 86 (f -> CTEF pnSaveCteF .)
-    COMMA           reduce using rule 86 (f -> CTEF pnSaveCteF .)
-    RIGHT_PARENT    reduce using rule 86 (f -> CTEF pnSaveCteF .)
-    RIGHT_SQR_BRACKET reduce using rule 86 (f -> CTEF pnSaveCteF .)
+    MULT            reduce using rule 135 (empty -> .)
+    DIV             reduce using rule 135 (empty -> .)
+    PLUS            reduce using rule 135 (empty -> .)
+    MINUS           reduce using rule 135 (empty -> .)
+    LESS_THAN       reduce using rule 135 (empty -> .)
+    GREATER_THAN    reduce using rule 135 (empty -> .)
+    EQUALS          reduce using rule 135 (empty -> .)
+    NOTEQUALS       reduce using rule 135 (empty -> .)
+    AND             reduce using rule 135 (empty -> .)
+    OR              reduce using rule 135 (empty -> .)
+    SEMICOLON       reduce using rule 135 (empty -> .)
+    COMMA           reduce using rule 135 (empty -> .)
+    RIGHT_PARENT    reduce using rule 135 (empty -> .)
+    RIGHT_SQR_BRACKET reduce using rule 135 (empty -> .)
 
+    pnSaveOperandoConstante        shift and go to state 226
+    empty                          shift and go to state 225
 
 state 180
 
@@ -3836,23 +3840,27 @@ state 180
 
 state 181
 
-    (87) f -> CTEC pnSaveCteC .
+    (87) f -> CTEC pnSaveCteC . pnSaveOperandoConstante
+    (128) pnSaveOperandoConstante -> . empty
+    (135) empty -> .
 
-    MULT            reduce using rule 87 (f -> CTEC pnSaveCteC .)
-    DIV             reduce using rule 87 (f -> CTEC pnSaveCteC .)
-    PLUS            reduce using rule 87 (f -> CTEC pnSaveCteC .)
-    MINUS           reduce using rule 87 (f -> CTEC pnSaveCteC .)
-    LESS_THAN       reduce using rule 87 (f -> CTEC pnSaveCteC .)
-    GREATER_THAN    reduce using rule 87 (f -> CTEC pnSaveCteC .)
-    EQUALS          reduce using rule 87 (f -> CTEC pnSaveCteC .)
-    NOTEQUALS       reduce using rule 87 (f -> CTEC pnSaveCteC .)
-    AND             reduce using rule 87 (f -> CTEC pnSaveCteC .)
-    OR              reduce using rule 87 (f -> CTEC pnSaveCteC .)
-    SEMICOLON       reduce using rule 87 (f -> CTEC pnSaveCteC .)
-    COMMA           reduce using rule 87 (f -> CTEC pnSaveCteC .)
-    RIGHT_PARENT    reduce using rule 87 (f -> CTEC pnSaveCteC .)
-    RIGHT_SQR_BRACKET reduce using rule 87 (f -> CTEC pnSaveCteC .)
+    MULT            reduce using rule 135 (empty -> .)
+    DIV             reduce using rule 135 (empty -> .)
+    PLUS            reduce using rule 135 (empty -> .)
+    MINUS           reduce using rule 135 (empty -> .)
+    LESS_THAN       reduce using rule 135 (empty -> .)
+    GREATER_THAN    reduce using rule 135 (empty -> .)
+    EQUALS          reduce using rule 135 (empty -> .)
+    NOTEQUALS       reduce using rule 135 (empty -> .)
+    AND             reduce using rule 135 (empty -> .)
+    OR              reduce using rule 135 (empty -> .)
+    SEMICOLON       reduce using rule 135 (empty -> .)
+    COMMA           reduce using rule 135 (empty -> .)
+    RIGHT_PARENT    reduce using rule 135 (empty -> .)
+    RIGHT_SQR_BRACKET reduce using rule 135 (empty -> .)
 
+    pnSaveOperandoConstante        shift and go to state 227
+    empty                          shift and go to state 225
 
 state 182
 
@@ -3878,77 +3886,77 @@ state 183
 
     (14) copy -> READ_FILE LEFT_PARENT LETRERO . RIGHT_PARENT SEMICOLON
 
-    RIGHT_PARENT    shift and go to state 226
+    RIGHT_PARENT    shift and go to state 228
 
 
 state 184
 
     (106) mean -> MEAN LEFT_PARENT variable . RIGHT_PARENT SEMICOLON
 
-    RIGHT_PARENT    shift and go to state 227
+    RIGHT_PARENT    shift and go to state 229
 
 
 state 185
 
     (107) mode -> MODE LEFT_PARENT variable . RIGHT_PARENT SEMICOLON
 
-    RIGHT_PARENT    shift and go to state 228
+    RIGHT_PARENT    shift and go to state 230
 
 
 state 186
 
     (108) median -> MEDIAN LEFT_PARENT variable . RIGHT_PARENT SEMICOLON
 
-    RIGHT_PARENT    shift and go to state 229
+    RIGHT_PARENT    shift and go to state 231
 
 
 state 187
 
     (109) variance -> VARIANCE LEFT_PARENT variable . RIGHT_PARENT SEMICOLON
 
-    RIGHT_PARENT    shift and go to state 230
+    RIGHT_PARENT    shift and go to state 232
 
 
 state 188
 
     (110) max -> MAX LEFT_PARENT variable . RIGHT_PARENT SEMICOLON
 
-    RIGHT_PARENT    shift and go to state 231
+    RIGHT_PARENT    shift and go to state 233
 
 
 state 189
 
     (111) min -> MIN LEFT_PARENT variable . RIGHT_PARENT SEMICOLON
 
-    RIGHT_PARENT    shift and go to state 232
+    RIGHT_PARENT    shift and go to state 234
 
 
 state 190
 
     (112) staddes -> STADDES LEFT_PARENT variable . RIGHT_PARENT SEMICOLON
 
-    RIGHT_PARENT    shift and go to state 233
+    RIGHT_PARENT    shift and go to state 235
 
 
 state 191
 
     (113) boxplot -> BOXPLOT LEFT_PARENT variable . RIGHT_PARENT SEMICOLON
 
-    RIGHT_PARENT    shift and go to state 234
+    RIGHT_PARENT    shift and go to state 236
 
 
 state 192
 
     (114) linreg -> LINREG LEFT_PARENT variable . RIGHT_PARENT SEMICOLON
 
-    RIGHT_PARENT    shift and go to state 235
+    RIGHT_PARENT    shift and go to state 237
 
 
 state 193
 
     (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar param . RIGHT_PARENT LEFT_CUR_BRACKET varp estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction
 
-    RIGHT_PARENT    shift and go to state 236
+    RIGHT_PARENT    shift and go to state 238
 
 
 state 194
@@ -3969,7 +3977,7 @@ state 196
 
     (41) paramlist -> tipoparam . ARROW ID pnAddParametersTablaVar paramlistp
 
-    ARROW           shift and go to state 237
+    ARROW           shift and go to state 239
 
 
 state 197
@@ -3987,7 +3995,7 @@ state 198
 
     ARROW           reduce using rule 135 (empty -> .)
 
-    pnSaveTypeVar                  shift and go to state 238
+    pnSaveTypeVar                  shift and go to state 240
     empty                          shift and go to state 35
 
 state 199
@@ -4000,7 +4008,7 @@ state 199
     COMMA           shift and go to state 100
     SEMICOLON       reduce using rule 135 (empty -> .)
 
-    idpp                           shift and go to state 239
+    idpp                           shift and go to state 241
     empty                          shift and go to state 101
 
 state 200
@@ -4011,14 +4019,14 @@ state 200
 
     SEMICOLON       reduce using rule 135 (empty -> .)
 
-    pnCuadAsign                    shift and go to state 240
-    empty                          shift and go to state 241
+    pnCuadAsign                    shift and go to state 242
+    empty                          shift and go to state 243
 
 state 201
 
     (21) llamada -> ID LEFT_PARENT expp RIGHT_PARENT . SEMICOLON
 
-    SEMICOLON       shift and go to state 242
+    SEMICOLON       shift and go to state 244
 
 
 state 202
@@ -4037,8 +4045,8 @@ state 203
     (79) t -> . f pnCuadMuDi fp
     (84) f -> . LEFT_PARENT exp RIGHT_PARENT
     (85) f -> . CTEI pnSaveCteI pnSaveOperandoConstante
-    (86) f -> . CTEF pnSaveCteF
-    (87) f -> . CTEC pnSaveCteC
+    (86) f -> . CTEF pnSaveCteF pnSaveOperandoConstante
+    (87) f -> . CTEC pnSaveCteC pnSaveOperandoConstante
     (88) f -> . variable
     (89) f -> . llamada
     (90) f -> . funcesp
@@ -4081,7 +4089,7 @@ state 203
     LINREG          shift and go to state 97
     READ_FILE       shift and go to state 88
 
-    exp                            shift and go to state 243
+    exp                            shift and go to state 245
     exprel                         shift and go to state 116
     e                              shift and go to state 117
     t                              shift and go to state 118
@@ -4114,45 +4122,45 @@ state 205
     (20) indexpp -> . empty
     (135) empty -> .
 
-    COMMA           shift and go to state 245
+    COMMA           shift and go to state 247
     RIGHT_SQR_BRACKET reduce using rule 135 (empty -> .)
 
-    indexpp                        shift and go to state 244
-    empty                          shift and go to state 246
+    indexpp                        shift and go to state 246
+    empty                          shift and go to state 248
 
 state 206
 
     (57) lee -> READ LEFT_PARENT variable RIGHT_PARENT . SEMICOLON
 
-    SEMICOLON       shift and go to state 247
+    SEMICOLON       shift and go to state 249
 
 
 state 207
 
     (58) escribe -> WRITE LEFT_PARENT escribep RIGHT_PARENT . SEMICOLON
 
-    SEMICOLON       shift and go to state 248
+    SEMICOLON       shift and go to state 250
 
 
 state 208
 
     (91) condicion -> IF LEFT_PARENT exp RIGHT_PARENT . IF_TRUE LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET falsop
 
-    IF_TRUE         shift and go to state 249
+    IF_TRUE         shift and go to state 251
 
 
 state 209
 
     (94) ciclow -> WHILE LEFT_PARENT exp RIGHT_PARENT . LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET
 
-    LEFT_CUR_BRACKET shift and go to state 250
+    LEFT_CUR_BRACKET shift and go to state 252
 
 
 state 210
 
     (95) ciclof -> FOR LEFT_PARENT asign exp . RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET
 
-    RIGHT_PARENT    shift and go to state 251
+    RIGHT_PARENT    shift and go to state 253
 
 
 state 211
@@ -4172,7 +4180,7 @@ state 211
     RIGHT_SQR_BRACKET reduce using rule 135 (empty -> .)
 
     logicsig                       shift and go to state 161
-    logic                          shift and go to state 252
+    logic                          shift and go to state 254
     empty                          shift and go to state 162
 
 state 212
@@ -4198,7 +4206,7 @@ state 212
     RIGHT_SQR_BRACKET reduce using rule 135 (empty -> .)
 
     relsig                         shift and go to state 166
-    relacionalp                    shift and go to state 253
+    relacionalp                    shift and go to state 255
     empty                          shift and go to state 167
 
 state 213
@@ -4223,8 +4231,8 @@ state 214
     (79) t -> . f pnCuadMuDi fp
     (84) f -> . LEFT_PARENT exp RIGHT_PARENT
     (85) f -> . CTEI pnSaveCteI pnSaveOperandoConstante
-    (86) f -> . CTEF pnSaveCteF
-    (87) f -> . CTEC pnSaveCteC
+    (86) f -> . CTEF pnSaveCteF pnSaveOperandoConstante
+    (87) f -> . CTEC pnSaveCteC pnSaveOperandoConstante
     (88) f -> . variable
     (89) f -> . llamada
     (90) f -> . funcesp
@@ -4267,7 +4275,7 @@ state 214
     LINREG          shift and go to state 97
     READ_FILE       shift and go to state 88
 
-    t                              shift and go to state 254
+    t                              shift and go to state 256
     f                              shift and go to state 119
     variable                       shift and go to state 124
     llamada                        shift and go to state 125
@@ -4321,8 +4329,8 @@ state 216
     LINREG          reduce using rule 135 (empty -> .)
     READ_FILE       reduce using rule 135 (empty -> .)
 
-    pnSaveOperadorPlMi             shift and go to state 255
-    empty                          shift and go to state 256
+    pnSaveOperadorPlMi             shift and go to state 257
+    empty                          shift and go to state 258
 
 state 217
 
@@ -4346,8 +4354,8 @@ state 217
     LINREG          reduce using rule 135 (empty -> .)
     READ_FILE       reduce using rule 135 (empty -> .)
 
-    pnSaveOperadorPlMi             shift and go to state 257
-    empty                          shift and go to state 256
+    pnSaveOperadorPlMi             shift and go to state 259
+    empty                          shift and go to state 258
 
 state 218
 
@@ -4372,8 +4380,8 @@ state 219
     (80) fp -> fsig . f pnCuadMuDi fp
     (84) f -> . LEFT_PARENT exp RIGHT_PARENT
     (85) f -> . CTEI pnSaveCteI pnSaveOperandoConstante
-    (86) f -> . CTEF pnSaveCteF
-    (87) f -> . CTEC pnSaveCteC
+    (86) f -> . CTEF pnSaveCteF pnSaveOperandoConstante
+    (87) f -> . CTEC pnSaveCteC pnSaveOperandoConstante
     (88) f -> . variable
     (89) f -> . llamada
     (90) f -> . funcesp
@@ -4416,7 +4424,7 @@ state 219
     LINREG          shift and go to state 97
     READ_FILE       shift and go to state 88
 
-    f                              shift and go to state 258
+    f                              shift and go to state 260
     variable                       shift and go to state 124
     llamada                        shift and go to state 125
     funcesp                        shift and go to state 126
@@ -4471,8 +4479,8 @@ state 221
     LINREG          reduce using rule 135 (empty -> .)
     READ_FILE       reduce using rule 135 (empty -> .)
 
-    pnSaveOperadorMuDi             shift and go to state 259
-    empty                          shift and go to state 260
+    pnSaveOperadorMuDi             shift and go to state 261
+    empty                          shift and go to state 262
 
 state 222
 
@@ -4496,8 +4504,8 @@ state 222
     LINREG          reduce using rule 135 (empty -> .)
     READ_FILE       reduce using rule 135 (empty -> .)
 
-    pnSaveOperadorMuDi             shift and go to state 261
-    empty                          shift and go to state 260
+    pnSaveOperadorMuDi             shift and go to state 263
+    empty                          shift and go to state 262
 
 state 223
 
@@ -4561,117 +4569,157 @@ state 225
 
 state 226
 
-    (14) copy -> READ_FILE LEFT_PARENT LETRERO RIGHT_PARENT . SEMICOLON
+    (86) f -> CTEF pnSaveCteF pnSaveOperandoConstante .
 
-    SEMICOLON       shift and go to state 262
+    MULT            reduce using rule 86 (f -> CTEF pnSaveCteF pnSaveOperandoConstante .)
+    DIV             reduce using rule 86 (f -> CTEF pnSaveCteF pnSaveOperandoConstante .)
+    PLUS            reduce using rule 86 (f -> CTEF pnSaveCteF pnSaveOperandoConstante .)
+    MINUS           reduce using rule 86 (f -> CTEF pnSaveCteF pnSaveOperandoConstante .)
+    LESS_THAN       reduce using rule 86 (f -> CTEF pnSaveCteF pnSaveOperandoConstante .)
+    GREATER_THAN    reduce using rule 86 (f -> CTEF pnSaveCteF pnSaveOperandoConstante .)
+    EQUALS          reduce using rule 86 (f -> CTEF pnSaveCteF pnSaveOperandoConstante .)
+    NOTEQUALS       reduce using rule 86 (f -> CTEF pnSaveCteF pnSaveOperandoConstante .)
+    AND             reduce using rule 86 (f -> CTEF pnSaveCteF pnSaveOperandoConstante .)
+    OR              reduce using rule 86 (f -> CTEF pnSaveCteF pnSaveOperandoConstante .)
+    SEMICOLON       reduce using rule 86 (f -> CTEF pnSaveCteF pnSaveOperandoConstante .)
+    COMMA           reduce using rule 86 (f -> CTEF pnSaveCteF pnSaveOperandoConstante .)
+    RIGHT_PARENT    reduce using rule 86 (f -> CTEF pnSaveCteF pnSaveOperandoConstante .)
+    RIGHT_SQR_BRACKET reduce using rule 86 (f -> CTEF pnSaveCteF pnSaveOperandoConstante .)
 
 
 state 227
 
-    (106) mean -> MEAN LEFT_PARENT variable RIGHT_PARENT . SEMICOLON
+    (87) f -> CTEC pnSaveCteC pnSaveOperandoConstante .
 
-    SEMICOLON       shift and go to state 263
+    MULT            reduce using rule 87 (f -> CTEC pnSaveCteC pnSaveOperandoConstante .)
+    DIV             reduce using rule 87 (f -> CTEC pnSaveCteC pnSaveOperandoConstante .)
+    PLUS            reduce using rule 87 (f -> CTEC pnSaveCteC pnSaveOperandoConstante .)
+    MINUS           reduce using rule 87 (f -> CTEC pnSaveCteC pnSaveOperandoConstante .)
+    LESS_THAN       reduce using rule 87 (f -> CTEC pnSaveCteC pnSaveOperandoConstante .)
+    GREATER_THAN    reduce using rule 87 (f -> CTEC pnSaveCteC pnSaveOperandoConstante .)
+    EQUALS          reduce using rule 87 (f -> CTEC pnSaveCteC pnSaveOperandoConstante .)
+    NOTEQUALS       reduce using rule 87 (f -> CTEC pnSaveCteC pnSaveOperandoConstante .)
+    AND             reduce using rule 87 (f -> CTEC pnSaveCteC pnSaveOperandoConstante .)
+    OR              reduce using rule 87 (f -> CTEC pnSaveCteC pnSaveOperandoConstante .)
+    SEMICOLON       reduce using rule 87 (f -> CTEC pnSaveCteC pnSaveOperandoConstante .)
+    COMMA           reduce using rule 87 (f -> CTEC pnSaveCteC pnSaveOperandoConstante .)
+    RIGHT_PARENT    reduce using rule 87 (f -> CTEC pnSaveCteC pnSaveOperandoConstante .)
+    RIGHT_SQR_BRACKET reduce using rule 87 (f -> CTEC pnSaveCteC pnSaveOperandoConstante .)
 
 
 state 228
 
-    (107) mode -> MODE LEFT_PARENT variable RIGHT_PARENT . SEMICOLON
+    (14) copy -> READ_FILE LEFT_PARENT LETRERO RIGHT_PARENT . SEMICOLON
 
     SEMICOLON       shift and go to state 264
 
 
 state 229
 
-    (108) median -> MEDIAN LEFT_PARENT variable RIGHT_PARENT . SEMICOLON
+    (106) mean -> MEAN LEFT_PARENT variable RIGHT_PARENT . SEMICOLON
 
     SEMICOLON       shift and go to state 265
 
 
 state 230
 
-    (109) variance -> VARIANCE LEFT_PARENT variable RIGHT_PARENT . SEMICOLON
+    (107) mode -> MODE LEFT_PARENT variable RIGHT_PARENT . SEMICOLON
 
     SEMICOLON       shift and go to state 266
 
 
 state 231
 
-    (110) max -> MAX LEFT_PARENT variable RIGHT_PARENT . SEMICOLON
+    (108) median -> MEDIAN LEFT_PARENT variable RIGHT_PARENT . SEMICOLON
 
     SEMICOLON       shift and go to state 267
 
 
 state 232
 
-    (111) min -> MIN LEFT_PARENT variable RIGHT_PARENT . SEMICOLON
+    (109) variance -> VARIANCE LEFT_PARENT variable RIGHT_PARENT . SEMICOLON
 
     SEMICOLON       shift and go to state 268
 
 
 state 233
 
-    (112) staddes -> STADDES LEFT_PARENT variable RIGHT_PARENT . SEMICOLON
+    (110) max -> MAX LEFT_PARENT variable RIGHT_PARENT . SEMICOLON
 
     SEMICOLON       shift and go to state 269
 
 
 state 234
 
-    (113) boxplot -> BOXPLOT LEFT_PARENT variable RIGHT_PARENT . SEMICOLON
+    (111) min -> MIN LEFT_PARENT variable RIGHT_PARENT . SEMICOLON
 
     SEMICOLON       shift and go to state 270
 
 
 state 235
 
-    (114) linreg -> LINREG LEFT_PARENT variable RIGHT_PARENT . SEMICOLON
+    (112) staddes -> STADDES LEFT_PARENT variable RIGHT_PARENT . SEMICOLON
 
     SEMICOLON       shift and go to state 271
 
 
 state 236
 
-    (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar param RIGHT_PARENT . LEFT_CUR_BRACKET varp estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction
+    (113) boxplot -> BOXPLOT LEFT_PARENT variable RIGHT_PARENT . SEMICOLON
 
-    LEFT_CUR_BRACKET shift and go to state 272
+    SEMICOLON       shift and go to state 272
 
 
 state 237
 
-    (41) paramlist -> tipoparam ARROW . ID pnAddParametersTablaVar paramlistp
+    (114) linreg -> LINREG LEFT_PARENT variable RIGHT_PARENT . SEMICOLON
 
-    ID              shift and go to state 273
+    SEMICOLON       shift and go to state 273
 
 
 state 238
+
+    (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar param RIGHT_PARENT . LEFT_CUR_BRACKET varp estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction
+
+    LEFT_CUR_BRACKET shift and go to state 274
+
+
+state 239
+
+    (41) paramlist -> tipoparam ARROW . ID pnAddParametersTablaVar paramlistp
+
+    ID              shift and go to state 275
+
+
+state 240
 
     (43) tipoparam -> DATAFRAME pnSaveTypeVar .
 
     ARROW           reduce using rule 43 (tipoparam -> DATAFRAME pnSaveTypeVar .)
 
 
-state 239
+state 241
 
     (34) idpp -> COMMA ID pnCheckNameTablaVar idpp .
 
     SEMICOLON       reduce using rule 34 (idpp -> COMMA ID pnCheckNameTablaVar idpp .)
 
 
-state 240
+state 242
 
     (56) asign -> variable ASIGN pnSaveOperadorAsign exp pnCuadAsign . SEMICOLON
 
-    SEMICOLON       shift and go to state 274
+    SEMICOLON       shift and go to state 276
 
 
-state 241
+state 243
 
     (134) pnCuadAsign -> empty .
 
     SEMICOLON       reduce using rule 134 (pnCuadAsign -> empty .)
 
 
-state 242
+state 244
 
     (21) llamada -> ID LEFT_PARENT expp RIGHT_PARENT SEMICOLON .
 
@@ -4709,7 +4757,7 @@ state 242
     RIGHT_SQR_BRACKET reduce using rule 21 (llamada -> ID LEFT_PARENT expp RIGHT_PARENT SEMICOLON .)
 
 
-state 243
+state 245
 
     (24) exppp -> COMMA exp . exppp
     (24) exppp -> . COMMA exp exppp
@@ -4719,17 +4767,17 @@ state 243
     COMMA           shift and go to state 203
     RIGHT_PARENT    reduce using rule 135 (empty -> .)
 
-    exppp                          shift and go to state 275
+    exppp                          shift and go to state 277
     empty                          shift and go to state 204
 
-state 244
+state 246
 
     (17) indexp -> LEFT_SQR_BRACKET exp indexpp . RIGHT_SQR_BRACKET
 
-    RIGHT_SQR_BRACKET shift and go to state 276
+    RIGHT_SQR_BRACKET shift and go to state 278
 
 
-state 245
+state 247
 
     (19) indexpp -> COMMA . exp
     (62) exp -> . exprel logic
@@ -4738,8 +4786,8 @@ state 245
     (79) t -> . f pnCuadMuDi fp
     (84) f -> . LEFT_PARENT exp RIGHT_PARENT
     (85) f -> . CTEI pnSaveCteI pnSaveOperandoConstante
-    (86) f -> . CTEF pnSaveCteF
-    (87) f -> . CTEC pnSaveCteC
+    (86) f -> . CTEF pnSaveCteF pnSaveOperandoConstante
+    (87) f -> . CTEC pnSaveCteC pnSaveOperandoConstante
     (88) f -> . variable
     (89) f -> . llamada
     (90) f -> . funcesp
@@ -4782,7 +4830,7 @@ state 245
     LINREG          shift and go to state 97
     READ_FILE       shift and go to state 88
 
-    exp                            shift and go to state 277
+    exp                            shift and go to state 279
     exprel                         shift and go to state 116
     e                              shift and go to state 117
     t                              shift and go to state 118
@@ -4801,14 +4849,14 @@ state 245
     linreg                         shift and go to state 86
     copy                           shift and go to state 128
 
-state 246
+state 248
 
     (20) indexpp -> empty .
 
     RIGHT_SQR_BRACKET reduce using rule 20 (indexpp -> empty .)
 
 
-state 247
+state 249
 
     (57) lee -> READ LEFT_PARENT variable RIGHT_PARENT SEMICOLON .
 
@@ -4832,7 +4880,7 @@ state 247
     RIGHT_CUR_BRACKET reduce using rule 57 (lee -> READ LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
 
 
-state 248
+state 250
 
     (58) escribe -> WRITE LEFT_PARENT escribep RIGHT_PARENT SEMICOLON .
 
@@ -4856,14 +4904,14 @@ state 248
     RIGHT_CUR_BRACKET reduce using rule 58 (escribe -> WRITE LEFT_PARENT escribep RIGHT_PARENT SEMICOLON .)
 
 
-state 249
+state 251
 
     (91) condicion -> IF LEFT_PARENT exp RIGHT_PARENT IF_TRUE . LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET falsop
 
-    LEFT_CUR_BRACKET shift and go to state 278
+    LEFT_CUR_BRACKET shift and go to state 280
 
 
-state 250
+state 252
 
     (94) ciclow -> WHILE LEFT_PARENT exp RIGHT_PARENT LEFT_CUR_BRACKET . estatutop RIGHT_CUR_BRACKET
     (7) estatutop -> . estatuto estatutop
@@ -4928,7 +4976,7 @@ state 250
     BOXPLOT         shift and go to state 96
     LINREG          shift and go to state 97
 
-    estatutop                      shift and go to state 279
+    estatutop                      shift and go to state 281
     estatuto                       shift and go to state 59
     empty                          shift and go to state 60
     asign                          shift and go to state 61
@@ -4952,14 +5000,14 @@ state 250
     boxplot                        shift and go to state 85
     linreg                         shift and go to state 86
 
-state 251
+state 253
 
     (95) ciclof -> FOR LEFT_PARENT asign exp RIGHT_PARENT . LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET
 
-    LEFT_CUR_BRACKET shift and go to state 280
+    LEFT_CUR_BRACKET shift and go to state 282
 
 
-state 252
+state 254
 
     (63) logic -> logicsig exprel logic .
 
@@ -4969,7 +5017,7 @@ state 252
     RIGHT_SQR_BRACKET reduce using rule 63 (logic -> logicsig exprel logic .)
 
 
-state 253
+state 255
 
     (68) relacionalp -> relsig e relacionalp .
 
@@ -4981,7 +5029,7 @@ state 253
     RIGHT_SQR_BRACKET reduce using rule 68 (relacionalp -> relsig e relacionalp .)
 
 
-state 254
+state 256
 
     (75) tp -> tsig t . pnCuadPlMi tp
     (131) pnCuadPlMi -> . empty
@@ -5000,10 +5048,10 @@ state 254
     RIGHT_PARENT    reduce using rule 135 (empty -> .)
     RIGHT_SQR_BRACKET reduce using rule 135 (empty -> .)
 
-    pnCuadPlMi                     shift and go to state 281
+    pnCuadPlMi                     shift and go to state 283
     empty                          shift and go to state 173
 
-state 255
+state 257
 
     (77) tsig -> PLUS pnSaveOperadorPlMi .
 
@@ -5024,7 +5072,7 @@ state 255
     READ_FILE       reduce using rule 77 (tsig -> PLUS pnSaveOperadorPlMi .)
 
 
-state 256
+state 258
 
     (129) pnSaveOperadorPlMi -> empty .
 
@@ -5045,7 +5093,7 @@ state 256
     READ_FILE       reduce using rule 129 (pnSaveOperadorPlMi -> empty .)
 
 
-state 257
+state 259
 
     (78) tsig -> MINUS pnSaveOperadorPlMi .
 
@@ -5066,7 +5114,7 @@ state 257
     READ_FILE       reduce using rule 78 (tsig -> MINUS pnSaveOperadorPlMi .)
 
 
-state 258
+state 260
 
     (80) fp -> fsig f . pnCuadMuDi fp
     (132) pnCuadMuDi -> . empty
@@ -5087,10 +5135,10 @@ state 258
     RIGHT_PARENT    reduce using rule 135 (empty -> .)
     RIGHT_SQR_BRACKET reduce using rule 135 (empty -> .)
 
-    pnCuadMuDi                     shift and go to state 282
+    pnCuadMuDi                     shift and go to state 284
     empty                          shift and go to state 175
 
-state 259
+state 261
 
     (82) fsig -> MULT pnSaveOperadorMuDi .
 
@@ -5111,7 +5159,7 @@ state 259
     READ_FILE       reduce using rule 82 (fsig -> MULT pnSaveOperadorMuDi .)
 
 
-state 260
+state 262
 
     (130) pnSaveOperadorMuDi -> empty .
 
@@ -5132,7 +5180,7 @@ state 260
     READ_FILE       reduce using rule 130 (pnSaveOperadorMuDi -> empty .)
 
 
-state 261
+state 263
 
     (83) fsig -> DIV pnSaveOperadorMuDi .
 
@@ -5153,7 +5201,7 @@ state 261
     READ_FILE       reduce using rule 83 (fsig -> DIV pnSaveOperadorMuDi .)
 
 
-state 262
+state 264
 
     (14) copy -> READ_FILE LEFT_PARENT LETRERO RIGHT_PARENT SEMICOLON .
 
@@ -5191,7 +5239,7 @@ state 262
     RIGHT_SQR_BRACKET reduce using rule 14 (copy -> READ_FILE LEFT_PARENT LETRERO RIGHT_PARENT SEMICOLON .)
 
 
-state 263
+state 265
 
     (106) mean -> MEAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .
 
@@ -5229,7 +5277,7 @@ state 263
     RIGHT_SQR_BRACKET reduce using rule 106 (mean -> MEAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
 
 
-state 264
+state 266
 
     (107) mode -> MODE LEFT_PARENT variable RIGHT_PARENT SEMICOLON .
 
@@ -5267,7 +5315,7 @@ state 264
     RIGHT_SQR_BRACKET reduce using rule 107 (mode -> MODE LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
 
 
-state 265
+state 267
 
     (108) median -> MEDIAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .
 
@@ -5305,7 +5353,7 @@ state 265
     RIGHT_SQR_BRACKET reduce using rule 108 (median -> MEDIAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
 
 
-state 266
+state 268
 
     (109) variance -> VARIANCE LEFT_PARENT variable RIGHT_PARENT SEMICOLON .
 
@@ -5343,7 +5391,7 @@ state 266
     RIGHT_SQR_BRACKET reduce using rule 109 (variance -> VARIANCE LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
 
 
-state 267
+state 269
 
     (110) max -> MAX LEFT_PARENT variable RIGHT_PARENT SEMICOLON .
 
@@ -5381,7 +5429,7 @@ state 267
     RIGHT_SQR_BRACKET reduce using rule 110 (max -> MAX LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
 
 
-state 268
+state 270
 
     (111) min -> MIN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .
 
@@ -5419,7 +5467,7 @@ state 268
     RIGHT_SQR_BRACKET reduce using rule 111 (min -> MIN LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
 
 
-state 269
+state 271
 
     (112) staddes -> STADDES LEFT_PARENT variable RIGHT_PARENT SEMICOLON .
 
@@ -5457,7 +5505,7 @@ state 269
     RIGHT_SQR_BRACKET reduce using rule 112 (staddes -> STADDES LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
 
 
-state 270
+state 272
 
     (113) boxplot -> BOXPLOT LEFT_PARENT variable RIGHT_PARENT SEMICOLON .
 
@@ -5495,7 +5543,7 @@ state 270
     RIGHT_SQR_BRACKET reduce using rule 113 (boxplot -> BOXPLOT LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
 
 
-state 271
+state 273
 
     (114) linreg -> LINREG LEFT_PARENT variable RIGHT_PARENT SEMICOLON .
 
@@ -5533,7 +5581,7 @@ state 271
     RIGHT_SQR_BRACKET reduce using rule 114 (linreg -> LINREG LEFT_PARENT variable RIGHT_PARENT SEMICOLON .)
 
 
-state 272
+state 274
 
     (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar param RIGHT_PARENT LEFT_CUR_BRACKET . varp estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction
     (2) varp -> . var varp
@@ -5561,11 +5609,11 @@ state 272
     LINREG          reduce using rule 135 (empty -> .)
     RIGHT_CUR_BRACKET reduce using rule 135 (empty -> .)
 
-    varp                           shift and go to state 283
+    varp                           shift and go to state 285
     var                            shift and go to state 10
     empty                          shift and go to state 11
 
-state 273
+state 275
 
     (41) paramlist -> tipoparam ARROW ID . pnAddParametersTablaVar paramlistp
     (121) pnAddParametersTablaVar -> . empty
@@ -5574,10 +5622,10 @@ state 273
     COMMA           reduce using rule 135 (empty -> .)
     RIGHT_PARENT    reduce using rule 135 (empty -> .)
 
-    pnAddParametersTablaVar        shift and go to state 284
-    empty                          shift and go to state 285
+    pnAddParametersTablaVar        shift and go to state 286
+    empty                          shift and go to state 287
 
-state 274
+state 276
 
     (56) asign -> variable ASIGN pnSaveOperadorAsign exp pnCuadAsign SEMICOLON .
 
@@ -5605,14 +5653,14 @@ state 274
     CTEC            reduce using rule 56 (asign -> variable ASIGN pnSaveOperadorAsign exp pnCuadAsign SEMICOLON .)
 
 
-state 275
+state 277
 
     (24) exppp -> COMMA exp exppp .
 
     RIGHT_PARENT    reduce using rule 24 (exppp -> COMMA exp exppp .)
 
 
-state 276
+state 278
 
     (17) indexp -> LEFT_SQR_BRACKET exp indexpp RIGHT_SQR_BRACKET .
 
@@ -5633,14 +5681,14 @@ state 276
     RIGHT_SQR_BRACKET reduce using rule 17 (indexp -> LEFT_SQR_BRACKET exp indexpp RIGHT_SQR_BRACKET .)
 
 
-state 277
+state 279
 
     (19) indexpp -> COMMA exp .
 
     RIGHT_SQR_BRACKET reduce using rule 19 (indexpp -> COMMA exp .)
 
 
-state 278
+state 280
 
     (91) condicion -> IF LEFT_PARENT exp RIGHT_PARENT IF_TRUE LEFT_CUR_BRACKET . estatutop RIGHT_CUR_BRACKET falsop
     (7) estatutop -> . estatuto estatutop
@@ -5705,7 +5753,7 @@ state 278
     BOXPLOT         shift and go to state 96
     LINREG          shift and go to state 97
 
-    estatutop                      shift and go to state 286
+    estatutop                      shift and go to state 288
     estatuto                       shift and go to state 59
     empty                          shift and go to state 60
     asign                          shift and go to state 61
@@ -5729,14 +5777,14 @@ state 278
     boxplot                        shift and go to state 85
     linreg                         shift and go to state 86
 
-state 279
+state 281
 
     (94) ciclow -> WHILE LEFT_PARENT exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop . RIGHT_CUR_BRACKET
 
-    RIGHT_CUR_BRACKET shift and go to state 287
+    RIGHT_CUR_BRACKET shift and go to state 289
 
 
-state 280
+state 282
 
     (95) ciclof -> FOR LEFT_PARENT asign exp RIGHT_PARENT LEFT_CUR_BRACKET . estatutop RIGHT_CUR_BRACKET
     (7) estatutop -> . estatuto estatutop
@@ -5802,7 +5850,7 @@ state 280
     LINREG          shift and go to state 97
 
     asign                          shift and go to state 61
-    estatutop                      shift and go to state 288
+    estatutop                      shift and go to state 290
     estatuto                       shift and go to state 59
     empty                          shift and go to state 60
     llamada                        shift and go to state 62
@@ -5825,7 +5873,7 @@ state 280
     boxplot                        shift and go to state 85
     linreg                         shift and go to state 86
 
-state 281
+state 283
 
     (75) tp -> tsig t pnCuadPlMi . tp
     (75) tp -> . tsig t pnCuadPlMi tp
@@ -5848,10 +5896,10 @@ state 281
     RIGHT_SQR_BRACKET reduce using rule 135 (empty -> .)
 
     tsig                           shift and go to state 214
-    tp                             shift and go to state 289
+    tp                             shift and go to state 291
     empty                          shift and go to state 215
 
-state 282
+state 284
 
     (80) fp -> fsig f pnCuadMuDi . fp
     (80) fp -> . fsig f pnCuadMuDi fp
@@ -5876,10 +5924,10 @@ state 282
     RIGHT_SQR_BRACKET reduce using rule 135 (empty -> .)
 
     fsig                           shift and go to state 219
-    fp                             shift and go to state 290
+    fp                             shift and go to state 292
     empty                          shift and go to state 220
 
-state 283
+state 285
 
     (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar param RIGHT_PARENT LEFT_CUR_BRACKET varp . estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction
     (7) estatutop -> . estatuto estatutop
@@ -5944,7 +5992,7 @@ state 283
     BOXPLOT         shift and go to state 96
     LINREG          shift and go to state 97
 
-    estatutop                      shift and go to state 291
+    estatutop                      shift and go to state 293
     estatuto                       shift and go to state 59
     empty                          shift and go to state 60
     asign                          shift and go to state 61
@@ -5968,20 +6016,20 @@ state 283
     boxplot                        shift and go to state 85
     linreg                         shift and go to state 86
 
-state 284
+state 286
 
     (41) paramlist -> tipoparam ARROW ID pnAddParametersTablaVar . paramlistp
     (44) paramlistp -> . COMMA paramlist
     (45) paramlistp -> . empty
     (135) empty -> .
 
-    COMMA           shift and go to state 293
+    COMMA           shift and go to state 295
     RIGHT_PARENT    reduce using rule 135 (empty -> .)
 
-    paramlistp                     shift and go to state 292
-    empty                          shift and go to state 294
+    paramlistp                     shift and go to state 294
+    empty                          shift and go to state 296
 
-state 285
+state 287
 
     (121) pnAddParametersTablaVar -> empty .
 
@@ -5989,14 +6037,14 @@ state 285
     RIGHT_PARENT    reduce using rule 121 (pnAddParametersTablaVar -> empty .)
 
 
-state 286
+state 288
 
     (91) condicion -> IF LEFT_PARENT exp RIGHT_PARENT IF_TRUE LEFT_CUR_BRACKET estatutop . RIGHT_CUR_BRACKET falsop
 
-    RIGHT_CUR_BRACKET shift and go to state 295
+    RIGHT_CUR_BRACKET shift and go to state 297
 
 
-state 287
+state 289
 
     (94) ciclow -> WHILE LEFT_PARENT exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET .
 
@@ -6020,14 +6068,14 @@ state 287
     RIGHT_CUR_BRACKET reduce using rule 94 (ciclow -> WHILE LEFT_PARENT exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET .)
 
 
-state 288
+state 290
 
     (95) ciclof -> FOR LEFT_PARENT asign exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop . RIGHT_CUR_BRACKET
 
-    RIGHT_CUR_BRACKET shift and go to state 296
+    RIGHT_CUR_BRACKET shift and go to state 298
 
 
-state 289
+state 291
 
     (75) tp -> tsig t pnCuadPlMi tp .
 
@@ -6043,7 +6091,7 @@ state 289
     RIGHT_SQR_BRACKET reduce using rule 75 (tp -> tsig t pnCuadPlMi tp .)
 
 
-state 290
+state 292
 
     (80) fp -> fsig f pnCuadMuDi fp .
 
@@ -6061,21 +6109,21 @@ state 290
     RIGHT_SQR_BRACKET reduce using rule 80 (fp -> fsig f pnCuadMuDi fp .)
 
 
-state 291
+state 293
 
     (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar param RIGHT_PARENT LEFT_CUR_BRACKET varp estatutop . RIGHT_CUR_BRACKET pnCloseCurrentFunction
 
-    RIGHT_CUR_BRACKET shift and go to state 297
+    RIGHT_CUR_BRACKET shift and go to state 299
 
 
-state 292
+state 294
 
     (41) paramlist -> tipoparam ARROW ID pnAddParametersTablaVar paramlistp .
 
     RIGHT_PARENT    reduce using rule 41 (paramlist -> tipoparam ARROW ID pnAddParametersTablaVar paramlistp .)
 
 
-state 293
+state 295
 
     (44) paramlistp -> COMMA . paramlist
     (41) paramlist -> . tipoparam ARROW ID pnAddParametersTablaVar paramlistp
@@ -6090,25 +6138,25 @@ state 293
     FLOAT           shift and go to state 27
     CHAR            shift and go to state 28
 
-    paramlist                      shift and go to state 298
+    paramlist                      shift and go to state 300
     tipoparam                      shift and go to state 196
     tipo_simp                      shift and go to state 197
 
-state 294
+state 296
 
     (45) paramlistp -> empty .
 
     RIGHT_PARENT    reduce using rule 45 (paramlistp -> empty .)
 
 
-state 295
+state 297
 
     (91) condicion -> IF LEFT_PARENT exp RIGHT_PARENT IF_TRUE LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET . falsop
     (92) falsop -> . IF_FALSE LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET
     (93) falsop -> . empty
     (135) empty -> .
 
-    IF_FALSE        shift and go to state 300
+    IF_FALSE        shift and go to state 302
     ID              reduce using rule 135 (empty -> .)
     READ            reduce using rule 135 (empty -> .)
     WRITE           reduce using rule 135 (empty -> .)
@@ -6128,10 +6176,10 @@ state 295
     LINREG          reduce using rule 135 (empty -> .)
     RIGHT_CUR_BRACKET reduce using rule 135 (empty -> .)
 
-    falsop                         shift and go to state 299
-    empty                          shift and go to state 301
+    falsop                         shift and go to state 301
+    empty                          shift and go to state 303
 
-state 296
+state 298
 
     (95) ciclof -> FOR LEFT_PARENT asign exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET .
 
@@ -6155,7 +6203,7 @@ state 296
     RIGHT_CUR_BRACKET reduce using rule 95 (ciclof -> FOR LEFT_PARENT asign exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET .)
 
 
-state 297
+state 299
 
     (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar param RIGHT_PARENT LEFT_CUR_BRACKET varp estatutop RIGHT_CUR_BRACKET . pnCloseCurrentFunction
     (122) pnCloseCurrentFunction -> . empty
@@ -6182,17 +6230,17 @@ state 297
     LINREG          reduce using rule 135 (empty -> .)
     RIGHT_CUR_BRACKET reduce using rule 135 (empty -> .)
 
-    pnCloseCurrentFunction         shift and go to state 302
-    empty                          shift and go to state 303
+    pnCloseCurrentFunction         shift and go to state 304
+    empty                          shift and go to state 305
 
-state 298
+state 300
 
     (44) paramlistp -> COMMA paramlist .
 
     RIGHT_PARENT    reduce using rule 44 (paramlistp -> COMMA paramlist .)
 
 
-state 299
+state 301
 
     (91) condicion -> IF LEFT_PARENT exp RIGHT_PARENT IF_TRUE LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET falsop .
 
@@ -6216,14 +6264,14 @@ state 299
     RIGHT_CUR_BRACKET reduce using rule 91 (condicion -> IF LEFT_PARENT exp RIGHT_PARENT IF_TRUE LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET falsop .)
 
 
-state 300
+state 302
 
     (92) falsop -> IF_FALSE . LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET
 
-    LEFT_CUR_BRACKET shift and go to state 304
+    LEFT_CUR_BRACKET shift and go to state 306
 
 
-state 301
+state 303
 
     (93) falsop -> empty .
 
@@ -6247,7 +6295,7 @@ state 301
     RIGHT_CUR_BRACKET reduce using rule 93 (falsop -> empty .)
 
 
-state 302
+state 304
 
     (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar param RIGHT_PARENT LEFT_CUR_BRACKET varp estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction .
 
@@ -6273,7 +6321,7 @@ state 302
     RIGHT_CUR_BRACKET reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar param RIGHT_PARENT LEFT_CUR_BRACKET varp estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction .)
 
 
-state 303
+state 305
 
     (122) pnCloseCurrentFunction -> empty .
 
@@ -6299,7 +6347,7 @@ state 303
     RIGHT_CUR_BRACKET reduce using rule 122 (pnCloseCurrentFunction -> empty .)
 
 
-state 304
+state 306
 
     (92) falsop -> IF_FALSE LEFT_CUR_BRACKET . estatutop RIGHT_CUR_BRACKET
     (7) estatutop -> . estatuto estatutop
@@ -6364,7 +6412,7 @@ state 304
     BOXPLOT         shift and go to state 96
     LINREG          shift and go to state 97
 
-    estatutop                      shift and go to state 305
+    estatutop                      shift and go to state 307
     estatuto                       shift and go to state 59
     empty                          shift and go to state 60
     asign                          shift and go to state 61
@@ -6388,14 +6436,14 @@ state 304
     boxplot                        shift and go to state 85
     linreg                         shift and go to state 86
 
-state 305
+state 307
 
     (92) falsop -> IF_FALSE LEFT_CUR_BRACKET estatutop . RIGHT_CUR_BRACKET
 
-    RIGHT_CUR_BRACKET shift and go to state 306
+    RIGHT_CUR_BRACKET shift and go to state 308
 
 
-state 306
+state 308
 
     (92) falsop -> IF_FALSE LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET .
 
