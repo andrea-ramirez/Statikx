@@ -304,6 +304,8 @@ class CuboSemantico:
         'char' : 4,
         '4' : 4,
         4 : 4,
+        # Para checar que en asign, sólo se pueda entre variables de tipo dataframe
+        'dataframe' : 'dataframe',
     }
     
     def _init_(self,tablaSimbolos):

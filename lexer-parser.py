@@ -27,6 +27,8 @@ pilaOperadores = LifoQueue(maxsize=0)
 pilaOperandos = LifoQueue(maxsize=0)
 pilaTipo = LifoQueue(maxsize=0)
 identificadorTemporales = 0
+# Ahora se están guardando como la llamada, puede ser un número en el futuro
+pilaEstatutosSecuenciales = LifoQueue(maxsize=0)
 
 #  LEXER
 reserved = {
@@ -309,9 +311,9 @@ def p_lee(p):
 
 def p_escribe(p):
     '''
-    escribe :  WRITE LEFT_PARENT escribep RIGHT_PARENT SEMICOLON
-    escribep : exp 
-             | LETRERO
+    escribe :  WRITE pnSaveEscribe LEFT_PARENT escribep RIGHT_PARENT SEMICOLON
+    escribep : exp pnCuadEscribe
+             | LETRERO pnCuadEscribe
     '''
     p[0] = None
 
@@ -412,55 +414,55 @@ def p_funcesp(p):
 
 def p_mean(p):
     '''
-    mean : MEAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    mean : MEAN pnSaveFuncEsp LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON
     '''
     p[0] = None
 
 def p_mode(p):
     '''
-    mode : MODE LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    mode : MODE pnSaveFuncEsp LEFT_PARENT variable  pnCuadFuncEsp RIGHT_PARENT SEMICOLON
     '''
     p[0] = None
 
 def p_median(p):
     '''
-    median : MEDIAN LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    median : MEDIAN pnSaveFuncEsp LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON
     '''
     p[0] = None
 
 def p_variance(p):
     '''
-    variance : VARIANCE LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    variance : VARIANCE pnSaveFuncEsp LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON
     '''
     p[0] = None
 
 def p_max(p):
     '''
-    max : MAX LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    max : MAX pnSaveFuncEsp LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON
     '''
     p[0] = None
 
 def p_min(p):
     '''
-    min : MIN LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    min : MIN pnSaveFuncEsp LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON
     '''
     p[0] = None
 
 def p_staddes(p):
     '''
-    staddes : STADDES LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    staddes : STADDES pnSaveFuncEsp LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON
     '''
     p[0] = None
 
 def p_boxplot(p):
     '''
-    boxplot : BOXPLOT LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    boxplot : BOXPLOT pnSaveFuncEsp LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON
     '''
     p[0] = None
 
 def p_linreg(p):
     '''
-    linreg : LINREG LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    linreg : LINREG pnSaveFuncEsp LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON
     '''
     p[0] = None
 
@@ -702,16 +704,91 @@ def p_pnCuadAsign(p):
 
             operador = pilaOperadores.get()
             
-            if semantica.convertion[aAsignarTipo] == semantica.convertion[aAsignarTipo]:
+            if semantica.convertion[valorTipo] == semantica.convertion[aAsignarTipo]:
                 nuevoCuadruplo = [operador,valor,"",aAsignar]
                 cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
             else:
                 print("Se deben asignar valores del mismo tipo")
-                print(valorTipo,aAsignarTipo)
-                # sys.exit()
+                print("{} es {} \n {} es {}".format(valor,valorTipo,aAsignar,aAsignarTipo))
+                sys.exit()
 
     p[0] = None
 
+def p_pnSaveEscribe(p):
+    '''
+    pnSaveEscribe : empty
+    '''
+    pilaEstatutosSecuenciales.put(p[-1])
+    p[0] = None
+
+def p_pnCuadEscribe(p):
+    '''
+    pnCuadEscribe : empty
+    '''
+    if pilaEstatutosSecuenciales.qsize() > 0:
+        top = pilaEstatutosSecuenciales.get()
+        pilaEstatutosSecuenciales.put(top)
+
+        if top == 'put':
+            # Checar si es un letrero o una expresion
+            if p[-1] is None:
+                toPrint = pilaOperandos.get()
+                toPrintTipo = pilaTipo.get()
+
+                operador = pilaEstatutosSecuenciales.get()
+                
+                nuevoCuadruplo = [operador,"", "",toPrint]
+                cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
+            else:
+                
+                try:
+                    firstCharacter = p[-1][0]
+                    lastCharacter = p[-1][-1]
+
+                    if firstCharacter == '"' and lastCharacter == '"':
+                        toPrint = p[-1]
+
+                        operador = pilaEstatutosSecuenciales.get()
+                
+                        nuevoCuadruplo = [operador,"", "",toPrint]
+                        cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
+                except:
+                    print("No se puede imprimir esto. Sólo se imprimen expresiones o letreros")
+                    sys.exit()
+
+    p[0] = None
+
+def p_pnSaveFuncEsp(p):
+    '''
+    pnSaveFuncEsp : empty
+    '''
+    pilaEstatutosSecuenciales.put(p[-1])
+    p[0] = None
+
+def p_pnCuadFuncEsp(p):
+    '''
+    pnCuadFuncEsp : empty
+    '''
+    if pilaEstatutosSecuenciales.qsize() > 0:
+        top = pilaEstatutosSecuenciales.get()
+        pilaEstatutosSecuenciales.put(top)
+
+        # Aquí no estoy manejando copy por el momento
+        funcEsp = ['mean','mode','median','variance','max','min','staddes', 'boxplot', 'linreg']
+
+        if top in funcEsp:
+            # Checar si es un arreglo o dataframe en un futuro
+            print("al llamar funciones especiales, FALTA VALIDAR QUE SEA arreglo o dataframe")
+
+            toPrint = pilaOperandos.get()
+            toPrintTipo = pilaTipo.get()
+
+            operador = pilaEstatutosSecuenciales.get()
+
+            nuevoCuadruplo = [operador,"", "",toPrint]
+            cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
+
+    p[0] = None
 
 def p_empty(p):
     '''
@@ -734,6 +811,7 @@ def printDir():
 # Build the parser
 parser = yacc.yacc(debug=True)
 
+# filename = 'testPropuesta.txt'
 filename = 'test.txt'
 fp = codecs.open(filename, "r", "utf-8")
 text = fp.read()
@@ -746,7 +824,7 @@ with open(filename) as fp:
         pass
 
 # printDir()
-print("\n\n\n LISTA DE CUADRUPLOS")
+print("LISTA DE CUADRUPLOS")
 print(*cuadruplos.listaCuadruplos, sep="\n")
-print("  \n\n")
+print("  \n\n TABLA CONSTANTES")
 print(tablaConst)
