@@ -7,11 +7,13 @@ DO
     var char -> z;
     var char -> we;
 
-    put(y);
+    put(x / 2);
     y = x * x + x / 2;
     put("Esto es un letrero");
     mode(x);
     y = x + 5.0;
+    copy("hols.csv");
+    get(x);
     mean(y);
     variance(y);
     we = 'c';

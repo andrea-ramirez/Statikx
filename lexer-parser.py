@@ -217,7 +217,7 @@ def p_tipo_comp(p):
 
 def p_copy(p):
     '''
-    copy : READ_FILE LEFT_PARENT LETRERO RIGHT_PARENT SEMICOLON
+    copy : READ_FILE pnSaveCopy LEFT_PARENT LETRERO pnCuadCopy RIGHT_PARENT SEMICOLON
     '''
     p[0] = None
 
@@ -305,7 +305,7 @@ def p_asign(p):
 
 def p_lee(p):
     '''
-    lee : READ LEFT_PARENT variable RIGHT_PARENT SEMICOLON
+    lee : READ pnSaveLeer LEFT_PARENT variable pnCuadLee RIGHT_PARENT SEMICOLON
     '''
     p[0] = None
 
@@ -755,6 +755,64 @@ def p_pnCuadEscribe(p):
                 except:
                     print("No se puede imprimir esto. Sólo se imprimen expresiones o letreros")
                     sys.exit()
+
+    p[0] = None
+
+def p_pnSaveLeer(p):
+    '''
+    pnSaveLeer : empty
+    '''
+    pilaEstatutosSecuenciales.put(p[-1])
+    p[0] = None
+
+def p_pnCuadLee(p):
+    '''
+    pnCuadLee : empty
+    '''
+    if pilaEstatutosSecuenciales.qsize() > 0:
+        top = pilaEstatutosSecuenciales.get()
+        pilaEstatutosSecuenciales.put(top)
+
+        if top == 'get':
+            # Checar que lo que se está insertando es válido con respecto a tipos
+            leerVariable = pilaOperandos.get()
+            leerVariableTipo = pilaTipo.get()
+
+            operador = pilaEstatutosSecuenciales.get()
+
+            nuevoCuadruplo = [operador,"", "",leerVariable]
+            cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
+            print("Checar que lo que se lee es de un tipo de variable compatible")
+
+    p[0] = None
+
+def p_pnSaveCopy(p):
+    '''
+    pnSaveCopy : empty
+    '''
+    pilaEstatutosSecuenciales.put(p[-1])
+    p[0] = None
+
+def p_pnCuadCopy(p):
+    '''
+    pnCuadCopy : empty
+    '''
+    if pilaEstatutosSecuenciales.qsize() > 0:
+        top = pilaEstatutosSecuenciales.get()
+        pilaEstatutosSecuenciales.put(top)
+
+        if top == 'copy':
+            # Checar que sea un letrero y que termine en .csv
+            if p[-1][0] == '"' and p[-1].endswith('.csv"'):
+                toRead = p[-1]
+
+                operador = pilaEstatutosSecuenciales.get()
+
+                nuevoCuadruplo = [operador,"", "",toRead]
+                cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
+            else:
+                print("You can only read from .csv files")
+                sys.exit()
 
     p[0] = None
 
