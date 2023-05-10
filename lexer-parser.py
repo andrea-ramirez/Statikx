@@ -29,6 +29,7 @@ pilaTipo = LifoQueue(maxsize=0)
 identificadorTemporales = 0
 # Ahora se están guardando como la llamada, puede ser un número en el futuro
 pilaEstatutosSecuenciales = LifoQueue(maxsize=0)
+pilaSaltos = LifoQueue(maxsize=0)
 
 #  LEXER
 reserved = {
@@ -325,23 +326,23 @@ def p_return(p):
 
 def p_exp(p):
     '''
-    exp : exprel logic
-    logic : logicsig exprel logic 
+    exp : exprel pnCuadOplog logic
+    logic : logicsig exprel pnCuadOplog logic 
           | empty
-    logicsig : AND 
-             | OR
+    logicsig : AND pnSaveOperadorLog
+             | OR pnSaveOperadorLog
     '''
     p[0] = None
 
 def p_exprel(p):
     '''
-    exprel : e relacionalp
-    relacionalp : relsig e relacionalp 
+    exprel : e pnCuadOpRelacional relacionalp
+    relacionalp : relsig e pnCuadOpRelacional relacionalp 
                 | empty
-    relsig : LESS_THAN 
-           | GREATER_THAN 
-           | EQUALS 
-           | NOTEQUALS
+    relsig : LESS_THAN pnSaveOperadorRel
+           | GREATER_THAN pnSaveOperadorRel
+           | EQUALS pnSaveOperadorRel
+           | NOTEQUALS pnSaveOperadorRel
     '''
     p[0] = None
 
@@ -613,6 +614,20 @@ def p_pnSaveOperadorMuDi(p):
     pilaOperadores.put(p[-1])
     p[0] = None
 
+def p_pnSaveOperadorRel(p):
+    '''
+    pnSaveOperadorRel : empty
+    '''
+    pilaOperadores.put(p[-1])
+    p[0] = None
+
+def p_pnSaveOperadorLog(p):
+    '''
+    pnSaveOperadorLog : empty
+    '''
+    pilaOperadores.put(p[-1])
+    p[0] = None
+
 def p_pnCuadPlMi(p):
     '''
     pnCuadPlMi : empty
@@ -643,7 +658,7 @@ def p_pnCuadPlMi(p):
                 # missing: if any operand were a temporal space, return it to AVAIL
             else:
                 print("ERROR: Type Mismatch")
-                # sys.exit()
+                sys.exit()
 
     p[0] = None
 
@@ -677,9 +692,77 @@ def p_pnCuadMuDi(p):
                 # missing: if any operand were a temporal space, return it to AVAIL
             else:
                 print("ERROR: Type Mismatch")
-            #     # sys.exit()
+                sys.exit()
 
     p[0] = None
+
+def p_pnCuadOpRelacional(p):
+    '''
+    pnCuadOpRelacional : empty
+    '''
+    if pilaOperadores.qsize() > 0:
+        top = pilaOperadores.get()
+        pilaOperadores.put(top)
+
+        operadoresRelacionales = ['>', '<','==','!=']
+
+        if top in operadoresRelacionales:
+            rightOperand = pilaOperandos.get()
+            rightType = pilaTipo.get()
+            leftOperand = pilaOperandos.get()
+            leftType = pilaTipo.get()
+
+            operador = pilaOperadores.get()
+
+            resultType = semantica.tablaSimbolos[semantica.convertion[rightType]][semantica.convertion[leftType]][operador]
+
+            if resultType != 0:
+                # Sustituir con procedimiento avail
+                global identificadorTemporales 
+                identificadorTemporales += 1
+                temporalActual = "temporal{}".format(identificadorTemporales)
+
+                nuevoCuadruplo = [operador,leftOperand,rightOperand,temporalActual]
+                cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
+                pilaOperandos.put(temporalActual)
+                pilaTipo.put(resultType)
+                # missing: if any operand were a temporal space, return it to AVAIL
+            else:
+                print("ERROR: Type Mismatch")
+                sys.exit()
+
+def p_pnCuadOplog(p):
+    '''
+    pnCuadOplog : empty
+    '''
+    if pilaOperadores.qsize() > 0:
+        top = pilaOperadores.get()
+        pilaOperadores.put(top)
+
+        if top == '&&' or top == '||':
+            rightOperand = pilaOperandos.get()
+            rightType = pilaTipo.get()
+            leftOperand = pilaOperandos.get()
+            leftType = pilaTipo.get()
+
+            operador = pilaOperadores.get()
+
+            resultType = semantica.tablaSimbolos[semantica.convertion[rightType]][semantica.convertion[leftType]][operador]
+
+            if resultType != 0:
+                # Sustituir con procedimiento avail
+                global identificadorTemporales 
+                identificadorTemporales += 1
+                temporalActual = "temporal{}".format(identificadorTemporales)
+
+                nuevoCuadruplo = [operador,leftOperand,rightOperand,temporalActual]
+                cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
+                pilaOperandos.put(temporalActual)
+                pilaTipo.put(resultType)
+                # missing: if any operand were a temporal space, return it to AVAIL
+            else:
+                print("ERROR: Type Mismatch")
+                sys.exit()
 
 def p_pnSaveOperadorAsign(p):
     '''

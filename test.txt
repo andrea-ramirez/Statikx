@@ -10,11 +10,14 @@ DO
     put(x / 2);
     y = x * x + x / 2;
     put("Esto es un letrero");
-    mode(x);
-    y = x + 5.0;
-    copy("hols.csv");
-    get(x);
-    mean(y);
-    variance(y);
     we = 'c';
+    x = 2;
+    y = 3.0;
+
+    if(z == we)
+    True{
+        put("x es mayor");
+    }False{
+        put("y es mayor");
+    }
 }
