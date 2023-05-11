@@ -368,7 +368,7 @@ def p_t(p):
 
 def p_f(p):
     '''
-    f : LEFT_PARENT exp RIGHT_PARENT
+    f : LEFT_PARENT pnSaveFondoFalso exp RIGHT_PARENT pnPopFondoFalso
       | CTEI pnSaveCteI  pnSaveOperandoConstante
       | CTEF pnSaveCteF pnSaveOperandoConstante
       | CTEC pnSaveCteC pnSaveOperandoConstante
@@ -572,6 +572,23 @@ def p_pnSaveCteC(p):
     pnSaveCteC : empty
     '''
     tablaConst[p[-1]] = ['4',"direccionVirtual"]
+    p[0] = None
+
+def p_pnSaveFondoFalso(p):
+    '''
+    pnSaveFondoFalso : empty
+    '''
+    print(p[-1])
+    pilaOperadores.put(p[-1])
+    p[0] = None
+
+def p_pnPopFondoFalso(p):
+    '''
+    pnPopFondoFalso : empty
+    '''
+    print(p[-1])
+    if p[-1] == ')':
+        pilaOperadores.get()
     p[0] = None
 
 # Cuadruplos

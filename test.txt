@@ -8,7 +8,7 @@ DO
     var char -> we;
 
     put(x / 2);
-    y = x * x + x / 2;
+    y = x * (x + x) / 2;
     put("Esto es un letrero");
     we = 'c';
     x = 2;
