@@ -27,8 +27,6 @@ pilaOperadores = LifoQueue(maxsize=0)
 pilaOperandos = LifoQueue(maxsize=0)
 pilaTipo = LifoQueue(maxsize=0)
 identificadorTemporales = 0
-# Ahora se están guardando como la llamada, puede ser un número en el futuro
-pilaEstatutosSecuenciales = LifoQueue(maxsize=0)
 pilaSaltos = LifoQueue(maxsize=0)
 
 #  LEXER
@@ -218,7 +216,7 @@ def p_tipo_comp(p):
 
 def p_copy(p):
     '''
-    copy : READ_FILE pnSaveCopy LEFT_PARENT LETRERO pnCuadCopy RIGHT_PARENT SEMICOLON
+    copy : READ_FILE LEFT_PARENT LETRERO pnCuadCopy RIGHT_PARENT SEMICOLON
     '''
     p[0] = None
 
@@ -306,13 +304,13 @@ def p_asign(p):
 
 def p_lee(p):
     '''
-    lee : READ pnSaveLeer LEFT_PARENT variable pnCuadLee RIGHT_PARENT SEMICOLON
+    lee : READ LEFT_PARENT variable pnCuadLee RIGHT_PARENT SEMICOLON
     '''
     p[0] = None
 
 def p_escribe(p):
     '''
-    escribe :  WRITE pnSaveEscribe LEFT_PARENT escribep RIGHT_PARENT SEMICOLON
+    escribe :  WRITE LEFT_PARENT escribep RIGHT_PARENT SEMICOLON
     escribep : exp pnCuadEscribe
              | LETRERO pnCuadEscribe
     '''
@@ -415,55 +413,55 @@ def p_funcesp(p):
 
 def p_mean(p):
     '''
-    mean : MEAN pnSaveFuncEsp LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON
+    mean : MEAN LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON
     '''
     p[0] = None
 
 def p_mode(p):
     '''
-    mode : MODE pnSaveFuncEsp LEFT_PARENT variable  pnCuadFuncEsp RIGHT_PARENT SEMICOLON
+    mode : MODE LEFT_PARENT variable  pnCuadFuncEsp RIGHT_PARENT SEMICOLON
     '''
     p[0] = None
 
 def p_median(p):
     '''
-    median : MEDIAN pnSaveFuncEsp LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON
+    median : MEDIAN LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON
     '''
     p[0] = None
 
 def p_variance(p):
     '''
-    variance : VARIANCE pnSaveFuncEsp LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON
+    variance : VARIANCE LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON
     '''
     p[0] = None
 
 def p_max(p):
     '''
-    max : MAX pnSaveFuncEsp LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON
+    max : MAX LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON
     '''
     p[0] = None
 
 def p_min(p):
     '''
-    min : MIN pnSaveFuncEsp LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON
+    min : MIN LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON
     '''
     p[0] = None
 
 def p_staddes(p):
     '''
-    staddes : STADDES pnSaveFuncEsp LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON
+    staddes : STADDES LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON
     '''
     p[0] = None
 
 def p_boxplot(p):
     '''
-    boxplot : BOXPLOT pnSaveFuncEsp LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON
+    boxplot : BOXPLOT LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON
     '''
     p[0] = None
 
 def p_linreg(p):
     '''
-    linreg : LINREG pnSaveFuncEsp LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON
+    linreg : LINREG LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON
     '''
     p[0] = None
 
@@ -578,7 +576,6 @@ def p_pnSaveFondoFalso(p):
     '''
     pnSaveFondoFalso : empty
     '''
-    print(p[-1])
     pilaOperadores.put(p[-1])
     p[0] = None
 
@@ -586,7 +583,6 @@ def p_pnPopFondoFalso(p):
     '''
     pnPopFondoFalso : empty
     '''
-    print(p[-1])
     if p[-1] == ')':
         pilaOperadores.get()
     p[0] = None
@@ -814,137 +810,112 @@ def p_pnCuadAsign(p):
 
     p[0] = None
 
-def p_pnSaveEscribe(p):
-    '''
-    pnSaveEscribe : empty
-    '''
-    pilaEstatutosSecuenciales.put(p[-1])
-    p[0] = None
-
 def p_pnCuadEscribe(p):
     '''
     pnCuadEscribe : empty
     '''
-    if pilaEstatutosSecuenciales.qsize() > 0:
-        top = pilaEstatutosSecuenciales.get()
-        pilaEstatutosSecuenciales.put(top)
+    if p[-3] == 'put':
+        if p[-1] is None:
+            toPrint = pilaOperandos.get()
+            pilaTipo.get()
 
-        if top == 'put':
-            # Checar si es un letrero o una expresion
-            if p[-1] is None:
-                toPrint = pilaOperandos.get()
-                toPrintTipo = pilaTipo.get()
+            operador = 'put'
+            
+            nuevoCuadruplo = [operador,"", "",toPrint]
+            cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
+        else:
+            try:
+                firstCharacter = p[-1][0]
+                lastCharacter = p[-1][-1]
 
-                operador = pilaEstatutosSecuenciales.get()
-                
-                nuevoCuadruplo = [operador,"", "",toPrint]
-                cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
-            else:
-                
-                try:
-                    firstCharacter = p[-1][0]
-                    lastCharacter = p[-1][-1]
+                if firstCharacter == '"' and lastCharacter == '"':
+                    toPrint = p[-1]
+                    operador = 'put'
+            
+                    nuevoCuadruplo = [operador,"", "",toPrint]
+                    cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
+            except:
+                print("No se puede imprimir esto. Sólo se imprimen expresiones o letreros")
+                sys.exit()
 
-                    if firstCharacter == '"' and lastCharacter == '"':
-                        toPrint = p[-1]
-
-                        operador = pilaEstatutosSecuenciales.get()
-                
-                        nuevoCuadruplo = [operador,"", "",toPrint]
-                        cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
-                except:
-                    print("No se puede imprimir esto. Sólo se imprimen expresiones o letreros")
-                    sys.exit()
-
-    p[0] = None
-
-def p_pnSaveLeer(p):
-    '''
-    pnSaveLeer : empty
-    '''
-    pilaEstatutosSecuenciales.put(p[-1])
     p[0] = None
 
 def p_pnCuadLee(p):
     '''
     pnCuadLee : empty
     '''
-    if pilaEstatutosSecuenciales.qsize() > 0:
-        top = pilaEstatutosSecuenciales.get()
-        pilaEstatutosSecuenciales.put(top)
+    if p[-3] == 'get':
+        # Checar que lo que se está insertando es válido con respecto a tipos
+        leerVariable = pilaOperandos.get()
+        pilaTipo.get()
 
-        if top == 'get':
-            # Checar que lo que se está insertando es válido con respecto a tipos
-            leerVariable = pilaOperandos.get()
-            leerVariableTipo = pilaTipo.get()
+        operador = 'get'
 
-            operador = pilaEstatutosSecuenciales.get()
+        nuevoCuadruplo = [operador,"", "",leerVariable]
+        cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
+        print("Checar que lo que se lee es de un tipo de variable compatible")
 
-            nuevoCuadruplo = [operador,"", "",leerVariable]
-            cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
-            print("Checar que lo que se lee es de un tipo de variable compatible")
-
-    p[0] = None
-
-def p_pnSaveCopy(p):
-    '''
-    pnSaveCopy : empty
-    '''
-    pilaEstatutosSecuenciales.put(p[-1])
     p[0] = None
 
 def p_pnCuadCopy(p):
     '''
     pnCuadCopy : empty
     '''
-    if pilaEstatutosSecuenciales.qsize() > 0:
-        top = pilaEstatutosSecuenciales.get()
-        pilaEstatutosSecuenciales.put(top)
+    if p[-3] == 'copy':
+        # Checar que sea un letrero y que termine en .csv
+        if p[-1][0] == '"' and p[-1].endswith('.csv"'):
+            toRead = p[-1]
 
-        if top == 'copy':
-            # Checar que sea un letrero y que termine en .csv
-            if p[-1][0] == '"' and p[-1].endswith('.csv"'):
-                toRead = p[-1]
+            operador = 'copy'
 
-                operador = pilaEstatutosSecuenciales.get()
+            nuevoCuadruplo = [operador,"", "",toRead]
+            cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
+        else:
+            print("You can only read from .csv files")
+            sys.exit()
 
-                nuevoCuadruplo = [operador,"", "",toRead]
-                cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
-            else:
-                print("You can only read from .csv files")
-                sys.exit()
-
-    p[0] = None
-
-def p_pnSaveFuncEsp(p):
-    '''
-    pnSaveFuncEsp : empty
-    '''
-    pilaEstatutosSecuenciales.put(p[-1])
     p[0] = None
 
 def p_pnCuadFuncEsp(p):
     '''
     pnCuadFuncEsp : empty
     '''
-    if pilaEstatutosSecuenciales.qsize() > 0:
-        top = pilaEstatutosSecuenciales.get()
-        pilaEstatutosSecuenciales.put(top)
+    top = p[-3]
+    # Aquí no estoy manejando copy por el momento
+    funcEspReturn = ['mean','mode','median','variance','max','min','staddes']
+    funcEspGraficas = ['boxplot', 'linreg']
 
-        # Aquí no estoy manejando copy por el momento
-        funcEsp = ['mean','mode','median','variance','max','min','staddes', 'boxplot', 'linreg']
+    if top in funcEspReturn:
+        # Checar si es un arreglo o dataframe en un futuro
+        print("al llamar funciones especiales, FALTA VALIDAR QUE SEA arreglo o dataframe")
+        #cambiar result type, ahora está que regresan floats
+        resultType = '3'
 
-        if top in funcEsp:
-            # Checar si es un arreglo o dataframe en un futuro
-            print("al llamar funciones especiales, FALTA VALIDAR QUE SEA arreglo o dataframe")
+        toCalculate = pilaOperandos.get()
+        pilaTipo.get()
 
-            toPrint = pilaOperandos.get()
-            toPrintTipo = pilaTipo.get()
+        operador = top
 
-            operador = pilaEstatutosSecuenciales.get()
+        # Sustituir con procedimiento avail
+        global identificadorTemporales 
+        identificadorTemporales += 1
+        temporalActual = "temporal{}".format(identificadorTemporales)
 
-            nuevoCuadruplo = [operador,"", "",toPrint]
-            cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
+        nuevoCuadruplo = [operador,toCalculate, "",temporalActual]
+        cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
+        pilaOperandos.put(temporalActual)
+        pilaTipo.put(resultType)
+
+    elif top in funcEspGraficas:
+
+        print("al llamar funciones especiales, FALTA VALIDAR QUE SEA arreglo o dataframe")
+        toCalculate = pilaOperandos.get()
+        pilaTipo.get()
+
+        operador = top
+
+        nuevoCuadruplo = [operador,"", "",toCalculate]
+        cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
 
     p[0] = None
 

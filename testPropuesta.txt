@@ -43,8 +43,8 @@ DO
     }
 
     !! Draws boxplot of edited df1 and original df2 dataframes 
-    put(boxplot(df1););
-    put(boxplot(df2););
+    boxplot(df1);
+    boxplot(df2);
         
     if(mean(df1); > mean(df2);)
     True{
