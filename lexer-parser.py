@@ -386,7 +386,7 @@ def p_condicion(p):
 
 def p_ciclow(p):
     '''
-    ciclow : WHILE LEFT_PARENT exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET
+    ciclow : WHILE pnSaveWhile LEFT_PARENT exp pnCheckBoolIf RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndWhile
     '''
     p[0] = None
 
@@ -921,6 +921,7 @@ def p_pnCuadFuncEsp(p):
 
 # Cuadruplos No lineales
 
+# IF
 def p_pnCheckBoolIf(p):
     '''
     pnCheckBoolIf : empty
@@ -955,6 +956,28 @@ def p_pnEndIf(p):
     pnEndIf : empty
     '''
     end = pilaSaltos.get()
+    cuadruplos.fill(end,cuadruplos.getCont())
+    p[0] = None
+
+# WHILE
+def p_pnSaveWhile(p):
+    '''
+    pnSaveWhile : empty
+    '''
+    pilaSaltos.put(cuadruplos.getCont())
+    p[0] = None
+
+# Estoy utilizando para checar que la expresion sea booleana, el mismo punto neuralgico de if
+# def p_pnCheckBoolIf(p):
+
+def p_pnEndWhile(p):
+    '''
+    pnEndWhile : empty
+    '''
+    end = pilaSaltos.get()
+    retorno = pilaSaltos.get()
+    nuevoCuadruplo = ['Goto',"","",retorno]
+    cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
     cuadruplos.fill(end,cuadruplos.getCont())
     p[0] = None
 
