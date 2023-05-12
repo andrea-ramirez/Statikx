@@ -7,22 +7,12 @@ DO
     var char -> z;
     var char -> we;
 
-    get(x);
-    copy("hola.csv");
-    put(x / 2);
-    put(mode(x););
-    y = x * (x + x) / 2;
-    put("Esto es un letrero");
-    we = 'c';
-    x = 2;
-    y = 3.0;
-    mean(x);
-    boxplot(d);
-
     if(z == we)
     True{
         put("x es mayor");
     }False{
         put("y es mayor");
     }
+
+    put("hola");
 }

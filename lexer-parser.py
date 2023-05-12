@@ -378,8 +378,8 @@ def p_f(p):
 
 def p_condicion(p):
     '''
-    condicion : IF LEFT_PARENT exp RIGHT_PARENT IF_TRUE LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET falsop
-    falsop : IF_FALSE  LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET 
+    condicion : IF LEFT_PARENT exp pnCheckBoolIf RIGHT_PARENT IF_TRUE LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET falsop pnEndIf
+    falsop : IF_FALSE pnElseIf LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET 
            | empty
     '''
     p[0] = None
@@ -917,6 +917,45 @@ def p_pnCuadFuncEsp(p):
         nuevoCuadruplo = [operador,"", "",toCalculate]
         cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
 
+    p[0] = None
+
+# Cuadruplos No lineales
+
+def p_pnCheckBoolIf(p):
+    '''
+    pnCheckBoolIf : empty
+    '''
+    expTipo = pilaTipo.get()
+    
+    if expTipo != 1:
+        print("ERROR: Type Mismatch. Expected boolean condition in IF statement")
+        sys.exit()
+    else:
+        result = pilaOperandos.get()
+
+        nuevoCuadruplo = ['GotoF',result,"","_"]
+        cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
+        pilaSaltos.put(cuadruplos.getCont()-1)
+
+    p[0] = None
+
+def p_pnElseIf(p):
+    '''
+    pnElseIf : empty
+    '''
+    nuevoCuadruplo = ['Goto',"","","_"]
+    cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
+    false = pilaSaltos.get()
+    pilaSaltos.put(cuadruplos.getCont()-1)
+    cuadruplos.fill(false,cuadruplos.getCont())
+    p[0] = None
+
+def p_pnEndIf(p):
+    '''
+    pnEndIf : empty
+    '''
+    end = pilaSaltos.get()
+    cuadruplos.fill(end,cuadruplos.getCont())
     p[0] = None
 
 def p_empty(p):
