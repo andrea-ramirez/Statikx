@@ -392,7 +392,7 @@ def p_ciclow(p):
 
 def p_ciclof(p):
     '''
-    ciclof : FOR LEFT_PARENT asign exp RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET
+    ciclof : FOR LEFT_PARENT ID pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor
     '''
     p[0] = None
 
@@ -981,6 +981,130 @@ def p_pnEndWhile(p):
     cuadruplos.fill(end,cuadruplos.getCont())
     p[0] = None
 
+
+# FOR
+
+def p_pnSaveForID(p):
+    '''
+    pnSaveForID : empty
+    '''
+    print(p[-1])
+    # checar que sea una variable que ya esté declarada en la funcion o en el scrpipt
+    funcionActual = ""
+    if currentFunction == "":
+        funcionActual = currentScript
+    else:
+        funcionActual = currentFunction
+
+    if p[-1] in dirFunc.registrosFunciones[funcionActual][3]:
+        # Ver el tipo de la variable
+        if semantica.convertion[dirFunc.registrosFunciones[funcionActual][3][p[-1]][0]] != 2:
+            print("ERROR: Type Mismatch. You can only use an id with int as type")
+            sys.exit()
+        else:
+            pilaOperandos.put(p[-1])
+            pilaTipo.put(semantica.convertion[dirFunc.registrosFunciones[funcionActual][3][p[-1]][0]])
+    else:
+        print("Se debe declarar la variable a usar en el for loop")
+        sys.exit()
+    p[0] = None
+
+def p_pnCreateVControl(p):
+    '''
+    pnCreateVControl : empty
+    '''
+
+    expTipo = pilaTipo.get()
+    if semantica.convertion[expTipo] != 2:
+        print("ERROR: Type Mismatch")
+        sys.exit()
+    else:
+        exp = pilaOperandos.get()
+        print("Exp es {}".format(exp))
+
+        VControl = pilaOperandos.get()
+        pilaOperandos.put(VControl)
+
+        controlTipo = pilaTipo.get()
+        pilaTipo.put(controlTipo)
+
+        tipoRes = semantica.tablaSimbolos[semantica.convertion[controlTipo]][semantica.convertion[expTipo]]['==']
+        
+        if tipoRes == 0:
+            print("ERROR Type Mismatch. Variable en for no puede asignar el tipo resultante de la expresión")
+        else:
+            nuevoCuadruplo = ['=',exp,"",VControl]
+            cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
+
+            nuevoCuadruplo = ['=',VControl,"","VControl"]
+            cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
+
+    p[0] = None
+
+def p_pnCompControlFinal(p):
+    '''
+    pnCompControlFinal : empty
+    '''
+    expTipo = pilaTipo.get()
+    if semantica.convertion[expTipo] != 2:
+        print("ERROR: Type Mismatch en For loop, Expresión Final")
+        sys.exit()
+    else:
+        exp = pilaOperandos.get()
+
+        nuevoCuadruplo = ['=',exp,"","VFinal"]
+        cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
+
+        # Sustituir con procedimiento avail
+        global identificadorTemporales 
+        identificadorTemporales += 1
+        temporalActual = "temporal{}".format(identificadorTemporales)
+
+        nuevoCuadruplo = ['<',"VControl","VFinal",temporalActual]
+        cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
+
+        pilaSaltos.put(cuadruplos.getCont()-1)
+
+        nuevoCuadruplo = ['GotoF',temporalActual,"","_"]
+        cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
+
+        pilaSaltos.put(cuadruplos.getCont()-1)
+    p[0] = None
+
+def p_pnEndFor(p):
+    '''
+    pnEndFor : empty
+    '''
+    # Sustituir con procedimiento avail
+    global identificadorTemporales 
+    identificadorTemporales += 1
+    temporalActual = "temporal{}".format(identificadorTemporales)
+
+    nuevoCuadruplo = ['+',"VControl",1,temporalActual]
+    cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
+
+    nuevoCuadruplo = ['=',temporalActual,"","VControl"]
+    cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
+
+    debeSerIdOriginal = pilaOperandos.get()
+    pilaOperandos.put(debeSerIdOriginal)
+
+    nuevoCuadruplo = ['=',temporalActual,"",debeSerIdOriginal]
+    cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
+
+    fin = pilaSaltos.get()
+    ret = pilaSaltos.get()
+
+    nuevoCuadruplo = ['Goto',"","",ret]
+    cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
+
+    cuadruplos.fill(fin,cuadruplos.getCont())
+
+    elimina = pilaOperandos.get() #Sacamos el id original
+    eliminaTipo = pilaTipo.get()
+    p[0] = None
+
+
 def p_empty(p):
     '''
     empty :'''
@@ -1003,7 +1127,8 @@ def printDir():
 parser = yacc.yacc(debug=True)
 
 # filename = 'testPropuesta.txt'
-filename = 'test.txt'
+# filename = 'test.txt'
+filename = 'testForLoop.txt'
 fp = codecs.open(filename, "r", "utf-8")
 text = fp.read()
 fp.close()
@@ -1015,7 +1140,14 @@ with open(filename) as fp:
         pass
 
 # printDir()
-print("LISTA DE CUADRUPLOS")
-print(*cuadruplos.listaCuadruplos, sep="\n")
+print("LISTA DE CUADRUPLOS \n")
+index = 1
+for cuad in cuadruplos.listaCuadruplos:
+    temp = [index] + cuad
+    cuad = temp
+    print(cuad)
+    index += 1
+
+# print(*cuadruplos.listaCuadruplos, sep="\n")
 print("  \n\n TABLA CONSTANTES")
 print(tablaConst)

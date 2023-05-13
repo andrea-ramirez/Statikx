@@ -1,4 +1,9 @@
 script example02; 
+
+func float -> half(float -> x1, int -> x2){
+	returns x1/2;
+}
+
 DO
 { 
     var int -> x;
@@ -6,11 +11,12 @@ DO
     var int -> d;
     var char -> z;
     var char -> we;
+    var int -> i;
 
     get(z);
 
-    while(x * x > y){
-        put("si cumple");
+    for (i = 0,3){
+        print(x);
     }
 
     y = x * y;
