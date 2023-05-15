@@ -24,7 +24,7 @@ class DirectorioFunciones:
             print("ERROR: MULTIPLE DECLARATION OF FUNCTION {}".format(nameFunction))
             sys.exit()
         else:
-            self.registrosFunciones[nameFunction] = [returnValue,"","",""]
+            self.registrosFunciones[nameFunction] = [returnValue,"",{},""]
             # print("Se ha insertado al Directorio de Funciones la funcion {} con attributos {}".format(nameFunction,self.registrosFunciones[nameFunction]))
 
     @classmethod
@@ -38,6 +38,20 @@ class DirectorioFunciones:
         if self.registrosFunciones[funcionAgregarTablaVar][3] == "":
             self.registrosFunciones[funcionAgregarTablaVar][3] = {}
             # print("Se ha creado la tabla de variables de {}".format(funcionAgregarTablaVar))
+
+        #También inicializa el diccionario de recursos de la funcion
+        recursosFuncion = self.registrosFunciones[funcionAgregarTablaVar][2]
+        if recursosFuncion == {}:
+            recursosFuncion['vI'] = 0
+            recursosFuncion['vF'] = 0
+            recursosFuncion['vC'] = 0
+            recursosFuncion['vDf'] = 0
+            recursosFuncion['tI'] = 0
+            recursosFuncion['tF'] = 0
+            recursosFuncion['tC'] = 0
+            recursosFuncion['tDf'] = 0
+            recursosFuncion['tB'] = 0
+
 
     @classmethod
     def createListaParam(self, currentScript,currentFunction):

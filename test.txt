@@ -1,11 +1,11 @@
 script example02; 
 
-func float -> half(float -> x1, int -> x2){
+func float -> half(float -> x1, char -> x2){
     var float -> x;
 	returns x1/2;
 }
 
-func int -> aver(float -> x1, int -> x2){
+func int -> aver(int -> x1, int -> x2){
 	returns x1/2;
 }
 
@@ -27,4 +27,6 @@ DO
     y = x * y;
 
     put("hola");
+    put("hola");
+    put("nuevo letrero");
 }

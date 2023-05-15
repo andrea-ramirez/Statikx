@@ -267,7 +267,7 @@ def p_var(p):
 
 def p_func(p):
     '''
-    func : FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction
+    func : FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param pnAddParamResources RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction
     returnval : tipo_simp 
               | VOID pnSaveTypeVar
     '''
@@ -546,6 +546,31 @@ def p_pnAddParametersTablaVar(p):
     dirFunc.insertarParam(currentScript,currentFunction,currentTypeVar)
     p[0] = None
 
+def p_pnAddParamResources(p):
+    '''
+    pnAddParamResources : empty
+    '''
+    contInt = 0
+    contFloat = 0
+    contC = 0
+    for parametro in dirFunc.registrosFunciones[currentFunction][4]:
+        if semantica.convertion[parametro] == 2:
+            contInt += 1
+        elif semantica.convertion[parametro] == 3:
+            contFloat += 1
+        elif semantica.convertion[parametro] == 4:
+            contC += 1
+        else:
+            print("Error en tipo de paramtero")
+            sys.exit()
+
+    print("CONTADORES DE PARAMETROS \n {} {} {}".format(contInt,contFloat,contC))
+
+    print(dirFunc.registrosFunciones[currentFunction][2])
+
+    p[0] = None
+
+# Agrega direccion inicial de funcion en directorio de funciones 
 def p_pnDirecIniFunc(p):
     '''
     pnDirecIniFunc : empty
@@ -862,7 +887,15 @@ def p_pnCuadEscribe(p):
                 lastCharacter = p[-1][-1]
 
                 if firstCharacter == '"' and lastCharacter == '"':
-                    toPrint = p[-1]
+                    #Se guarda letrero como una constante
+                    if p[-1] not in tablaConst:
+                        direccion = memoria.countCteLetrero
+                        tablaConst[p[-1]] = ['LETRERO',direccion]
+                        memoria.countCteLetrero += 1
+                        toPrint = tablaConst[p[-1]][1]
+                    else:
+                        toPrint = tablaConst[p[-1]][1]
+
                     operador = 'put'
             
                     nuevoCuadruplo = [operador,"", "",toPrint]

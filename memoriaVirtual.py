@@ -23,6 +23,7 @@ class MemoriaVirtual:
     countCteInt = 14000
     countCteFloat = 15000
     countCteC = 16000
+    countCteLetrero = 17000
 
     def _init_(self):
         self.globalInt = 1000,
@@ -48,5 +49,6 @@ class MemoriaVirtual:
         self.countCteInt = 14000
         self.countCteFloat = 15000
         self.countCteC = 16000
+        self.countCteLetrero = 17000
 
 
