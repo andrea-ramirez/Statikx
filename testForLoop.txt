@@ -4,18 +4,8 @@ DO
 { 
     var int -> a, b, c, d, e, f, j, k, h, i;
 
-    a = b + c * (d - e);
-    b = e - f;
-
-    for(j = 1, a + b * c){
-        h = j * k + b;
-        if(b < h)
-        True{
-            b = h + j;
-            put(a + b * c);
-            put(j);
-        }
-
+    for(j = 1, 3){
+        put("hola");
     }
 
     f = a + b;

@@ -7,6 +7,7 @@ import json
 from queue import LifoQueue
 from cuadruplos import Cuadruplo
 import sys
+from memoriaVirtual import MemoriaVirtual
 
 # Tabla de constantes
 # {nombre, tipo, direccionVirtual} Por ahora guardo el tipo, mientas no tenga el número de memoria con que checar el rango, o sea el tipo
@@ -28,6 +29,9 @@ pilaOperandos = LifoQueue(maxsize=0)
 pilaTipo = LifoQueue(maxsize=0)
 identificadorTemporales = 0
 pilaSaltos = LifoQueue(maxsize=0)
+
+# Iniciar Memoria virtual
+memoria = MemoriaVirtual()
 
 #  LEXER
 reserved = {
@@ -263,7 +267,7 @@ def p_var(p):
 
 def p_func(p):
     '''
-    func : FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar param RIGHT_PARENT LEFT_CUR_BRACKET varp estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction
+    func : FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction
     returnval : tipo_simp 
               | VOID pnSaveTypeVar
     '''
@@ -496,6 +500,13 @@ def p_pnCheckTablaVar(p):
     dirFunc.createTablaVar(currentScript,currentFunction)
     p[0] = None
 
+def p_pnCrearListaParam(p):
+    '''
+    pnCrearListaParam : empty
+    '''
+    dirFunc.createListaParam(currentScript,currentFunction)
+    p[0] = None
+
 def p_pnSaveTypeVar(p):
     '''
     pnSaveTypeVar : empty
@@ -532,6 +543,14 @@ def p_pnAddParametersTablaVar(p):
     '''
     # Checar que el parametro no exista en tabla de variables e insertar
     dirFunc.insertVariable(p[-1],currentTypeVar,currentScript,currentFunction)
+    dirFunc.insertarParam(currentScript,currentFunction,currentTypeVar)
+    p[0] = None
+
+def p_pnDirecIniFunc(p):
+    '''
+    pnDirecIniFunc : empty
+    '''
+    dirFunc.registrosFunciones[currentFunction][1] = cuadruplos.getCont()
     p[0] = None
 
 def p_pnCloseCurrentFunction(p):
@@ -541,6 +560,10 @@ def p_pnCloseCurrentFunction(p):
     global currentFunction
     currentFunction = ""
     # Darle cuello a la función?
+
+    nuevoCuadruplo = ["ENDFUNC","","",""]
+    cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
+
     p[0] = None
 
 def p_pnEndScript(p):
@@ -555,21 +578,31 @@ def p_pnSaveCteI(p):
     '''
     pnSaveCteI : empty
     '''
-    tablaConst[p[-1]] = ['2',"direccionVirtual"]
+    if p[-1] not in tablaConst:
+        direccion = memoria.countCteInt
+        tablaConst[p[-1]] = ['2',direccion]
+        memoria.countCteInt += 1
+
     p[0] = None
 
 def p_pnSaveCteF(p):
     '''
     pnSaveCteF : empty
     '''
-    tablaConst[p[-1]] = ['3',"direccionVirtual"]
+    if p[-1] not in tablaConst:
+        direccion = memoria.countCteFloat
+        tablaConst[p[-1]] = ['3',direccion]
+        memoria.countCteFloat += 1
     p[0] = None
 
 def p_pnSaveCteC(p):
     '''
     pnSaveCteC : empty
     '''
-    tablaConst[p[-1]] = ['4',"direccionVirtual"]
+    if p[-1] not in tablaConst:
+        direccion = memoria.countCteC
+        tablaConst[p[-1]] = ['4',direccion]
+        memoria.countCteC += 1
     p[0] = None
 
 def p_pnSaveFondoFalso(p):
@@ -988,7 +1021,6 @@ def p_pnSaveForID(p):
     '''
     pnSaveForID : empty
     '''
-    print(p[-1])
     # checar que sea una variable que ya esté declarada en la funcion o en el scrpipt
     funcionActual = ""
     if currentFunction == "":
@@ -1020,7 +1052,6 @@ def p_pnCreateVControl(p):
         sys.exit()
     else:
         exp = pilaOperandos.get()
-        print("Exp es {}".format(exp))
 
         VControl = pilaOperandos.get()
         pilaOperandos.put(VControl)
@@ -1127,8 +1158,8 @@ def printDir():
 parser = yacc.yacc(debug=True)
 
 # filename = 'testPropuesta.txt'
-# filename = 'test.txt'
-filename = 'testForLoop.txt'
+filename = 'test.txt'
+# filename = 'testForLoop.txt'
 fp = codecs.open(filename, "r", "utf-8")
 text = fp.read()
 fp.close()
@@ -1139,7 +1170,7 @@ with open(filename) as fp:
     except EOFError:
         pass
 
-# printDir()
+printDir()
 print("LISTA DE CUADRUPLOS \n")
 index = 1
 for cuad in cuadruplos.listaCuadruplos:

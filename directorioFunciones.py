@@ -1,6 +1,6 @@
 # Directorio de funciones
 # {string, [diferentesTipos]}
-# {nombre, [tipoRetorno, direccionVirtualInicio, numeroRecursos, tablaVar]}
+# {nombre, [tipoRetorno, direccionInicio, numeroRecursos, tablaVar, listaParametros]}
 # tablaVar = {nombre : [tipo,direccionVirtual]}
 
 import sys
@@ -40,6 +40,26 @@ class DirectorioFunciones:
             # print("Se ha creado la tabla de variables de {}".format(funcionAgregarTablaVar))
 
     @classmethod
+    def createListaParam(self, currentScript,currentFunction):
+        funcionCrearListaParam = ""
+        if currentFunction == "":
+            funcionCrearListaParam = currentScript
+        else:
+            funcionCrearListaParam = currentFunction
+
+        self.registrosFunciones[funcionCrearListaParam].append([])
+
+    @classmethod
+    def insertarParam(self,currentScript,currentFunction,currentTypeVar):
+        funcionCrearListaParam = ""
+        if currentFunction == "":
+            funcionCrearListaParam = currentScript
+        else:
+            funcionCrearListaParam = currentFunction
+        
+        self.registrosFunciones[funcionCrearListaParam][4].append(currentTypeVar)
+
+    @classmethod
     def insertVariable(self,nameVariable,returnValue,currentScript,currentFunction):
         funcionInsertarVariable = ""
         if currentFunction == "":
@@ -57,6 +77,20 @@ class DirectorioFunciones:
             #insertar valor a tabla de variables
             self.registrosFunciones[funcionInsertarVariable][3][nameVariable] = [returnValue,"direccionVirtual"]
             # print("Se ha insertado la variable {} en el registro de {}".format(nameVariable,funcionInsertarVariable))
+
+    @classmethod
+    def isVarDeclared(self,nameVariable,currentScript,currentFunction):
+        # checar que sea una variable que ya esté declarada en la funcion o en el scrpipt
+        funcionActual = ""
+        if currentFunction == "":
+            funcionActual = currentScript
+        else:
+            funcionActual = currentFunction
+
+        if nameVariable in self.registrosFunciones[funcionActual][3]:
+            return True
+        else:
+            return False
 
         
     @classmethod
