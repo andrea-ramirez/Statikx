@@ -1,3 +1,5 @@
+import sys
+
 class MemoriaVirtual:
     #Rangos
     globalInt = 1000,
@@ -23,6 +25,11 @@ class MemoriaVirtual:
     tempC = 11000,
     tempDf = 12000, # not sure if I need this one
     tempBool = 13000,
+    countTemInt = 9000
+    countTemFloat = 10000
+    countTemC = 11000
+    countTemDf = 12000
+    countTemBool = 13000
 
     CteInt = 14000,
     CteFloat = 15000,
@@ -57,6 +64,11 @@ class MemoriaVirtual:
         self.tempC = 11000,
         self.tempDf = 12000, # not sure if I need this one
         self.tempBool = 13000,
+        self.countTemInt = 9000
+        self.countTemFloat = 10000
+        self.countTemC = 11000
+        self.countTemDf = 12000
+        self.countTemBool = 13000
 
         self.CteInt = 14000,
         self.CteFloat = 15000,
@@ -66,5 +78,29 @@ class MemoriaVirtual:
         self.countCteFloat = 15000
         self.countCteC = 16000
         self.countCteLetrero = 17000
+
+    def getMemoriaTemporal(self,resultType):
+        temp = ""
+        print(resultType)
+        if resultType == 1:
+            temp = self.countTemBool
+            self.countTemBool += 1
+        elif resultType == 2:
+            temp = self.countTemInt
+            self.countTemInt += 1
+        elif resultType == 3:
+            temp = self.countTemFloat
+            self.countTemFloat += 1
+        elif resultType == 4:
+            temp = self.countTemC
+            self.countTemC += 1
+        elif resultType == 4:
+            temp = self.countTemDf
+            self.countTemDf += 1
+        else:
+            print("ERROR AL ASIGNAR TEMPORAL")
+            sys.exit()
+
+        return temp
 
 

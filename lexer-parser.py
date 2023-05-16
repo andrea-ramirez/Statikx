@@ -27,7 +27,6 @@ cuadruplos = Cuadruplo()
 pilaOperadores = LifoQueue(maxsize=0)
 pilaOperandos = LifoQueue(maxsize=0)
 pilaTipo = LifoQueue(maxsize=0)
-identificadorTemporales = 0
 pilaSaltos = LifoQueue(maxsize=0)
 
 # Iniciar Memoria virtual
@@ -775,10 +774,8 @@ def p_pnCuadPlMi(p):
             resultType = semantica.tablaSimbolos[semantica.convertion[rightType]][semantica.convertion[leftType]][operador]
 
             if resultType != 0:
-                # Sustituir con procedimiento avail
-                global identificadorTemporales 
-                identificadorTemporales += 1
-                temporalActual = "temporal{}".format(identificadorTemporales)
+
+                temporalActual = memoria.getMemoriaTemporal(resultType)
 
                 nuevoCuadruplo = [operador,leftOperand,rightOperand,temporalActual]
                 cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
@@ -809,10 +806,8 @@ def p_pnCuadMuDi(p):
             resultType = semantica.tablaSimbolos[semantica.convertion[rightType]][semantica.convertion[leftType]][operador]
 
             if resultType != 0:
-                # Sustituir con procedimiento avail
-                global identificadorTemporales 
-                identificadorTemporales += 1
-                temporalActual = "temporal{}".format(identificadorTemporales)
+
+                temporalActual = memoria.getMemoriaTemporal(resultType)
 
                 nuevoCuadruplo = [operador,leftOperand,rightOperand,temporalActual]
                 cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
@@ -846,10 +841,8 @@ def p_pnCuadOpRelacional(p):
             resultType = semantica.tablaSimbolos[semantica.convertion[rightType]][semantica.convertion[leftType]][operador]
 
             if resultType != 0:
-                # Sustituir con procedimiento avail
-                global identificadorTemporales 
-                identificadorTemporales += 1
-                temporalActual = "temporal{}".format(identificadorTemporales)
+
+                temporalActual = memoria.getMemoriaTemporal(resultType)
 
                 nuevoCuadruplo = [operador,leftOperand,rightOperand,temporalActual]
                 cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
@@ -879,10 +872,8 @@ def p_pnCuadOplog(p):
             resultType = semantica.tablaSimbolos[semantica.convertion[rightType]][semantica.convertion[leftType]][operador]
 
             if resultType != 0:
-                # Sustituir con procedimiento avail
-                global identificadorTemporales 
-                identificadorTemporales += 1
-                temporalActual = "temporal{}".format(identificadorTemporales)
+
+                temporalActual = memoria.getMemoriaTemporal(resultType)
 
                 nuevoCuadruplo = [operador,leftOperand,rightOperand,temporalActual]
                 cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
@@ -1011,19 +1002,16 @@ def p_pnCuadFuncEsp(p):
 
     if top in funcEspReturn:
         # Checar si es un arreglo o dataframe en un futuro
-        print("al llamar funciones especiales, FALTA VALIDAR QUE SEA arreglo o dataframe")
+        print("al llamar funciones especiales, FALTA VALIDAR QUE SEA arreglo o dataframe y también su valor de retorno")
         #cambiar result type, ahora está que regresan floats
-        resultType = '3'
+        resultType = 3
 
         toCalculate = pilaOperandos.get()
         pilaTipo.get()
 
         operador = top
 
-        # Sustituir con procedimiento avail
-        global identificadorTemporales 
-        identificadorTemporales += 1
-        temporalActual = "temporal{}".format(identificadorTemporales)
+        temporalActual = memoria.getMemoriaTemporal(resultType)
 
         nuevoCuadruplo = [operador,toCalculate, "",temporalActual]
         cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
@@ -1138,7 +1126,7 @@ def p_pnCreateVControl(p):
     '''
 
     expTipo = pilaTipo.get()
-    if semantica.convertion[expTipo] != 2:
+    if semantica.convertion[expTipo] != 3:
         print("ERROR: Type Mismatch")
         sys.exit()
     else:
@@ -1168,7 +1156,7 @@ def p_pnCompControlFinal(p):
     pnCompControlFinal : empty
     '''
     expTipo = pilaTipo.get()
-    if semantica.convertion[expTipo] != 2:
+    if semantica.convertion[expTipo] != 3:
         print("ERROR: Type Mismatch en For loop, Expresión Final")
         sys.exit()
     else:
@@ -1177,10 +1165,8 @@ def p_pnCompControlFinal(p):
         nuevoCuadruplo = ['=',exp,"","VFinal"]
         cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
 
-        # Sustituir con procedimiento avail
-        global identificadorTemporales 
-        identificadorTemporales += 1
-        temporalActual = "temporal{}".format(identificadorTemporales)
+        # 1 porque es un temporal de tipo booleano
+        temporalActual = memoria.getMemoriaTemporal(1)
 
         nuevoCuadruplo = ['<',"VControl","VFinal",temporalActual]
         cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
@@ -1197,10 +1183,9 @@ def p_pnEndFor(p):
     '''
     pnEndFor : empty
     '''
-    # Sustituir con procedimiento avail
-    global identificadorTemporales 
-    identificadorTemporales += 1
-    temporalActual = "temporal{}".format(identificadorTemporales)
+
+    print("Por ahora tenemos que la variable de control se transforma a float, ya que la expresion tiene que ser de tipo float") 
+    temporalActual = memoria.getMemoriaTemporal(3)
 
     nuevoCuadruplo = ['+',"VControl",1,temporalActual]
     cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
@@ -1262,13 +1247,13 @@ with open(filename) as fp:
         pass
 
 # printDir()
-# print("LISTA DE CUADRUPLOS \n")
-# index = 1
-# for cuad in cuadruplos.listaCuadruplos:
-#     temp = [index] + cuad
-#     cuad = temp
-#     print(cuad)
-#     index += 1
+print("LISTA DE CUADRUPLOS \n")
+index = 1
+for cuad in cuadruplos.listaCuadruplos:
+    temp = [index] + cuad
+    cuad = temp
+    print(cuad)
+    index += 1
 
 # print(*cuadruplos.listaCuadruplos, sep="\n")
 # print("  \n\n TABLA CONSTANTES")
