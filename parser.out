@@ -42,7 +42,7 @@ Rule 32    vpp -> empty
 Rule 33    idp -> ID pnCheckNameTablaVar idpp
 Rule 34    idpp -> COMMA ID pnCheckNameTablaVar idpp
 Rule 35    idpp -> empty
-Rule 36    func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction
+Rule 36    func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsINTOResources pnCloseCurrentFunction
 Rule 37    returnval -> tipo_simp
 Rule 38    returnval -> VOID pnSaveTypeVar
 Rule 39    param -> paramlist
@@ -129,7 +129,7 @@ Rule 119   pnSaveTypeVar -> empty
 Rule 120   pnCheckNameTablaVar -> empty
 Rule 121   pnAddFuncinDir -> empty
 Rule 122   pnAddParametersTablaVar -> empty
-Rule 123   pnCountVarsIntoResources -> empty
+Rule 123   pnCountVarsINTOResources -> empty
 Rule 124   pnDirecIniFunc -> empty
 Rule 125   pnCloseCurrentFunction -> empty
 Rule 126   pnEndScript -> empty
@@ -273,7 +273,7 @@ pnCheckNameTablaVar  : 33 34
 pnCheckTablaVar      : 26 36
 pnCloseCurrentFunction : 36
 pnCompControlFinal   : 95
-pnCountVarsIntoResources : 36
+pnCountVarsINTOResources : 36
 pnCrearDirFunc       : 1
 pnCrearListaParam    : 36
 pnCreateVControl     : 95
@@ -416,7 +416,7 @@ state 9
     (1) programa -> SCRIPT pnCrearDirFunc ID pnScriptFuncDir SEMICOLON varp . funcp bloque
     (4) funcp -> . func funcp
     (5) funcp -> . empty
-    (36) func -> . FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction
+    (36) func -> . FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsINTOResources pnCloseCurrentFunction
     (157) empty -> .
 
     FUNC            shift and go to state 16
@@ -514,7 +514,7 @@ state 14
     (4) funcp -> func . funcp
     (4) funcp -> . func funcp
     (5) funcp -> . empty
-    (36) func -> . FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction
+    (36) func -> . FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsINTOResources pnCloseCurrentFunction
     (157) empty -> .
 
     FUNC            shift and go to state 16
@@ -569,7 +569,7 @@ state 15
 
 state 16
 
-    (36) func -> FUNC . returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction
+    (36) func -> FUNC . returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsINTOResources pnCloseCurrentFunction
     (37) returnval -> . tipo_simp
     (38) returnval -> . VOID pnSaveTypeVar
     (9) tipo_simp -> . INT pnSaveTypeVar
@@ -679,7 +679,7 @@ state 22
 
 state 23
 
-    (36) func -> FUNC returnval . ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction
+    (36) func -> FUNC returnval . ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsINTOResources pnCloseCurrentFunction
 
     ARROW           shift and go to state 33
 
@@ -804,7 +804,7 @@ state 32
 
 state 33
 
-    (36) func -> FUNC returnval ARROW . ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction
+    (36) func -> FUNC returnval ARROW . ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsINTOResources pnCloseCurrentFunction
 
     ID              shift and go to state 45
 
@@ -890,7 +890,7 @@ state 44
     (6) bloque -> DO LEFT_CUR_BRACKET varp . funcp estatutop RIGHT_CUR_BRACKET pnEndScript
     (4) funcp -> . func funcp
     (5) funcp -> . empty
-    (36) func -> . FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction
+    (36) func -> . FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsINTOResources pnCloseCurrentFunction
     (157) empty -> .
 
     FUNC            shift and go to state 16
@@ -919,7 +919,7 @@ state 44
 
 state 45
 
-    (36) func -> FUNC returnval ARROW ID . pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction
+    (36) func -> FUNC returnval ARROW ID . pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsINTOResources pnCloseCurrentFunction
     (121) pnAddFuncinDir -> . empty
     (157) empty -> .
 
@@ -1051,7 +1051,7 @@ state 49
 
 state 50
 
-    (36) func -> FUNC returnval ARROW ID pnAddFuncinDir . LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction
+    (36) func -> FUNC returnval ARROW ID pnAddFuncinDir . LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsINTOResources pnCloseCurrentFunction
 
     LEFT_PARENT     shift and go to state 98
 
@@ -2059,7 +2059,7 @@ state 97
 
 state 98
 
-    (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT . pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction
+    (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT . pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsINTOResources pnCloseCurrentFunction
     (117) pnCheckTablaVar -> . empty
     (157) empty -> .
 
@@ -2838,7 +2838,7 @@ state 139
 
 state 140
 
-    (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar . pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction
+    (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar . pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsINTOResources pnCloseCurrentFunction
     (118) pnCrearListaParam -> . empty
     (157) empty -> .
 
@@ -3784,7 +3784,7 @@ state 186
 
 state 187
 
-    (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam . param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction
+    (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam . param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsINTOResources pnCloseCurrentFunction
     (39) param -> . paramlist
     (40) param -> . empty
     (41) paramlist -> . tipoparam ARROW ID pnAddParametersTablaVar paramlistp
@@ -4832,7 +4832,7 @@ state 245
 
 state 246
 
-    (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param . RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction
+    (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param . RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsINTOResources pnCloseCurrentFunction
 
     RIGHT_PARENT    shift and go to state 294
 
@@ -5623,7 +5623,7 @@ state 293
 
 state 294
 
-    (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT . LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction
+    (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT . LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsINTOResources pnCloseCurrentFunction
 
     LEFT_CUR_BRACKET shift and go to state 321
 
@@ -6272,7 +6272,7 @@ state 320
 
 state 321
 
-    (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET . varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction
+    (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET . varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsINTOResources pnCloseCurrentFunction
     (2) varp -> . var varp
     (3) varp -> . empty
     (26) var -> . VAR pnCheckTablaVar v ARROW idp SEMICOLON
@@ -6564,7 +6564,7 @@ state 330
 
 state 331
 
-    (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp . pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction
+    (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp . pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsINTOResources pnCloseCurrentFunction
     (124) pnDirecIniFunc -> . empty
     (157) empty -> .
 
@@ -6699,7 +6699,7 @@ state 336
 
 state 337
 
-    (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc . estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction
+    (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc . estatutop RIGHT_CUR_BRACKET pnCountVarsINTOResources pnCloseCurrentFunction
     (7) estatutop -> . estatuto estatutop
     (8) estatutop -> . empty
     (46) estatuto -> . asign
@@ -6914,7 +6914,7 @@ state 344
 
 state 345
 
-    (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop . RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction
+    (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop . RIGHT_CUR_BRACKET pnCountVarsINTOResources pnCloseCurrentFunction
 
     RIGHT_CUR_BRACKET shift and go to state 354
 
@@ -7053,8 +7053,8 @@ state 353
 
 state 354
 
-    (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET . pnCountVarsIntoResources pnCloseCurrentFunction
-    (123) pnCountVarsIntoResources -> . empty
+    (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET . pnCountVarsINTOResources pnCloseCurrentFunction
+    (123) pnCountVarsINTOResources -> . empty
     (157) empty -> .
 
     FUNC            reduce using rule 157 (empty -> .)
@@ -7078,7 +7078,7 @@ state 354
     LINREG          reduce using rule 157 (empty -> .)
     RIGHT_CUR_BRACKET reduce using rule 157 (empty -> .)
 
-    pnCountVarsIntoResources       shift and go to state 360
+    pnCountVarsINTOResources       shift and go to state 360
     empty                          shift and go to state 361
 
 state 355
@@ -7152,7 +7152,7 @@ state 359
 
 state 360
 
-    (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources . pnCloseCurrentFunction
+    (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsINTOResources . pnCloseCurrentFunction
     (125) pnCloseCurrentFunction -> . empty
     (157) empty -> .
 
@@ -7182,28 +7182,28 @@ state 360
 
 state 361
 
-    (123) pnCountVarsIntoResources -> empty .
+    (123) pnCountVarsINTOResources -> empty .
 
-    FUNC            reduce using rule 123 (pnCountVarsIntoResources -> empty .)
-    DO              reduce using rule 123 (pnCountVarsIntoResources -> empty .)
-    ID              reduce using rule 123 (pnCountVarsIntoResources -> empty .)
-    READ            reduce using rule 123 (pnCountVarsIntoResources -> empty .)
-    WRITE           reduce using rule 123 (pnCountVarsIntoResources -> empty .)
-    IF              reduce using rule 123 (pnCountVarsIntoResources -> empty .)
-    WHILE           reduce using rule 123 (pnCountVarsIntoResources -> empty .)
-    FOR             reduce using rule 123 (pnCountVarsIntoResources -> empty .)
-    RETURNS         reduce using rule 123 (pnCountVarsIntoResources -> empty .)
-    READ_FILE       reduce using rule 123 (pnCountVarsIntoResources -> empty .)
-    MEAN            reduce using rule 123 (pnCountVarsIntoResources -> empty .)
-    MODE            reduce using rule 123 (pnCountVarsIntoResources -> empty .)
-    MEDIAN          reduce using rule 123 (pnCountVarsIntoResources -> empty .)
-    VARIANCE        reduce using rule 123 (pnCountVarsIntoResources -> empty .)
-    MAX             reduce using rule 123 (pnCountVarsIntoResources -> empty .)
-    MIN             reduce using rule 123 (pnCountVarsIntoResources -> empty .)
-    STADDES         reduce using rule 123 (pnCountVarsIntoResources -> empty .)
-    BOXPLOT         reduce using rule 123 (pnCountVarsIntoResources -> empty .)
-    LINREG          reduce using rule 123 (pnCountVarsIntoResources -> empty .)
-    RIGHT_CUR_BRACKET reduce using rule 123 (pnCountVarsIntoResources -> empty .)
+    FUNC            reduce using rule 123 (pnCountVarsINTOResources -> empty .)
+    DO              reduce using rule 123 (pnCountVarsINTOResources -> empty .)
+    ID              reduce using rule 123 (pnCountVarsINTOResources -> empty .)
+    READ            reduce using rule 123 (pnCountVarsINTOResources -> empty .)
+    WRITE           reduce using rule 123 (pnCountVarsINTOResources -> empty .)
+    IF              reduce using rule 123 (pnCountVarsINTOResources -> empty .)
+    WHILE           reduce using rule 123 (pnCountVarsINTOResources -> empty .)
+    FOR             reduce using rule 123 (pnCountVarsINTOResources -> empty .)
+    RETURNS         reduce using rule 123 (pnCountVarsINTOResources -> empty .)
+    READ_FILE       reduce using rule 123 (pnCountVarsINTOResources -> empty .)
+    MEAN            reduce using rule 123 (pnCountVarsINTOResources -> empty .)
+    MODE            reduce using rule 123 (pnCountVarsINTOResources -> empty .)
+    MEDIAN          reduce using rule 123 (pnCountVarsINTOResources -> empty .)
+    VARIANCE        reduce using rule 123 (pnCountVarsINTOResources -> empty .)
+    MAX             reduce using rule 123 (pnCountVarsINTOResources -> empty .)
+    MIN             reduce using rule 123 (pnCountVarsINTOResources -> empty .)
+    STADDES         reduce using rule 123 (pnCountVarsINTOResources -> empty .)
+    BOXPLOT         reduce using rule 123 (pnCountVarsINTOResources -> empty .)
+    LINREG          reduce using rule 123 (pnCountVarsINTOResources -> empty .)
+    RIGHT_CUR_BRACKET reduce using rule 123 (pnCountVarsINTOResources -> empty .)
 
 
 state 362
@@ -7386,28 +7386,28 @@ state 363
 
 state 364
 
-    (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction .
+    (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsINTOResources pnCloseCurrentFunction .
 
-    FUNC            reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction .)
-    DO              reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction .)
-    ID              reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction .)
-    READ            reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction .)
-    WRITE           reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction .)
-    IF              reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction .)
-    WHILE           reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction .)
-    FOR             reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction .)
-    RETURNS         reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction .)
-    READ_FILE       reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction .)
-    MEAN            reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction .)
-    MODE            reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction .)
-    MEDIAN          reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction .)
-    VARIANCE        reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction .)
-    MAX             reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction .)
-    MIN             reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction .)
-    STADDES         reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction .)
-    BOXPLOT         reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction .)
-    LINREG          reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction .)
-    RIGHT_CUR_BRACKET reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction .)
+    FUNC            reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsINTOResources pnCloseCurrentFunction .)
+    DO              reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsINTOResources pnCloseCurrentFunction .)
+    ID              reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsINTOResources pnCloseCurrentFunction .)
+    READ            reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsINTOResources pnCloseCurrentFunction .)
+    WRITE           reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsINTOResources pnCloseCurrentFunction .)
+    IF              reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsINTOResources pnCloseCurrentFunction .)
+    WHILE           reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsINTOResources pnCloseCurrentFunction .)
+    FOR             reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsINTOResources pnCloseCurrentFunction .)
+    RETURNS         reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsINTOResources pnCloseCurrentFunction .)
+    READ_FILE       reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsINTOResources pnCloseCurrentFunction .)
+    MEAN            reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsINTOResources pnCloseCurrentFunction .)
+    MODE            reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsINTOResources pnCloseCurrentFunction .)
+    MEDIAN          reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsINTOResources pnCloseCurrentFunction .)
+    VARIANCE        reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsINTOResources pnCloseCurrentFunction .)
+    MAX             reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsINTOResources pnCloseCurrentFunction .)
+    MIN             reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsINTOResources pnCloseCurrentFunction .)
+    STADDES         reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsINTOResources pnCloseCurrentFunction .)
+    BOXPLOT         reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsINTOResources pnCloseCurrentFunction .)
+    LINREG          reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsINTOResources pnCloseCurrentFunction .)
+    RIGHT_CUR_BRACKET reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsINTOResources pnCloseCurrentFunction .)
 
 
 state 365

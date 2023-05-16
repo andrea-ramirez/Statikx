@@ -12,6 +12,7 @@ func float -> half(float -> x1, char -> x2){
 func int -> aver(int -> x1, int -> x2){
     var float -> x;
     var float -> df,fg;
+    var int -> third;
     var dataframe -> ff;
 	returns x1/2;
 }

@@ -266,7 +266,7 @@ def p_var(p):
 
 def p_func(p):
     '''
-    func : FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction
+    func : FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsINTOResources pnCloseCurrentFunction
     returnval : tipo_simp 
               | VOID pnSaveTypeVar
     '''
@@ -603,27 +603,32 @@ def p_pnAddParametersTablaVar(p):
 
     p[0] = None
 
-def p_pnCountVarsIntoResources(p):
+# Cuenta el número de recursos de la funcion. Variables locales + parámetros en la tabla de variables
+def p_pnCountVarsINTOResources(p):
     '''
-    pnCountVarsIntoResources : empty
+    pnCountVarsINTOResources : empty
     '''
-    # contInt = 0
-    # contFloat = 0
-    # contC = 0
-    # for parametro in dirFunc.registrosFunciones[currentFunction][4]:
-    #     if semantica.convertion[parametro] == 2:
-    #         contInt += 1
-    #     elif semantica.convertion[parametro] == 3:
-    #         contFloat += 1
-    #     elif semantica.convertion[parametro] == 4:
-    #         contC += 1
-    #     else:
-    #         print("Error en tipo de paramtero")
-    #         sys.exit()
 
-    # print("CONTADORES DE PARAMETROS \n {} {} {}".format(contInt,contFloat,contC))
+    dirFunc.registrosFunciones[currentFunction][2]['vI'] = memoria.countLocInt - memoria.localInt
 
-    # print(dirFunc.registrosFunciones[currentFunction][2])
+    dirFunc.registrosFunciones[currentFunction][2]['vF'] = memoria.countLocFloat - memoria.localFloat
+
+    dirFunc.registrosFunciones[currentFunction][2]['vC'] = memoria.countLocC - memoria.localC
+
+    dirFunc.registrosFunciones[currentFunction][2]['vDf'] = memoria.countLocDf - memoria.localDf
+
+    dirFunc.registrosFunciones[currentFunction][2]['tI'] = memoria.countTemInt - memoria.tempInt
+
+    dirFunc.registrosFunciones[currentFunction][2]['tF'] = memoria.countTemFloat - memoria.tempFloat
+
+    dirFunc.registrosFunciones[currentFunction][2]['tC'] = memoria.countTemC - memoria.tempC
+
+    dirFunc.registrosFunciones[currentFunction][2]['tDf'] = memoria.countTemDf - memoria.tempDf
+
+    dirFunc.registrosFunciones[currentFunction][2]['tB'] = memoria.countTemBool - memoria.tempBool
+
+    #Los contadores de las variables se regresan al límite inferior original
+    memoria.reset()
 
     p[0] = None
 
@@ -639,7 +644,10 @@ def p_pnCloseCurrentFunction(p):
     '''
     pnCloseCurrentFunction : empty
     '''
+    # Borrar tabla de variables de la funcion
     global currentFunction
+    dirFunc.registrosFunciones[currentFunction][3] = {}
+
     currentFunction = ""
     # Darle cuello a la función?
 
