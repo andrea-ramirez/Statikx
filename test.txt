@@ -1,11 +1,18 @@
 script example02; 
 
+var float -> pepe;
+
 func float -> half(float -> x1, char -> x2){
     var float -> x;
+    var float -> df,fg;
+    var dataframe -> ff;
 	returns x1/2;
 }
 
 func int -> aver(int -> x1, int -> x2){
+    var float -> x;
+    var float -> df,fg;
+    var dataframe -> ff;
 	returns x1/2;
 }
 
@@ -17,6 +24,7 @@ DO
     var char -> z;
     var char -> we;
     var int -> i;
+    var dataframe -> df1,df2;
 
     get(z);
 

@@ -42,7 +42,7 @@ Rule 32    vpp -> empty
 Rule 33    idp -> ID pnCheckNameTablaVar idpp
 Rule 34    idpp -> COMMA ID pnCheckNameTablaVar idpp
 Rule 35    idpp -> empty
-Rule 36    func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param pnAddParamResources RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction
+Rule 36    func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction
 Rule 37    returnval -> tipo_simp
 Rule 38    returnval -> VOID pnSaveTypeVar
 Rule 39    param -> paramlist
@@ -129,7 +129,7 @@ Rule 119   pnSaveTypeVar -> empty
 Rule 120   pnCheckNameTablaVar -> empty
 Rule 121   pnAddFuncinDir -> empty
 Rule 122   pnAddParametersTablaVar -> empty
-Rule 123   pnAddParamResources -> empty
+Rule 123   pnCountVarsIntoResources -> empty
 Rule 124   pnDirecIniFunc -> empty
 Rule 125   pnCloseCurrentFunction -> empty
 Rule 126   pnEndScript -> empty
@@ -267,13 +267,13 @@ param                : 36
 paramlist            : 39 44
 paramlistp           : 41
 pnAddFuncinDir       : 36
-pnAddParamResources  : 36
 pnAddParametersTablaVar : 41
 pnCheckBoolIf        : 91 94
 pnCheckNameTablaVar  : 33 34
 pnCheckTablaVar      : 26 36
 pnCloseCurrentFunction : 36
 pnCompControlFinal   : 95
+pnCountVarsIntoResources : 36
 pnCrearDirFunc       : 1
 pnCrearListaParam    : 36
 pnCreateVControl     : 95
@@ -416,7 +416,7 @@ state 9
     (1) programa -> SCRIPT pnCrearDirFunc ID pnScriptFuncDir SEMICOLON varp . funcp bloque
     (4) funcp -> . func funcp
     (5) funcp -> . empty
-    (36) func -> . FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param pnAddParamResources RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction
+    (36) func -> . FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction
     (157) empty -> .
 
     FUNC            shift and go to state 16
@@ -514,7 +514,7 @@ state 14
     (4) funcp -> func . funcp
     (4) funcp -> . func funcp
     (5) funcp -> . empty
-    (36) func -> . FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param pnAddParamResources RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction
+    (36) func -> . FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction
     (157) empty -> .
 
     FUNC            shift and go to state 16
@@ -569,7 +569,7 @@ state 15
 
 state 16
 
-    (36) func -> FUNC . returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param pnAddParamResources RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction
+    (36) func -> FUNC . returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction
     (37) returnval -> . tipo_simp
     (38) returnval -> . VOID pnSaveTypeVar
     (9) tipo_simp -> . INT pnSaveTypeVar
@@ -679,7 +679,7 @@ state 22
 
 state 23
 
-    (36) func -> FUNC returnval . ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param pnAddParamResources RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction
+    (36) func -> FUNC returnval . ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction
 
     ARROW           shift and go to state 33
 
@@ -804,7 +804,7 @@ state 32
 
 state 33
 
-    (36) func -> FUNC returnval ARROW . ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param pnAddParamResources RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction
+    (36) func -> FUNC returnval ARROW . ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction
 
     ID              shift and go to state 45
 
@@ -890,7 +890,7 @@ state 44
     (6) bloque -> DO LEFT_CUR_BRACKET varp . funcp estatutop RIGHT_CUR_BRACKET pnEndScript
     (4) funcp -> . func funcp
     (5) funcp -> . empty
-    (36) func -> . FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param pnAddParamResources RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction
+    (36) func -> . FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction
     (157) empty -> .
 
     FUNC            shift and go to state 16
@@ -919,7 +919,7 @@ state 44
 
 state 45
 
-    (36) func -> FUNC returnval ARROW ID . pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param pnAddParamResources RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction
+    (36) func -> FUNC returnval ARROW ID . pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction
     (121) pnAddFuncinDir -> . empty
     (157) empty -> .
 
@@ -1051,7 +1051,7 @@ state 49
 
 state 50
 
-    (36) func -> FUNC returnval ARROW ID pnAddFuncinDir . LEFT_PARENT pnCheckTablaVar pnCrearListaParam param pnAddParamResources RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction
+    (36) func -> FUNC returnval ARROW ID pnAddFuncinDir . LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction
 
     LEFT_PARENT     shift and go to state 98
 
@@ -2059,7 +2059,7 @@ state 97
 
 state 98
 
-    (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT . pnCheckTablaVar pnCrearListaParam param pnAddParamResources RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction
+    (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT . pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction
     (117) pnCheckTablaVar -> . empty
     (157) empty -> .
 
@@ -2838,7 +2838,7 @@ state 139
 
 state 140
 
-    (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar . pnCrearListaParam param pnAddParamResources RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction
+    (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar . pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction
     (118) pnCrearListaParam -> . empty
     (157) empty -> .
 
@@ -3784,7 +3784,7 @@ state 186
 
 state 187
 
-    (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam . param pnAddParamResources RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction
+    (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam . param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction
     (39) param -> . paramlist
     (40) param -> . empty
     (41) paramlist -> . tipoparam ARROW ID pnAddParametersTablaVar paramlistp
@@ -4832,14 +4832,10 @@ state 245
 
 state 246
 
-    (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param . pnAddParamResources RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction
-    (123) pnAddParamResources -> . empty
-    (157) empty -> .
+    (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param . RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction
 
-    RIGHT_PARENT    reduce using rule 157 (empty -> .)
+    RIGHT_PARENT    shift and go to state 294
 
-    pnAddParamResources            shift and go to state 294
-    empty                          shift and go to state 295
 
 state 247
 
@@ -4859,7 +4855,7 @@ state 249
 
     (41) paramlist -> tipoparam . ARROW ID pnAddParametersTablaVar paramlistp
 
-    ARROW           shift and go to state 296
+    ARROW           shift and go to state 295
 
 
 state 250
@@ -4877,7 +4873,7 @@ state 251
 
     ARROW           reduce using rule 157 (empty -> .)
 
-    pnSaveTypeVar                  shift and go to state 297
+    pnSaveTypeVar                  shift and go to state 296
     empty                          shift and go to state 35
 
 state 252
@@ -4891,7 +4887,7 @@ state 253
 
     (56) asign -> variable ASIGN pnSaveOperadorAsign exp pnCuadAsign . SEMICOLON
 
-    SEMICOLON       shift and go to state 298
+    SEMICOLON       shift and go to state 297
 
 
 state 254
@@ -4949,14 +4945,14 @@ state 256
     COMMA           shift and go to state 193
     RIGHT_PARENT    reduce using rule 157 (empty -> .)
 
-    exppp                          shift and go to state 299
+    exppp                          shift and go to state 298
     empty                          shift and go to state 194
 
 state 257
 
     (17) indexp -> LEFT_SQR_BRACKET exp indexpp . RIGHT_SQR_BRACKET
 
-    RIGHT_SQR_BRACKET shift and go to state 300
+    RIGHT_SQR_BRACKET shift and go to state 299
 
 
 state 258
@@ -5012,7 +5008,7 @@ state 258
     LINREG          shift and go to state 97
     READ_FILE       shift and go to state 88
 
-    exp                            shift and go to state 301
+    exp                            shift and go to state 300
     exprel                         shift and go to state 117
     e                              shift and go to state 118
     t                              shift and go to state 119
@@ -5042,7 +5038,7 @@ state 260
 
     (57) lee -> READ LEFT_PARENT variable pnCuadLee RIGHT_PARENT . SEMICOLON
 
-    SEMICOLON       shift and go to state 302
+    SEMICOLON       shift and go to state 301
 
 
 state 261
@@ -5073,14 +5069,14 @@ state 262
 
     (91) condicion -> IF LEFT_PARENT exp pnCheckBoolIf RIGHT_PARENT . IF_TRUE LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET falsop pnEndIf
 
-    IF_TRUE         shift and go to state 303
+    IF_TRUE         shift and go to state 302
 
 
 state 263
 
     (94) ciclow -> WHILE pnSaveWhile LEFT_PARENT exp pnCheckBoolIf . RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndWhile
 
-    RIGHT_PARENT    shift and go to state 304
+    RIGHT_PARENT    shift and go to state 303
 
 
 state 264
@@ -5136,7 +5132,7 @@ state 264
     LINREG          shift and go to state 97
     READ_FILE       shift and go to state 88
 
-    exp                            shift and go to state 305
+    exp                            shift and go to state 304
     exprel                         shift and go to state 117
     e                              shift and go to state 118
     t                              shift and go to state 119
@@ -5168,7 +5164,7 @@ state 265
     RIGHT_PARENT    reduce using rule 157 (empty -> .)
     RIGHT_SQR_BRACKET reduce using rule 157 (empty -> .)
 
-    pnCuadOplog                    shift and go to state 306
+    pnCuadOplog                    shift and go to state 305
     empty                          shift and go to state 162
 
 state 266
@@ -5251,7 +5247,7 @@ state 269
     RIGHT_PARENT    reduce using rule 157 (empty -> .)
     RIGHT_SQR_BRACKET reduce using rule 157 (empty -> .)
 
-    pnCuadOpRelacional             shift and go to state 307
+    pnCuadOpRelacional             shift and go to state 306
     empty                          shift and go to state 164
 
 state 270
@@ -5378,7 +5374,7 @@ state 275
     RIGHT_PARENT    reduce using rule 157 (empty -> .)
     RIGHT_SQR_BRACKET reduce using rule 157 (empty -> .)
 
-    pnCuadPlMi                     shift and go to state 308
+    pnCuadPlMi                     shift and go to state 307
     empty                          shift and go to state 166
 
 state 276
@@ -5465,7 +5461,7 @@ state 279
     RIGHT_PARENT    reduce using rule 157 (empty -> .)
     RIGHT_SQR_BRACKET reduce using rule 157 (empty -> .)
 
-    pnCuadMuDi                     shift and go to state 309
+    pnCuadMuDi                     shift and go to state 308
     empty                          shift and go to state 168
 
 state 280
@@ -5552,108 +5548,101 @@ state 283
     RIGHT_PARENT    reduce using rule 157 (empty -> .)
     RIGHT_SQR_BRACKET reduce using rule 157 (empty -> .)
 
-    pnPopFondoFalso                shift and go to state 310
-    empty                          shift and go to state 311
+    pnPopFondoFalso                shift and go to state 309
+    empty                          shift and go to state 310
 
 state 284
 
     (14) copy -> READ_FILE LEFT_PARENT LETRERO pnCuadCopy RIGHT_PARENT . SEMICOLON
 
-    SEMICOLON       shift and go to state 312
+    SEMICOLON       shift and go to state 311
 
 
 state 285
 
     (106) mean -> MEAN LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT . SEMICOLON
 
-    SEMICOLON       shift and go to state 313
+    SEMICOLON       shift and go to state 312
 
 
 state 286
 
     (107) mode -> MODE LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT . SEMICOLON
 
-    SEMICOLON       shift and go to state 314
+    SEMICOLON       shift and go to state 313
 
 
 state 287
 
     (108) median -> MEDIAN LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT . SEMICOLON
 
-    SEMICOLON       shift and go to state 315
+    SEMICOLON       shift and go to state 314
 
 
 state 288
 
     (109) variance -> VARIANCE LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT . SEMICOLON
 
-    SEMICOLON       shift and go to state 316
+    SEMICOLON       shift and go to state 315
 
 
 state 289
 
     (110) max -> MAX LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT . SEMICOLON
 
-    SEMICOLON       shift and go to state 317
+    SEMICOLON       shift and go to state 316
 
 
 state 290
 
     (111) min -> MIN LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT . SEMICOLON
 
-    SEMICOLON       shift and go to state 318
+    SEMICOLON       shift and go to state 317
 
 
 state 291
 
     (112) staddes -> STADDES LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT . SEMICOLON
 
-    SEMICOLON       shift and go to state 319
+    SEMICOLON       shift and go to state 318
 
 
 state 292
 
     (113) boxplot -> BOXPLOT LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT . SEMICOLON
 
-    SEMICOLON       shift and go to state 320
+    SEMICOLON       shift and go to state 319
 
 
 state 293
 
     (114) linreg -> LINREG LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT . SEMICOLON
 
-    SEMICOLON       shift and go to state 321
+    SEMICOLON       shift and go to state 320
 
 
 state 294
 
-    (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param pnAddParamResources . RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction
+    (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT . LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction
 
-    RIGHT_PARENT    shift and go to state 322
+    LEFT_CUR_BRACKET shift and go to state 321
 
 
 state 295
 
-    (123) pnAddParamResources -> empty .
+    (41) paramlist -> tipoparam ARROW . ID pnAddParametersTablaVar paramlistp
 
-    RIGHT_PARENT    reduce using rule 123 (pnAddParamResources -> empty .)
+    ID              shift and go to state 322
 
 
 state 296
-
-    (41) paramlist -> tipoparam ARROW . ID pnAddParametersTablaVar paramlistp
-
-    ID              shift and go to state 323
-
-
-state 297
 
     (43) tipoparam -> DATAFRAME pnSaveTypeVar .
 
     ARROW           reduce using rule 43 (tipoparam -> DATAFRAME pnSaveTypeVar .)
 
 
-state 298
+state 297
 
     (56) asign -> variable ASIGN pnSaveOperadorAsign exp pnCuadAsign SEMICOLON .
 
@@ -5677,14 +5666,14 @@ state 298
     RIGHT_CUR_BRACKET reduce using rule 56 (asign -> variable ASIGN pnSaveOperadorAsign exp pnCuadAsign SEMICOLON .)
 
 
-state 299
+state 298
 
     (24) exppp -> COMMA exp exppp .
 
     RIGHT_PARENT    reduce using rule 24 (exppp -> COMMA exp exppp .)
 
 
-state 300
+state 299
 
     (17) indexp -> LEFT_SQR_BRACKET exp indexpp RIGHT_SQR_BRACKET .
 
@@ -5705,14 +5694,14 @@ state 300
     RIGHT_SQR_BRACKET reduce using rule 17 (indexp -> LEFT_SQR_BRACKET exp indexpp RIGHT_SQR_BRACKET .)
 
 
-state 301
+state 300
 
     (19) indexpp -> COMMA exp .
 
     RIGHT_SQR_BRACKET reduce using rule 19 (indexpp -> COMMA exp .)
 
 
-state 302
+state 301
 
     (57) lee -> READ LEFT_PARENT variable pnCuadLee RIGHT_PARENT SEMICOLON .
 
@@ -5736,21 +5725,21 @@ state 302
     RIGHT_CUR_BRACKET reduce using rule 57 (lee -> READ LEFT_PARENT variable pnCuadLee RIGHT_PARENT SEMICOLON .)
 
 
-state 303
+state 302
 
     (91) condicion -> IF LEFT_PARENT exp pnCheckBoolIf RIGHT_PARENT IF_TRUE . LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET falsop pnEndIf
+
+    LEFT_CUR_BRACKET shift and go to state 323
+
+
+state 303
+
+    (94) ciclow -> WHILE pnSaveWhile LEFT_PARENT exp pnCheckBoolIf RIGHT_PARENT . LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndWhile
 
     LEFT_CUR_BRACKET shift and go to state 324
 
 
 state 304
-
-    (94) ciclow -> WHILE pnSaveWhile LEFT_PARENT exp pnCheckBoolIf RIGHT_PARENT . LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndWhile
-
-    LEFT_CUR_BRACKET shift and go to state 325
-
-
-state 305
 
     (95) ciclof -> FOR LEFT_PARENT ID pnSaveForID ASIGN exp . pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor
     (154) pnCreateVControl -> . empty
@@ -5758,10 +5747,10 @@ state 305
 
     COMMA           reduce using rule 157 (empty -> .)
 
-    pnCreateVControl               shift and go to state 326
-    empty                          shift and go to state 327
+    pnCreateVControl               shift and go to state 325
+    empty                          shift and go to state 326
 
-state 306
+state 305
 
     (63) logic -> logicsig exprel pnCuadOplog . logic
     (63) logic -> . logicsig exprel pnCuadOplog logic
@@ -5778,10 +5767,10 @@ state 306
     RIGHT_SQR_BRACKET reduce using rule 157 (empty -> .)
 
     logicsig                       shift and go to state 208
-    logic                          shift and go to state 328
+    logic                          shift and go to state 327
     empty                          shift and go to state 209
 
-state 307
+state 306
 
     (68) relacionalp -> relsig e pnCuadOpRelacional . relacionalp
     (68) relacionalp -> . relsig e pnCuadOpRelacional relacionalp
@@ -5804,10 +5793,10 @@ state 307
     RIGHT_SQR_BRACKET reduce using rule 157 (empty -> .)
 
     relsig                         shift and go to state 213
-    relacionalp                    shift and go to state 329
+    relacionalp                    shift and go to state 328
     empty                          shift and go to state 214
 
-state 308
+state 307
 
     (75) tp -> tsig t pnCuadPlMi . tp
     (75) tp -> . tsig t pnCuadPlMi tp
@@ -5830,10 +5819,10 @@ state 308
     RIGHT_SQR_BRACKET reduce using rule 157 (empty -> .)
 
     tsig                           shift and go to state 220
-    tp                             shift and go to state 330
+    tp                             shift and go to state 329
     empty                          shift and go to state 221
 
-state 309
+state 308
 
     (80) fp -> fsig f pnCuadMuDi . fp
     (80) fp -> . fsig f pnCuadMuDi fp
@@ -5858,10 +5847,10 @@ state 309
     RIGHT_SQR_BRACKET reduce using rule 157 (empty -> .)
 
     fsig                           shift and go to state 225
-    fp                             shift and go to state 331
+    fp                             shift and go to state 330
     empty                          shift and go to state 226
 
-state 310
+state 309
 
     (84) f -> LEFT_PARENT pnSaveFondoFalso exp RIGHT_PARENT pnPopFondoFalso .
 
@@ -5881,7 +5870,7 @@ state 310
     RIGHT_SQR_BRACKET reduce using rule 84 (f -> LEFT_PARENT pnSaveFondoFalso exp RIGHT_PARENT pnPopFondoFalso .)
 
 
-state 311
+state 310
 
     (131) pnPopFondoFalso -> empty .
 
@@ -5901,7 +5890,7 @@ state 311
     RIGHT_SQR_BRACKET reduce using rule 131 (pnPopFondoFalso -> empty .)
 
 
-state 312
+state 311
 
     (14) copy -> READ_FILE LEFT_PARENT LETRERO pnCuadCopy RIGHT_PARENT SEMICOLON .
 
@@ -5939,7 +5928,7 @@ state 312
     RIGHT_SQR_BRACKET reduce using rule 14 (copy -> READ_FILE LEFT_PARENT LETRERO pnCuadCopy RIGHT_PARENT SEMICOLON .)
 
 
-state 313
+state 312
 
     (106) mean -> MEAN LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON .
 
@@ -5977,7 +5966,7 @@ state 313
     RIGHT_SQR_BRACKET reduce using rule 106 (mean -> MEAN LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON .)
 
 
-state 314
+state 313
 
     (107) mode -> MODE LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON .
 
@@ -6015,7 +6004,7 @@ state 314
     RIGHT_SQR_BRACKET reduce using rule 107 (mode -> MODE LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON .)
 
 
-state 315
+state 314
 
     (108) median -> MEDIAN LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON .
 
@@ -6053,7 +6042,7 @@ state 315
     RIGHT_SQR_BRACKET reduce using rule 108 (median -> MEDIAN LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON .)
 
 
-state 316
+state 315
 
     (109) variance -> VARIANCE LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON .
 
@@ -6091,7 +6080,7 @@ state 316
     RIGHT_SQR_BRACKET reduce using rule 109 (variance -> VARIANCE LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON .)
 
 
-state 317
+state 316
 
     (110) max -> MAX LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON .
 
@@ -6129,7 +6118,7 @@ state 317
     RIGHT_SQR_BRACKET reduce using rule 110 (max -> MAX LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON .)
 
 
-state 318
+state 317
 
     (111) min -> MIN LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON .
 
@@ -6167,7 +6156,7 @@ state 318
     RIGHT_SQR_BRACKET reduce using rule 111 (min -> MIN LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON .)
 
 
-state 319
+state 318
 
     (112) staddes -> STADDES LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON .
 
@@ -6205,7 +6194,7 @@ state 319
     RIGHT_SQR_BRACKET reduce using rule 112 (staddes -> STADDES LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON .)
 
 
-state 320
+state 319
 
     (113) boxplot -> BOXPLOT LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON .
 
@@ -6243,7 +6232,7 @@ state 320
     RIGHT_SQR_BRACKET reduce using rule 113 (boxplot -> BOXPLOT LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON .)
 
 
-state 321
+state 320
 
     (114) linreg -> LINREG LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON .
 
@@ -6281,14 +6270,39 @@ state 321
     RIGHT_SQR_BRACKET reduce using rule 114 (linreg -> LINREG LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON .)
 
 
+state 321
+
+    (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET . varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction
+    (2) varp -> . var varp
+    (3) varp -> . empty
+    (26) var -> . VAR pnCheckTablaVar v ARROW idp SEMICOLON
+    (157) empty -> .
+
+    VAR             shift and go to state 12
+    ID              reduce using rule 157 (empty -> .)
+    READ            reduce using rule 157 (empty -> .)
+    WRITE           reduce using rule 157 (empty -> .)
+    IF              reduce using rule 157 (empty -> .)
+    WHILE           reduce using rule 157 (empty -> .)
+    FOR             reduce using rule 157 (empty -> .)
+    RETURNS         reduce using rule 157 (empty -> .)
+    READ_FILE       reduce using rule 157 (empty -> .)
+    MEAN            reduce using rule 157 (empty -> .)
+    MODE            reduce using rule 157 (empty -> .)
+    MEDIAN          reduce using rule 157 (empty -> .)
+    VARIANCE        reduce using rule 157 (empty -> .)
+    MAX             reduce using rule 157 (empty -> .)
+    MIN             reduce using rule 157 (empty -> .)
+    STADDES         reduce using rule 157 (empty -> .)
+    BOXPLOT         reduce using rule 157 (empty -> .)
+    LINREG          reduce using rule 157 (empty -> .)
+    RIGHT_CUR_BRACKET reduce using rule 157 (empty -> .)
+
+    varp                           shift and go to state 331
+    var                            shift and go to state 10
+    empty                          shift and go to state 11
+
 state 322
-
-    (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param pnAddParamResources RIGHT_PARENT . LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction
-
-    LEFT_CUR_BRACKET shift and go to state 332
-
-
-state 323
 
     (41) paramlist -> tipoparam ARROW ID . pnAddParametersTablaVar paramlistp
     (122) pnAddParametersTablaVar -> . empty
@@ -6297,12 +6311,101 @@ state 323
     COMMA           reduce using rule 157 (empty -> .)
     RIGHT_PARENT    reduce using rule 157 (empty -> .)
 
-    pnAddParametersTablaVar        shift and go to state 333
-    empty                          shift and go to state 334
+    pnAddParametersTablaVar        shift and go to state 332
+    empty                          shift and go to state 333
+
+state 323
+
+    (91) condicion -> IF LEFT_PARENT exp pnCheckBoolIf RIGHT_PARENT IF_TRUE LEFT_CUR_BRACKET . estatutop RIGHT_CUR_BRACKET falsop pnEndIf
+    (7) estatutop -> . estatuto estatutop
+    (8) estatutop -> . empty
+    (46) estatuto -> . asign
+    (47) estatuto -> . llamada
+    (48) estatuto -> . lee
+    (49) estatuto -> . escribe
+    (50) estatuto -> . condicion
+    (51) estatuto -> . ciclow
+    (52) estatuto -> . ciclof
+    (53) estatuto -> . funcesp
+    (54) estatuto -> . return
+    (55) estatuto -> . copy
+    (157) empty -> .
+    (56) asign -> . variable ASIGN pnSaveOperadorAsign exp pnCuadAsign SEMICOLON
+    (21) llamada -> . ID LEFT_PARENT expp RIGHT_PARENT SEMICOLON
+    (57) lee -> . READ LEFT_PARENT variable pnCuadLee RIGHT_PARENT SEMICOLON
+    (58) escribe -> . WRITE LEFT_PARENT escribep RIGHT_PARENT SEMICOLON
+    (91) condicion -> . IF LEFT_PARENT exp pnCheckBoolIf RIGHT_PARENT IF_TRUE LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET falsop pnEndIf
+    (94) ciclow -> . WHILE pnSaveWhile LEFT_PARENT exp pnCheckBoolIf RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndWhile
+    (95) ciclof -> . FOR LEFT_PARENT ID pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor
+    (96) funcesp -> . mean
+    (97) funcesp -> . mode
+    (98) funcesp -> . median
+    (99) funcesp -> . variance
+    (100) funcesp -> . max
+    (101) funcesp -> . min
+    (102) funcesp -> . staddes
+    (103) funcesp -> . boxplot
+    (104) funcesp -> . linreg
+    (105) funcesp -> . copy
+    (61) return -> . RETURNS exp SEMICOLON
+    (14) copy -> . READ_FILE LEFT_PARENT LETRERO pnCuadCopy RIGHT_PARENT SEMICOLON
+    (16) variable -> . ID pnSaveOperandos indexp
+    (106) mean -> . MEAN LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON
+    (107) mode -> . MODE LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON
+    (108) median -> . MEDIAN LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON
+    (109) variance -> . VARIANCE LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON
+    (110) max -> . MAX LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON
+    (111) min -> . MIN LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON
+    (112) staddes -> . STADDES LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON
+    (113) boxplot -> . BOXPLOT LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON
+    (114) linreg -> . LINREG LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON
+
+    RIGHT_CUR_BRACKET reduce using rule 157 (empty -> .)
+    ID              shift and go to state 72
+    READ            shift and go to state 73
+    WRITE           shift and go to state 74
+    IF              shift and go to state 75
+    WHILE           shift and go to state 76
+    FOR             shift and go to state 77
+    RETURNS         shift and go to state 87
+    READ_FILE       shift and go to state 88
+    MEAN            shift and go to state 89
+    MODE            shift and go to state 90
+    MEDIAN          shift and go to state 91
+    VARIANCE        shift and go to state 92
+    MAX             shift and go to state 93
+    MIN             shift and go to state 94
+    STADDES         shift and go to state 95
+    BOXPLOT         shift and go to state 96
+    LINREG          shift and go to state 97
+
+    estatutop                      shift and go to state 334
+    estatuto                       shift and go to state 59
+    empty                          shift and go to state 60
+    asign                          shift and go to state 61
+    llamada                        shift and go to state 62
+    lee                            shift and go to state 63
+    escribe                        shift and go to state 64
+    condicion                      shift and go to state 65
+    ciclow                         shift and go to state 66
+    ciclof                         shift and go to state 67
+    funcesp                        shift and go to state 68
+    return                         shift and go to state 69
+    copy                           shift and go to state 70
+    variable                       shift and go to state 71
+    mean                           shift and go to state 78
+    mode                           shift and go to state 79
+    median                         shift and go to state 80
+    variance                       shift and go to state 81
+    max                            shift and go to state 82
+    min                            shift and go to state 83
+    staddes                        shift and go to state 84
+    boxplot                        shift and go to state 85
+    linreg                         shift and go to state 86
 
 state 324
 
-    (91) condicion -> IF LEFT_PARENT exp pnCheckBoolIf RIGHT_PARENT IF_TRUE LEFT_CUR_BRACKET . estatutop RIGHT_CUR_BRACKET falsop pnEndIf
+    (94) ciclow -> WHILE pnSaveWhile LEFT_PARENT exp pnCheckBoolIf RIGHT_PARENT LEFT_CUR_BRACKET . estatutop RIGHT_CUR_BRACKET pnEndWhile
     (7) estatutop -> . estatuto estatutop
     (8) estatutop -> . empty
     (46) estatuto -> . asign
@@ -6391,108 +6494,19 @@ state 324
 
 state 325
 
-    (94) ciclow -> WHILE pnSaveWhile LEFT_PARENT exp pnCheckBoolIf RIGHT_PARENT LEFT_CUR_BRACKET . estatutop RIGHT_CUR_BRACKET pnEndWhile
-    (7) estatutop -> . estatuto estatutop
-    (8) estatutop -> . empty
-    (46) estatuto -> . asign
-    (47) estatuto -> . llamada
-    (48) estatuto -> . lee
-    (49) estatuto -> . escribe
-    (50) estatuto -> . condicion
-    (51) estatuto -> . ciclow
-    (52) estatuto -> . ciclof
-    (53) estatuto -> . funcesp
-    (54) estatuto -> . return
-    (55) estatuto -> . copy
-    (157) empty -> .
-    (56) asign -> . variable ASIGN pnSaveOperadorAsign exp pnCuadAsign SEMICOLON
-    (21) llamada -> . ID LEFT_PARENT expp RIGHT_PARENT SEMICOLON
-    (57) lee -> . READ LEFT_PARENT variable pnCuadLee RIGHT_PARENT SEMICOLON
-    (58) escribe -> . WRITE LEFT_PARENT escribep RIGHT_PARENT SEMICOLON
-    (91) condicion -> . IF LEFT_PARENT exp pnCheckBoolIf RIGHT_PARENT IF_TRUE LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET falsop pnEndIf
-    (94) ciclow -> . WHILE pnSaveWhile LEFT_PARENT exp pnCheckBoolIf RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndWhile
-    (95) ciclof -> . FOR LEFT_PARENT ID pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor
-    (96) funcesp -> . mean
-    (97) funcesp -> . mode
-    (98) funcesp -> . median
-    (99) funcesp -> . variance
-    (100) funcesp -> . max
-    (101) funcesp -> . min
-    (102) funcesp -> . staddes
-    (103) funcesp -> . boxplot
-    (104) funcesp -> . linreg
-    (105) funcesp -> . copy
-    (61) return -> . RETURNS exp SEMICOLON
-    (14) copy -> . READ_FILE LEFT_PARENT LETRERO pnCuadCopy RIGHT_PARENT SEMICOLON
-    (16) variable -> . ID pnSaveOperandos indexp
-    (106) mean -> . MEAN LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON
-    (107) mode -> . MODE LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON
-    (108) median -> . MEDIAN LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON
-    (109) variance -> . VARIANCE LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON
-    (110) max -> . MAX LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON
-    (111) min -> . MIN LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON
-    (112) staddes -> . STADDES LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON
-    (113) boxplot -> . BOXPLOT LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON
-    (114) linreg -> . LINREG LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON
-
-    RIGHT_CUR_BRACKET reduce using rule 157 (empty -> .)
-    ID              shift and go to state 72
-    READ            shift and go to state 73
-    WRITE           shift and go to state 74
-    IF              shift and go to state 75
-    WHILE           shift and go to state 76
-    FOR             shift and go to state 77
-    RETURNS         shift and go to state 87
-    READ_FILE       shift and go to state 88
-    MEAN            shift and go to state 89
-    MODE            shift and go to state 90
-    MEDIAN          shift and go to state 91
-    VARIANCE        shift and go to state 92
-    MAX             shift and go to state 93
-    MIN             shift and go to state 94
-    STADDES         shift and go to state 95
-    BOXPLOT         shift and go to state 96
-    LINREG          shift and go to state 97
-
-    estatutop                      shift and go to state 336
-    estatuto                       shift and go to state 59
-    empty                          shift and go to state 60
-    asign                          shift and go to state 61
-    llamada                        shift and go to state 62
-    lee                            shift and go to state 63
-    escribe                        shift and go to state 64
-    condicion                      shift and go to state 65
-    ciclow                         shift and go to state 66
-    ciclof                         shift and go to state 67
-    funcesp                        shift and go to state 68
-    return                         shift and go to state 69
-    copy                           shift and go to state 70
-    variable                       shift and go to state 71
-    mean                           shift and go to state 78
-    mode                           shift and go to state 79
-    median                         shift and go to state 80
-    variance                       shift and go to state 81
-    max                            shift and go to state 82
-    min                            shift and go to state 83
-    staddes                        shift and go to state 84
-    boxplot                        shift and go to state 85
-    linreg                         shift and go to state 86
-
-state 326
-
     (95) ciclof -> FOR LEFT_PARENT ID pnSaveForID ASIGN exp pnCreateVControl . COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor
 
-    COMMA           shift and go to state 337
+    COMMA           shift and go to state 336
 
 
-state 327
+state 326
 
     (154) pnCreateVControl -> empty .
 
     COMMA           reduce using rule 154 (pnCreateVControl -> empty .)
 
 
-state 328
+state 327
 
     (63) logic -> logicsig exprel pnCuadOplog logic .
 
@@ -6502,7 +6516,7 @@ state 328
     RIGHT_SQR_BRACKET reduce using rule 63 (logic -> logicsig exprel pnCuadOplog logic .)
 
 
-state 329
+state 328
 
     (68) relacionalp -> relsig e pnCuadOpRelacional relacionalp .
 
@@ -6514,7 +6528,7 @@ state 329
     RIGHT_SQR_BRACKET reduce using rule 68 (relacionalp -> relsig e pnCuadOpRelacional relacionalp .)
 
 
-state 330
+state 329
 
     (75) tp -> tsig t pnCuadPlMi tp .
 
@@ -6530,7 +6544,7 @@ state 330
     RIGHT_SQR_BRACKET reduce using rule 75 (tp -> tsig t pnCuadPlMi tp .)
 
 
-state 331
+state 330
 
     (80) fp -> fsig f pnCuadMuDi fp .
 
@@ -6548,15 +6562,12 @@ state 331
     RIGHT_SQR_BRACKET reduce using rule 80 (fp -> fsig f pnCuadMuDi fp .)
 
 
-state 332
+state 331
 
-    (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param pnAddParamResources RIGHT_PARENT LEFT_CUR_BRACKET . varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction
-    (2) varp -> . var varp
-    (3) varp -> . empty
-    (26) var -> . VAR pnCheckTablaVar v ARROW idp SEMICOLON
+    (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp . pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction
+    (124) pnDirecIniFunc -> . empty
     (157) empty -> .
 
-    VAR             shift and go to state 12
     ID              reduce using rule 157 (empty -> .)
     READ            reduce using rule 157 (empty -> .)
     WRITE           reduce using rule 157 (empty -> .)
@@ -6576,11 +6587,10 @@ state 332
     LINREG          reduce using rule 157 (empty -> .)
     RIGHT_CUR_BRACKET reduce using rule 157 (empty -> .)
 
-    varp                           shift and go to state 338
-    var                            shift and go to state 10
-    empty                          shift and go to state 11
+    pnDirecIniFunc                 shift and go to state 337
+    empty                          shift and go to state 338
 
-state 333
+state 332
 
     (41) paramlist -> tipoparam ARROW ID pnAddParametersTablaVar . paramlistp
     (44) paramlistp -> . COMMA paramlist
@@ -6593,7 +6603,7 @@ state 333
     paramlistp                     shift and go to state 339
     empty                          shift and go to state 341
 
-state 334
+state 333
 
     (122) pnAddParametersTablaVar -> empty .
 
@@ -6601,21 +6611,21 @@ state 334
     RIGHT_PARENT    reduce using rule 122 (pnAddParametersTablaVar -> empty .)
 
 
-state 335
+state 334
 
     (91) condicion -> IF LEFT_PARENT exp pnCheckBoolIf RIGHT_PARENT IF_TRUE LEFT_CUR_BRACKET estatutop . RIGHT_CUR_BRACKET falsop pnEndIf
 
     RIGHT_CUR_BRACKET shift and go to state 342
 
 
-state 336
+state 335
 
     (94) ciclow -> WHILE pnSaveWhile LEFT_PARENT exp pnCheckBoolIf RIGHT_PARENT LEFT_CUR_BRACKET estatutop . RIGHT_CUR_BRACKET pnEndWhile
 
     RIGHT_CUR_BRACKET shift and go to state 343
 
 
-state 337
+state 336
 
     (95) ciclof -> FOR LEFT_PARENT ID pnSaveForID ASIGN exp pnCreateVControl COMMA . exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor
     (62) exp -> . exprel pnCuadOplog logic
@@ -6687,139 +6697,9 @@ state 337
     linreg                         shift and go to state 86
     copy                           shift and go to state 129
 
-state 338
+state 337
 
-    (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param pnAddParamResources RIGHT_PARENT LEFT_CUR_BRACKET varp . pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction
-    (124) pnDirecIniFunc -> . empty
-    (157) empty -> .
-
-    ID              reduce using rule 157 (empty -> .)
-    READ            reduce using rule 157 (empty -> .)
-    WRITE           reduce using rule 157 (empty -> .)
-    IF              reduce using rule 157 (empty -> .)
-    WHILE           reduce using rule 157 (empty -> .)
-    FOR             reduce using rule 157 (empty -> .)
-    RETURNS         reduce using rule 157 (empty -> .)
-    READ_FILE       reduce using rule 157 (empty -> .)
-    MEAN            reduce using rule 157 (empty -> .)
-    MODE            reduce using rule 157 (empty -> .)
-    MEDIAN          reduce using rule 157 (empty -> .)
-    VARIANCE        reduce using rule 157 (empty -> .)
-    MAX             reduce using rule 157 (empty -> .)
-    MIN             reduce using rule 157 (empty -> .)
-    STADDES         reduce using rule 157 (empty -> .)
-    BOXPLOT         reduce using rule 157 (empty -> .)
-    LINREG          reduce using rule 157 (empty -> .)
-    RIGHT_CUR_BRACKET reduce using rule 157 (empty -> .)
-
-    pnDirecIniFunc                 shift and go to state 345
-    empty                          shift and go to state 346
-
-state 339
-
-    (41) paramlist -> tipoparam ARROW ID pnAddParametersTablaVar paramlistp .
-
-    RIGHT_PARENT    reduce using rule 41 (paramlist -> tipoparam ARROW ID pnAddParametersTablaVar paramlistp .)
-
-
-state 340
-
-    (44) paramlistp -> COMMA . paramlist
-    (41) paramlist -> . tipoparam ARROW ID pnAddParametersTablaVar paramlistp
-    (42) tipoparam -> . tipo_simp
-    (43) tipoparam -> . DATAFRAME pnSaveTypeVar
-    (9) tipo_simp -> . INT pnSaveTypeVar
-    (10) tipo_simp -> . FLOAT pnSaveTypeVar
-    (11) tipo_simp -> . CHAR pnSaveTypeVar
-
-    DATAFRAME       shift and go to state 251
-    INT             shift and go to state 26
-    FLOAT           shift and go to state 27
-    CHAR            shift and go to state 28
-
-    paramlist                      shift and go to state 347
-    tipoparam                      shift and go to state 249
-    tipo_simp                      shift and go to state 250
-
-state 341
-
-    (45) paramlistp -> empty .
-
-    RIGHT_PARENT    reduce using rule 45 (paramlistp -> empty .)
-
-
-state 342
-
-    (91) condicion -> IF LEFT_PARENT exp pnCheckBoolIf RIGHT_PARENT IF_TRUE LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET . falsop pnEndIf
-    (92) falsop -> . IF_FALSE pnElseIf LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET
-    (93) falsop -> . empty
-    (157) empty -> .
-
-    IF_FALSE        shift and go to state 349
-    ID              reduce using rule 157 (empty -> .)
-    READ            reduce using rule 157 (empty -> .)
-    WRITE           reduce using rule 157 (empty -> .)
-    IF              reduce using rule 157 (empty -> .)
-    WHILE           reduce using rule 157 (empty -> .)
-    FOR             reduce using rule 157 (empty -> .)
-    RETURNS         reduce using rule 157 (empty -> .)
-    READ_FILE       reduce using rule 157 (empty -> .)
-    MEAN            reduce using rule 157 (empty -> .)
-    MODE            reduce using rule 157 (empty -> .)
-    MEDIAN          reduce using rule 157 (empty -> .)
-    VARIANCE        reduce using rule 157 (empty -> .)
-    MAX             reduce using rule 157 (empty -> .)
-    MIN             reduce using rule 157 (empty -> .)
-    STADDES         reduce using rule 157 (empty -> .)
-    BOXPLOT         reduce using rule 157 (empty -> .)
-    LINREG          reduce using rule 157 (empty -> .)
-    RIGHT_CUR_BRACKET reduce using rule 157 (empty -> .)
-
-    falsop                         shift and go to state 348
-    empty                          shift and go to state 350
-
-state 343
-
-    (94) ciclow -> WHILE pnSaveWhile LEFT_PARENT exp pnCheckBoolIf RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET . pnEndWhile
-    (152) pnEndWhile -> . empty
-    (157) empty -> .
-
-    ID              reduce using rule 157 (empty -> .)
-    READ            reduce using rule 157 (empty -> .)
-    WRITE           reduce using rule 157 (empty -> .)
-    IF              reduce using rule 157 (empty -> .)
-    WHILE           reduce using rule 157 (empty -> .)
-    FOR             reduce using rule 157 (empty -> .)
-    RETURNS         reduce using rule 157 (empty -> .)
-    READ_FILE       reduce using rule 157 (empty -> .)
-    MEAN            reduce using rule 157 (empty -> .)
-    MODE            reduce using rule 157 (empty -> .)
-    MEDIAN          reduce using rule 157 (empty -> .)
-    VARIANCE        reduce using rule 157 (empty -> .)
-    MAX             reduce using rule 157 (empty -> .)
-    MIN             reduce using rule 157 (empty -> .)
-    STADDES         reduce using rule 157 (empty -> .)
-    BOXPLOT         reduce using rule 157 (empty -> .)
-    LINREG          reduce using rule 157 (empty -> .)
-    RIGHT_CUR_BRACKET reduce using rule 157 (empty -> .)
-
-    pnEndWhile                     shift and go to state 351
-    empty                          shift and go to state 352
-
-state 344
-
-    (95) ciclof -> FOR LEFT_PARENT ID pnSaveForID ASIGN exp pnCreateVControl COMMA exp . pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor
-    (155) pnCompControlFinal -> . empty
-    (157) empty -> .
-
-    RIGHT_PARENT    reduce using rule 157 (empty -> .)
-
-    pnCompControlFinal             shift and go to state 353
-    empty                          shift and go to state 354
-
-state 345
-
-    (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param pnAddParamResources RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc . estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction
+    (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc . estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction
     (7) estatutop -> . estatuto estatutop
     (8) estatutop -> . empty
     (46) estatuto -> . asign
@@ -6882,7 +6762,7 @@ state 345
     BOXPLOT         shift and go to state 96
     LINREG          shift and go to state 97
 
-    estatutop                      shift and go to state 355
+    estatutop                      shift and go to state 345
     estatuto                       shift and go to state 59
     empty                          shift and go to state 60
     asign                          shift and go to state 61
@@ -6906,7 +6786,7 @@ state 345
     boxplot                        shift and go to state 85
     linreg                         shift and go to state 86
 
-state 346
+state 338
 
     (124) pnDirecIniFunc -> empty .
 
@@ -6930,14 +6810,123 @@ state 346
     RIGHT_CUR_BRACKET reduce using rule 124 (pnDirecIniFunc -> empty .)
 
 
-state 347
+state 339
+
+    (41) paramlist -> tipoparam ARROW ID pnAddParametersTablaVar paramlistp .
+
+    RIGHT_PARENT    reduce using rule 41 (paramlist -> tipoparam ARROW ID pnAddParametersTablaVar paramlistp .)
+
+
+state 340
+
+    (44) paramlistp -> COMMA . paramlist
+    (41) paramlist -> . tipoparam ARROW ID pnAddParametersTablaVar paramlistp
+    (42) tipoparam -> . tipo_simp
+    (43) tipoparam -> . DATAFRAME pnSaveTypeVar
+    (9) tipo_simp -> . INT pnSaveTypeVar
+    (10) tipo_simp -> . FLOAT pnSaveTypeVar
+    (11) tipo_simp -> . CHAR pnSaveTypeVar
+
+    DATAFRAME       shift and go to state 251
+    INT             shift and go to state 26
+    FLOAT           shift and go to state 27
+    CHAR            shift and go to state 28
+
+    paramlist                      shift and go to state 346
+    tipoparam                      shift and go to state 249
+    tipo_simp                      shift and go to state 250
+
+state 341
+
+    (45) paramlistp -> empty .
+
+    RIGHT_PARENT    reduce using rule 45 (paramlistp -> empty .)
+
+
+state 342
+
+    (91) condicion -> IF LEFT_PARENT exp pnCheckBoolIf RIGHT_PARENT IF_TRUE LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET . falsop pnEndIf
+    (92) falsop -> . IF_FALSE pnElseIf LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET
+    (93) falsop -> . empty
+    (157) empty -> .
+
+    IF_FALSE        shift and go to state 348
+    ID              reduce using rule 157 (empty -> .)
+    READ            reduce using rule 157 (empty -> .)
+    WRITE           reduce using rule 157 (empty -> .)
+    IF              reduce using rule 157 (empty -> .)
+    WHILE           reduce using rule 157 (empty -> .)
+    FOR             reduce using rule 157 (empty -> .)
+    RETURNS         reduce using rule 157 (empty -> .)
+    READ_FILE       reduce using rule 157 (empty -> .)
+    MEAN            reduce using rule 157 (empty -> .)
+    MODE            reduce using rule 157 (empty -> .)
+    MEDIAN          reduce using rule 157 (empty -> .)
+    VARIANCE        reduce using rule 157 (empty -> .)
+    MAX             reduce using rule 157 (empty -> .)
+    MIN             reduce using rule 157 (empty -> .)
+    STADDES         reduce using rule 157 (empty -> .)
+    BOXPLOT         reduce using rule 157 (empty -> .)
+    LINREG          reduce using rule 157 (empty -> .)
+    RIGHT_CUR_BRACKET reduce using rule 157 (empty -> .)
+
+    falsop                         shift and go to state 347
+    empty                          shift and go to state 349
+
+state 343
+
+    (94) ciclow -> WHILE pnSaveWhile LEFT_PARENT exp pnCheckBoolIf RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET . pnEndWhile
+    (152) pnEndWhile -> . empty
+    (157) empty -> .
+
+    ID              reduce using rule 157 (empty -> .)
+    READ            reduce using rule 157 (empty -> .)
+    WRITE           reduce using rule 157 (empty -> .)
+    IF              reduce using rule 157 (empty -> .)
+    WHILE           reduce using rule 157 (empty -> .)
+    FOR             reduce using rule 157 (empty -> .)
+    RETURNS         reduce using rule 157 (empty -> .)
+    READ_FILE       reduce using rule 157 (empty -> .)
+    MEAN            reduce using rule 157 (empty -> .)
+    MODE            reduce using rule 157 (empty -> .)
+    MEDIAN          reduce using rule 157 (empty -> .)
+    VARIANCE        reduce using rule 157 (empty -> .)
+    MAX             reduce using rule 157 (empty -> .)
+    MIN             reduce using rule 157 (empty -> .)
+    STADDES         reduce using rule 157 (empty -> .)
+    BOXPLOT         reduce using rule 157 (empty -> .)
+    LINREG          reduce using rule 157 (empty -> .)
+    RIGHT_CUR_BRACKET reduce using rule 157 (empty -> .)
+
+    pnEndWhile                     shift and go to state 350
+    empty                          shift and go to state 351
+
+state 344
+
+    (95) ciclof -> FOR LEFT_PARENT ID pnSaveForID ASIGN exp pnCreateVControl COMMA exp . pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor
+    (155) pnCompControlFinal -> . empty
+    (157) empty -> .
+
+    RIGHT_PARENT    reduce using rule 157 (empty -> .)
+
+    pnCompControlFinal             shift and go to state 352
+    empty                          shift and go to state 353
+
+state 345
+
+    (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop . RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction
+
+    RIGHT_CUR_BRACKET shift and go to state 354
+
+
+state 346
 
     (44) paramlistp -> COMMA paramlist .
 
     RIGHT_PARENT    reduce using rule 44 (paramlistp -> COMMA paramlist .)
 
 
-state 348
+state 347
 
     (91) condicion -> IF LEFT_PARENT exp pnCheckBoolIf RIGHT_PARENT IF_TRUE LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET falsop . pnEndIf
     (150) pnEndIf -> . empty
@@ -6962,10 +6951,10 @@ state 348
     LINREG          reduce using rule 157 (empty -> .)
     RIGHT_CUR_BRACKET reduce using rule 157 (empty -> .)
 
-    pnEndIf                        shift and go to state 356
-    empty                          shift and go to state 357
+    pnEndIf                        shift and go to state 355
+    empty                          shift and go to state 356
 
-state 349
+state 348
 
     (92) falsop -> IF_FALSE . pnElseIf LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET
     (149) pnElseIf -> . empty
@@ -6973,10 +6962,10 @@ state 349
 
     LEFT_CUR_BRACKET reduce using rule 157 (empty -> .)
 
-    pnElseIf                       shift and go to state 358
-    empty                          shift and go to state 359
+    pnElseIf                       shift and go to state 357
+    empty                          shift and go to state 358
 
-state 350
+state 349
 
     (93) falsop -> empty .
 
@@ -7000,7 +6989,7 @@ state 350
     RIGHT_CUR_BRACKET reduce using rule 93 (falsop -> empty .)
 
 
-state 351
+state 350
 
     (94) ciclow -> WHILE pnSaveWhile LEFT_PARENT exp pnCheckBoolIf RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndWhile .
 
@@ -7024,7 +7013,7 @@ state 351
     RIGHT_CUR_BRACKET reduce using rule 94 (ciclow -> WHILE pnSaveWhile LEFT_PARENT exp pnCheckBoolIf RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndWhile .)
 
 
-state 352
+state 351
 
     (152) pnEndWhile -> empty .
 
@@ -7048,28 +7037,51 @@ state 352
     RIGHT_CUR_BRACKET reduce using rule 152 (pnEndWhile -> empty .)
 
 
-state 353
+state 352
 
     (95) ciclof -> FOR LEFT_PARENT ID pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal . RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor
 
-    RIGHT_PARENT    shift and go to state 360
+    RIGHT_PARENT    shift and go to state 359
 
 
-state 354
+state 353
 
     (155) pnCompControlFinal -> empty .
 
     RIGHT_PARENT    reduce using rule 155 (pnCompControlFinal -> empty .)
 
 
+state 354
+
+    (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET . pnCountVarsIntoResources pnCloseCurrentFunction
+    (123) pnCountVarsIntoResources -> . empty
+    (157) empty -> .
+
+    FUNC            reduce using rule 157 (empty -> .)
+    DO              reduce using rule 157 (empty -> .)
+    ID              reduce using rule 157 (empty -> .)
+    READ            reduce using rule 157 (empty -> .)
+    WRITE           reduce using rule 157 (empty -> .)
+    IF              reduce using rule 157 (empty -> .)
+    WHILE           reduce using rule 157 (empty -> .)
+    FOR             reduce using rule 157 (empty -> .)
+    RETURNS         reduce using rule 157 (empty -> .)
+    READ_FILE       reduce using rule 157 (empty -> .)
+    MEAN            reduce using rule 157 (empty -> .)
+    MODE            reduce using rule 157 (empty -> .)
+    MEDIAN          reduce using rule 157 (empty -> .)
+    VARIANCE        reduce using rule 157 (empty -> .)
+    MAX             reduce using rule 157 (empty -> .)
+    MIN             reduce using rule 157 (empty -> .)
+    STADDES         reduce using rule 157 (empty -> .)
+    BOXPLOT         reduce using rule 157 (empty -> .)
+    LINREG          reduce using rule 157 (empty -> .)
+    RIGHT_CUR_BRACKET reduce using rule 157 (empty -> .)
+
+    pnCountVarsIntoResources       shift and go to state 360
+    empty                          shift and go to state 361
+
 state 355
-
-    (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param pnAddParamResources RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop . RIGHT_CUR_BRACKET pnCloseCurrentFunction
-
-    RIGHT_CUR_BRACKET shift and go to state 361
-
-
-state 356
 
     (91) condicion -> IF LEFT_PARENT exp pnCheckBoolIf RIGHT_PARENT IF_TRUE LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET falsop pnEndIf .
 
@@ -7093,7 +7105,7 @@ state 356
     RIGHT_CUR_BRACKET reduce using rule 91 (condicion -> IF LEFT_PARENT exp pnCheckBoolIf RIGHT_PARENT IF_TRUE LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET falsop pnEndIf .)
 
 
-state 357
+state 356
 
     (150) pnEndIf -> empty .
 
@@ -7117,30 +7129,30 @@ state 357
     RIGHT_CUR_BRACKET reduce using rule 150 (pnEndIf -> empty .)
 
 
-state 358
+state 357
 
     (92) falsop -> IF_FALSE pnElseIf . LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET
 
     LEFT_CUR_BRACKET shift and go to state 362
 
 
-state 359
+state 358
 
     (149) pnElseIf -> empty .
 
     LEFT_CUR_BRACKET reduce using rule 149 (pnElseIf -> empty .)
 
 
-state 360
+state 359
 
     (95) ciclof -> FOR LEFT_PARENT ID pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT . LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor
 
     LEFT_CUR_BRACKET shift and go to state 363
 
 
-state 361
+state 360
 
-    (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param pnAddParamResources RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET . pnCloseCurrentFunction
+    (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources . pnCloseCurrentFunction
     (125) pnCloseCurrentFunction -> . empty
     (157) empty -> .
 
@@ -7167,6 +7179,32 @@ state 361
 
     pnCloseCurrentFunction         shift and go to state 364
     empty                          shift and go to state 365
+
+state 361
+
+    (123) pnCountVarsIntoResources -> empty .
+
+    FUNC            reduce using rule 123 (pnCountVarsIntoResources -> empty .)
+    DO              reduce using rule 123 (pnCountVarsIntoResources -> empty .)
+    ID              reduce using rule 123 (pnCountVarsIntoResources -> empty .)
+    READ            reduce using rule 123 (pnCountVarsIntoResources -> empty .)
+    WRITE           reduce using rule 123 (pnCountVarsIntoResources -> empty .)
+    IF              reduce using rule 123 (pnCountVarsIntoResources -> empty .)
+    WHILE           reduce using rule 123 (pnCountVarsIntoResources -> empty .)
+    FOR             reduce using rule 123 (pnCountVarsIntoResources -> empty .)
+    RETURNS         reduce using rule 123 (pnCountVarsIntoResources -> empty .)
+    READ_FILE       reduce using rule 123 (pnCountVarsIntoResources -> empty .)
+    MEAN            reduce using rule 123 (pnCountVarsIntoResources -> empty .)
+    MODE            reduce using rule 123 (pnCountVarsIntoResources -> empty .)
+    MEDIAN          reduce using rule 123 (pnCountVarsIntoResources -> empty .)
+    VARIANCE        reduce using rule 123 (pnCountVarsIntoResources -> empty .)
+    MAX             reduce using rule 123 (pnCountVarsIntoResources -> empty .)
+    MIN             reduce using rule 123 (pnCountVarsIntoResources -> empty .)
+    STADDES         reduce using rule 123 (pnCountVarsIntoResources -> empty .)
+    BOXPLOT         reduce using rule 123 (pnCountVarsIntoResources -> empty .)
+    LINREG          reduce using rule 123 (pnCountVarsIntoResources -> empty .)
+    RIGHT_CUR_BRACKET reduce using rule 123 (pnCountVarsIntoResources -> empty .)
+
 
 state 362
 
@@ -7348,28 +7386,28 @@ state 363
 
 state 364
 
-    (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param pnAddParamResources RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction .
+    (36) func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction .
 
-    FUNC            reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param pnAddParamResources RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction .)
-    DO              reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param pnAddParamResources RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction .)
-    ID              reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param pnAddParamResources RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction .)
-    READ            reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param pnAddParamResources RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction .)
-    WRITE           reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param pnAddParamResources RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction .)
-    IF              reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param pnAddParamResources RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction .)
-    WHILE           reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param pnAddParamResources RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction .)
-    FOR             reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param pnAddParamResources RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction .)
-    RETURNS         reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param pnAddParamResources RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction .)
-    READ_FILE       reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param pnAddParamResources RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction .)
-    MEAN            reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param pnAddParamResources RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction .)
-    MODE            reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param pnAddParamResources RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction .)
-    MEDIAN          reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param pnAddParamResources RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction .)
-    VARIANCE        reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param pnAddParamResources RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction .)
-    MAX             reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param pnAddParamResources RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction .)
-    MIN             reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param pnAddParamResources RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction .)
-    STADDES         reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param pnAddParamResources RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction .)
-    BOXPLOT         reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param pnAddParamResources RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction .)
-    LINREG          reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param pnAddParamResources RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction .)
-    RIGHT_CUR_BRACKET reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param pnAddParamResources RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction .)
+    FUNC            reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction .)
+    DO              reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction .)
+    ID              reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction .)
+    READ            reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction .)
+    WRITE           reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction .)
+    IF              reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction .)
+    WHILE           reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction .)
+    FOR             reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction .)
+    RETURNS         reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction .)
+    READ_FILE       reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction .)
+    MEAN            reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction .)
+    MODE            reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction .)
+    MEDIAN          reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction .)
+    VARIANCE        reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction .)
+    MAX             reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction .)
+    MIN             reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction .)
+    STADDES         reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction .)
+    BOXPLOT         reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction .)
+    LINREG          reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction .)
+    RIGHT_CUR_BRACKET reduce using rule 36 (func -> FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction .)
 
 
 state 365

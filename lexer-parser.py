@@ -267,7 +267,7 @@ def p_var(p):
 
 def p_func(p):
     '''
-    func : FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param pnAddParamResources RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCloseCurrentFunction
+    func : FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsIntoResources pnCloseCurrentFunction
     returnval : tipo_simp 
               | VOID pnSaveTypeVar
     '''
@@ -521,6 +521,44 @@ def p_pnCheckNameTablaVar(p):
     pnCheckNameTablaVar : empty
     '''
     dirFunc.insertVariable(p[-1],currentTypeVar,currentScript,currentFunction)
+
+    tipoActual = semantica.convertion[currentTypeVar]
+
+    #Asignar direccion virtual
+    # Hice esto porque no podía llevar memoria a directiorio de funciones como parametro por referencia
+    if currentFunction == "":
+        # es global
+        if tipoActual == 2:
+            dirFunc.registrosFunciones[currentScript][3][p[-1]][1] = memoria.countGlInt
+            memoria.countGlInt += 1
+        elif tipoActual == 3:
+            dirFunc.registrosFunciones[currentScript][3][p[-1]][1] = memoria.countGlFloat
+            memoria.countGlFloat += 1
+        elif tipoActual == 4:
+            dirFunc.registrosFunciones[currentScript][3][p[-1]][1] = memoria.countGlC
+            memoria.countGlC += 1
+        elif tipoActual == 'dataframe':
+            dirFunc.registrosFunciones[currentScript][3][p[-1]][1] = memoria.countGlDf
+            memoria.countGlDf += 1
+        else:
+            print("Error al asignar posible memoria virtual")
+    else:
+        # Es local
+        if tipoActual == 2:
+            dirFunc.registrosFunciones[currentFunction][3][p[-1]][1] = memoria.countLocInt
+            memoria.countLocInt += 1
+        elif tipoActual == 3:
+            dirFunc.registrosFunciones[currentFunction][3][p[-1]][1] = memoria.countLocFloat
+            memoria.countLocFloat += 1
+        elif tipoActual == 4:
+            dirFunc.registrosFunciones[currentFunction][3][p[-1]][1] = memoria.countLocC
+            memoria.countLocC += 1
+        elif tipoActual == 'dataframe':
+            dirFunc.registrosFunciones[currentFunction][3][p[-1]][1] = memoria.countLocDf
+            memoria.countLocDf += 1
+        else:
+            print("Error al asignar posible memoria virtual")
+
     p[0] = None
 
 def p_pnAddFuncinDir(p):
@@ -544,29 +582,49 @@ def p_pnAddParametersTablaVar(p):
     # Checar que el parametro no exista en tabla de variables e insertar
     dirFunc.insertVariable(p[-1],currentTypeVar,currentScript,currentFunction)
     dirFunc.insertarParam(currentScript,currentFunction,currentTypeVar)
+
+    tipoActual = semantica.convertion[currentTypeVar]
+
+    # Es variable local
+    if tipoActual == 2:
+        dirFunc.registrosFunciones[currentFunction][3][p[-1]][1] = memoria.countLocInt
+        memoria.countLocInt += 1
+    elif tipoActual == 3:
+        dirFunc.registrosFunciones[currentFunction][3][p[-1]][1] = memoria.countLocFloat
+        memoria.countLocFloat += 1
+    elif tipoActual == 4:
+        dirFunc.registrosFunciones[currentFunction][3][p[-1]][1] = memoria.countLocC
+        memoria.countLocC += 1
+    elif tipoActual == 'dataframe':
+        dirFunc.registrosFunciones[currentFunction][3][p[-1]][1] = memoria.countLocDf
+        memoria.countLocDf += 1
+    else:
+        print("Error al asignar posible memoria virtual")
+
+
     p[0] = None
 
-def p_pnAddParamResources(p):
+def p_pnCountVarsIntoResources(p):
     '''
-    pnAddParamResources : empty
+    pnCountVarsIntoResources : empty
     '''
-    contInt = 0
-    contFloat = 0
-    contC = 0
-    for parametro in dirFunc.registrosFunciones[currentFunction][4]:
-        if semantica.convertion[parametro] == 2:
-            contInt += 1
-        elif semantica.convertion[parametro] == 3:
-            contFloat += 1
-        elif semantica.convertion[parametro] == 4:
-            contC += 1
-        else:
-            print("Error en tipo de paramtero")
-            sys.exit()
+    # contInt = 0
+    # contFloat = 0
+    # contC = 0
+    # for parametro in dirFunc.registrosFunciones[currentFunction][4]:
+    #     if semantica.convertion[parametro] == 2:
+    #         contInt += 1
+    #     elif semantica.convertion[parametro] == 3:
+    #         contFloat += 1
+    #     elif semantica.convertion[parametro] == 4:
+    #         contC += 1
+    #     else:
+    #         print("Error en tipo de paramtero")
+    #         sys.exit()
 
-    print("CONTADORES DE PARAMETROS \n {} {} {}".format(contInt,contFloat,contC))
+    # print("CONTADORES DE PARAMETROS \n {} {} {}".format(contInt,contFloat,contC))
 
-    print(dirFunc.registrosFunciones[currentFunction][2])
+    # print(dirFunc.registrosFunciones[currentFunction][2])
 
     p[0] = None
 
@@ -595,7 +653,7 @@ def p_pnEndScript(p):
     '''
     pnEndScript : empty
     '''
-    # printDir()
+    printDir()
     dirFunc.endScript(currentScript)
     p[0] = None
 
@@ -1203,15 +1261,15 @@ with open(filename) as fp:
     except EOFError:
         pass
 
-printDir()
-print("LISTA DE CUADRUPLOS \n")
-index = 1
-for cuad in cuadruplos.listaCuadruplos:
-    temp = [index] + cuad
-    cuad = temp
-    print(cuad)
-    index += 1
+# printDir()
+# print("LISTA DE CUADRUPLOS \n")
+# index = 1
+# for cuad in cuadruplos.listaCuadruplos:
+#     temp = [index] + cuad
+#     cuad = temp
+#     print(cuad)
+#     index += 1
 
 # print(*cuadruplos.listaCuadruplos, sep="\n")
-print("  \n\n TABLA CONSTANTES")
-print(tablaConst)
+# print("  \n\n TABLA CONSTANTES")
+# print(tablaConst)

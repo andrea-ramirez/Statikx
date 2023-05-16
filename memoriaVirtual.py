@@ -4,11 +4,19 @@ class MemoriaVirtual:
     globalFloat = 2000,
     globalC = 3000,
     globalDf = 4000,
+    countGlInt = 1000
+    countGlFloat = 2000
+    countGlC = 3000
+    countGlDf = 4000
 
     localInt = 5000,
     localFloat = 6000,
     localC = 7000,
     localDf = 8000,
+    countLocInt = 5000
+    countLocFloat = 6000
+    countLocC = 7000
+    countLocDf = 8000
 
     tempInt = 9000,
     tempFloat = 10000,
@@ -30,11 +38,19 @@ class MemoriaVirtual:
         self.globalFloat = 2000,
         self.globalC = 3000,
         self.globalDf = 4000,
+        self.countGlInt = 1000
+        self.countGlFloat = 2000
+        self.countGlC = 3000
+        self.countGlDf = 4000
 
         self.localInt = 5000,
         self.localFloat = 6000,
         self.localC = 7000,
         self.localDf = 8000,
+        self.countLocInt = 5000
+        self.countLocFloat = 6000
+        self.countLocC = 7000
+        self.countLocDf = 8000
 
         self.tempInt = 9000,
         self.tempFloat = 10000,
