@@ -61,7 +61,7 @@ class DirectorioFunciones:
         else:
             funcionCrearListaParam = currentFunction
 
-        self.registrosFunciones[funcionCrearListaParam].append([])
+        self.registrosFunciones[funcionCrearListaParam].append([0])
 
     @classmethod
     def insertarParam(self,currentScript,currentFunction,currentTypeVar):

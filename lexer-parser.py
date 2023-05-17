@@ -21,6 +21,7 @@ semantica = CuboSemantico()
 currentScript = ""
 currentFunction = ""
 currentTypeVar = ""
+currentLlamada = ""
 
 cuadruplos = Cuadruplo()
 
@@ -241,10 +242,10 @@ def p_variable(p):
 
 def p_llamada(p):
     '''
-    llamada : ID LEFT_PARENT expp RIGHT_PARENT SEMICOLON
-    expp : exp exppp
+    llamada : ID pnCheckFunc LEFT_PARENT pnGenerateEra expp RIGHT_PARENT pnCheckNoParam SEMICOLON pnCuadGoSub
+    expp : exp pnCuadParametro exppp
          | empty
-    exppp : COMMA exp exppp
+    exppp : COMMA pnUpdateK exp pnCuadParametro exppp
           | empty
     '''
     p[0] = None
@@ -660,8 +661,98 @@ def p_pnEndScript(p):
     '''
     pnEndScript : empty
     '''
-    printDir()
+    # printDir()
     dirFunc.endScript(currentScript)
+    p[0] = None
+
+# Checar en la llamada a la función que la función esté en el directorio de funciones
+def p_pnCheckFunc(p):
+    '''
+    pnCheckFunc : empty
+    '''
+    if p[-1] not in dirFunc.registrosFunciones:
+        print("La función {} no está definida".format(p[-1]))
+        sys.exit()
+    else:
+        global currentLlamada 
+        currentLlamada = p[-1]
+
+    p[0] = None
+
+# Generar cuadruplo era e inicializar K para checar argumentos/parametros
+def p_pnGenerateEra(p):
+    '''
+    pnGenerateEra : empty
+    '''
+    # Generate cuadruplo ERA
+    nuevoCuadruplo = ["ERA","","",currentLlamada]
+    cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
+
+    #Counter para parámetros
+    dirFunc.registrosFunciones[currentLlamada][4][0] = 1 
+
+    p[0] = None
+
+# Genera cuadruplo de parametro y checa tipo
+def p_pnCuadParametro(p):
+    '''
+    pnCuadParametro : empty
+    '''
+    argument = pilaOperandos.get()
+    argumentTipo = pilaTipo.get()
+
+    listaParametrica = dirFunc.registrosFunciones[currentLlamada][4]
+    index = listaParametrica[0]
+
+    try:
+        parametroActual = listaParametrica[index]
+    except:
+        print("Se declaró un parámetro de más en la llamada a la funcion {}".format(currentLlamada))
+        sys.exit()
+
+    if semantica.convertion[argumentTipo] == semantica.convertion[parametroActual]:
+        # Generate cuadruplo Parameter
+        nuevoCuadruplo = ["Parameter",argument,"",index]
+        cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
+    else:
+        print("Lista Parametrica no hace match con llamada")
+        sys.exit()
+
+    p[0] = None
+
+def p_pnUpdateK(p):
+    '''
+    pnUpdateK : empty
+    '''
+    dirFunc.registrosFunciones[currentLlamada][4][0] += 1
+
+    p[0] = None
+
+def p_pnCheckNoParam(p):
+    '''
+    pnCheckNoParam : empty
+    '''
+    listaParametrica = dirFunc.registrosFunciones[currentLlamada][4]
+    index = listaParametrica[0]
+
+    if index != len(listaParametrica)-1:
+        print("Error en número de parametros en la llamada de la funcion {}".format(currentLlamada))
+        sys.exit()
+
+    p[0] = None
+
+def p_pnCuadGoSub(p):
+    '''
+    pnCuadGoSub : empty
+    '''
+    global currentLlamada
+
+    iniAddress = dirFunc.registrosFunciones[currentLlamada][1]
+    nuevoCuadruplo = ["GOSUB",currentLlamada,"",iniAddress]
+    cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
+
+    currentLlamada = ""
+
     p[0] = None
 
 def p_pnSaveCteI(p):
@@ -716,16 +807,25 @@ def p_pnSaveOperandos(p):
     '''
     pnSaveOperandos : empty
     '''
+    # checar que sea una variable declarada
+    if currentFunction != "" and p[-1] not in dirFunc.registrosFunciones[currentFunction][3] and p[-1] not in dirFunc.registrosFunciones[currentScript][3]:
+        print("VARIABLE NO DECLARADA {}".format(p[-1]))
+        sys.exit()
+    elif currentFunction == "" and p[-1] not in dirFunc.registrosFunciones[currentScript][3]:
+        print("VARIABLE NO DECLARADA {}".format(p[-1]))
+        sys.exit()
+
+    # Insertar variable a pilaOperandos y pilaSaltos
     pilaOperandos.put(p[-1])
 
-    funcionActual = ""
-    if currentFunction == "":
-        funcionActual = currentScript
-    else:
-        funcionActual = currentFunction
-
     # dirFunc.registrosFunciones[funcionActual][tablaVariables][nombreVariable][tipo]
-    pilaTipo.put(dirFunc.registrosFunciones[funcionActual][3][p[-1]][0])
+    try:
+        #LOCAL
+        pilaTipo.put(dirFunc.registrosFunciones[currentFunction][3][p[-1]][0])
+    except:
+        #GLOBAL
+        pilaTipo.put(dirFunc.registrosFunciones[currentScript][3][p[-1]][0])
+
     p[0] = None
 
 def p_pnSaveOperandoConstante(p):
@@ -919,6 +1019,7 @@ def p_pnCuadAsign(p):
                 nuevoCuadruplo = [operador,valor,"",aAsignar]
                 cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
             else:
+                print(*cuadruplos.listaCuadruplos, sep="\n")
                 print("Se deben asignar valores del mismo tipo")
                 print("{} es {} \n {} es {}".format(valor,valorTipo,aAsignar,aAsignarTipo))
                 sys.exit()
@@ -1242,7 +1343,8 @@ def printDir():
 parser = yacc.yacc(debug=True)
 
 # filename = 'testPropuesta.txt'
-filename = 'test.txt'
+# filename = 'test.txt'
+filename = 'testModulos.txt'
 # filename = 'testForLoop.txt'
 fp = codecs.open(filename, "r", "utf-8")
 text = fp.read()
@@ -1254,7 +1356,7 @@ with open(filename) as fp:
     except EOFError:
         pass
 
-# printDir()
+printDir()
 print("LISTA DE CUADRUPLOS \n")
 index = 1
 for cuad in cuadruplos.listaCuadruplos:
