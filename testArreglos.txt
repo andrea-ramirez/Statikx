@@ -1,0 +1,27 @@
+script arreglos; 
+
+var int -> i;
+var float -> fi;
+var int[8] -> A;
+var float[8] -> fA;
+var int -> j;
+var float -> fj;
+var int[4,2] -> B;
+var float[4,2] -> fB;
+var int -> k;
+var float -> fk;
+
+func void -> uno(int -> a, int -> b){
+    var int[3,5] -> arregloFunc;
+    var int -> noArregloFunc;
+    put("hello");
+}
+
+
+DO
+{ 
+    var int[3,5] -> miArreglo;
+    var int -> noArreglo;
+    put("hola");
+
+}

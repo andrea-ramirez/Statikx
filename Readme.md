@@ -9,8 +9,7 @@ El avance para la entrega #5 / domingo 14 de mayo es:
 - Completo Avance 2
 - Completo Avance 3
 - Completo Avance 4
-- Avance 5 en progreso:
-    - Se genera el cuadruplo de endfunc
-    - Se genera la tabla paramétrica
-    - Se cuentan parcialmente los recursos de una funcion
-    - Se empezó a utilizar las asignaciones de memoria virtual en algunas funciones
+- Completo Avance 5
+- Avance 6:
+    - trabajando en el mapa de memoria
+o  booth

@@ -22,6 +22,7 @@ currentScript = ""
 currentFunction = ""
 currentTypeVar = ""
 currentLlamada = ""
+currentDecID = ""
 
 cuadruplos = Cuadruplo()
 
@@ -32,6 +33,12 @@ pilaSaltos = LifoQueue(maxsize=0)
 
 # Iniciar Memoria virtual
 memoria = MemoriaVirtual()
+
+# Arreglos
+arrDIM = 0
+arrR = 0
+arrSize = 1
+arrListaNodos = ""
 
 #  LEXER
 reserved = {
@@ -187,7 +194,7 @@ precedence = (
 # PARSER
 def p_programa(p):
     '''
-    programa : SCRIPT pnCrearDirFunc ID pnScriptFuncDir SEMICOLON varp funcp bloque
+    programa : SCRIPT pnCrearDirFunc ID pnScriptFuncDir pnCuadGotoMain SEMICOLON varp funcp bloque
     varp : var varp 
          | empty
     funcp : func funcp 
@@ -197,7 +204,7 @@ def p_programa(p):
 
 def p_bloque(p):
     '''
-    bloque : DO LEFT_CUR_BRACKET varp funcp estatutop RIGHT_CUR_BRACKET pnEndScript
+    bloque : DO pnDirMain LEFT_CUR_BRACKET varp funcp estatutop RIGHT_CUR_BRACKET pnEndScript
     estatutop : estatuto estatutop 
               | empty
     '''
@@ -255,12 +262,12 @@ def p_var(p):
     var : VAR pnCheckTablaVar v ARROW idp SEMICOLON
     v : DATAFRAME pnSaveTypeVar
       | tipo_simp vp
-    vp : LEFT_SQR_BRACKET CTEI vpp RIGHT_SQR_BRACKET 
+    vp : LEFT_SQR_BRACKET pnArrCreateNode CTEI pnArrSaveLim1 vpp RIGHT_SQR_BRACKET pnArrCuadriplificar
        | empty
-    vpp : COMMA CTEI 
+    vpp : COMMA pnArrIncDim CTEI pnArrSaveLim1
         | empty
-    idp : ID pnCheckNameTablaVar idpp
-    idpp : COMMA ID pnCheckNameTablaVar idpp
+    idp : ID pnCheckNameTablaVar pnArrAddDim idpp
+    idpp : COMMA ID pnCheckNameTablaVar pnArrAddDim idpp
          | empty
     '''
     p[0] = None
@@ -482,6 +489,23 @@ def p_pnCrearDirFunc(p):
     dirFunc = DirectorioFunciones()
     # print("Se crea directorio de funciones")
 
+#Genera el cuádruplo de Goto Main
+def p_pnCuadGotoMain(p):
+    '''
+    pnCuadGotoMain : empty
+    '''
+    nuevoCuadruplo = ["Goto","","",currentScript]
+    cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
+    p[0] = None
+
+# Registra la direccion Inicial de main en directorio de funciones
+def p_pnDirMain(p):
+    '''
+    pnDirMain : empty
+    '''
+    dirFunc.registrosFunciones[currentScript][1] = cuadruplos.getCont()
+    p[0] = None
+
 # Guardar registro de la funcion Script en DirFunc
 def p_pnScriptFuncDir(p):
     '''
@@ -522,6 +546,9 @@ def p_pnCheckNameTablaVar(p):
     '''
     dirFunc.insertVariable(p[-1],currentTypeVar,currentScript,currentFunction)
 
+    global currentDecID
+    currentDecID = p[-1]
+
     tipoActual = semantica.convertion[currentTypeVar]
 
     #Asignar direccion virtual
@@ -530,13 +557,13 @@ def p_pnCheckNameTablaVar(p):
         # es global
         if tipoActual == 2:
             dirFunc.registrosFunciones[currentScript][3][p[-1]][1] = memoria.countGlInt
-            memoria.countGlInt += 1
+            memoria.countGlInt += arrSize
         elif tipoActual == 3:
             dirFunc.registrosFunciones[currentScript][3][p[-1]][1] = memoria.countGlFloat
-            memoria.countGlFloat += 1
+            memoria.countGlFloat += arrSize
         elif tipoActual == 4:
             dirFunc.registrosFunciones[currentScript][3][p[-1]][1] = memoria.countGlC
-            memoria.countGlC += 1
+            memoria.countGlC += arrSize
         elif tipoActual == 'dataframe':
             dirFunc.registrosFunciones[currentScript][3][p[-1]][1] = memoria.countGlDf
             memoria.countGlDf += 1
@@ -546,13 +573,13 @@ def p_pnCheckNameTablaVar(p):
         # Es local
         if tipoActual == 2:
             dirFunc.registrosFunciones[currentFunction][3][p[-1]][1] = memoria.countLocInt
-            memoria.countLocInt += 1
+            memoria.countLocInt += arrSize
         elif tipoActual == 3:
             dirFunc.registrosFunciones[currentFunction][3][p[-1]][1] = memoria.countLocFloat
-            memoria.countLocFloat += 1
+            memoria.countLocFloat += arrSize
         elif tipoActual == 4:
             dirFunc.registrosFunciones[currentFunction][3][p[-1]][1] = memoria.countLocC
-            memoria.countLocC += 1
+            memoria.countLocC += arrSize
         elif tipoActual == 'dataframe':
             dirFunc.registrosFunciones[currentFunction][3][p[-1]][1] = memoria.countLocDf
             memoria.countLocDf += 1
@@ -736,7 +763,7 @@ def p_pnCheckNoParam(p):
     index = listaParametrica[0]
 
     if index != len(listaParametrica)-1:
-        print("Error en número de parametros en la llamada de la funcion {}".format(currentLlamada))
+        print("Error en número de parametros en la llamada de la funcion {} {}".format(currentLlamada, index))
         sys.exit()
 
     p[0] = None
@@ -1019,7 +1046,6 @@ def p_pnCuadAsign(p):
                 nuevoCuadruplo = [operador,valor,"",aAsignar]
                 cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
             else:
-                print(*cuadruplos.listaCuadruplos, sep="\n")
                 print("Se deben asignar valores del mismo tipo")
                 print("{} es {} \n {} es {}".format(valor,valorTipo,aAsignar,aAsignarTipo))
                 sys.exit()
@@ -1321,6 +1347,102 @@ def p_pnEndFor(p):
     p[0] = None
 
 
+# Arreglos
+
+# Inicializa los nodos para arreglos
+def p_pnArrCreateNode(p):
+    '''
+    pnArrCreateNode : empty
+    '''
+    global arrListaNodos
+    arrListaNodos = []
+
+    global arrDIM
+    arrDIM = 1
+    
+    global arrR
+    arrR = 1
+
+    p[0] = None
+
+
+# Guarda Limites Superiores 1 de arreglos y calcula R acumulada
+def p_pnArrSaveLim1(p):
+    '''
+    pnArrSaveLim1 : empty
+    '''
+    global arrListaNodos
+    arrListaNodos.append([p[-1],'m'])
+
+    global arrR
+    # R = R * (Lsup + 1)
+    arrR = arrR * (p[-1]+1)
+
+    p[0] = None
+
+
+# Incrementa DIM , cuando lee segunda dimension
+def p_pnArrIncDim(p):
+    '''
+    pnArrIncDim : empty
+    '''
+    global arrDIM
+    arrDIM += 1
+
+    p[0] = None
+
+
+# Llena la lista de nodos con cuadriplificacion de receta de cocina
+def p_pnArrCuadriplificar(p):
+    '''
+    pnArrCuadriplificar : empty
+    '''
+    global arrListaNodos
+    dim = 1
+    offset = 0
+    global arrR
+    global arrSize
+    arrSize = arrR
+
+    for nodo in arrListaNodos:
+        m = arrR / (nodo[0] + 1)
+        nodo[1] = m
+        arrR = m
+        offset = offset # to be erased
+        dim += 1 # to be erased
+
+    arrListaNodos[-1:][0][1] = 0 # Asignando a K, to be erased?
+    p[0] = None
+
+
+# Añade dimensiones de arreglo tablaVar
+def p_pnArrAddDim(p):
+    '''
+    pnArrAddDim : empty
+    '''
+    # Checar si variable es arreglo
+    global arrListaNodos
+    global arrSize
+
+    if arrListaNodos != "":
+
+        # get funcion actual
+        funcionActual = ""
+        if currentFunction == "":
+            funcionActual = currentScript
+        else:
+            funcionActual = currentFunction
+        
+        dirFunc.registrosFunciones[funcionActual][3][currentDecID].append(arrListaNodos)
+
+        # borrar lista Nodos 
+        arrListaNodos = ""
+        arrSize = 1
+    # printDir()
+
+    p[0] = None
+
+
 def p_empty(p):
     '''
     empty :'''
@@ -1344,7 +1466,8 @@ parser = yacc.yacc(debug=True)
 
 # filename = 'testPropuesta.txt'
 # filename = 'test.txt'
-filename = 'testModulos.txt'
+# filename = 'testModulos.
+filename = 'testArreglos.txt'
 # filename = 'testForLoop.txt'
 fp = codecs.open(filename, "r", "utf-8")
 text = fp.read()
@@ -1356,7 +1479,7 @@ with open(filename) as fp:
     except EOFError:
         pass
 
-printDir()
+
 print("LISTA DE CUADRUPLOS \n")
 index = 1
 for cuad in cuadruplos.listaCuadruplos:
@@ -1368,3 +1491,13 @@ for cuad in cuadruplos.listaCuadruplos:
 # print(*cuadruplos.listaCuadruplos, sep="\n")
 # print("  \n\n TABLA CONSTANTES")
 # print(tablaConst)
+
+data = {
+    'cuads': cuadruplos.listaCuadruplos,
+    'dirfunc' : dirFunc.registrosFunciones,
+    'tablaconst' : tablaConst,
+    #maybe incluir memoria aquí
+}
+
+def exportData():
+    return data
