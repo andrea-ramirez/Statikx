@@ -1,0 +1,13 @@
+script arreglosClase; 
+
+var int -> i;
+var int[6] -> A;
+var int -> j;
+var int[4,8] -> B;
+var int -> p;
+
+
+DO
+{ 
+    A[i+p*j] = p*B[i+j,p];
+}

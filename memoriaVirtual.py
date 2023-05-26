@@ -23,12 +23,12 @@ class MemoriaVirtual:
     tempInt = 9000
     tempFloat = 10000
     tempC = 11000
-    tempDf = 12000 # not sure if I need this one
+    tempPointer = 12000 # TEMPORAL POINTER
     tempBool = 13000
     countTemInt = 9000
     countTemFloat = 10000
     countTemC = 11000
-    countTemDf = 12000
+    countTemPointer = 12000 # TEMPORAL POINTER
     countTemBool = 13000
 
     CteInt = 14000
@@ -62,12 +62,12 @@ class MemoriaVirtual:
         self.tempInt = 9000
         self.tempFloat = 10000
         self.tempC = 11000
-        self.tempDf = 12000 # not sure if I need this one
+        self.tempPointer = 12000 # Temp Pointer
         self.tempBool = 13000
         self.countTemInt = 9000
         self.countTemFloat = 10000
         self.countTemC = 11000
-        self.countTemDf = 12000
+        self.countTemPointer = 12000 # Temp Pointer
         self.countTemBool = 13000
 
         self.CteInt = 14000
@@ -94,9 +94,9 @@ class MemoriaVirtual:
         elif resultType == 4:
             temp = self.countTemC
             self.countTemC += 1
-        elif resultType == 4:
-            temp = self.countTemDf
-            self.countTemDf += 1
+        elif resultType == 'pointer':
+            temp = self.countTemPointer
+            self.countTemPointer += 1
         else:
             print("ERROR AL ASIGNAR TEMPORAL")
             sys.exit()

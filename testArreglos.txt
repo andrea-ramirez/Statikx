@@ -22,6 +22,17 @@ DO
 { 
     var int[3,5] -> miArreglo;
     var int -> noArreglo;
+    var int -> x;
+    var int -> y;
+
+    x = 4;
+    noArreglo = 0;
+
     put("hola");
+    noArreglo = miArreglo[x+1,y-1];
+    put("division");
+    noArreglo = A[2];
+    put("final");
+
 
 }

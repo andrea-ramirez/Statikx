@@ -1,15 +1,23 @@
 # Directorio de funciones
 # {string, [diferentesTipos]}
-# {nombre, [tipoRetorno, direccionInicio, numeroRecursos, tablaVar, listaParametros]}
+# {nombre, [tipoRetorno, direccionInicio, numeroRecursos, tablaVar + [dim], listaParametros]}
 # tablaVar = {nombre : [tipo,direccionVirtual]}
 
 import sys
 
 class DirectorioFunciones:
     registrosFunciones = {}
+    currDecArreglo = [0,""] # [arrR,arrListaNodos]
     
     def _init_(self):
         self.registrosFunciones = {}
+
+    @classmethod
+    def getFuncionActual(self, currentScript,currentFunction):
+        if currentFunction == "":
+            return currentScript
+        else:
+            return currentFunction
 
     @classmethod
     def insertNewScript(self,nameScript):
@@ -92,9 +100,11 @@ class DirectorioFunciones:
             self.registrosFunciones[funcionInsertarVariable][3][nameVariable] = [returnValue,"direccionVirtual"]
             # print("Se ha insertado la variable {} en el registro de {}".format(nameVariable,funcionInsertarVariable))
 
+        # print(self.registrosFunciones[funcionInsertarVariable][3])
+
     @classmethod
     def isVarDeclared(self,nameVariable,currentScript,currentFunction):
-        # checar que sea una variable que ya esté declarada en la funcion o en el scrpipt
+        # checar que sea una variable que ya esté declarada en la funcion o en el script
         funcionActual = ""
         if currentFunction == "":
             funcionActual = currentScript
@@ -105,8 +115,48 @@ class DirectorioFunciones:
             return True
         else:
             return False
-
         
+    
+    # Funciones de arreglos
+        
+    @classmethod
+    def isDim(self,ide, currentScript, currentFunction):
+        funcionActual = self.getFuncionActual(currentScript,currentFunction)
+        
+        if len(self.registrosFunciones[funcionActual][3][ide]) > 2:
+            return True
+        else:
+            return False
+    
+    # Regresa el limite superior de un arreglo de una dimension dada
+    @classmethod
+    def getLimSup(self,currentScript,currentFunction,nombreArreglo,dimension):
+        funcionActual = self.getFuncionActual(currentScript,currentFunction)
+
+        if dimension == 1:
+                                        # func[tablaVar][arreglo][dimensiones][dim1][limpSup]
+            return self.registrosFunciones[funcionActual][3][nombreArreglo][2][0][0]
+        elif dimension == 2:
+                                        # func[tablaVar][arreglo][dimensiones][dim2][limpSup]
+            return self.registrosFunciones[funcionActual][3][nombreArreglo][2][1][0]
+        else:
+            print("ERROR: No se pudo acceder con la dimension {} al arreglo {}".format(dimension,nombreArreglo))
+            sys.exit()
+
+    @classmethod
+    def getDirBaseArreglo(self,currentScript,currentFunction,nombreArreglo):
+        funcionActual = self.getFuncionActual(currentScript,currentFunction)
+        
+        # print(self.registrosFunciones[funcionActual][3][nombreArreglo][1])
+        return self.registrosFunciones[funcionActual][3][nombreArreglo][1]
+    
+    @classmethod
+    def getM1(self,currentScript,currentFunction,nombreArreglo):
+        funcionActual = self.getFuncionActual(currentScript,currentFunction)
+
+        # funcion[tablaVAR][arregloID][dimensiones][dim1][m1]
+        return self.registrosFunciones[funcionActual][3][nombreArreglo][2][0][1]
+
     @classmethod
     def endScript(self,nameScript):
         self.registrosFunciones.pop(nameScript)

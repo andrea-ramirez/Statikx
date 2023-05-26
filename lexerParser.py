@@ -23,6 +23,8 @@ currentFunction = ""
 currentTypeVar = ""
 currentLlamada = ""
 currentDecID = ""
+currentAccessArr = ""
+arrSize = 1
 
 cuadruplos = Cuadruplo()
 
@@ -30,15 +32,10 @@ pilaOperadores = LifoQueue(maxsize=0)
 pilaOperandos = LifoQueue(maxsize=0)
 pilaTipo = LifoQueue(maxsize=0)
 pilaSaltos = LifoQueue(maxsize=0)
+pilaDim = LifoQueue(maxsize=0)
 
 # Iniciar Memoria virtual
 memoria = MemoriaVirtual()
-
-# Arreglos
-arrDIM = 0
-arrR = 0
-arrSize = 1
-arrListaNodos = ""
 
 #  LEXER
 reserved = {
@@ -240,10 +237,10 @@ def p_file(p):
 def p_variable(p):
     '''
     variable : ID pnSaveOperandos indexp
-    indexp : LEFT_SQR_BRACKET exp indexpp RIGHT_SQR_BRACKET 
+    indexp : LEFT_SQR_BRACKET pnArrIni exp pnArrVerify indexpp RIGHT_SQR_BRACKET pnArrFFPop
            | empty
-    indexpp : COMMA exp 
-            | empty
+    indexpp : COMMA pnArrAccIncDim exp pnMatCalc
+            | empty pnArrCalc
     '''
     p[0] = None
 
@@ -264,7 +261,7 @@ def p_var(p):
       | tipo_simp vp
     vp : LEFT_SQR_BRACKET pnArrCreateNode CTEI pnArrSaveLim1 vpp RIGHT_SQR_BRACKET pnArrCuadriplificar
        | empty
-    vpp : COMMA pnArrIncDim CTEI pnArrSaveLim1
+    vpp : COMMA CTEI pnArrSaveLim1
         | empty
     idp : ID pnCheckNameTablaVar pnArrAddDim idpp
     idpp : COMMA ID pnCheckNameTablaVar pnArrAddDim idpp
@@ -651,7 +648,7 @@ def p_pnCountVarsINTOResources(p):
 
     dirFunc.registrosFunciones[currentFunction][2]['tC'] = memoria.countTemC - memoria.tempC
 
-    dirFunc.registrosFunciones[currentFunction][2]['tDf'] = memoria.countTemDf - memoria.tempDf
+    dirFunc.registrosFunciones[currentFunction][2]['tPointer'] = memoria.countTemPointer - memoria.tempPointer
 
     dirFunc.registrosFunciones[currentFunction][2]['tB'] = memoria.countTemBool - memoria.tempBool
 
@@ -677,7 +674,7 @@ def p_pnCloseCurrentFunction(p):
     dirFunc.registrosFunciones[currentFunction][3] = {}
 
     currentFunction = ""
-    # Darle cuello a la función?
+
 
     nuevoCuadruplo = ["ENDFUNC","","",""]
     cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
@@ -1354,14 +1351,11 @@ def p_pnArrCreateNode(p):
     '''
     pnArrCreateNode : empty
     '''
-    global arrListaNodos
-    arrListaNodos = []
+    # Inicializar lista de nodos
+    dirFunc.currDecArreglo[1] = []
 
-    global arrDIM
-    arrDIM = 1
-    
-    global arrR
-    arrR = 1
+    # R = 1
+    dirFunc.currDecArreglo[0] = 1
 
     p[0] = None
 
@@ -1371,47 +1365,31 @@ def p_pnArrSaveLim1(p):
     '''
     pnArrSaveLim1 : empty
     '''
-    global arrListaNodos
-    arrListaNodos.append([p[-1],'m'])
+    # Guarda Límite superior
+    dirFunc.currDecArreglo[1].append([p[-1],'m'])
 
-    global arrR
     # R = R * (Lsup + 1)
-    arrR = arrR * (p[-1]+1)
+    R = dirFunc.currDecArreglo[0]
+    dirFunc.currDecArreglo[0] = R * (p[-1]+1)
 
     p[0] = None
-
-
-# Incrementa DIM , cuando lee segunda dimension
-def p_pnArrIncDim(p):
-    '''
-    pnArrIncDim : empty
-    '''
-    global arrDIM
-    arrDIM += 1
-
-    p[0] = None
-
 
 # Llena la lista de nodos con cuadriplificacion de receta de cocina
 def p_pnArrCuadriplificar(p):
     '''
     pnArrCuadriplificar : empty
     '''
-    global arrListaNodos
-    dim = 1
-    offset = 0
-    global arrR
     global arrSize
-    arrSize = arrR
+    arrSize = dirFunc.currDecArreglo[0] # R
+    listaNodos = dirFunc.currDecArreglo[1]
 
-    for nodo in arrListaNodos:
-        m = arrR / (nodo[0] + 1)
+    for nodo in listaNodos:
+        m = dirFunc.currDecArreglo[0] / (nodo[0] + 1)
         nodo[1] = m
-        arrR = m
-        offset = offset # to be erased
-        dim += 1 # to be erased
+        dirFunc.currDecArreglo[0] = m
 
-    arrListaNodos[-1:][0][1] = 0 # Asignando a K, to be erased?
+    dirFunc.currDecArreglo[1][-1:][0][1] = 0
+
     p[0] = None
 
 
@@ -1421,10 +1399,9 @@ def p_pnArrAddDim(p):
     pnArrAddDim : empty
     '''
     # Checar si variable es arreglo
-    global arrListaNodos
     global arrSize
 
-    if arrListaNodos != "":
+    if dirFunc.currDecArreglo[1] != "":
 
         # get funcion actual
         funcionActual = ""
@@ -1433,15 +1410,152 @@ def p_pnArrAddDim(p):
         else:
             funcionActual = currentFunction
         
-        dirFunc.registrosFunciones[funcionActual][3][currentDecID].append(arrListaNodos)
+        dirFunc.registrosFunciones[funcionActual][3][currentDecID].append(dirFunc.currDecArreglo[1])
 
         # borrar lista Nodos 
-        arrListaNodos = ""
+        dirFunc.currDecArreglo[1] = ""
         arrSize = 1
-    # printDir()
 
     p[0] = None
 
+
+# verificar variable dim, Inicializar el acceso de arreglo/matriz, poner fondo falso, #2
+def p_pnArrIni(p):
+    '''
+    pnArrIni : empty
+    '''
+    # Sacar nombre de arreglo de la listaOperandos
+    ide = pilaOperandos.get()
+    tipo = pilaTipo.get()
+
+    # Verificar que ID tiene dimensiones
+    if dirFunc.isDim(ide,currentScript,currentFunction):
+        # Guardar nombre de arreglo
+        global currentAccessArr
+        currentAccessArr = ide
+
+        pilaDim.put([ide,1])
+        pilaOperadores.put(" FF ")
+    else:
+        print("variable no dimensionada")
+        sys.exit()
+
+    p[0] = None
+
+
+# Generar cuadruplo verify index
+def p_pnArrVerify(p):
+    '''
+    pnArrVerify : empty
+    '''
+    s1 = pilaOperandos.get()
+    pilaOperandos.put(s1)
+
+    limSup = dirFunc.getLimSup(currentScript,currentFunction,currentAccessArr,1)
+
+    nuevoCuadruplo = ['Ver', s1, '', limSup]
+    cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
+    
+    p[0] = None
+
+# Incrementar dimension de arreglos 
+def p_pnArrAccIncDim(p):
+    '''
+    pnArrAccIncDim : empty
+    '''
+    pilaDim.get()
+    pilaDim.put([currentAccessArr,2])
+
+    p[0] = None
+
+# Realiza cáculos de arreglos (1 dimension) para temp Pointer
+def p_pnArrCalc(p):
+    '''
+    pnArrCalc : empty
+    '''
+
+    # Debe ser expresion
+    s1 = pilaOperandos.get()
+    s1Tipo = pilaTipo.get()
+
+    if semantica.convertion[s1Tipo] != 2:
+        print("ERROR: Expresión de indexación en arreglos debe ser int")
+        sys.exit() 
+
+    dirBaseArreglo = dirFunc.getDirBaseArreglo(currentScript,currentFunction,currentAccessArr)
+    temporalPointerActual = memoria.getMemoriaTemporal('pointer')
+    resultType = semantica.tablaSimbolos[semantica.convertion[s1Tipo]][semantica.convertion['int']]['+']
+
+    # + dirBase()
+    nuevoCuadruplo = ['+',s1,dirBaseArreglo,'('+ str(temporalPointerActual) +')']
+    cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
+
+    pilaOperandos.put('('+ str(temporalPointerActual) +')')
+    pilaTipo.put(resultType)
+
+    p[0] = None
+
+# Realiza cáculos de matrices (2 dimensiones) para temp Pointer
+def p_pnMatCalc(p):
+    '''
+    pnMatCalc : empty
+    '''
+    s2 = pilaOperandos.get()
+    s2Tipo = pilaTipo.get()
+
+    s1 = pilaOperandos.get()
+    s1Tipo = pilaTipo.get()
+
+    if len(pilaTipo.queue) != len(pilaOperandos.queue):
+        print("algo mal sis")
+        sys.exit()
+
+    if semantica.convertion[s2Tipo] != 2 or semantica.convertion[s1Tipo] != 2:
+        print("ERROR: Expresión de indexación en arreglos debe ser int")
+        sys.exit()
+
+    # s1*m1
+    m1 = dirFunc.getM1(currentScript,currentFunction,currentAccessArr)
+    temporalActual1 = memoria.getMemoriaTemporal(2)
+
+    nuevoCuadruplo = ['*',s1,m1,temporalActual1]
+    cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
+
+    # Verificar
+    limSup = dirFunc.getLimSup(currentScript,currentFunction,currentAccessArr,2)
+    # print("LIMPSUP: {}".format(limSup))
+
+    nuevoCuadruplo = ['Ver', s2, '', limSup]
+    cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
+
+
+    # +s2
+    temporalActual2 = memoria.getMemoriaTemporal(2)
+
+    nuevoCuadruplo = ['+',temporalActual1,s2,temporalActual2]
+    cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
+
+
+    # + dirBase()
+    dirBaseMatriz = dirFunc.getDirBaseArreglo(currentScript,currentFunction,currentAccessArr)
+    temporalPointerActual = memoria.getMemoriaTemporal('pointer')
+
+    nuevoCuadruplo = ['+',temporalActual2,dirBaseMatriz,temporalPointerActual]
+    cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
+
+    pilaOperandos.put(temporalPointerActual)
+    pilaTipo.put('int')
+
+    p[0] = None
+
+# Elimina el fondo falso
+def p_pnArrFFPop(p):
+    '''
+    pnArrFFPop : empty
+    '''
+    # print("Deberia ser ff: {}".format(pilaOperadores.get()))
+    pilaOperadores.get()
+    p[0] = None
 
 def p_empty(p):
     '''
@@ -1467,8 +1581,9 @@ parser = yacc.yacc(debug=True)
 # filename = 'testPropuesta.txt'
 # filename = 'test.txt'
 # filename = 'testModulos.
-filename = 'testArreglos.txt'
+# filename = 'testArreglos.txt'
 # filename = 'testForLoop.txt'
+filename = 'testArreglo2.txt'
 fp = codecs.open(filename, "r", "utf-8")
 text = fp.read()
 fp.close()
