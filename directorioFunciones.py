@@ -1,7 +1,7 @@
 # Directorio de funciones
 # {string, [diferentesTipos]}
-# {nombre, [tipoRetorno, direccionInicio, numeroRecursos, tablaVar + [dim], listaParametros]}
-# tablaVar = {nombre : [tipo,direccionVirtual]}
+# {nombre, [tipoRetorno, direccionInicio, numeroRecursos, tablaVar, listaParametros]}
+# tablaVar = {nombre : [tipo,direccionVirtual,dim]}
 
 import sys
 
@@ -11,17 +11,22 @@ class DirectorioFunciones:
     
     def _init_(self):
         self.registrosFunciones = {}
-
+    
+    # Para ver si la variable es local o global. Me regresa el nombre de la funcion actual a checar la tabla de variables a la cual la variable ide pertenece
     @classmethod
-    def getFuncionActual(self, currentScript,currentFunction):
-        if currentFunction == "":
-            return currentScript
-        else:
+    def tablaVarActual(self,nombreVar,currentFunction, currentScript):
+        try:
+            # Local
+            variable = self.registrosFunciones[currentFunction][3][nombreVar]
             return currentFunction
+        except:
+            variable = self.registrosFunciones[currentScript][3][nombreVar]
+            return currentScript
 
     @classmethod
     def insertNewScript(self,nameScript):
-        self.registrosFunciones[nameScript] = ["void","","",""]
+        # Se crea con tabla de variables ya inicializada
+        self.registrosFunciones[nameScript] = ["void","","",{}]
         # print("Inició registro de script {} en Directorio de Funciones \n".format(nameScript))
 
     @classmethod
@@ -98,6 +103,7 @@ class DirectorioFunciones:
         else:
             #insertar valor a tabla de variables
             self.registrosFunciones[funcionInsertarVariable][3][nameVariable] = [returnValue,"direccionVirtual"]
+            
             # print("Se ha insertado la variable {} en el registro de {}".format(nameVariable,funcionInsertarVariable))
 
         # print(self.registrosFunciones[funcionInsertarVariable][3])
@@ -121,9 +127,9 @@ class DirectorioFunciones:
         
     @classmethod
     def isDim(self,ide, currentScript, currentFunction):
-        funcionActual = self.getFuncionActual(currentScript,currentFunction)
-        
-        if len(self.registrosFunciones[funcionActual][3][ide]) > 2:
+        tablaVarIde = self.tablaVarActual(ide,currentFunction, currentScript)
+
+        if len(self.registrosFunciones[tablaVarIde][3][ide]) > 2:
             return True
         else:
             return False
@@ -131,31 +137,39 @@ class DirectorioFunciones:
     # Regresa el limite superior de un arreglo de una dimension dada
     @classmethod
     def getLimSup(self,currentScript,currentFunction,nombreArreglo,dimension):
-        funcionActual = self.getFuncionActual(currentScript,currentFunction)
+        # Trae la funcion de la tabla con la que se tiene que checar, la funcion actual o el script
+        tablaVarActual = self.tablaVarActual(nombreArreglo,currentFunction,currentScript)
 
         if dimension == 1:
                                         # func[tablaVar][arreglo][dimensiones][dim1][limpSup]
-            return self.registrosFunciones[funcionActual][3][nombreArreglo][2][0][0]
+            return self.registrosFunciones[tablaVarActual][3][nombreArreglo][2][0][0]
         elif dimension == 2:
                                         # func[tablaVar][arreglo][dimensiones][dim2][limpSup]
-            return self.registrosFunciones[funcionActual][3][nombreArreglo][2][1][0]
+            return self.registrosFunciones[tablaVarActual][3][nombreArreglo][2][1][0]
         else:
             print("ERROR: No se pudo acceder con la dimension {} al arreglo {}".format(dimension,nombreArreglo))
             sys.exit()
 
     @classmethod
     def getDirBaseArreglo(self,currentScript,currentFunction,nombreArreglo):
-        funcionActual = self.getFuncionActual(currentScript,currentFunction)
-        
-        # print(self.registrosFunciones[funcionActual][3][nombreArreglo][1])
-        return self.registrosFunciones[funcionActual][3][nombreArreglo][1]
+        tablaVarActual = self.tablaVarActual(nombreArreglo,currentFunction,currentScript)
+        return self.registrosFunciones[tablaVarActual][3][nombreArreglo][1]
     
     @classmethod
-    def getM1(self,currentScript,currentFunction,nombreArreglo):
-        funcionActual = self.getFuncionActual(currentScript,currentFunction)
+    def getM1(self,currentScript,currentFunction,nombreMatriz):
+        tablaVarActual = self.tablaVarActual(nombreMatriz,currentFunction,currentScript)
 
         # funcion[tablaVAR][arregloID][dimensiones][dim1][m1]
-        return self.registrosFunciones[funcionActual][3][nombreArreglo][2][0][1]
+        return self.registrosFunciones[tablaVarActual][3][nombreMatriz][2][0][1]
+    
+    @classmethod
+    def getTipoReturnFunction(self,function):
+        return self.registrosFunciones[function][0]
+    
+    @classmethod
+    def getVirtualAddress(self,function,variable):
+        # print("Address a regresar {}".format(self.registrosFunciones[function][3][variable][1]))
+        return self.registrosFunciones[function][3][variable][1]
 
     @classmethod
     def endScript(self,nameScript):

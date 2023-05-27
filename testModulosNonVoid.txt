@@ -1,0 +1,41 @@
+script pelos; 
+
+var int -> i, j, k;
+
+func int -> uno(int -> j){
+    var int -> i;
+
+    i = j + (k - j*2+j);
+
+    if(j > 0)
+    True{
+        returns uno(i-j);;
+    }False{
+        returns i+k;
+    }
+}
+
+func void -> dos(int -> i, int -> j){
+    var int -> x;
+    var int -> y;
+
+    x = i + j;
+
+    if(x > j*k)
+    True{
+        put(uno(x-k););
+    }False{
+        put(uno(j););
+    }
+}
+
+
+DO
+{ 
+    get(k);
+    i = 5;
+    j = i*2+1;
+    dos(j-i,j);
+
+
+}

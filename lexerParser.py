@@ -23,7 +23,6 @@ currentFunction = ""
 currentTypeVar = ""
 currentLlamada = ""
 currentDecID = ""
-currentAccessArr = ""
 arrSize = 1
 
 cuadruplos = Cuadruplo()
@@ -191,7 +190,7 @@ precedence = (
 # PARSER
 def p_programa(p):
     '''
-    programa : SCRIPT pnCrearDirFunc ID pnScriptFuncDir pnCuadGotoMain SEMICOLON varp funcp bloque
+    programa : SCRIPT pnCrearDirFunc ID pnScriptFuncDir pnCuadGotoMain SEMICOLON varp funcp bloque pnCuadEND
     varp : var varp 
          | empty
     funcp : func funcp 
@@ -246,7 +245,7 @@ def p_variable(p):
 
 def p_llamada(p):
     '''
-    llamada : ID pnCheckFunc LEFT_PARENT pnGenerateEra expp RIGHT_PARENT pnCheckNoParam SEMICOLON pnCuadGoSub
+    llamada : ID pnCheckFunc LEFT_PARENT pnGenerateEra expp RIGHT_PARENT pnCheckNoParam SEMICOLON pnCuadGoSub pnHandleReturnValue
     expp : exp pnCuadParametro exppp
          | empty
     exppp : COMMA pnUpdateK exp pnCuadParametro exppp
@@ -272,7 +271,7 @@ def p_var(p):
 def p_func(p):
     '''
     func : FUNC returnval ARROW ID pnAddFuncinDir LEFT_PARENT pnCheckTablaVar pnCrearListaParam param RIGHT_PARENT LEFT_CUR_BRACKET varp pnDirecIniFunc estatutop RIGHT_CUR_BRACKET pnCountVarsINTOResources pnCloseCurrentFunction
-    returnval : tipo_simp 
+    returnval : tipo_simp
               | VOID pnSaveTypeVar
     '''
     p[0] = None
@@ -326,7 +325,7 @@ def p_escribe(p):
 
 def p_return(p):
     '''
-    return : RETURNS exp SEMICOLON
+    return : RETURNS exp pnCuadRet SEMICOLON
     '''
     p[0] = None
 
@@ -597,6 +596,26 @@ def p_pnAddFuncinDir(p):
     # Check current function / script and so on, como en createTablaVar
     dirFunc.insertNewFunction(p[-1],currentTypeVar)
 
+    # Crea variable global con nombre de funcion que regresa una variable - handle returns
+    if currentTypeVar != 'void':
+
+        tipoSemantica = semantica.convertion[currentTypeVar]
+        dirFunc.insertVariable(currentFunction,tipoSemantica,currentScript,'')
+
+        # Asignar dirección virtual
+        if tipoSemantica == 2:
+            dirFunc.registrosFunciones[currentScript][3][currentFunction][1] = memoria.countGlInt
+            memoria.countGlInt += 1
+        elif tipoSemantica == 3:
+            dirFunc.registrosFunciones[currentScript][3][currentFunction][1] = memoria.countGlFloat
+            memoria.countGlFloat += 1
+        elif tipoSemantica == 4:
+            dirFunc.registrosFunciones[currentScript][3][currentFunction][1] = memoria.countGlC
+            memoria.countGlC += 1
+        else:
+            print("Error al asignar posible memoria virtual a variable que representa funcion que regresa un valor")
+            sys.exit()
+
     p[0] = None
 
 def p_pnAddParametersTablaVar(p):
@@ -715,6 +734,9 @@ def p_pnGenerateEra(p):
     #Counter para parámetros
     dirFunc.registrosFunciones[currentLlamada][4][0] = 1 
 
+    # Agregar fondo falso
+    pilaOperadores.put(" FF ")
+
     p[0] = None
 
 # Genera cuadruplo de parametro y checa tipo
@@ -763,19 +785,72 @@ def p_pnCheckNoParam(p):
         print("Error en número de parametros en la llamada de la funcion {} {}".format(currentLlamada, index))
         sys.exit()
 
+    # Popear Fondo falso
+    # print("Should be FF: {}".format(pilaOperadores.get()))
+    pilaOperadores.get()
+
     p[0] = None
 
 def p_pnCuadGoSub(p):
     '''
     pnCuadGoSub : empty
     '''
-    global currentLlamada
 
     iniAddress = dirFunc.registrosFunciones[currentLlamada][1]
-    nuevoCuadruplo = ["GOSUB",currentLlamada,"",iniAddress]
+    nuevoCuadruplo = ["GOSUB",currentLlamada,'',iniAddress]
     cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
 
+    p[0] = None
+
+
+def p_pnHandleReturnValue(p):
+    '''
+    pnHandleReturnValue : empty
+    '''
+    global currentLlamada
+
+    resultType = dirFunc.getTipoReturnFunction(currentLlamada)
+
+    if resultType != 'void':
+        tipoSemantica = semantica.convertion[resultType]
+        
+        temporalActual = memoria.getMemoriaTemporal(tipoSemantica)
+        direccionVarFuncion = dirFunc.getVirtualAddress(currentScript,currentLlamada)
+
+        nuevoCuadruplo = ['=',direccionVarFuncion,'',temporalActual]
+        cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
+
+        pilaOperandos.put(temporalActual)
+        pilaTipo.put(tipoSemantica)
+
     currentLlamada = ""
+
+    p[0] = None
+
+def p_pnCuadRet(p):
+    '''
+    pnCuadRet : empty
+    '''
+    # Checar que no se regrese en main
+    if currentFunction == "":
+        print("ERROR: No se puede realizar return en DO")
+        sys.exit()
+
+    retorno = pilaOperandos.get()
+    retornoTipo = pilaTipo.get()
+
+    tipoFunction = dirFunc.getTipoReturnFunction(currentFunction)
+    if tipoFunction == 'void':
+        print("ERROR: No se puede regresar un {} en una funcion de tipo void".format(tipoFunction))
+        sys.exit()
+
+    # Checar que esté regresando el tipo de expresión de la funcion
+    if semantica.convertion[retornoTipo] != semantica.convertion[tipoFunction]:
+        print("ERROR: Se quiere regresar un valor de tipo {} en una función que regresa {}".format(retornoTipo,tipoFunction))
+        sys.exit()
+
+    nuevoCuadruplo = ["Ret",'','',retorno]
+    cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
 
     p[0] = None
 
@@ -1171,7 +1246,7 @@ def p_pnCheckBoolIf(p):
     pnCheckBoolIf : empty
     '''
     expTipo = pilaTipo.get()
-    
+
     if expTipo != 1:
         print("ERROR: Type Mismatch. Expected boolean condition in IF statement")
         sys.exit()
@@ -1212,7 +1287,6 @@ def p_pnSaveWhile(p):
     p[0] = None
 
 # Estoy utilizando para checar que la expresion sea booleana, el mismo punto neuralgico de if
-# def p_pnCheckBoolIf(p):
 
 def p_pnEndWhile(p):
     '''
@@ -1366,6 +1440,10 @@ def p_pnArrSaveLim1(p):
     pnArrSaveLim1 : empty
     '''
     # Guarda Límite superior
+    if p[-1] <= 0:
+        print("ERROR: Se debe incluir un tamaño mayor a 0 para la declaración de arreglos y matrices")
+        sys.exit()
+
     dirFunc.currDecArreglo[1].append([p[-1],'m'])
 
     # R = R * (Lsup + 1)
@@ -1428,11 +1506,18 @@ def p_pnArrIni(p):
     ide = pilaOperandos.get()
     tipo = pilaTipo.get()
 
+    # Checar que variable de tipo arreglo exista
+
+    if currentFunction != "" and ide not in dirFunc.registrosFunciones[currentFunction][3] and ide not in dirFunc.registrosFunciones[currentScript][3]:
+        print("VARIABLE NO DECLARADA {}".format(ide))
+        sys.exit()
+    elif currentFunction == "" and ide not in dirFunc.registrosFunciones[currentScript][3]:
+        print("VARIABLE NO DECLARADA {}".format(ide))
+        sys.exit()
+
     # Verificar que ID tiene dimensiones
     if dirFunc.isDim(ide,currentScript,currentFunction):
         # Guardar nombre de arreglo
-        global currentAccessArr
-        currentAccessArr = ide
 
         pilaDim.put([ide,1])
         pilaOperadores.put(" FF ")
@@ -1451,7 +1536,11 @@ def p_pnArrVerify(p):
     s1 = pilaOperandos.get()
     pilaOperandos.put(s1)
 
-    limSup = dirFunc.getLimSup(currentScript,currentFunction,currentAccessArr,1)
+    # Agarrar dimension de arreglo/matriz actual
+    topPilaDim = pilaDim.get()
+    pilaDim.put(topPilaDim)
+
+    limSup = dirFunc.getLimSup(currentScript,currentFunction,topPilaDim[0],1)
 
     nuevoCuadruplo = ['Ver', s1, '', limSup]
     cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
@@ -1463,8 +1552,9 @@ def p_pnArrAccIncDim(p):
     '''
     pnArrAccIncDim : empty
     '''
-    pilaDim.get()
-    pilaDim.put([currentAccessArr,2])
+    # Siempre va a ser matriz d2 después de popear matriz d1
+    nombreMatriz = pilaDim.get()[0]
+    pilaDim.put([nombreMatriz,2])
 
     p[0] = None
 
@@ -1482,7 +1572,10 @@ def p_pnArrCalc(p):
         print("ERROR: Expresión de indexación en arreglos debe ser int")
         sys.exit() 
 
-    dirBaseArreglo = dirFunc.getDirBaseArreglo(currentScript,currentFunction,currentAccessArr)
+    top = pilaDim.get()[0]
+    pilaDim.put(top)
+
+    dirBaseArreglo = dirFunc.getDirBaseArreglo(currentScript,currentFunction,top)
     temporalPointerActual = memoria.getMemoriaTemporal('pointer')
     resultType = semantica.tablaSimbolos[semantica.convertion[s1Tipo]][semantica.convertion['int']]['+']
 
@@ -1492,6 +1585,8 @@ def p_pnArrCalc(p):
 
     pilaOperandos.put('('+ str(temporalPointerActual) +')')
     pilaTipo.put(resultType)
+
+    pilaDim.get()
 
     p[0] = None
 
@@ -1515,15 +1610,20 @@ def p_pnMatCalc(p):
         sys.exit()
 
     # s1*m1
-    m1 = dirFunc.getM1(currentScript,currentFunction,currentAccessArr)
+    top = pilaDim.get()
+    pilaDim.put(top)
+
+    m1 = dirFunc.getM1(currentScript,currentFunction,top[0])
     temporalActual1 = memoria.getMemoriaTemporal(2)
 
     nuevoCuadruplo = ['*',s1,m1,temporalActual1]
     cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
 
     # Verificar
-    limSup = dirFunc.getLimSup(currentScript,currentFunction,currentAccessArr,2)
-    # print("LIMPSUP: {}".format(limSup))
+    matrizActual = pilaDim.get()
+    pilaDim.put(matrizActual)
+
+    limSup = dirFunc.getLimSup(currentScript,currentFunction,matrizActual[0],2)
 
     nuevoCuadruplo = ['Ver', s2, '', limSup]
     cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
@@ -1537,14 +1637,16 @@ def p_pnMatCalc(p):
 
 
     # + dirBase()
-    dirBaseMatriz = dirFunc.getDirBaseArreglo(currentScript,currentFunction,currentAccessArr)
+    dirBaseMatriz = dirFunc.getDirBaseArreglo(currentScript,currentFunction,matrizActual[0])
     temporalPointerActual = memoria.getMemoriaTemporal('pointer')
 
-    nuevoCuadruplo = ['+',temporalActual2,dirBaseMatriz,temporalPointerActual]
+    nuevoCuadruplo = ['+',temporalActual2,dirBaseMatriz,'('+ str(temporalPointerActual) +')']
     cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
 
-    pilaOperandos.put(temporalPointerActual)
+    pilaOperandos.put('('+ str(temporalPointerActual) +')')
     pilaTipo.put('int')
+
+    pilaDim.get()
 
     p[0] = None
 
@@ -1555,6 +1657,17 @@ def p_pnArrFFPop(p):
     '''
     # print("Deberia ser ff: {}".format(pilaOperadores.get()))
     pilaOperadores.get()
+    p[0] = None
+
+# Genera cuadruplo de final de programa
+def p_pnCuadEND(p):
+    '''
+    pnCuadEND : empty
+    '''
+
+    nuevoCuadruplo = ['END','','','']
+    cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
+    
     p[0] = None
 
 def p_empty(p):
@@ -1583,7 +1696,9 @@ parser = yacc.yacc(debug=True)
 # filename = 'testModulos.
 # filename = 'testArreglos.txt'
 # filename = 'testForLoop.txt'
-filename = 'testArreglo2.txt'
+# filename = 'testArreglo2.txt'
+# filename = 'testModulosNonVoid.txt'
+filename = 'testFuncArreglos.txt'
 fp = codecs.open(filename, "r", "utf-8")
 text = fp.read()
 fp.close()

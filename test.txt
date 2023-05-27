@@ -1,47 +1,12 @@
 script example02; 
 
-var float -> pepe;
-
-func float -> half(float -> x1, char -> x2){
-    var float -> x;
-    var float -> df,fg;
-    var dataframe -> ff;
-    put(pepe);
-	returns x1/2;
-}
-
-func int -> aver(int -> x1, int -> x2){
-    var float -> x;
-    var float -> df,fg;
-    var int -> third;
-    var dataframe -> ff;
-	returns x1/2;
-}
+var int -> kl;
+var int[2] -> arr;
+var int[3,4] -> mat;
+var int[7,8] -> mat2;
 
 DO
 { 
-    var int -> x;
-    var float -> y;
-    var int -> d;
-    var char -> z;
-    var char -> we;
-    var int -> i;
-    var dataframe -> df1,df2;
-
-    y = aver(23,2);;
-    y = half(3.4,we);;
-
-    get(z);
-    y = x - y + (d + i);
-
-    for (i = 0.0,3.0){
-        put(x);
-    }
-
-
-    y = x * y;
-
-    put("hola");
-    put("hola");
-    put("nuevo letrero");
+    put("hello");
+    mat[0,0] = mat[mat2[1,2],kl];
 }
