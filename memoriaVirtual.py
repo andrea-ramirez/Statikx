@@ -11,6 +11,17 @@ class MemoriaVirtual:
     countGlC = 3000
     countGlDf = 4000
 
+    globalTempInt = 18000
+    globalTempFloat = 19000
+    globalTempC = 20000
+    globalTempPointer = 21000
+    globalTempBool = 22000
+    countGlTempInt = 18000
+    countGlTempFloat = 19000
+    countGlTempC = 20000
+    countGlTempPointer = 21000
+    countGlTempBool = 22000
+
     localInt = 5000
     localFloat = 6000
     localC = 7000
@@ -40,6 +51,7 @@ class MemoriaVirtual:
     countCteC = 16000
     countCteLetrero = 17000
 
+
     def _init_(self):
         self.globalInt = 1000
         self.globalFloat = 2000
@@ -49,6 +61,17 @@ class MemoriaVirtual:
         self.countGlFloat = 2000
         self.countGlC = 3000
         self.countGlDf = 4000
+
+        self.globalTempInt = 18000
+        self.globalTempFloat = 19000
+        self.globalTempC = 20000
+        self.globalTempPointer = 21000
+        self.globalTempBool = 22000
+        self.countGlTempInt = 18000
+        self.countGlTempFloat = 19000
+        self.countGlTempC = 20000
+        self.countGlTempPointer = 21000
+        self.countGlTempBool = 22000
 
         self.localInt = 5000
         self.localFloat = 6000

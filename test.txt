@@ -1,12 +1,35 @@
 script example02; 
 
-var int -> kl;
-var int[2] -> arr;
-var int[3,4] -> mat;
-var int[7,8] -> mat2;
+var int -> x,y;
+var float -> f;
+
+func void -> aver(int -> kl){
+    x = kl + y;
+}
 
 DO
-{ 
-    put("hello");
-    mat[0,0] = mat[mat2[1,2],kl];
+{   
+    var int -> a,b;
+    a = 3;
+    b = 6;
+    put(a*b);
+    put(a*b/2+12);
+    x = 2;
+    y = 3;
+    put(2-3);
+    put(y-x);
+    put(x-3.2);
+    x = x + y;
+    f = 4.3;
+    f = f + 2;
+    put(f);
+    put("hola");
+    put(23);
+    put(2.6);
+    put(x);
+    put('c');
+    put(x + y);
+    put((x+y+4)-2.3);
+    aver(4);
+    
 }

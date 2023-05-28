@@ -690,12 +690,12 @@ def p_pnCloseCurrentFunction(p):
     '''
     # Borrar tabla de variables de la funcion
     global currentFunction
-    dirFunc.registrosFunciones[currentFunction][3] = {}
+    # dirFunc.registrosFunciones[currentFunction][3] = {}
 
     currentFunction = ""
 
 
-    nuevoCuadruplo = ["ENDFUNC","","",""]
+    nuevoCuadruplo = ['ENDFUNC','','','']
     cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
 
     p[0] = None
@@ -705,7 +705,7 @@ def p_pnEndScript(p):
     pnEndScript : empty
     '''
     # printDir()
-    dirFunc.endScript(currentScript)
+    # dirFunc.endScript(currentScript)
     p[0] = None
 
 # Checar en la llamada a la función que la función esté en el directorio de funciones
@@ -728,7 +728,7 @@ def p_pnGenerateEra(p):
     pnGenerateEra : empty
     '''
     # Generate cuadruplo ERA
-    nuevoCuadruplo = ["ERA","","",currentLlamada]
+    nuevoCuadruplo = ['ERA','','',currentLlamada]
     cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
 
     #Counter para parámetros
@@ -758,7 +758,7 @@ def p_pnCuadParametro(p):
 
     if semantica.convertion[argumentTipo] == semantica.convertion[parametroActual]:
         # Generate cuadruplo Parameter
-        nuevoCuadruplo = ["Parameter",argument,"",index]
+        nuevoCuadruplo = ['Parameter',argument,'',index]
         cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
     else:
         print("Lista Parametrica no hace match con llamada")
@@ -849,7 +849,7 @@ def p_pnCuadRet(p):
         print("ERROR: Se quiere regresar un valor de tipo {} en una función que regresa {}".format(retornoTipo,tipoFunction))
         sys.exit()
 
-    nuevoCuadruplo = ["Ret",'','',retorno]
+    nuevoCuadruplo = ['Ret','','',retorno]
     cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
 
     p[0] = None
@@ -931,7 +931,7 @@ def p_pnSaveOperandoConstante(p):
     '''
     pnSaveOperandoConstante : empty
     '''
-    pilaOperandos.put(p[-2])
+    pilaOperandos.put(tablaConst[p[-2]][1])
     pilaTipo.put(tablaConst[p[-2]][0])
     p[0] = None
 
@@ -1580,10 +1580,10 @@ def p_pnArrCalc(p):
     resultType = semantica.tablaSimbolos[semantica.convertion[s1Tipo]][semantica.convertion['int']]['+']
 
     # + dirBase()
-    nuevoCuadruplo = ['+',s1,dirBaseArreglo,'('+ str(temporalPointerActual) +')']
+    nuevoCuadruplo = ['+',s1,dirBaseArreglo,temporalPointerActual]
     cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
 
-    pilaOperandos.put('('+ str(temporalPointerActual) +')')
+    pilaOperandos.put(temporalPointerActual)
     pilaTipo.put(resultType)
 
     pilaDim.get()
@@ -1640,10 +1640,10 @@ def p_pnMatCalc(p):
     dirBaseMatriz = dirFunc.getDirBaseArreglo(currentScript,currentFunction,matrizActual[0])
     temporalPointerActual = memoria.getMemoriaTemporal('pointer')
 
-    nuevoCuadruplo = ['+',temporalActual2,dirBaseMatriz,'('+ str(temporalPointerActual) +')']
+    nuevoCuadruplo = ['+',temporalActual2,dirBaseMatriz,temporalPointerActual]
     cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
 
-    pilaOperandos.put('('+ str(temporalPointerActual) +')')
+    pilaOperandos.put(temporalPointerActual)
     pilaTipo.put('int')
 
     pilaDim.get()
@@ -1692,13 +1692,13 @@ def printDir():
 parser = yacc.yacc(debug=True)
 
 # filename = 'testPropuesta.txt'
-# filename = 'test.txt'
+filename = 'test.txt'
 # filename = 'testModulos.
 # filename = 'testArreglos.txt'
 # filename = 'testForLoop.txt'
 # filename = 'testArreglo2.txt'
 # filename = 'testModulosNonVoid.txt'
-filename = 'testFuncArreglos.txt'
+# filename = 'testFuncArreglos.txt'
 fp = codecs.open(filename, "r", "utf-8")
 text = fp.read()
 fp.close()
@@ -1726,6 +1726,8 @@ data = {
     'cuads': cuadruplos.listaCuadruplos,
     'dirfunc' : dirFunc.registrosFunciones,
     'tablaconst' : tablaConst,
+    'script' : currentScript,
+    'direcciones' : memoria,
     #maybe incluir memoria aquí
 }
 
