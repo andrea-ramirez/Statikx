@@ -10,6 +10,8 @@ El avance para la entrega #5 / domingo 14 de mayo es:
 - Completo Avance 3
 - Completo Avance 4
 - Completo Avance 5
-- Avance 6:
-    - trabajando en el mapa de memoria
-o  booth
+- Completo Avance 6
+- Avance 7:
+    - Se genera código intermedio para arreglos
+    - VM procesa estatutos condicionales
+    - Falta implementar funciones en la vm

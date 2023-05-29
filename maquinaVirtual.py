@@ -16,7 +16,8 @@ dirsVirtuales = datos['direcciones']
 # Para acceder a variables
 currentFunction = "" # deberia ser pila
 
-# print(cuadruplos,dirFunc,tablaConst)
+# Pila de current Ips 
+pilaCurrIps = LifoQueue(maxsize=0)
 
 # Mapa de memoria
 pilaMemoriasLocales = LifoQueue(maxsize=0) # Para mandar a dormir la memoria
@@ -569,44 +570,10 @@ while currentIp < len(cuadruplos):
         if currentFunction == "":
             # Global int
             if 1000 <= aAsignar < 2000:
-                # global int
-                if 1000 <= valor < 2000:
-                    memoriaGlobal.globalInt[aAsignar - 1000] = memoriaGlobal.globalInt[valor - 1000]
-                # local int
-                elif 5000 <= valor < 6000:
-                    memoriaGlobal.globalInt[aAsignar - 1000] = memoriaLocal.localInt[valor - 5000]
-                # global temp int
-                elif 9000 <= valor < 10000: # Checar
-                    memoriaGlobal.globalInt[aAsignar - 1000] = memoriaGlobal.tempInt[valor - 9000]
-                # local temp int # Checar
-                elif 9000 <= valor < 10000:
-                    memoriaGlobal.globalInt[aAsignar - 1000] = memoriaLocal.tempInt[valor - 9000]
-                # const int
-                elif 14000 <= valor < 15000:
-                    memoriaGlobal.globalInt[aAsignar - 1000] = getConstante(valor)
-                else:
-                    print("FALTA A IMPLEMENTAR a")
-                    sys.exit()
+                memoriaGlobal.globalInt[aAsignar - 1000] = getValue(valor)
             # Global Float
             elif 2000 <= aAsignar < 3000:
-                # global float
-                if 2000 <= valor < 3000:
-                    memoriaGlobal.globalFloat[aAsignar - 2000] = memoriaGlobal.globalFloat[valor - 2000]
-                # local float
-                elif 6000 <= valor < 7000:
-                    memoriaGlobal.globalFloat[aAsignar - 2000] = memoriaLocal.localFloat[valor - 6000]
-                # global temp float
-                elif 10000 <= valor < 11000: # Checar
-                    memoriaGlobal.globalFloat[aAsignar - 2000] = memoriaGlobal.tempFloat[valor - 10000]
-                # local temp float # Checar
-                elif 9000 <= valor < 10000:
-                    memoriaGlobal.globalFloat[aAsignar - 2000] = memoriaLocal.tempFloat[valor - 10000]
-                # const float
-                elif 15000 <= valor < 16000:
-                    memoriaGlobal.globalFloat[aAsignar - 2000] = getConstante(valor)
-                else:
-                    print("FALTA A IMPLEMENTAR")
-                    sys.exit()
+                memoriaGlobal.globalFloat[aAsignar - 2000] = getValue(valor)
             # GLOBAL TEMP INT
             elif 9000 <= aAsignar < 10000:
                 memoriaGlobal.tempInt[aAsignar - 9000] = getValue(valor)
@@ -615,15 +582,7 @@ while currentIp < len(cuadruplos):
         else:
             # Local int
             if 5000 <= aAsignar < 6000:
-                # temp int # Checar
-                if 9000 <= valor < 10000:
-                    memoriaLocal.localInt[aAsignar - 5000] = memoriaLocal.tempInt[valor - 9000]
-                # const int
-                elif 14000 <= valor < 15000:
-                    memoriaLocal.localInt[aAsignar - 5000] = getConstante(valor)
-                else:
-                    print("FALTA A IMPLEMENTAR")
-                    sys.exit()
+                memoriaLocal.localInt[aAsignar - 5000] = getValue(valor)
         
         currentIp += 1
 
@@ -642,15 +601,51 @@ while currentIp < len(cuadruplos):
 
     # FUNCTIONS
 
-    #ERA
+    # ERA
     elif cuadruplos[currentIp][0] == 'ERA':
         print("HAY UN ERA")
         nombreFunc = cuadruplos[currentIp][3]
         recursosFuncion = dirFunc[nombreFunc][2]
 
         createMemoriaLocal(recursosFuncion)
-        # printPilaMemoriasLocales()
+        printPilaMemoriasLocales()
         currentIp += 1
+
+    # PARAM
+    elif cuadruplos[currentIp][0] == 'Parameter':
+        param = cuadruplos[currentIp][1]
+        indexP = cuadruplos[currentIp][3]
+
+        topMem = pilaMemoriasLocales.get()
+        pilaMemoriasLocales.put(topMem)
+
+        topMem.localInt[indexP-1] = param
+        print("HELLOU")
+        print(param)
+        print(getVariableAddress(param))
+        print(topMem.localInt)
+
+        currentIp += 1
+
+    # GOSUB
+    elif cuadruplos[currentIp][0] == 'GOSUB':
+        print("GOSUB")
+        pilaCurrIps.put(currentIp + 1)
+        currentIp = cuadruplos[currentIp][3] - 1
+
+    # Ret
+
+    # ENDFUNC
+    elif cuadruplos[currentIp][0] == 'ENDFUNC':
+        print("ENDFUNC")
+        pilaMemoriasLocales.get()
+        # restaurar el current pointer al previo
+        currentIp = pilaCurrIps.get()
+        
+    # END
+    elif cuadruplos[currentIp][0] == 'END':
+        print(currentIp + 1)
+        sys.exit()
 
 
     else:

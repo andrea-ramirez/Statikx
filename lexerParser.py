@@ -1713,10 +1713,10 @@ def printDir():
 parser = yacc.yacc(debug=True)
 
 # filename = 'testPropuesta.txt'
-# filename = 'test.txt'
+filename = 'test.txt'
 # filename = 'testModulos.
 # filename = 'testArreglos.txt'
-filename = 'testForLoop.txt'
+# filename = 'testForLoop.txt'
 # filename = 'testArreglo2.txt'
 # filename = 'testModulosNonVoid.txt'
 # filename = 'testFuncArreglos.txt'

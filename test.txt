@@ -26,6 +26,11 @@ DO
         y = y + 1;
     }
 
+    for(x = 10,15){
+        put(x);
+    }
+
+    !!aver(x);
 
     put("final");
 
