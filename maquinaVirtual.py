@@ -215,12 +215,27 @@ while currentIp < len(cuadruplos):
     # GOTO
     if cuadruplos[currentIp][0] == 'Goto':
         # Goto Main
-        if cuadruplos[currentIp][3] != int:
-            currentIp = dirFunc[cuadruplos[currentIp][3]][1] - 1
-            resizeMemoriaGlobal("recursosfnucion")
+        try:
+            if cuadruplos[currentIp][3] != int:
+                currentIp = dirFunc[cuadruplos[currentIp][3]][1] - 1
+                resizeMemoriaGlobal("recursosfnucion")
+            else:
+                # Goto saltos condicinales
+                print("No debería llegar aquí")
+        except:
+            salto = cuadruplos[currentIp][3]
+            currentIp = salto - 1
+
+    # GOTOF
+    elif cuadruplos[currentIp][0] == 'GotoF':
+        tempB = getValue(cuadruplos[currentIp][1])
+        salto = cuadruplos[currentIp][3]
+
+        if tempB == False:
+            currentIp = salto - 1
         else:
-            # Goto saltos condicinales
-            print("goto de saltos condicionales")
+            currentIp += 1
+
 
     # PLUS
     elif cuadruplos[currentIp][0] == '+':
@@ -342,6 +357,10 @@ while currentIp < len(cuadruplos):
         elemIzq = getVariableAddress(elemIzq)
         elemDer = getVariableAddress(elemDer)
 
+        if getValue(elemDer) == 0:
+            print("No se puede dividir entre 0")
+            sys.exit()
+
         # Global
         if currentFunction == "":
             if 9000 <= resp < 10000:
@@ -369,6 +388,175 @@ while currentIp < len(cuadruplos):
                 sys.exit()
 
         currentIp += 1
+
+    # MAYOR QUE
+    elif cuadruplos[currentIp][0] == '>':
+        elemIzq = cuadruplos[currentIp][1]
+        elemDer = cuadruplos[currentIp][2]
+        resp = cuadruplos[currentIp][3]
+
+        elemIzq = getVariableAddress(elemIzq)
+        elemDer = getVariableAddress(elemDer)
+
+        # Global
+        if currentFunction == "":
+            if 13000 <= resp < 14000:
+            # temp bool
+                memoriaGlobal.tempBool[resp-13000] = getValue(elemIzq) > getValue(elemDer)
+            else:
+                print("COMBINACION NO ESPERADA")
+                sys.exit()
+        # Local
+        else:
+            if 13000 <= resp < 14000:
+            # temp bool
+                memoriaLocal.tempBool[resp-13000] = getValue(elemIzq) > getValue(elemDer)
+            else:
+                print("COMBINACION NO ESPERADA")
+                sys.exit()
+
+        currentIp += 1
+
+    # MENOR QUE
+    elif cuadruplos[currentIp][0] == '<':
+        elemIzq = cuadruplos[currentIp][1]
+        elemDer = cuadruplos[currentIp][2]
+        resp = cuadruplos[currentIp][3]
+
+        elemIzq = getVariableAddress(elemIzq)
+        elemDer = getVariableAddress(elemDer)
+
+        # Global
+        if currentFunction == "":
+            if 13000 <= resp < 14000:
+            # temp bool
+                memoriaGlobal.tempBool[resp-13000] = getValue(elemIzq) < getValue(elemDer)
+            else:
+                print("COMBINACION NO ESPERADA")
+                sys.exit()
+        # Local
+        else:
+            if 13000 <= resp < 14000:
+            # temp bool
+                memoriaLocal.tempBool[resp-13000] = getValue(elemIzq) < getValue(elemDer)
+            else:
+                print("COMBINACION NO ESPERADA")
+                sys.exit()
+
+        currentIp += 1
+
+    # EQUALS
+    elif cuadruplos[currentIp][0] == '==':
+        elemIzq = cuadruplos[currentIp][1]
+        elemDer = cuadruplos[currentIp][2]
+        resp = cuadruplos[currentIp][3]
+
+        elemIzq = getVariableAddress(elemIzq)
+        elemDer = getVariableAddress(elemDer)
+
+        # Global
+        if currentFunction == "":
+            if 13000 <= resp < 14000:
+            # temp bool
+                memoriaGlobal.tempBool[resp-13000] = getValue(elemIzq) == getValue(elemDer)
+            else:
+                print("COMBINACION NO ESPERADA")
+                sys.exit()
+        # Local
+        else:
+            if 13000 <= resp < 14000:
+            # temp bool
+                memoriaLocal.tempBool[resp-13000] = getValue(elemIzq) == getValue(elemDer)
+            else:
+                print("COMBINACION NO ESPERADA")
+                sys.exit()
+
+        currentIp += 1
+
+    # NOT EQUALS
+    elif cuadruplos[currentIp][0] == '!=':
+        elemIzq = cuadruplos[currentIp][1]
+        elemDer = cuadruplos[currentIp][2]
+        resp = cuadruplos[currentIp][3]
+
+        elemIzq = getVariableAddress(elemIzq)
+        elemDer = getVariableAddress(elemDer)
+
+        # Global
+        if currentFunction == "":
+            if 13000 <= resp < 14000:
+            # temp bool
+                memoriaGlobal.tempBool[resp-13000] = getValue(elemIzq) != getValue(elemDer)
+            else:
+                print("COMBINACION NO ESPERADA")
+                sys.exit()
+        # Local
+        else:
+            if 13000 <= resp < 14000:
+            # temp bool
+                memoriaLocal.tempBool[resp-13000] = getValue(elemIzq) != getValue(elemDer)
+            else:
+                print("COMBINACION NO ESPERADA")
+                sys.exit()
+
+        currentIp += 1
+
+    # AND
+    elif cuadruplos[currentIp][0] == '&&':
+        elemIzq = cuadruplos[currentIp][1]
+        elemDer = cuadruplos[currentIp][2]
+        resp = cuadruplos[currentIp][3]
+
+        elemIzq = getVariableAddress(elemIzq)
+        elemDer = getVariableAddress(elemDer)
+
+        # Global
+        if currentFunction == "":
+            if 13000 <= resp < 14000:
+            # temp bool
+                memoriaGlobal.tempBool[resp-13000] = getValue(elemIzq) and getValue(elemDer)
+            else:
+                print("COMBINACION NO ESPERADA")
+                sys.exit()
+        # Local
+        else:
+            if 13000 <= resp < 14000:
+            # temp bool
+                memoriaLocal.tempBool[resp-13000] = getValue(elemIzq) and getValue(elemDer)
+            else:
+                print("COMBINACION NO ESPERADA")
+                sys.exit()
+
+        currentIp += 1
+
+    # OR
+    elif cuadruplos[currentIp][0] == '||':
+        elemIzq = cuadruplos[currentIp][1]
+        elemDer = cuadruplos[currentIp][2]
+        resp = cuadruplos[currentIp][3]
+
+        elemIzq = getVariableAddress(elemIzq)
+        elemDer = getVariableAddress(elemDer)
+
+        # Global
+        if currentFunction == "":
+            if 13000 <= resp < 14000:
+            # temp bool
+                memoriaGlobal.tempBool[resp-13000] = getValue(elemIzq) or getValue(elemDer)
+            else:
+                print("COMBINACION NO ESPERADA")
+                sys.exit()
+        # Local
+        else:
+            if 13000 <= resp < 14000:
+            # temp bool
+                memoriaLocal.tempBool[resp-13000] = getValue(elemIzq) or getValue(elemDer)
+            else:
+                print("COMBINACION NO ESPERADA")
+                sys.exit()
+
+        currentIp += 1
+        
 
     # ASIGN
     elif cuadruplos[currentIp][0] == '=':

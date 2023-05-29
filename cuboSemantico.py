@@ -194,6 +194,7 @@ class CuboSemantico:
             },
     }
     convertion = {
+        1 : 1,
         'int' : 2,
         '2' : 2,
         2 : 2,

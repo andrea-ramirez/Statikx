@@ -9,27 +9,24 @@ func void -> aver(int -> kl){
 
 DO
 {   
-    var int -> a,b;
-    a = 3;
-    b = 6;
-    put(a*b);
-    put(a*b/2+12);
-    x = 2;
-    y = 3;
-    put(2-3);
-    put(y-x);
-    put(x-3.2);
-    x = x + y;
-    f = 4.3;
-    f = f + 2;
-    put(f);
-    put("hola");
-    put(23);
-    put(2.6);
-    put(x);
-    put('c');
-    put(x + y);
-    put((x+y+4)-2.3);
-    aver(4);
-    
+    var int -> loop;
+    x = 9;
+    y = 0;
+    !!put((x == y) || (y == 6));
+
+    if(9<y)
+    True{
+        put("si es mayor");
+    }False{
+        put("No es mayor");
+    }
+
+    while(y<2){
+        put(y);
+        y = y + 1;
+    }
+
+
+    put("final");
+
 }
