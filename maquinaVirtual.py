@@ -585,7 +585,7 @@ while currentIp < len(cuadruplos):
                 elif 14000 <= valor < 15000:
                     memoriaGlobal.globalInt[aAsignar - 1000] = getConstante(valor)
                 else:
-                    print("FALTA A IMPLEMENTAR")
+                    print("FALTA A IMPLEMENTAR a")
                     sys.exit()
             # Global Float
             elif 2000 <= aAsignar < 3000:
@@ -607,6 +607,9 @@ while currentIp < len(cuadruplos):
                 else:
                     print("FALTA A IMPLEMENTAR")
                     sys.exit()
+            # GLOBAL TEMP INT
+            elif 9000 <= aAsignar < 10000:
+                memoriaGlobal.tempInt[aAsignar - 9000] = getValue(valor)
             else:
                 print("FALTA IMPLEMENTAR ASIGN CON {} TIPO DE VALOR".format(aAsignar))
         else:

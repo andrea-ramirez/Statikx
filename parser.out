@@ -101,7 +101,7 @@ Rule 91    condicion -> IF LEFT_PARENT exp pnCheckBoolIf RIGHT_PARENT IF_TRUE LE
 Rule 92    falsop -> IF_FALSE pnElseIf LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET
 Rule 93    falsop -> empty
 Rule 94    ciclow -> WHILE pnSaveWhile LEFT_PARENT exp pnCheckBoolIf RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndWhile
-Rule 95    ciclof -> FOR LEFT_PARENT ID pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor
+Rule 95    ciclof -> FOR LEFT_PARENT variable pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor
 Rule 96    funcesp -> mean
 Rule 97    funcesp -> mode
 Rule 98    funcesp -> median
@@ -206,7 +206,7 @@ FLOAT                : 10
 FOR                  : 95
 FUNC                 : 36
 GREATER_THAN         : 71
-ID                   : 1 15 16 21 33 34 36 41 95
+ID                   : 1 15 16 21 33 34 36 41
 IF                   : 91
 IF_FALSE             : 92
 IF_TRUE              : 91
@@ -364,7 +364,7 @@ tp                   : 74 75
 tsig                 : 75
 v                    : 26
 var                  : 2
-variable             : 56 57 88 106 107 108 109 110 111 112 113 114
+variable             : 56 57 88 95 106 107 108 109 110 111 112 113 114
 variance             : 99
 varp                 : 1 2 6 36
 vp                   : 28
@@ -1156,7 +1156,7 @@ state 62
     (58) escribe -> . WRITE LEFT_PARENT escribep RIGHT_PARENT SEMICOLON
     (91) condicion -> . IF LEFT_PARENT exp pnCheckBoolIf RIGHT_PARENT IF_TRUE LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET falsop pnEndIf
     (94) ciclow -> . WHILE pnSaveWhile LEFT_PARENT exp pnCheckBoolIf RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndWhile
-    (95) ciclof -> . FOR LEFT_PARENT ID pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor
+    (95) ciclof -> . FOR LEFT_PARENT variable pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor
     (96) funcesp -> . mean
     (97) funcesp -> . mode
     (98) funcesp -> . median
@@ -1309,7 +1309,7 @@ state 69
     (58) escribe -> . WRITE LEFT_PARENT escribep RIGHT_PARENT SEMICOLON
     (91) condicion -> . IF LEFT_PARENT exp pnCheckBoolIf RIGHT_PARENT IF_TRUE LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET falsop pnEndIf
     (94) ciclow -> . WHILE pnSaveWhile LEFT_PARENT exp pnCheckBoolIf RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndWhile
-    (95) ciclof -> . FOR LEFT_PARENT ID pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor
+    (95) ciclof -> . FOR LEFT_PARENT variable pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor
     (96) funcesp -> . mean
     (97) funcesp -> . mode
     (98) funcesp -> . median
@@ -1718,7 +1718,7 @@ state 86
 
 state 87
 
-    (95) ciclof -> FOR . LEFT_PARENT ID pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor
+    (95) ciclof -> FOR . LEFT_PARENT variable pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor
 
     LEFT_PARENT     shift and go to state 126
 
@@ -2524,10 +2524,12 @@ state 125
 
 state 126
 
-    (95) ciclof -> FOR LEFT_PARENT . ID pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor
+    (95) ciclof -> FOR LEFT_PARENT . variable pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor
+    (16) variable -> . ID pnSaveOperandos indexp
 
-    ID              shift and go to state 171
+    ID              shift and go to state 165
 
+    variable                       shift and go to state 171
 
 state 127
 
@@ -3205,6 +3207,7 @@ state 165
 
     LEFT_SQR_BRACKET reduce using rule 178 (empty -> .)
     RIGHT_PARENT    reduce using rule 178 (empty -> .)
+    ASIGN           reduce using rule 178 (empty -> .)
 
     pnSaveOperandos                shift and go to state 119
     empty                          shift and go to state 218
@@ -3323,7 +3326,7 @@ state 170
 
 state 171
 
-    (95) ciclof -> FOR LEFT_PARENT ID . pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor
+    (95) ciclof -> FOR LEFT_PARENT variable . pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor
     (163) pnSaveForID -> . empty
     (178) empty -> .
 
@@ -4173,6 +4176,7 @@ state 218
 
     LEFT_SQR_BRACKET reduce using rule 142 (pnSaveOperandos -> empty .)
     RIGHT_PARENT    reduce using rule 142 (pnSaveOperandos -> empty .)
+    ASIGN           reduce using rule 142 (pnSaveOperandos -> empty .)
 
 
 state 219
@@ -4230,7 +4234,7 @@ state 225
 
 state 226
 
-    (95) ciclof -> FOR LEFT_PARENT ID pnSaveForID . ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor
+    (95) ciclof -> FOR LEFT_PARENT variable pnSaveForID . ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor
 
     ASIGN           shift and go to state 282
 
@@ -5200,7 +5204,7 @@ state 281
 
 state 282
 
-    (95) ciclof -> FOR LEFT_PARENT ID pnSaveForID ASIGN . exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor
+    (95) ciclof -> FOR LEFT_PARENT variable pnSaveForID ASIGN . exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor
     (62) exp -> . exprel pnCuadOplog logic
     (67) exprel -> . e pnCuadOpRelacional relacionalp
     (74) e -> . t pnCuadPlMi tp
@@ -5251,12 +5255,12 @@ state 282
     LINREG          shift and go to state 107
     READ_FILE       shift and go to state 98
 
+    variable                       shift and go to state 136
     exp                            shift and go to state 324
     exprel                         shift and go to state 128
     e                              shift and go to state 129
     t                              shift and go to state 130
     f                              shift and go to state 131
-    variable                       shift and go to state 136
     llamada                        shift and go to state 137
     funcesp                        shift and go to state 138
     mean                           shift and go to state 88
@@ -5908,7 +5912,7 @@ state 323
 
 state 324
 
-    (95) ciclof -> FOR LEFT_PARENT ID pnSaveForID ASIGN exp . pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor
+    (95) ciclof -> FOR LEFT_PARENT variable pnSaveForID ASIGN exp . pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor
     (164) pnCreateVControl -> . empty
     (178) empty -> .
 
@@ -6604,7 +6608,7 @@ state 352
     (58) escribe -> . WRITE LEFT_PARENT escribep RIGHT_PARENT SEMICOLON
     (91) condicion -> . IF LEFT_PARENT exp pnCheckBoolIf RIGHT_PARENT IF_TRUE LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET falsop pnEndIf
     (94) ciclow -> . WHILE pnSaveWhile LEFT_PARENT exp pnCheckBoolIf RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndWhile
-    (95) ciclof -> . FOR LEFT_PARENT ID pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor
+    (95) ciclof -> . FOR LEFT_PARENT variable pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor
     (96) funcesp -> . mean
     (97) funcesp -> . mode
     (98) funcesp -> . median
@@ -6693,7 +6697,7 @@ state 353
     (58) escribe -> . WRITE LEFT_PARENT escribep RIGHT_PARENT SEMICOLON
     (91) condicion -> . IF LEFT_PARENT exp pnCheckBoolIf RIGHT_PARENT IF_TRUE LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET falsop pnEndIf
     (94) ciclow -> . WHILE pnSaveWhile LEFT_PARENT exp pnCheckBoolIf RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndWhile
-    (95) ciclof -> . FOR LEFT_PARENT ID pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor
+    (95) ciclof -> . FOR LEFT_PARENT variable pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor
     (96) funcesp -> . mean
     (97) funcesp -> . mode
     (98) funcesp -> . median
@@ -6762,7 +6766,7 @@ state 353
 
 state 354
 
-    (95) ciclof -> FOR LEFT_PARENT ID pnSaveForID ASIGN exp pnCreateVControl . COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor
+    (95) ciclof -> FOR LEFT_PARENT variable pnSaveForID ASIGN exp pnCreateVControl . COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor
 
     COMMA           shift and go to state 375
 
@@ -6852,7 +6856,7 @@ state 360
     (58) escribe -> . WRITE LEFT_PARENT escribep RIGHT_PARENT SEMICOLON
     (91) condicion -> . IF LEFT_PARENT exp pnCheckBoolIf RIGHT_PARENT IF_TRUE LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET falsop pnEndIf
     (94) ciclow -> . WHILE pnSaveWhile LEFT_PARENT exp pnCheckBoolIf RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndWhile
-    (95) ciclof -> . FOR LEFT_PARENT ID pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor
+    (95) ciclof -> . FOR LEFT_PARENT variable pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor
     (96) funcesp -> . mean
     (97) funcesp -> . mode
     (98) funcesp -> . median
@@ -7259,7 +7263,7 @@ state 374
 
 state 375
 
-    (95) ciclof -> FOR LEFT_PARENT ID pnSaveForID ASIGN exp pnCreateVControl COMMA . exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor
+    (95) ciclof -> FOR LEFT_PARENT variable pnSaveForID ASIGN exp pnCreateVControl COMMA . exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor
     (62) exp -> . exprel pnCuadOplog logic
     (67) exprel -> . e pnCuadOpRelacional relacionalp
     (74) e -> . t pnCuadPlMi tp
@@ -7310,12 +7314,12 @@ state 375
     LINREG          shift and go to state 107
     READ_FILE       shift and go to state 98
 
+    variable                       shift and go to state 136
     exp                            shift and go to state 386
     exprel                         shift and go to state 128
     e                              shift and go to state 129
     t                              shift and go to state 130
     f                              shift and go to state 131
-    variable                       shift and go to state 136
     llamada                        shift and go to state 137
     funcesp                        shift and go to state 138
     mean                           shift and go to state 88
@@ -7548,7 +7552,7 @@ state 385
 
 state 386
 
-    (95) ciclof -> FOR LEFT_PARENT ID pnSaveForID ASIGN exp pnCreateVControl COMMA exp . pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor
+    (95) ciclof -> FOR LEFT_PARENT variable pnSaveForID ASIGN exp pnCreateVControl COMMA exp . pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor
     (165) pnCompControlFinal -> . empty
     (178) empty -> .
 
@@ -7803,7 +7807,7 @@ state 397
 
 state 398
 
-    (95) ciclof -> FOR LEFT_PARENT ID pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal . RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor
+    (95) ciclof -> FOR LEFT_PARENT variable pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal . RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor
 
     RIGHT_PARENT    shift and go to state 407
 
@@ -7942,7 +7946,7 @@ state 406
 
 state 407
 
-    (95) ciclof -> FOR LEFT_PARENT ID pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT . LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor
+    (95) ciclof -> FOR LEFT_PARENT variable pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT . LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor
 
     LEFT_CUR_BRACKET shift and go to state 411
 
@@ -8021,7 +8025,7 @@ state 410
     (58) escribe -> . WRITE LEFT_PARENT escribep RIGHT_PARENT SEMICOLON
     (91) condicion -> . IF LEFT_PARENT exp pnCheckBoolIf RIGHT_PARENT IF_TRUE LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET falsop pnEndIf
     (94) ciclow -> . WHILE pnSaveWhile LEFT_PARENT exp pnCheckBoolIf RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndWhile
-    (95) ciclof -> . FOR LEFT_PARENT ID pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor
+    (95) ciclof -> . FOR LEFT_PARENT variable pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor
     (96) funcesp -> . mean
     (97) funcesp -> . mode
     (98) funcesp -> . median
@@ -8090,7 +8094,7 @@ state 410
 
 state 411
 
-    (95) ciclof -> FOR LEFT_PARENT ID pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET . estatutop RIGHT_CUR_BRACKET pnEndFor
+    (95) ciclof -> FOR LEFT_PARENT variable pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET . estatutop RIGHT_CUR_BRACKET pnEndFor
     (7) estatutop -> . estatuto estatutop
     (8) estatutop -> . empty
     (46) estatuto -> . asign
@@ -8110,7 +8114,7 @@ state 411
     (58) escribe -> . WRITE LEFT_PARENT escribep RIGHT_PARENT SEMICOLON
     (91) condicion -> . IF LEFT_PARENT exp pnCheckBoolIf RIGHT_PARENT IF_TRUE LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET falsop pnEndIf
     (94) ciclow -> . WHILE pnSaveWhile LEFT_PARENT exp pnCheckBoolIf RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndWhile
-    (95) ciclof -> . FOR LEFT_PARENT ID pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor
+    (95) ciclof -> . FOR LEFT_PARENT variable pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor
     (96) funcesp -> . mean
     (97) funcesp -> . mode
     (98) funcesp -> . median
@@ -8153,6 +8157,7 @@ state 411
     BOXPLOT         shift and go to state 106
     LINREG          shift and go to state 107
 
+    variable                       shift and go to state 81
     estatutop                      shift and go to state 413
     estatuto                       shift and go to state 69
     empty                          shift and go to state 70
@@ -8166,7 +8171,6 @@ state 411
     funcesp                        shift and go to state 78
     return                         shift and go to state 79
     copy                           shift and go to state 80
-    variable                       shift and go to state 81
     mean                           shift and go to state 88
     mode                           shift and go to state 89
     median                         shift and go to state 90
@@ -8186,7 +8190,7 @@ state 412
 
 state 413
 
-    (95) ciclof -> FOR LEFT_PARENT ID pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop . RIGHT_CUR_BRACKET pnEndFor
+    (95) ciclof -> FOR LEFT_PARENT variable pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop . RIGHT_CUR_BRACKET pnEndFor
 
     RIGHT_CUR_BRACKET shift and go to state 415
 
@@ -8217,7 +8221,7 @@ state 414
 
 state 415
 
-    (95) ciclof -> FOR LEFT_PARENT ID pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET . pnEndFor
+    (95) ciclof -> FOR LEFT_PARENT variable pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET . pnEndFor
     (166) pnEndFor -> . empty
     (178) empty -> .
 
@@ -8245,26 +8249,26 @@ state 415
 
 state 416
 
-    (95) ciclof -> FOR LEFT_PARENT ID pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor .
+    (95) ciclof -> FOR LEFT_PARENT variable pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor .
 
-    ID              reduce using rule 95 (ciclof -> FOR LEFT_PARENT ID pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor .)
-    READ            reduce using rule 95 (ciclof -> FOR LEFT_PARENT ID pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor .)
-    WRITE           reduce using rule 95 (ciclof -> FOR LEFT_PARENT ID pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor .)
-    IF              reduce using rule 95 (ciclof -> FOR LEFT_PARENT ID pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor .)
-    WHILE           reduce using rule 95 (ciclof -> FOR LEFT_PARENT ID pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor .)
-    FOR             reduce using rule 95 (ciclof -> FOR LEFT_PARENT ID pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor .)
-    RETURNS         reduce using rule 95 (ciclof -> FOR LEFT_PARENT ID pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor .)
-    READ_FILE       reduce using rule 95 (ciclof -> FOR LEFT_PARENT ID pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor .)
-    MEAN            reduce using rule 95 (ciclof -> FOR LEFT_PARENT ID pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor .)
-    MODE            reduce using rule 95 (ciclof -> FOR LEFT_PARENT ID pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor .)
-    MEDIAN          reduce using rule 95 (ciclof -> FOR LEFT_PARENT ID pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor .)
-    VARIANCE        reduce using rule 95 (ciclof -> FOR LEFT_PARENT ID pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor .)
-    MAX             reduce using rule 95 (ciclof -> FOR LEFT_PARENT ID pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor .)
-    MIN             reduce using rule 95 (ciclof -> FOR LEFT_PARENT ID pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor .)
-    STADDES         reduce using rule 95 (ciclof -> FOR LEFT_PARENT ID pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor .)
-    BOXPLOT         reduce using rule 95 (ciclof -> FOR LEFT_PARENT ID pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor .)
-    LINREG          reduce using rule 95 (ciclof -> FOR LEFT_PARENT ID pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor .)
-    RIGHT_CUR_BRACKET reduce using rule 95 (ciclof -> FOR LEFT_PARENT ID pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor .)
+    ID              reduce using rule 95 (ciclof -> FOR LEFT_PARENT variable pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor .)
+    READ            reduce using rule 95 (ciclof -> FOR LEFT_PARENT variable pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor .)
+    WRITE           reduce using rule 95 (ciclof -> FOR LEFT_PARENT variable pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor .)
+    IF              reduce using rule 95 (ciclof -> FOR LEFT_PARENT variable pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor .)
+    WHILE           reduce using rule 95 (ciclof -> FOR LEFT_PARENT variable pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor .)
+    FOR             reduce using rule 95 (ciclof -> FOR LEFT_PARENT variable pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor .)
+    RETURNS         reduce using rule 95 (ciclof -> FOR LEFT_PARENT variable pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor .)
+    READ_FILE       reduce using rule 95 (ciclof -> FOR LEFT_PARENT variable pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor .)
+    MEAN            reduce using rule 95 (ciclof -> FOR LEFT_PARENT variable pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor .)
+    MODE            reduce using rule 95 (ciclof -> FOR LEFT_PARENT variable pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor .)
+    MEDIAN          reduce using rule 95 (ciclof -> FOR LEFT_PARENT variable pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor .)
+    VARIANCE        reduce using rule 95 (ciclof -> FOR LEFT_PARENT variable pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor .)
+    MAX             reduce using rule 95 (ciclof -> FOR LEFT_PARENT variable pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor .)
+    MIN             reduce using rule 95 (ciclof -> FOR LEFT_PARENT variable pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor .)
+    STADDES         reduce using rule 95 (ciclof -> FOR LEFT_PARENT variable pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor .)
+    BOXPLOT         reduce using rule 95 (ciclof -> FOR LEFT_PARENT variable pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor .)
+    LINREG          reduce using rule 95 (ciclof -> FOR LEFT_PARENT variable pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor .)
+    RIGHT_CUR_BRACKET reduce using rule 95 (ciclof -> FOR LEFT_PARENT variable pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor .)
 
 
 state 417

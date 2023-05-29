@@ -36,6 +36,9 @@ pilaDim = LifoQueue(maxsize=0)
 # Iniciar Memoria virtual
 memoria = MemoriaVirtual()
 
+# For loop - debo cambiar a pila
+pilaVControlLoop = LifoQueue(maxsize=0)
+
 #  LEXER
 reserved = {
     'script' : 'SCRIPT',        # script
@@ -399,7 +402,7 @@ def p_ciclow(p):
 
 def p_ciclof(p):
     '''
-    ciclof : FOR LEFT_PARENT ID pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor
+    ciclof : FOR LEFT_PARENT variable pnSaveForID ASIGN exp pnCreateVControl COMMA exp pnCompControlFinal RIGHT_PARENT LEFT_CUR_BRACKET estatutop RIGHT_CUR_BRACKET pnEndFor
     '''
     p[0] = None
 
@@ -1313,14 +1316,17 @@ def p_pnSaveForID(p):
     else:
         funcionActual = currentFunction
 
-    if p[-1] in dirFunc.registrosFunciones[funcionActual][3]:
+    topPila = pilaOperandos.get()
+    pilaTipo.get()
+
+    if topPila in dirFunc.registrosFunciones[funcionActual][3]:
         # Ver el tipo de la variable
-        if semantica.convertion[dirFunc.registrosFunciones[funcionActual][3][p[-1]][0]] != 2:
+        if semantica.convertion[dirFunc.registrosFunciones[funcionActual][3][topPila][0]] != 2:
             print("ERROR: Type Mismatch. You can only use an id with int as type")
             sys.exit()
         else:
-            pilaOperandos.put(p[-1])
-            pilaTipo.put(semantica.convertion[dirFunc.registrosFunciones[funcionActual][3][p[-1]][0]])
+            pilaOperandos.put(topPila)
+            pilaTipo.put(semantica.convertion[dirFunc.registrosFunciones[funcionActual][3][topPila][0]])
     else:
         print("Se debe declarar la variable a usar en el for loop")
         sys.exit()
@@ -1330,16 +1336,19 @@ def p_pnCreateVControl(p):
     '''
     pnCreateVControl : empty
     '''
-
     expTipo = pilaTipo.get()
-    if semantica.convertion[expTipo] != 3:
-        print("ERROR: Type Mismatch")
+
+    if semantica.convertion[expTipo] != 2:
+        print("STATIKX ERROR: Type Mismatch")
         sys.exit()
     else:
         exp = pilaOperandos.get()
 
         VControl = pilaOperandos.get()
         pilaOperandos.put(VControl)
+        
+        pilaVControlLoop.put(VControl)
+
 
         controlTipo = pilaTipo.get()
         pilaTipo.put(controlTipo)
@@ -1352,9 +1361,6 @@ def p_pnCreateVControl(p):
             nuevoCuadruplo = ['=',exp,"",VControl]
             cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
 
-            nuevoCuadruplo = ['=',VControl,"","VControl"]
-            cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
-
     p[0] = None
 
 def p_pnCompControlFinal(p):
@@ -1362,19 +1368,24 @@ def p_pnCompControlFinal(p):
     pnCompControlFinal : empty
     '''
     expTipo = pilaTipo.get()
-    if semantica.convertion[expTipo] != 3:
+    if semantica.convertion[expTipo] != 2:
         print("ERROR: Type Mismatch en For loop, Expresión Final")
         sys.exit()
     else:
         exp = pilaOperandos.get()
 
-        nuevoCuadruplo = ['=',exp,"","VFinal"]
+        VFinal = memoria.getMemoriaTemporal(2)
+
+        nuevoCuadruplo = ['=',exp,"",VFinal]
         cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
 
         # 1 porque es un temporal de tipo booleano
         temporalActual = memoria.getMemoriaTemporal(1)
 
-        nuevoCuadruplo = ['<',"VControl","VFinal",temporalActual]
+        topVC = pilaVControlLoop.get()
+        pilaVControlLoop.put(topVC)
+
+        nuevoCuadruplo = ['<',topVC,VFinal,temporalActual]
         cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
 
         pilaSaltos.put(cuadruplos.getCont()-1)
@@ -1390,13 +1401,20 @@ def p_pnEndFor(p):
     pnEndFor : empty
     '''
 
-    print("Por ahora tenemos que la variable de control se transforma a float, ya que la expresion tiene que ser de tipo float") 
-    temporalActual = memoria.getMemoriaTemporal(3)
+    temporalActual = memoria.getMemoriaTemporal(2)
 
-    nuevoCuadruplo = ['+',"VControl",1,temporalActual]
+    if 1 not in tablaConst:
+        direccion = memoria.countCteInt
+        tablaConst[1] = ['2',direccion]
+        memoria.countCteInt += 1
+
+    topVC = pilaVControlLoop.get()
+    pilaVControlLoop.put(topVC)
+
+    nuevoCuadruplo = ['+',topVC,tablaConst[1][1],temporalActual]
     cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
 
-    nuevoCuadruplo = ['=',temporalActual,"","VControl"]
+    nuevoCuadruplo = ['=',temporalActual,"",topVC]
     cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
 
     debeSerIdOriginal = pilaOperandos.get()
@@ -1415,6 +1433,9 @@ def p_pnEndFor(p):
 
     elimina = pilaOperandos.get() #Sacamos el id original
     eliminaTipo = pilaTipo.get()
+
+    pilaVControlLoop.get()
+
     p[0] = None
 
 
@@ -1692,10 +1713,10 @@ def printDir():
 parser = yacc.yacc(debug=True)
 
 # filename = 'testPropuesta.txt'
-filename = 'test.txt'
+# filename = 'test.txt'
 # filename = 'testModulos.
 # filename = 'testArreglos.txt'
-# filename = 'testForLoop.txt'
+filename = 'testForLoop.txt'
 # filename = 'testArreglo2.txt'
 # filename = 'testModulosNonVoid.txt'
 # filename = 'testFuncArreglos.txt'
