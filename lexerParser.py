@@ -816,8 +816,12 @@ def p_pnHandleReturnValue(p):
 
     if resultType != 'void':
         tipoSemantica = semantica.convertion[resultType]
+
+        isLocalTemp = False
+        if currentFunction != "":
+            isLocalTemp = True
         
-        temporalActual = memoria.getMemoriaTemporal(tipoSemantica)
+        temporalActual = memoria.getMemoriaTemporal(tipoSemantica,isLocalTemp)
         direccionVarFuncion = dirFunc.getVirtualAddress(currentScript,currentLlamada)
 
         nuevoCuadruplo = ['=',direccionVarFuncion,'',temporalActual]
@@ -984,8 +988,12 @@ def p_pnCuadPlMi(p):
             resultType = semantica.tablaSimbolos[semantica.convertion[rightType]][semantica.convertion[leftType]][operador]
 
             if resultType != 0:
+                
+                isLocalTemp = False
+                if currentFunction != "":
+                    isLocalTemp = True
 
-                temporalActual = memoria.getMemoriaTemporal(resultType)
+                temporalActual = memoria.getMemoriaTemporal(resultType,isLocalTemp)
 
                 nuevoCuadruplo = [operador,leftOperand,rightOperand,temporalActual]
                 cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
@@ -1017,7 +1025,11 @@ def p_pnCuadMuDi(p):
 
             if resultType != 0:
 
-                temporalActual = memoria.getMemoriaTemporal(resultType)
+                isLocalTemp = False
+                if currentFunction != "":
+                    isLocalTemp = True
+
+                temporalActual = memoria.getMemoriaTemporal(resultType,isLocalTemp)
 
                 nuevoCuadruplo = [operador,leftOperand,rightOperand,temporalActual]
                 cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
@@ -1052,7 +1064,11 @@ def p_pnCuadOpRelacional(p):
 
             if resultType != 0:
 
-                temporalActual = memoria.getMemoriaTemporal(resultType)
+                isLocalTemp = False
+                if currentFunction != "":
+                    isLocalTemp = True
+
+                temporalActual = memoria.getMemoriaTemporal(resultType,isLocalTemp)
 
                 nuevoCuadruplo = [operador,leftOperand,rightOperand,temporalActual]
                 cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
@@ -1083,7 +1099,11 @@ def p_pnCuadOplog(p):
 
             if resultType != 0:
 
-                temporalActual = memoria.getMemoriaTemporal(resultType)
+                isLocalTemp = False
+                if currentFunction != "":
+                    isLocalTemp = True
+
+                temporalActual = memoria.getMemoriaTemporal(resultType,isLocalTemp)
 
                 nuevoCuadruplo = [operador,leftOperand,rightOperand,temporalActual]
                 cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
@@ -1221,7 +1241,11 @@ def p_pnCuadFuncEsp(p):
 
         operador = top
 
-        temporalActual = memoria.getMemoriaTemporal(resultType)
+        isLocalTemp = False
+        if currentFunction != "":
+            isLocalTemp = True
+
+        temporalActual = memoria.getMemoriaTemporal(resultType,isLocalTemp)
 
         nuevoCuadruplo = [operador,toCalculate, "",temporalActual]
         cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
@@ -1374,13 +1398,20 @@ def p_pnCompControlFinal(p):
     else:
         exp = pilaOperandos.get()
 
-        VFinal = memoria.getMemoriaTemporal(2)
+        isLocalTemp = False
+        if currentFunction != "":
+            isLocalTemp = True
+
+        VFinal = memoria.getMemoriaTemporal(2,isLocalTemp)
 
         nuevoCuadruplo = ['=',exp,"",VFinal]
         cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
 
+        isLocalTemp = False
+        if currentFunction != "":
+            isLocalTemp = True
         # 1 porque es un temporal de tipo booleano
-        temporalActual = memoria.getMemoriaTemporal(1)
+        temporalActual = memoria.getMemoriaTemporal(1,isLocalTemp)
 
         topVC = pilaVControlLoop.get()
         pilaVControlLoop.put(topVC)
@@ -1400,8 +1431,11 @@ def p_pnEndFor(p):
     '''
     pnEndFor : empty
     '''
+    isLocalTemp = False
+    if currentFunction != "":
+        isLocalTemp = True
 
-    temporalActual = memoria.getMemoriaTemporal(2)
+    temporalActual = memoria.getMemoriaTemporal(2,isLocalTemp)
 
     if 1 not in tablaConst:
         direccion = memoria.countCteInt
@@ -1597,7 +1631,10 @@ def p_pnArrCalc(p):
     pilaDim.put(top)
 
     dirBaseArreglo = dirFunc.getDirBaseArreglo(currentScript,currentFunction,top)
-    temporalPointerActual = memoria.getMemoriaTemporal('pointer')
+    isLocalTemp = False
+    if currentFunction != "":
+        isLocalTemp = True
+    temporalPointerActual = memoria.getMemoriaTemporal('pointer',isLocalTemp)
     resultType = semantica.tablaSimbolos[semantica.convertion[s1Tipo]][semantica.convertion['int']]['+']
 
     # + dirBase()
@@ -1635,7 +1672,10 @@ def p_pnMatCalc(p):
     pilaDim.put(top)
 
     m1 = dirFunc.getM1(currentScript,currentFunction,top[0])
-    temporalActual1 = memoria.getMemoriaTemporal(2)
+    isLocalTemp = False
+    if currentFunction != "":
+        isLocalTemp = True
+    temporalActual1 = memoria.getMemoriaTemporal(2,isLocalTemp)
 
     nuevoCuadruplo = ['*',s1,m1,temporalActual1]
     cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
@@ -1651,7 +1691,10 @@ def p_pnMatCalc(p):
 
 
     # +s2
-    temporalActual2 = memoria.getMemoriaTemporal(2)
+    isLocalTemp = False
+    if currentFunction != "":
+        isLocalTemp = True
+    temporalActual2 = memoria.getMemoriaTemporal(2,isLocalTemp)
 
     nuevoCuadruplo = ['+',temporalActual1,s2,temporalActual2]
     cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
@@ -1659,7 +1702,10 @@ def p_pnMatCalc(p):
 
     # + dirBase()
     dirBaseMatriz = dirFunc.getDirBaseArreglo(currentScript,currentFunction,matrizActual[0])
-    temporalPointerActual = memoria.getMemoriaTemporal('pointer')
+    isLocalTemp = False
+    if currentFunction != "":
+        isLocalTemp = True
+    temporalPointerActual = memoria.getMemoriaTemporal('pointer',isLocalTemp)
 
     nuevoCuadruplo = ['+',temporalActual2,dirBaseMatriz,temporalPointerActual]
     cuadruplos.listaCuadruplos.append(nuevoCuadruplo)

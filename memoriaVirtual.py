@@ -102,24 +102,44 @@ class MemoriaVirtual:
         self.countCteC = 16000
         self.countCteLetrero = 17000
 
-    def getMemoriaTemporal(self,resultType):
+    def getMemoriaTemporal(self,resultType,isLocal):
         temp = ""
         print(resultType)
         if resultType == 1:
-            temp = self.countTemBool
-            self.countTemBool += 1
+            if isLocal:
+                temp = self.countTemBool
+                self.countTemBool += 1
+            else:
+                temp = self.countGlTempBool
+                self.countGlTempBool += 1
         elif resultType == 2:
-            temp = self.countTemInt
-            self.countTemInt += 1
+            if isLocal:
+                temp = self.countTemInt
+                self.countTemInt += 1
+            else:
+                temp = self.countGlTempInt
+                self.countGlTempInt += 1
         elif resultType == 3:
-            temp = self.countTemFloat
-            self.countTemFloat += 1
+            if isLocal:
+                temp = self.countTemFloat
+                self.countTemFloat += 1
+            else:
+                temp = self.countGlTempFloat
+                self.countGlTempFloat += 1
         elif resultType == 4:
-            temp = self.countTemC
-            self.countTemC += 1
+            if isLocal:
+                temp = self.countTemC
+                self.countTemC += 1
+            else:
+                temp = self.countGlTempC
+                self.countGlTempC += 1
         elif resultType == 'pointer':
-            temp = self.countTemPointer
-            self.countTemPointer += 1
+            if isLocal:
+                temp = self.countTemPointer
+                self.countTemPointer += 1
+            else:
+                temp = self.countGlTempPointer
+                self.countGlTempPointer += 1
         else:
             print("ERROR AL ASIGNAR TEMPORAL")
             sys.exit()

@@ -22,18 +22,6 @@ pilaCurrIps = LifoQueue(maxsize=0)
 # Mapa de memoria
 pilaMemoriasLocales = LifoQueue(maxsize=0) # Para mandar a dormir la memoria
 memoriaGlobal = MemoriaGlobal()
-memoriaLocal = MemoriaFuncion()
-
-memoriaLocal.localInt = ['-'] * 10
-memoriaLocal.localFloat = ['-'] * 10
-memoriaLocal.localC = ['-'] * 10
-memoriaLocal.localDf = ['-'] * 10
-
-memoriaLocal.tempInt = ['-'] * 10
-memoriaLocal.tempFloat = ['-'] * 10
-memoriaLocal.tempC = ['-'] * 10
-memoriaLocal.tempPointer = ['-'] * 10
-memoriaLocal.tempBool = ['-'] * 10
 
 
 #Definir vectores de cada memoria, cambiar size dependiendo de qué necesite
@@ -101,105 +89,108 @@ def getValue(direccion):
         memoriaLocal = pilaMemoriasLocales.get()
         pilaMemoriasLocales.put(memoriaLocal)
 
-        if dirsVirtuales.localInt <= direccion < dirsVirtuales.localFloat:
-            # Int
-            if memoriaLocal.localInt[direccion - dirsVirtuales.localInt] == '-':
-                print("No hay valor en la direccion {} para locales ints".format(direccion))
-            return memoriaLocal.localInt[direccion - dirsVirtuales.localInt]
-        elif dirsVirtuales.localFloat <= direccion < dirsVirtuales.localC:
-            # Float
-            if memoriaLocal.localFloat[direccion - dirsVirtuales.localFloat] == '-':
-                print("No hay valor en la direccion {} para locales floats".format(direccion))
-            return memoriaLocal.localFloat[direccion - dirsVirtuales.localFloat]
-        elif dirsVirtuales.localC <= direccion < dirsVirtuales.localDf:
-            # Char
-            if memoriaLocal.localC[direccion - dirsVirtuales.localC] == '-':
-                print("No hay valor en la direccion {} para locales chars".format(direccion))
-            return memoriaLocal.localC[direccion - dirsVirtuales.localC]
-        elif dirsVirtuales.localDf <= direccion < dirsVirtuales.tempInt:
-            # Df
-            if memoriaLocal.localDf[direccion - dirsVirtuales.localDf] == '-':
-                print("No hay valor en la direccion {} para locales dfs".format(direccion))
-            return memoriaLocal.localDf[direccion - dirsVirtuales.localDf]
-        # Temporales
-        elif dirsVirtuales.tempInt <= direccion < dirsVirtuales.tempFloat:
-            # Int
-            if memoriaLocal.tempInt[direccion - dirsVirtuales.tempInt] == '-':
-                print("No hay valor en la direccion {} para temporales ints".format(direccion))
-            return memoriaLocal.tempInt[direccion - dirsVirtuales.tempInt]
-        elif dirsVirtuales.tempFloat <= direccion < dirsVirtuales.tempC:
-            # Floats
-            if memoriaLocal.tempFloat[direccion - dirsVirtuales.tempFloat] == '-':
-                print("No hay valor en la direccion {} para temporales floats".format(direccion))
-            return memoriaLocal.tempFloat[direccion - dirsVirtuales.tempFloat]
-        elif dirsVirtuales.tempC <= direccion < dirsVirtuales.tempPointer:
-            # C
-            if memoriaLocal.tempC[direccion - dirsVirtuales.tempC] == '-':
-                print("No hay valor en la direccion {} para temporales chars".format(direccion))
-            return memoriaLocal.tempC[direccion - dirsVirtuales.tempC]
-        elif dirsVirtuales.tempPointer <= direccion < dirsVirtuales.tempB:
-            # Pointers
-            if memoriaLocal.tempPointer[direccion - dirsVirtuales.tempPointer] == '-':
-                print("No hay valor en la direccion {} para temporales pointers".format(direccion))
-            return memoriaLocal.tempPointer[direccion - dirsVirtuales.tempPointer]
-        elif dirsVirtuales.tempB <= direccion < (dirsVirtuales.tempB+1000):
-            # Booleans
-            if memoriaLocal.tempB[direccion - dirsVirtuales.tempB] == '-':
-                print("No hay valor en la direccion {} para temporales booleans".format(direccion))
-            return memoriaLocal.tempB[direccion - dirsVirtuales.tempB]
-        
-    
     # Globales
-    elif dirsVirtuales.globalInt <= direccion < dirsVirtuales.globalFloat:
+    if 1000 <= direccion < 2000:
         # Int
-        if memoriaGlobal.globalInt[direccion - dirsVirtuales.globalInt] == '-':
+        if memoriaGlobal.globalInt[direccion - 1000] == '-':
             print("No hay valor en la direccion {} para gloables ints".format(direccion))
-        return memoriaGlobal.globalInt[direccion - dirsVirtuales.globalInt]
-    elif dirsVirtuales.globalFloat <= direccion < dirsVirtuales.globalC:
+        return memoriaGlobal.globalInt[direccion - 1000]
+    elif 2000 <= direccion < 3000:
         # Float
-        if memoriaGlobal.globalFloat[direccion - dirsVirtuales.globalFloat] == '-':
+        if memoriaGlobal.globalFloat[direccion - 2000] == '-':
             print("No hay valor en la direccion {} para gloables floats".format(direccion))
-        return memoriaGlobal.globalFloat[direccion - dirsVirtuales.globalFloat]
-    elif dirsVirtuales.globalC <= direccion < dirsVirtuales.globalDf:
+        return memoriaGlobal.globalFloat[direccion - 2000]
+    elif 3000 <= direccion < 4000:
         # C
-        if memoriaGlobal.globalC[direccion - dirsVirtuales.globalC] == '-':
+        if memoriaGlobal.globalC[direccion - 3000] == '-':
             print("No hay valor en la direccion {} para gloables chars".format(direccion))
-        return memoriaGlobal.globalC[direccion - dirsVirtuales.globalC]
-    elif dirsVirtuales.globalDf <= direccion < (dirsVirtuales.globalDf+1000):
+        return memoriaGlobal.globalC[direccion - 3000]
+    elif 4000 <= direccion < 5000:
         # Df
-        if memoriaGlobal.globalDf[direccion - dirsVirtuales.globalDf] == '-':
+        if memoriaGlobal.globalDf[direccion - 4000] == '-':
             print("No hay valor en la direccion {} para gloables dfs".format(direccion))
-        return memoriaGlobal.globalDf[direccion - dirsVirtuales.globalDf]
-    # Temporales globales
-    elif 9000 <= direccion < 10000:
+        return memoriaGlobal.globalDf[direccion - 4000]
+    # Locales
+    elif 5000 <= direccion < 6000:
         # Int
-        if memoriaGlobal.tempInt[direccion - 9000] == '-':
-            print("No hay valor en la direccion {} para temporales globales ints".format(direccion))
-        return memoriaGlobal.tempInt[direccion - 9000]
-    elif 10000 <= direccion < 11000:
+        if memoriaLocal.localInt[direccion - 5000] == '-':
+            print("No hay valor en la direccion {} para locales ints".format(direccion))
+        return memoriaLocal.localInt[direccion - 5000]
+    elif 6000 <= direccion < 7000:
         # Float
-        if memoriaGlobal.tempFloat[direccion - 10000] == '-':
-            print("No hay valor en la direccion {} para temporales globales floats".format(direccion))
-        return memoriaGlobal.tempFloat[direccion - 10000]
+        if memoriaLocal.localFloat[direccion - 6000] == '-':
+            print("No hay valor en la direccion {} para locales floats".format(direccion))
+        return memoriaLocal.localFloat[direccion - 6000]
+    elif 7000 <= direccion < 8000:
+        # Char
+        if memoriaLocal.localC[direccion - 7000] == '-':
+            print("No hay valor en la direccion {} para locales chars".format(direccion))
+        return memoriaLocal.localC[direccion - 7000]
+    elif 8000 <= direccion < 9000:
+        # Df
+        if memoriaLocal.localDf[direccion - 8000] == '-':
+            print("No hay valor en la direccion {} para locales dfs".format(direccion))
+        return memoriaLocal.localDf[direccion - 8000]
+    # Temporales
+    elif 9000<= direccion < 10000:
+        # Int
+        if memoriaLocal.tempInt[direccion - 9000] == '-':
+            print("No hay valor en la direccion {} para temporales ints".format(direccion))
+        return memoriaLocal.tempInt[direccion - 9000]
+    elif 10000 <= direccion < 11000:
+        # Floats
+        if memoriaLocal.tempFloat[direccion - 10000] == '-':
+            print("No hay valor en la direccion {} para temporales floats".format(direccion))
+        return memoriaLocal.tempFloat[direccion - 10000]
     elif 11000 <= direccion < 12000:
         # C
-        if memoriaGlobal.tempC[direccion - 11000] == '-':
-            print("No hay valor en la direccion {} para temporales globales chars".format(direccion))
-        return memoriaGlobal.tempC[direccion - 11000]
+        if memoriaLocal.tempC[direccion - 11000] == '-':
+            print("No hay valor en la direccion {} para temporales chars".format(direccion))
+        return memoriaLocal.tempC[direccion - 11000]
     elif 12000 <= direccion < 13000:
-        # Pointer
-        if memoriaGlobal.tempPointer[direccion - 12000] == '-':
-            print("No hay valor en la direccion {} para temporales globales pointers".format(direccion))
-        return memoriaGlobal.tempPointer[direccion - 12000]
+        # Pointers
+        if memoriaLocal.tempPointer[direccion - 12000] == '-':
+            print("No hay valor en la direccion {} para temporales pointers".format(direccion))
+        return memoriaLocal.tempPointer[direccion - 12000]
     elif 13000 <= direccion < 14000:
+        # Booleans
+        if memoriaLocal.tempBool[direccion - 13000] == '-':
+            print("No hay valor en la direccion {} para temporales booleans".format(direccion))
+        return memoriaLocal.tempBool[direccion - 13000]
+    # Constantes
+    elif 14000 <= direccion < 18000:
+        return getConstante(direccion)
+    # Temporales globales
+    elif 18000 <= direccion < 19000:
+        # Int
+        if memoriaGlobal.tempInt[direccion - 18000] == '-':
+            print("No hay valor en la direccion {} para temporales globales ints".format(direccion))
+        return memoriaGlobal.tempInt[direccion - 18000]
+    elif 19000 <= direccion < 20000:
+        # Float
+        if memoriaGlobal.tempFloat[direccion - 19000] == '-':
+            print("No hay valor en la direccion {} para temporales globales floats".format(direccion))
+        return memoriaGlobal.tempFloat[direccion - 19000]
+    elif 20000 <= direccion < 21000:
+        # C
+        if memoriaGlobal.tempC[direccion - 20000] == '-':
+            print("No hay valor en la direccion {} para temporales globales chars".format(direccion))
+        return memoriaGlobal.tempC[direccion - 20000]
+    elif 21000 <= direccion < 22000:
         # Pointer
-        if memoriaGlobal.tempBool[direccion - 13000] == '-':
+        if memoriaGlobal.tempPointer[direccion - 21000] == '-':
+            print("No hay valor en la direccion {} para temporales globales pointers".format(direccion))
+        return memoriaGlobal.tempPointer[direccion - 21000]
+    elif 22000 <= direccion < 23000:
+        # Bool
+        if memoriaGlobal.tempBool[direccion - 22000] == '-':
             print("No hay valor en la direccion {} para temporales globales booleanos".format(direccion))
-        return memoriaGlobal.tempBool[direccion - 13000]
+        return memoriaGlobal.tempBool[direccion - 22000]
     
     #Constantes
     else:
-        return getConstante(direccion)
+        print("DIRECCION VIRTUAL DESCONOCIDA: {}".format(direccion))
+        sys.exit()
 
 def printPilaMemoriasLocales():
     index = 0
@@ -219,6 +210,7 @@ while currentIp < len(cuadruplos):
         try:
             if cuadruplos[currentIp][3] != int:
                 currentIp = dirFunc[cuadruplos[currentIp][3]][1] - 1
+                # print("CURRENT IP {}".format(currentIp))
                 resizeMemoriaGlobal("recursosfnucion")
             else:
                 # Goto saltos condicinales
@@ -244,34 +236,53 @@ while currentIp < len(cuadruplos):
         elemDer = cuadruplos[currentIp][2]
         resp = cuadruplos[currentIp][3]
 
+        # print("PREV")
+        # print(elemIzq)
+        # print(elemDer)
+
         elemIzq = getVariableAddress(elemIzq)
         elemDer = getVariableAddress(elemDer)
 
-        # Global
-        if currentFunction == "":
-            if 9000 <= resp < 10000:
-            # temp int
-                memoriaGlobal.tempInt[resp-9000] = getValue(elemIzq) + getValue(elemDer)
-            elif 10000 <= resp < 11000:
-            # temp float
-                memoriaGlobal.tempFloat[resp-10000] = getValue(elemIzq) + getValue(elemDer)
-            elif 12000 <= resp < 13000:
-            # temp pointer
-                memoriaGlobal.tempPointer[resp-12000] = getValue(elemIzq) + getValue(elemDer)
-            else:
-                print("ALGO MAL")
-                sys.exit()
-        # Local
+        # print("AQUI")
+        # print(elemIzq)
+        # print(elemDer)
+
+        if currentFunction != "":
+            topMemLocal = pilaMemoriasLocales.get()
+            pilaMemoriasLocales.put(topMemLocal)
+
+
+        if 18000 <= resp < 19000:
+        # global temp int
+            memoriaGlobal.tempInt[resp-18000] = getValue(elemIzq) + getValue(elemDer)
+        elif 19000 <= resp < 20000:
+        # global temp float
+            memoriaGlobal.tempFloat[resp-19000] = getValue(elemIzq) + getValue(elemDer)
+        elif 21000 <= resp < 22000:
+        # global temp pointer
+            print("ESTAS SUMANDO POINTER - SE HACE DIFERENTE")
+            memoriaGlobal.tempPointer[resp-21000] = getValue(elemIzq) + getValue(elemDer)
+            print("ALGO MAL")
+            sys.exit()
+        elif 9000 <= resp < 10000:
+        # local temp int
+            topMemLocal.tempInt[resp-9000] = getValue(elemIzq) + getValue(elemDer)
+            pilaMemoriasLocales.get()
+            pilaMemoriasLocales.put(topMemLocal)
+        elif 10000 <= resp < 11000:
+        # local temp float
+            topMemLocal.tempFloat[resp-10000] = getValue(elemIzq) + getValue(elemDer)
+            pilaMemoriasLocales.get()
+            pilaMemoriasLocales.put(topMemLocal)
+        # local temp pointer
+        elif 12000 <= resp < 13000:
+            print("ESTAS SUMANDO POINTER - SE HACE DIFERENTE")
+            topMemLocal.tempPointer[resp-21000] = getValue(elemIzq) + getValue(elemDer)
+            pilaMemoriasLocales.get()
+            pilaMemoriasLocales.put(topMemLocal)
         else:
-            if 9000 <= resp < 10000:
-            # temp int
-                memoriaLocal.tempInt[resp-9000] = getValue(elemIzq) + getValue(elemDer)
-            elif 10000 <= resp < 11000:
-            # temp float
-                memoriaLocal.tempFloat[resp-10000] = getValue(elemIzq) + getValue(elemDer)
-            else:
-                print("ALGO MAL")
-                sys.exit()
+            print("ALGO MAL")
+            sys.exit()
 
         currentIp += 1
 
@@ -284,31 +295,43 @@ while currentIp < len(cuadruplos):
         elemIzq = getVariableAddress(elemIzq)
         elemDer = getVariableAddress(elemDer)
 
-        # Global
-        if currentFunction == "":
-            if 9000 <= resp < 10000:
-            # temp int
-                memoriaGlobal.tempInt[resp-9000] = getValue(elemIzq) - getValue(elemDer)
-            elif 10000 <= resp < 11000:
-            # temp float
-                memoriaGlobal.tempFloat[resp-10000] = getValue(elemIzq) - getValue(elemDer)
-            elif 12000 <= resp < 13000:
-            # temp pointer
-                memoriaGlobal.tempPointer[resp-12000] = getValue(elemIzq) - getValue(elemDer)
-            else:
-                print("ALGO MAL")
-                sys.exit()
-        # Local
+        if currentFunction != "":
+            topMemLocal = pilaMemoriasLocales.get()
+            pilaMemoriasLocales.put(topMemLocal)
+
+
+        if 18000 <= resp < 19000:
+        # global temp int
+            memoriaGlobal.tempInt[resp-18000] = getValue(elemIzq) - getValue(elemDer)
+            # print(memoriaGlobal.tempInt)
+        elif 19000 <= resp < 20000:
+        # global temp float
+            memoriaGlobal.tempFloat[resp-19000] = getValue(elemIzq) - getValue(elemDer)
+        elif 21000 <= resp < 22000:
+        # global temp pointer
+            print("ESTAS RESTANDO POINTER - SE HACE DIFERENTE")
+            memoriaGlobal.tempPointer[resp-21000] = getValue(elemIzq) - getValue(elemDer)
+            print("ALGO MAL")
+            sys.exit()
+        elif 9000 <= resp < 10000:
+        # local temp int
+            topMemLocal.tempInt[resp-9000] = getValue(elemIzq) - getValue(elemDer)
+            pilaMemoriasLocales.get()
+            pilaMemoriasLocales.put(topMemLocal)
+        elif 10000 <= resp < 11000:
+        # local temp float
+            topMemLocal.tempFloat[resp-10000] = getValue(elemIzq) - getValue(elemDer)
+            pilaMemoriasLocales.get()
+            pilaMemoriasLocales.put(topMemLocal)
+        # local temp pointer
+        elif 12000 <= resp < 13000:
+            print("ESTAS RESTANDO POINTER - SE HACE DIFERENTE")
+            topMemLocal.tempPointer[resp-21000] = getValue(elemIzq) - getValue(elemDer)
+            pilaMemoriasLocales.get()
+            pilaMemoriasLocales.put(topMemLocal)
         else:
-            if 9000 <= resp < 10000:
-            # temp int
-                memoriaLocal.tempInt[resp-9000] = getValue(elemIzq) - getValue(elemDer)
-            elif 10000 <= resp < 11000:
-            # temp float
-                memoriaLocal.tempFloat[resp-10000] = getValue(elemIzq) - getValue(elemDer)
-            else:
-                print("ALGO MAL")
-                sys.exit()
+            print("ALGO MAL")
+            sys.exit()
 
         currentIp += 1
 
@@ -321,31 +344,43 @@ while currentIp < len(cuadruplos):
         elemIzq = getVariableAddress(elemIzq)
         elemDer = getVariableAddress(elemDer)
 
-        # Global
-        if currentFunction == "":
-            if 9000 <= resp < 10000:
-            # temp int
-                memoriaGlobal.tempInt[resp-9000] = getValue(elemIzq) * getValue(elemDer)
-            elif 10000 <= resp < 11000:
-            # temp float
-                memoriaGlobal.tempFloat[resp-10000] = getValue(elemIzq) * getValue(elemDer)
-            elif 12000 <= resp < 13000:
-            # temp pointer
-                memoriaGlobal.tempPointer[resp-12000] = getValue(elemIzq) * getValue(elemDer)
-            else:
-                print("ALGO MAL")
-                sys.exit()
-        # Local
+        if currentFunction != "":
+            topMemLocal = pilaMemoriasLocales.get()
+            pilaMemoriasLocales.put(topMemLocal)
+
+
+        if 18000 <= resp < 19000:
+        # global temp int
+            memoriaGlobal.tempInt[resp-18000] = getValue(elemIzq) * getValue(elemDer)
+            # print(memoriaGlobal.tempInt)
+        elif 19000 <= resp < 20000:
+        # global temp float
+            memoriaGlobal.tempFloat[resp-19000] = getValue(elemIzq) * getValue(elemDer)
+        elif 21000 <= resp < 22000:
+        # global temp pointer
+            print("ESTAS MULTIPLICANDO POINTER - SE HACE DIFERENTE")
+            memoriaGlobal.tempPointer[resp-21000] = getValue(elemIzq) * getValue(elemDer)
+            print("ALGO MAL")
+            sys.exit()
+        elif 9000 <= resp < 10000:
+        # local temp int
+            topMemLocal.tempInt[resp-9000] = getValue(elemIzq) * getValue(elemDer)
+            pilaMemoriasLocales.get()
+            pilaMemoriasLocales.put(topMemLocal)
+        elif 10000 <= resp < 11000:
+        # local temp float
+            topMemLocal.tempFloat[resp-10000] = getValue(elemIzq) * getValue(elemDer)
+            pilaMemoriasLocales.get()
+            pilaMemoriasLocales.put(topMemLocal)
+        # local temp pointer
+        elif 12000 <= resp < 13000:
+            print("ESTAS MULTIPLICANDO POINTER - SE HACE DIFERENTE")
+            topMemLocal.tempPointer[resp-21000] = getValue(elemIzq) * getValue(elemDer)
+            pilaMemoriasLocales.get()
+            pilaMemoriasLocales.put(topMemLocal)
         else:
-            if 9000 <= resp < 10000:
-            # temp int
-                memoriaLocal.tempInt[resp-9000] = getValue(elemIzq) * getValue(elemDer)
-            elif 10000 <= resp < 11000:
-            # temp float
-                memoriaLocal.tempFloat[resp-10000] = getValue(elemIzq) * getValue(elemDer)
-            else:
-                print("ALGO MAL")
-                sys.exit()
+            print("ALGO MAL")
+            sys.exit()
 
         currentIp += 1
 
@@ -358,35 +393,43 @@ while currentIp < len(cuadruplos):
         elemIzq = getVariableAddress(elemIzq)
         elemDer = getVariableAddress(elemDer)
 
-        if getValue(elemDer) == 0:
-            print("No se puede dividir entre 0")
-            sys.exit()
+        if currentFunction != "":
+            topMemLocal = pilaMemoriasLocales.get()
+            pilaMemoriasLocales.put(topMemLocal)
 
-        # Global
-        if currentFunction == "":
-            if 9000 <= resp < 10000:
-            # temp int
-                memoriaGlobal.tempInt[resp-9000] = getValue(elemIzq) / getValue(elemDer)
-            elif 10000 <= resp < 11000:
-            # temp float
-                memoriaGlobal.tempFloat[resp-10000] = getValue(elemIzq) / getValue(elemDer)
-            elif 12000 <= resp < 13000:
-            # temp pointer
-                memoriaGlobal.tempPointer[resp-12000] = getValue(elemIzq) / getValue(elemDer)
-            else:
-                print("ALGO MAL")
-                sys.exit()
-        # Local
+
+        if 18000 <= resp < 19000:
+        # global temp int
+            memoriaGlobal.tempInt[resp-18000] = getValue(elemIzq) / getValue(elemDer)
+            # print(memoriaGlobal.tempInt)
+        elif 19000 <= resp < 20000:
+        # global temp float
+            memoriaGlobal.tempFloat[resp-19000] = getValue(elemIzq) / getValue(elemDer)
+        elif 21000 <= resp < 22000:
+        # global temp pointer
+            print("ESTAS DIVIDIENDO POINTER - SE HACE DIFERENTE")
+            memoriaGlobal.tempPointer[resp-21000] = getValue(elemIzq) / getValue(elemDer)
+            print("ALGO MAL")
+            sys.exit()
+        elif 9000 <= resp < 10000:
+        # local temp int
+            topMemLocal.tempInt[resp-9000] = getValue(elemIzq) / getValue(elemDer)
+            pilaMemoriasLocales.get()
+            pilaMemoriasLocales.put(topMemLocal)
+        elif 10000 <= resp < 11000:
+        # local temp float
+            topMemLocal.tempFloat[resp-10000] = getValue(elemIzq) / getValue(elemDer)
+            pilaMemoriasLocales.get()
+            pilaMemoriasLocales.put(topMemLocal)
+        # local temp pointer
+        elif 12000 <= resp < 13000:
+            print("ESTAS DIVIDIENDO POINTER - SE HACE DIFERENTE")
+            topMemLocal.tempPointer[resp-21000] = getValue(elemIzq) / getValue(elemDer)
+            pilaMemoriasLocales.get()
+            pilaMemoriasLocales.put(topMemLocal)
         else:
-            if 9000 <= resp < 10000:
-            # temp int
-                memoriaLocal.tempInt[resp-9000] = getValue(elemIzq) / getValue(elemDer)
-            elif 10000 <= resp < 11000:
-            # temp float
-                memoriaLocal.tempFloat[resp-10000] = getValue(elemIzq) / getValue(elemDer)
-            else:
-                print("ALGO MAL")
-                sys.exit()
+            print("ALGO MAL")
+            sys.exit()
 
         currentIp += 1
 
@@ -399,22 +442,22 @@ while currentIp < len(cuadruplos):
         elemIzq = getVariableAddress(elemIzq)
         elemDer = getVariableAddress(elemDer)
 
-        # Global
-        if currentFunction == "":
-            if 13000 <= resp < 14000:
-            # temp bool
-                memoriaGlobal.tempBool[resp-13000] = getValue(elemIzq) > getValue(elemDer)
-            else:
-                print("COMBINACION NO ESPERADA")
-                sys.exit()
-        # Local
+        if currentFunction != "":
+            topMemLocal = pilaMemoriasLocales.get()
+            pilaMemoriasLocales.put(topMemLocal)
+
+
+        if 22000 <= resp < 23000:
+        # global temp bool
+            memoriaGlobal.tempBool[resp-22000] = getValue(elemIzq) > getValue(elemDer)
+        elif 13000 <= resp < 14000:
+        # local temp bool
+            topMemLocal.tempBool[resp-13000] = getValue(elemIzq) > getValue(elemDer)
+            pilaMemoriasLocales.get()
+            pilaMemoriasLocales.put(topMemLocal)
         else:
-            if 13000 <= resp < 14000:
-            # temp bool
-                memoriaLocal.tempBool[resp-13000] = getValue(elemIzq) > getValue(elemDer)
-            else:
-                print("COMBINACION NO ESPERADA")
-                sys.exit()
+            print("COMBINACION NO ESPERADA en MAYOR QUE")
+            sys.exit()
 
         currentIp += 1
 
@@ -427,22 +470,21 @@ while currentIp < len(cuadruplos):
         elemIzq = getVariableAddress(elemIzq)
         elemDer = getVariableAddress(elemDer)
 
-        # Global
-        if currentFunction == "":
-            if 13000 <= resp < 14000:
-            # temp bool
-                memoriaGlobal.tempBool[resp-13000] = getValue(elemIzq) < getValue(elemDer)
-            else:
-                print("COMBINACION NO ESPERADA")
-                sys.exit()
-        # Local
+        if currentFunction != "":
+            topMemLocal = pilaMemoriasLocales.get()
+            pilaMemoriasLocales.put(topMemLocal)
+
+        if 22000 <= resp < 23000:
+        # global temp bool
+            memoriaGlobal.tempBool[resp-22000] = getValue(elemIzq) < getValue(elemDer)
+        elif 13000 <= resp < 14000:
+        # local temp bool
+            topMemLocal.tempBool[resp-13000] = getValue(elemIzq) < getValue(elemDer)
+            pilaMemoriasLocales.get()
+            pilaMemoriasLocales.put(topMemLocal)
         else:
-            if 13000 <= resp < 14000:
-            # temp bool
-                memoriaLocal.tempBool[resp-13000] = getValue(elemIzq) < getValue(elemDer)
-            else:
-                print("COMBINACION NO ESPERADA")
-                sys.exit()
+            print("COMBINACION NO ESPERADA en MENOR QUE")
+            sys.exit()
 
         currentIp += 1
 
@@ -455,22 +497,22 @@ while currentIp < len(cuadruplos):
         elemIzq = getVariableAddress(elemIzq)
         elemDer = getVariableAddress(elemDer)
 
-        # Global
-        if currentFunction == "":
-            if 13000 <= resp < 14000:
-            # temp bool
-                memoriaGlobal.tempBool[resp-13000] = getValue(elemIzq) == getValue(elemDer)
-            else:
-                print("COMBINACION NO ESPERADA")
-                sys.exit()
-        # Local
+        if currentFunction != "":
+            topMemLocal = pilaMemoriasLocales.get()
+            pilaMemoriasLocales.put(topMemLocal)
+
+
+        if 22000 <= resp < 23000:
+        # global temp bool
+            memoriaGlobal.tempBool[resp-22000] = getValue(elemIzq) == getValue(elemDer)
+        elif 13000 <= resp < 14000:
+        # local temp bool
+            topMemLocal.tempBool[resp-13000] = getValue(elemIzq) == getValue(elemDer)
+            pilaMemoriasLocales.get()
+            pilaMemoriasLocales.put(topMemLocal)
         else:
-            if 13000 <= resp < 14000:
-            # temp bool
-                memoriaLocal.tempBool[resp-13000] = getValue(elemIzq) == getValue(elemDer)
-            else:
-                print("COMBINACION NO ESPERADA")
-                sys.exit()
+            print("COMBINACION NO ESPERADA en EQUALS")
+            sys.exit()
 
         currentIp += 1
 
@@ -483,22 +525,22 @@ while currentIp < len(cuadruplos):
         elemIzq = getVariableAddress(elemIzq)
         elemDer = getVariableAddress(elemDer)
 
-        # Global
-        if currentFunction == "":
-            if 13000 <= resp < 14000:
-            # temp bool
-                memoriaGlobal.tempBool[resp-13000] = getValue(elemIzq) != getValue(elemDer)
-            else:
-                print("COMBINACION NO ESPERADA")
-                sys.exit()
-        # Local
+        if currentFunction != "":
+            topMemLocal = pilaMemoriasLocales.get()
+            pilaMemoriasLocales.put(topMemLocal)
+
+
+        if 22000 <= resp < 23000:
+        # global temp bool
+            memoriaGlobal.tempBool[resp-22000] = getValue(elemIzq) != getValue(elemDer)
+        elif 13000 <= resp < 14000:
+        # local temp bool
+            topMemLocal.tempBool[resp-13000] = getValue(elemIzq) != getValue(elemDer)
+            pilaMemoriasLocales.get()
+            pilaMemoriasLocales.put(topMemLocal)
         else:
-            if 13000 <= resp < 14000:
-            # temp bool
-                memoriaLocal.tempBool[resp-13000] = getValue(elemIzq) != getValue(elemDer)
-            else:
-                print("COMBINACION NO ESPERADA")
-                sys.exit()
+            print("COMBINACION NO ESPERADA en NOT EQUALS")
+            sys.exit()
 
         currentIp += 1
 
@@ -511,22 +553,22 @@ while currentIp < len(cuadruplos):
         elemIzq = getVariableAddress(elemIzq)
         elemDer = getVariableAddress(elemDer)
 
-        # Global
-        if currentFunction == "":
-            if 13000 <= resp < 14000:
-            # temp bool
-                memoriaGlobal.tempBool[resp-13000] = getValue(elemIzq) and getValue(elemDer)
-            else:
-                print("COMBINACION NO ESPERADA")
-                sys.exit()
-        # Local
+        if currentFunction != "":
+            topMemLocal = pilaMemoriasLocales.get()
+            pilaMemoriasLocales.put(topMemLocal)
+
+
+        if 22000 <= resp < 23000:
+        # global temp bool
+            memoriaGlobal.tempBool[resp-22000] = getValue(elemIzq) and getValue(elemDer)
+        elif 13000 <= resp < 14000:
+        # local temp bool
+            topMemLocal.tempBool[resp-13000] = getValue(elemIzq) and getValue(elemDer)
+            pilaMemoriasLocales.get()
+            pilaMemoriasLocales.put(topMemLocal)
         else:
-            if 13000 <= resp < 14000:
-            # temp bool
-                memoriaLocal.tempBool[resp-13000] = getValue(elemIzq) and getValue(elemDer)
-            else:
-                print("COMBINACION NO ESPERADA")
-                sys.exit()
+            print("COMBINACION NO ESPERADA en AND")
+            sys.exit()
 
         currentIp += 1
 
@@ -539,22 +581,22 @@ while currentIp < len(cuadruplos):
         elemIzq = getVariableAddress(elemIzq)
         elemDer = getVariableAddress(elemDer)
 
-        # Global
-        if currentFunction == "":
-            if 13000 <= resp < 14000:
-            # temp bool
-                memoriaGlobal.tempBool[resp-13000] = getValue(elemIzq) or getValue(elemDer)
-            else:
-                print("COMBINACION NO ESPERADA")
-                sys.exit()
-        # Local
+        if currentFunction != "":
+            topMemLocal = pilaMemoriasLocales.get()
+            pilaMemoriasLocales.put(topMemLocal)
+
+
+        if 22000 <= resp < 23000:
+        # global temp bool
+            memoriaGlobal.tempBool[resp-22000] = getValue(elemIzq) or getValue(elemDer)
+        elif 13000 <= resp < 14000:
+        # local temp bool
+            topMemLocal.tempBool[resp-13000] = getValue(elemIzq) or getValue(elemDer)
+            pilaMemoriasLocales.get()
+            pilaMemoriasLocales.put(topMemLocal)
         else:
-            if 13000 <= resp < 14000:
-            # temp bool
-                memoriaLocal.tempBool[resp-13000] = getValue(elemIzq) or getValue(elemDer)
-            else:
-                print("COMBINACION NO ESPERADA")
-                sys.exit()
+            print("COMBINACION NO ESPERADA en OR")
+            sys.exit()
 
         currentIp += 1
         
@@ -567,22 +609,86 @@ while currentIp < len(cuadruplos):
         valor = getVariableAddress(valor)
         aAsignar = getVariableAddress(aAsignar)
 
-        if currentFunction == "":
-            # Global int
-            if 1000 <= aAsignar < 2000:
-                memoriaGlobal.globalInt[aAsignar - 1000] = getValue(valor)
-            # Global Float
-            elif 2000 <= aAsignar < 3000:
-                memoriaGlobal.globalFloat[aAsignar - 2000] = getValue(valor)
-            # GLOBAL TEMP INT
-            elif 9000 <= aAsignar < 10000:
-                memoriaGlobal.tempInt[aAsignar - 9000] = getValue(valor)
-            else:
-                print("FALTA IMPLEMENTAR ASIGN CON {} TIPO DE VALOR".format(aAsignar))
+        if currentFunction != "":
+            topMemLocal = pilaMemoriasLocales.get()
+            pilaMemoriasLocales.put(topMemLocal)
+
+        # Global int
+        if 1000 <= aAsignar < 2000:
+            memoriaGlobal.globalInt[aAsignar - 1000] = getValue(valor)
+        # Global Float
+        elif 2000 <= aAsignar < 3000:
+            memoriaGlobal.globalFloat[aAsignar - 2000] = getValue(valor)
+        # Global Char
+        elif 3000 <= aAsignar < 4000:
+            memoriaGlobal.globalC[aAsignar - 3000] = getValue(valor)
+        # Global DF
+        elif 4000 <= aAsignar < 5000:
+            memoriaGlobal.globalFloat[aAsignar - 4000] = getValue(valor)
+        # Local Int
+        elif 5000 <= aAsignar < 6000:
+            topMemLocal.localInt[aAsignar - 5000] = getValue(valor)
+            pilaMemoriasLocales.get()
+            pilaMemoriasLocales.put(topMemLocal)
+        # Local float
+        elif 6000 <= aAsignar < 7000:
+            topMemLocal.localFloat[aAsignar - 6000] = getValue(valor)
+            pilaMemoriasLocales.get()
+            pilaMemoriasLocales.put(topMemLocal)
+        # Local Chars
+        elif 7000 <= aAsignar < 8000:
+            topMemLocal.localC[aAsignar - 7000] = getValue(valor)
+            pilaMemoriasLocales.get()
+            pilaMemoriasLocales.put(topMemLocal)
+        # Local Dfs
+        elif 8000 <= aAsignar < 9000:
+            topMemLocal.localDf[aAsignar - 8000] = getValue(valor)
+            pilaMemoriasLocales.get()
+            pilaMemoriasLocales.put(topMemLocal)
+        # Temp local int
+        elif 9000 <= aAsignar < 10000:
+            topMemLocal.tempInt[aAsignar - 9000] = getValue(valor)
+            pilaMemoriasLocales.get()
+            pilaMemoriasLocales.put(topMemLocal)
+        # Temp local float
+        elif 10000 <= aAsignar < 11000:
+            topMemLocal.tempFloat[aAsignar - 10000] = getValue(valor)
+            pilaMemoriasLocales.get()
+            pilaMemoriasLocales.put(topMemLocal)
+        # Temp local char
+        elif 11000 <= aAsignar < 12000:
+            topMemLocal.tempC[aAsignar - 11000] = getValue(valor)
+            pilaMemoriasLocales.get()
+            pilaMemoriasLocales.put(topMemLocal)
+        # Temp local pointer
+        elif 12000 <= aAsignar < 13000:
+            print("ASIGNANDO POINTERS, DEBE SER DIFERENTE")
+            topMemLocal.tempPointer[aAsignar - 12000] = getValue(valor)
+            pilaMemoriasLocales.get()
+            pilaMemoriasLocales.put(topMemLocal)
+        # Temp local BOOL - no creo que sea necesario? no tengo variables booleanas
+        elif 13000 <= aAsignar < 14000:
+            topMemLocal.tempB[aAsignar - 13000] = getValue(valor)
+            pilaMemoriasLocales.get()
+            pilaMemoriasLocales.put(topMemLocal)
+        # GLOBAL TEMP INT
+        elif 18000 <= aAsignar < 19000:
+            memoriaGlobal.tempInt[aAsignar - 18000] = getValue(valor)
+        # GLOBAL TEMP float
+        elif 19000 <= aAsignar < 20000:
+            memoriaGlobal.tempFloat[aAsignar - 19000] = getValue(valor)
+        # GLOBAL TEMP char
+        elif 20000 <= aAsignar < 21000:
+            memoriaGlobal.tempC[aAsignar - 20000] = getValue(valor)
+        # GLOBAL TEMP pointer
+        elif 21000 <= aAsignar < 22000:
+            print("ASIGNANDO POINTERS, DEBE SER DIFERENTE")
+            memoriaGlobal.tempPointer[aAsignar - 21000] = getValue(valor)
+        # GLOBAL TEMP bool = no creo que sea necesairo
+        elif 22000 <= aAsignar < 23000:
+            memoriaGlobal.tempBool[aAsignar - 22000] = getValue(valor)
         else:
-            # Local int
-            if 5000 <= aAsignar < 6000:
-                memoriaLocal.localInt[aAsignar - 5000] = getValue(valor)
+            print("FALTA IMPLEMENTAR ASIGN CON {} TIPO DE VALOR".format(aAsignar))
         
         currentIp += 1
 
@@ -608,7 +714,6 @@ while currentIp < len(cuadruplos):
         recursosFuncion = dirFunc[nombreFunc][2]
 
         createMemoriaLocal(recursosFuncion)
-        printPilaMemoriasLocales()
         currentIp += 1
 
     # PARAM
@@ -619,17 +724,24 @@ while currentIp < len(cuadruplos):
         topMem = pilaMemoriasLocales.get()
         pilaMemoriasLocales.put(topMem)
 
-        topMem.localInt[indexP-1] = param
-        print("HELLOU")
-        print(param)
-        print(getVariableAddress(param))
-        print(topMem.localInt)
+        param = getVariableAddress(param)
+        direc = param
+        param = getValue(param)
+
+        # int
+        if 1000 <= direc < 2000:
+            topMem.localInt[indexP - 1] = param
+
+        pilaMemoriasLocales.get()
+        pilaMemoriasLocales.put(topMem)
 
         currentIp += 1
 
     # GOSUB
     elif cuadruplos[currentIp][0] == 'GOSUB':
         print("GOSUB")
+        currentFunction = cuadruplos[currentIp][1]
+        print("CURR FUNC {}".format(currentFunction))
         pilaCurrIps.put(currentIp + 1)
         currentIp = cuadruplos[currentIp][3] - 1
 
@@ -641,6 +753,7 @@ while currentIp < len(cuadruplos):
         pilaMemoriasLocales.get()
         # restaurar el current pointer al previo
         currentIp = pilaCurrIps.get()
+        currentFunction = ""
         
     # END
     elif cuadruplos[currentIp][0] == 'END':

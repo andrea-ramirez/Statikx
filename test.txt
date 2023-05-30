@@ -4,7 +4,10 @@ var int -> x,y;
 var float -> f;
 
 func void -> aver(int -> kl){
+    put(kl);
+    put(y);
     x = kl + y;
+    put(x);
 }
 
 DO
@@ -28,9 +31,14 @@ DO
 
     for(x = 10,15){
         put(x);
+        for(y = 0,3){
+            put(y);
+        }
     }
+    put(x);
+    put(y);
 
-    !!aver(x);
+    aver(x);
 
     put("final");
 
