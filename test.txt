@@ -5,17 +5,19 @@ var float -> f;
 
 func void -> prueba(int -> lk){
     put("llego");
+    put(lk);
 }
 
 func void -> hu(int -> lk){
     put("hola");
     prueba(lk);
+    put(lk);
 }
 
 func void -> aver(int -> kl){
     var int -> hel;
     hel = 28;
-    hu(hel);
+    put(hel);
 }
 
 DO
@@ -24,5 +26,7 @@ DO
     x = x + 1;
     put(x);
     put("hellou");
-
+    prueba(x);
+    hu(9);
+    aver(89);
 }

@@ -4,6 +4,7 @@ from memoriaVM import MemoriaFuncion
 from memoriaVM import MemoriaGlobal
 from queue import LifoQueue
 import sys
+import copy
 
 
 datos = lexerParser.exportData()
@@ -22,6 +23,7 @@ pilaCurrIps = LifoQueue(maxsize=0)
 # Mapa de memoria
 pilaMemoriasLocales = LifoQueue(maxsize=0) # Para mandar a dormir la memoria
 memoriaGlobal = MemoriaGlobal()
+pilaNuevaMemoriasLocales = []
 
 # Resize Memoria Global
 recursosMain = dirFunc[cuadruplos[0][3]][2]
@@ -52,7 +54,8 @@ def createMemoriaLocal(recursosFuncion):
     currentMemoriaLocal.tempPointer = ['-'] * recursosFuncion['tPointer']
     currentMemoriaLocal.tempBool = ['-'] * recursosFuncion['tB']
 
-    pilaMemoriasLocales.put(currentMemoriaLocal)
+    pilaNuevaMemoriasLocales.append(currentMemoriaLocal)
+
 
 # def resizeMemoriaGlobal(memoria,recursosFuncion):
 #     print("llego aqui")
@@ -114,8 +117,6 @@ def getValue(direccion):
     # Locales
     elif 5000 <= direccion < 6000:
         # Int
-        print("MEMORIA LOCAL")
-        # printPilaMemoriasLocales()
         if memoriaLocal.localInt[direccion - 5000] == '-':
             print("No hay valor en la direccion {} para locales ints".format(direccion))
         return memoriaLocal.localInt[direccion - 5000]
@@ -672,13 +673,10 @@ while currentIp < len(cuadruplos):
 
     # ERA
     elif cuadruplos[currentIp][0] == 'ERA':
-        print("HAY UN ERA")
         nombreFunc = cuadruplos[currentIp][3]
         recursosFuncion = dirFunc[nombreFunc][2]
-
         createMemoriaLocal(recursosFuncion)
 
-        printPilaMemoriasLocales()
         currentIp += 1
 
     # PARAM
@@ -686,57 +684,58 @@ while currentIp < len(cuadruplos):
         param = cuadruplos[currentIp][1]
         indexP = cuadruplos[currentIp][3]
 
-        topMem = pilaMemoriasLocales.get()
-        pilaMemoriasLocales.put(topMem)
+        topMemNueva = pilaNuevaMemoriasLocales[-1]
 
-        print("PARAM {}".format(param))
-        param = getValue(param)
+        # Global int, global temp int, local int, local temp int, constante int
+        if 1000 <= param < 2000 or 18000 <= param < 19000 or 5000 <= param < 6000 or 9000 <= param < 10000 or 14000 <= param < 15000:
+            topMemNueva.localInt[indexP - 1] = getValue(param)
+        # Global float, global temp float, local float, local temp float, constante float
+        elif 2000 <= param < 3000 or 19000 <= param < 20000 or 6000 <= param < 7000 or 10000 <= param < 11000 or 15000 <= param < 16000:
+            topMemNueva.localFloat[indexP - 1] = getValue(param)
+        # Global char, global temp char, local char, local temp char, constante char
+        elif 3000 <= param < 4000 or 20000 <= param < 21000 or 7000 <= param < 8000 or 11000 <= param < 12000 or 16000 <= param < 17000:
+            topMemNueva.localC[indexP - 1] = getValue(param)
+        # Global df, local df
+        elif 4000 <= param < 5000 or 8000 <= param < 9000:
+            topMemNueva.localDf[indexP - 1] = getValue(param)
+        # Global temp Pointer, local temp pointer
+        elif 21000 <= param < 22000 or 12000 <= param < 13000:
+            print("Todavía no implementado pointers")
+            sys.exit()
+            # Tengo que checar qué hay dentro de esa direccion y después ver qué tipo de variable es. Al final lo asigno a topMemNueva
+            topMemNueva.tempPointer[indexP - 1] = getValue(param)
+        # Global temp bool, local temp bool
+        elif 22000 <= param < 23000 or 13000 <= param < 14000:
+            print("No se puede pasar un valor booleano como parámetro")
+            sys.exit()
+        # Constantes
+        elif 17000 <= param < 18000:
+            # topMemNueva.localInt[indexP - 1] = getValue(param)
+            print("No se puede pasar un letrero como parámetro")
+            sys.exit()
 
-        # global int
-        if 1000 <= param < 2000:
-            topMem.localInt[indexP - 1] = param
-        # global float
-        elif 2000 <= param < 3000:
-            topMem.localFloat[indexP - 1] = param
-        # global char
-        elif 3000 <= param < 4000:
-            topMem.localC[indexP - 1] = param
-        # global df
-        elif 4000 <= param < 5000:
-            topMem.localDf[indexP - 1] = param
-        # local int
-        elif 5000 <= param < 6000:
-            topMem.localInt[indexP - 1] = param
-            print("aqui?")
-            print(topMem.localInt)
+        topMemNueva = pilaNuevaMemoriasLocales[-1]
 
-        pilaMemoriasLocales.get()
-        pilaMemoriasLocales.put(topMem)
 
         currentIp += 1
 
     # GOSUB
     elif cuadruplos[currentIp][0] == 'GOSUB':
-        print("GOSUB")
-        currentFunction = cuadruplos[currentIp][1]
-        print("CURR FUNC {}".format(currentFunction))
+        pilaMemoriasLocales.put(pilaNuevaMemoriasLocales.pop())
         pilaCurrIps.put(currentIp + 1)
         currentIp = cuadruplos[currentIp][3] - 1
 
     # Ret
     elif cuadruplos[currentIp][0] == 'Ret':
         retorno = cuadruplos[currentIp][3]
-
         # Por ahora
         currentIp += 1
 
     # ENDFUNC
     elif cuadruplos[currentIp][0] == 'ENDFUNC':
-        print("ENDFUNC")
         pilaMemoriasLocales.get()
-        # restaurar el current pointer al previo
+        # # restaurar el current pointer al previo
         currentIp = pilaCurrIps.get()
-        currentFunction = ""
 
     # Arreglos 
     # Verify
