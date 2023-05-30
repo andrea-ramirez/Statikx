@@ -15,13 +15,25 @@ class DirectorioFunciones:
     # Para ver si la variable es local o global. Me regresa el nombre de la funcion actual a checar la tabla de variables a la cual la variable ide pertenece
     @classmethod
     def tablaVarActual(self,nombreVar,currentFunction, currentScript):
+        
+
+
         try:
             # Local
-            variable = self.registrosFunciones[currentFunction][3][nombreVar]
-            return currentFunction
+            if type(nombreVar) is int:
+                for val in self.registrosFunciones[currentFunction][3].values():
+                    if val[1] == nombreVar:
+                        return currentFunction
+
+            # variable = self.registrosFunciones[currentFunction][3][nombreVar]
+            # return currentFunction
         except:
-            variable = self.registrosFunciones[currentScript][3][nombreVar]
-            return currentScript
+            if type(nombreVar) is int:
+                for val in self.registrosFunciones[currentScript][3].values():
+                    if val[1] == nombreVar:
+                        return currentScript
+            # variable = self.registrosFunciones[currentScript][3][nombreVar]
+            # return currentScript
 
     @classmethod
     def insertNewScript(self,nameScript):
@@ -128,6 +140,9 @@ class DirectorioFunciones:
     @classmethod
     def isDim(self,ide, currentScript, currentFunction):
         tablaVarIde = self.tablaVarActual(ide,currentFunction, currentScript)
+
+        # if ide is int:
+        #     for val in self.registrosFunciones[tablaVarIde]
 
         if len(self.registrosFunciones[tablaVarIde][3][ide]) > 2:
             return True

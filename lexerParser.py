@@ -909,27 +909,60 @@ def p_pnPopFondoFalso(p):
 
 # Cuadruplos
 
+def isDeclaredVar(nombreVar):
+    if currentFunction != "":
+        print(1)
+        print("nombreVar: {}".format(nombreVar))
+        print("values de currentFunction")
+        print(dirFunc.registrosFunciones[currentFunction][3].values())
+        for val in dirFunc.registrosFunciones[currentFunction][3].values():
+            if val[1] == nombreVar:
+                return True
+        print("values de currentScript")
+        print(dirFunc.registrosFunciones[currentScript][3])
+        print(nombreVar)
+        for val in dirFunc.registrosFunciones[currentScript][3].values():
+            print(val)
+            print(type(nombreVar))
+            print(type(val[1]))
+            if val[1] == nombreVar:
+                return True
+        return False
+    else:
+        for val in dirFunc.registrosFunciones[currentScript][3].values():
+            if val[1] == nombreVar:
+                return True
+        return False
+
+
 def p_pnSaveOperandos(p):
     '''
     pnSaveOperandos : empty
     '''
-    # checar que sea una variable declarada
-    if currentFunction != "" and p[-1] not in dirFunc.registrosFunciones[currentFunction][3] and p[-1] not in dirFunc.registrosFunciones[currentScript][3]:
-        print("VARIABLE NO DECLARADA {}".format(p[-1]))
-        sys.exit()
-    elif currentFunction == "" and p[-1] not in dirFunc.registrosFunciones[currentScript][3]:
-        print("VARIABLE NO DECLARADA {}".format(p[-1]))
-        sys.exit()
+    if type(p[-1]) is int:
+        if isDeclaredVar(p[-1]) is False:
+            print("VARIABLE NO DECLARADA {}".format(p[-1]))
+            sys.exit();
+    else:
+        #checar que sea una variable declarada
+        if currentFunction != "" and p[-1] not in dirFunc.registrosFunciones[currentFunction][3] and p[-1] not in dirFunc.registrosFunciones[currentScript][3]:
+            print("VARIABLE NO DECLARADA a{}".format(p[-1]))
+            sys.exit()
+        elif currentFunction == "" and p[-1] not in dirFunc.registrosFunciones[currentScript][3]:
+            print("VARIABLE NO DECLARADA s{}".format(p[-1]))
+            sys.exit()
 
     # Insertar variable a pilaOperandos y pilaSaltos
-    pilaOperandos.put(p[-1])
+    # pilaOperandos.put(p[-1])
 
     # dirFunc.registrosFunciones[funcionActual][tablaVariables][nombreVariable][tipo]
     try:
         #LOCAL
+        pilaOperandos.put(dirFunc.registrosFunciones[currentFunction][3][p[-1]][1])
         pilaTipo.put(dirFunc.registrosFunciones[currentFunction][3][p[-1]][0])
     except:
         #GLOBAL
+        pilaOperandos.put(dirFunc.registrosFunciones[currentScript][3][p[-1]][1])
         pilaTipo.put(dirFunc.registrosFunciones[currentScript][3][p[-1]][0])
 
     p[0] = None
@@ -994,6 +1027,10 @@ def p_pnCuadPlMi(p):
                     isLocalTemp = True
 
                 temporalActual = memoria.getMemoriaTemporal(resultType,isLocalTemp)
+
+                # print("AQUI ESTOY")
+                # print(leftOperand)
+                # print(rightOperand)
 
                 nuevoCuadruplo = [operador,leftOperand,rightOperand,temporalActual]
                 cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
@@ -1562,13 +1599,19 @@ def p_pnArrIni(p):
     tipo = pilaTipo.get()
 
     # Checar que variable de tipo arreglo exista
-
-    if currentFunction != "" and ide not in dirFunc.registrosFunciones[currentFunction][3] and ide not in dirFunc.registrosFunciones[currentScript][3]:
-        print("VARIABLE NO DECLARADA {}".format(ide))
-        sys.exit()
-    elif currentFunction == "" and ide not in dirFunc.registrosFunciones[currentScript][3]:
-        print("VARIABLE NO DECLARADA {}".format(ide))
-        sys.exit()
+    if type(ide) is int:
+        print("ENTRA?")
+        if isDeclaredVar(ide) is False:
+            print("VARIABLE NO DECLARADA kl{}".format(ide))
+            sys.exit();
+    else:
+        #checar que sea una variable declarada
+        if currentFunction != "" and ide not in dirFunc.registrosFunciones[currentFunction][3] and ide not in dirFunc.registrosFunciones[currentScript][3]:
+            print("VARIABLE NO DECLARADA kl {}".format(ide))
+            sys.exit()
+        elif currentFunction == "" and ide not in dirFunc.registrosFunciones[currentScript][3]:
+            print("VARIABLE NO DECLARADA {}".format(ide))
+            sys.exit()
 
     # Verificar que ID tiene dimensiones
     if dirFunc.isDim(ide,currentScript,currentFunction):
@@ -1759,13 +1802,13 @@ def printDir():
 parser = yacc.yacc(debug=True)
 
 # filename = 'testPropuesta.txt'
-filename = 'test.txt'
+# filename = 'test.txt'
 # filename = 'testModulos.
 # filename = 'testArreglos.txt'
 # filename = 'testForLoop.txt'
 # filename = 'testArreglo2.txt'
 # filename = 'testModulosNonVoid.txt'
-# filename = 'testFuncArreglos.txt'
+filename = 'testFuncArreglos.txt'
 fp = codecs.open(filename, "r", "utf-8")
 text = fp.read()
 fp.close()
