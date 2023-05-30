@@ -163,10 +163,3 @@ class MemoriaVirtual:
         self.countTemDf = 12000
         self.countTemBool = 13000
 
-        self.countCteInt = 14000
-        self.countCteFloat = 15000
-        self.countCteC = 16000
-        self.countCteLetrero = 17000
-
-
-

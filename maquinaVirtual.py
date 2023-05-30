@@ -15,6 +15,8 @@ dirsVirtuales = datos['direcciones']
 
 # Para acceder a variables
 currentFunction = "" # deberia ser pila
+currentParametros = ""
+pilaCurrentFunction = []
 
 # Pila de current Ips 
 pilaCurrIps = LifoQueue(maxsize=0)
@@ -72,7 +74,7 @@ def getVariableAddress(nombreVariable):
     if type(nombreVariable) != int:
             #Local
             try:
-                direccionVariable = dirFunc[currentFunction][3][nombreVariable]
+                direccionVariable = dirFunc[pilaCurrentFunction[-1]][3][nombreVariable]
             except:
                 # Global
                 direccionVariable = dirFunc[currentScript][3][nombreVariable]
@@ -85,7 +87,7 @@ def getVariableAddress(nombreVariable):
 
 def getValue(direccion):
     # Locales
-    if currentFunction != "":
+    if len(list(pilaMemoriasLocales.queue)) > 0:
         memoriaLocal = pilaMemoriasLocales.get()
         pilaMemoriasLocales.put(memoriaLocal)
 
@@ -113,6 +115,8 @@ def getValue(direccion):
     # Locales
     elif 5000 <= direccion < 6000:
         # Int
+        print("MEMORIA LOCAL")
+        print(memoriaLocal.localInt)
         if memoriaLocal.localInt[direccion - 5000] == '-':
             print("No hay valor en la direccion {} para locales ints".format(direccion))
         return memoriaLocal.localInt[direccion - 5000]
@@ -236,18 +240,11 @@ while currentIp < len(cuadruplos):
         elemDer = cuadruplos[currentIp][2]
         resp = cuadruplos[currentIp][3]
 
-        # print("PREV")
-        # print(elemIzq)
-        # print(elemDer)
-
         elemIzq = getVariableAddress(elemIzq)
         elemDer = getVariableAddress(elemDer)
 
-        # print("AQUI")
-        # print(elemIzq)
-        # print(elemDer)
 
-        if currentFunction != "":
+        if len(pilaMemoriasLocales) > 0:
             topMemLocal = pilaMemoriasLocales.get()
             pilaMemoriasLocales.put(topMemLocal)
 
@@ -295,7 +292,7 @@ while currentIp < len(cuadruplos):
         elemIzq = getVariableAddress(elemIzq)
         elemDer = getVariableAddress(elemDer)
 
-        if currentFunction != "":
+        if len(pilaMemoriasLocales) > 0:
             topMemLocal = pilaMemoriasLocales.get()
             pilaMemoriasLocales.put(topMemLocal)
 
@@ -344,7 +341,7 @@ while currentIp < len(cuadruplos):
         elemIzq = getVariableAddress(elemIzq)
         elemDer = getVariableAddress(elemDer)
 
-        if currentFunction != "":
+        if len(pilaMemoriasLocales) > 0:
             topMemLocal = pilaMemoriasLocales.get()
             pilaMemoriasLocales.put(topMemLocal)
 
@@ -393,7 +390,7 @@ while currentIp < len(cuadruplos):
         elemIzq = getVariableAddress(elemIzq)
         elemDer = getVariableAddress(elemDer)
 
-        if currentFunction != "":
+        if len(pilaMemoriasLocales) > 0:
             topMemLocal = pilaMemoriasLocales.get()
             pilaMemoriasLocales.put(topMemLocal)
 
@@ -442,7 +439,7 @@ while currentIp < len(cuadruplos):
         elemIzq = getVariableAddress(elemIzq)
         elemDer = getVariableAddress(elemDer)
 
-        if currentFunction != "":
+        if len(pilaMemoriasLocales) > 0:
             topMemLocal = pilaMemoriasLocales.get()
             pilaMemoriasLocales.put(topMemLocal)
 
@@ -470,7 +467,7 @@ while currentIp < len(cuadruplos):
         elemIzq = getVariableAddress(elemIzq)
         elemDer = getVariableAddress(elemDer)
 
-        if currentFunction != "":
+        if len(pilaMemoriasLocales) > 0:
             topMemLocal = pilaMemoriasLocales.get()
             pilaMemoriasLocales.put(topMemLocal)
 
@@ -497,7 +494,7 @@ while currentIp < len(cuadruplos):
         elemIzq = getVariableAddress(elemIzq)
         elemDer = getVariableAddress(elemDer)
 
-        if currentFunction != "":
+        if len(pilaMemoriasLocales) > 0:
             topMemLocal = pilaMemoriasLocales.get()
             pilaMemoriasLocales.put(topMemLocal)
 
@@ -525,7 +522,7 @@ while currentIp < len(cuadruplos):
         elemIzq = getVariableAddress(elemIzq)
         elemDer = getVariableAddress(elemDer)
 
-        if currentFunction != "":
+        if len(pilaMemoriasLocales) > 0:
             topMemLocal = pilaMemoriasLocales.get()
             pilaMemoriasLocales.put(topMemLocal)
 
@@ -553,7 +550,7 @@ while currentIp < len(cuadruplos):
         elemIzq = getVariableAddress(elemIzq)
         elemDer = getVariableAddress(elemDer)
 
-        if currentFunction != "":
+        if len(pilaMemoriasLocales) > 0:
             topMemLocal = pilaMemoriasLocales.get()
             pilaMemoriasLocales.put(topMemLocal)
 
@@ -581,7 +578,7 @@ while currentIp < len(cuadruplos):
         elemIzq = getVariableAddress(elemIzq)
         elemDer = getVariableAddress(elemDer)
 
-        if currentFunction != "":
+        if len(pilaMemoriasLocales) > 0:
             topMemLocal = pilaMemoriasLocales.get()
             pilaMemoriasLocales.put(topMemLocal)
 
@@ -609,7 +606,7 @@ while currentIp < len(cuadruplos):
         valor = getVariableAddress(valor)
         aAsignar = getVariableAddress(aAsignar)
 
-        if currentFunction != "":
+        if len(list(pilaMemoriasLocales.queue)) > 0:
             topMemLocal = pilaMemoriasLocales.get()
             pilaMemoriasLocales.put(topMemLocal)
 
@@ -712,8 +709,10 @@ while currentIp < len(cuadruplos):
         print("HAY UN ERA")
         nombreFunc = cuadruplos[currentIp][3]
         recursosFuncion = dirFunc[nombreFunc][2]
+        currentParametros = cuadruplos[currentIp][3]
 
         createMemoriaLocal(recursosFuncion)
+        # printPilaMemoriasLocales()
         currentIp += 1
 
     # PARAM
@@ -726,11 +725,40 @@ while currentIp < len(cuadruplos):
 
         param = getVariableAddress(param)
         direc = param
+        print("PARAM {}".format(param))
         param = getValue(param)
 
-        # int
+
+        listaParametrica = dirFunc[currentParametros][4]
+
+        # Checar que param sea del tipo del parametro de la funcion
+        # Se hizo chequeo en generacion de cuadruplos
+        if listaParametrica[indexP] == 'int':
+            if type(param) != int:
+                print("Parametro debe ser de tipo entero")
+                sys.exit()
+        elif listaParametrica[indexP] == 'float':
+            if type(param) != float:
+                print("Parametro debe ser de tipo float")
+                sys.exit()
+        elif listaParametrica[indexP] == 'char':
+            if type(param) != str:
+                print("Parametro debe ser de tipo char")
+                sys.exit()
+
+        # global int
         if 1000 <= direc < 2000:
             topMem.localInt[indexP - 1] = param
+        # global float
+        elif 2000 <= direc < 3000:
+            topMem.localFloat[indexP - 1] = param
+        # global char
+        elif 3000 <= direc < 4000:
+            topMem.localC[indexP - 1] = param
+        # global df
+        elif 4000 <= direc < 5000:
+            topMem.localDf[indexP - 1] = param
+        
 
         pilaMemoriasLocales.get()
         pilaMemoriasLocales.put(topMem)
@@ -741,9 +769,11 @@ while currentIp < len(cuadruplos):
     elif cuadruplos[currentIp][0] == 'GOSUB':
         print("GOSUB")
         currentFunction = cuadruplos[currentIp][1]
+        pilaCurrentFunction.append(cuadruplos[currentIp][1])
         print("CURR FUNC {}".format(currentFunction))
         pilaCurrIps.put(currentIp + 1)
         currentIp = cuadruplos[currentIp][3] - 1
+        currentParametros = ""
 
     # Ret
 
@@ -754,17 +784,15 @@ while currentIp < len(cuadruplos):
         # restaurar el current pointer al previo
         currentIp = pilaCurrIps.get()
         currentFunction = ""
+        pilaCurrentFunction.pop()
         
     # END
     elif cuadruplos[currentIp][0] == 'END':
         print(currentIp + 1)
+        print("TERMINO EL PROGRAMA")
         sys.exit()
 
 
     else:
         currentIp += 1
 
-print("TERMINO EL PROGRAMA")
-
-
-    

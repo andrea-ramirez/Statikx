@@ -3,43 +3,25 @@ script example02;
 var int -> x,y;
 var float -> f;
 
+func void -> hu(int -> lk){
+    put("hola");
+}
+
 func void -> aver(int -> kl){
+    var int -> hel;
+    hel = 10;
     put(kl);
-    put(y);
-    x = kl + y;
-    put(x);
+    !!hu(hel);
 }
 
 DO
 {   
     var int -> loop;
-    x = 9;
-    y = 0;
-    !!put((x == y) || (y == 6));
+    var float -> hj;
+    x = 2;
 
-    if(9<y)
-    True{
-        put("si es mayor");
-    }False{
-        put("No es mayor");
-    }
-
-    while(y<2){
-        put(y);
-        y = y + 1;
-    }
-
-    for(x = 10,15){
-        put(x);
-        for(y = 0,3){
-            put(y);
-        }
-    }
     put(x);
-    put(y);
-
+    hj = 10.9;
+    put(x);
     aver(x);
-
-    put("final");
-
 }
