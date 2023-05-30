@@ -26,7 +26,20 @@ class DirectorioFunciones:
     @classmethod
     def insertNewScript(self,nameScript):
         # Se crea con tabla de variables ya inicializada
-        self.registrosFunciones[nameScript] = ["void","","",{}]
+        self.registrosFunciones[nameScript] = ["void","",{},{}]
+        # Se inicializa el diccionario de recursos del script
+        recursosScript = self.registrosFunciones[nameScript][2]
+        if recursosScript == {}:
+            recursosScript['vI'] = 0
+            recursosScript['vF'] = 0
+            recursosScript['vC'] = 0
+            recursosScript['vDf'] = 0
+            recursosScript['tI'] = 0
+            recursosScript['tF'] = 0
+            recursosScript['tC'] = 0
+            recursosScript['tPointer'] = 0
+            recursosScript['tB'] = 0
+
         # print("Inició registro de script {} en Directorio de Funciones \n".format(nameScript))
 
     @classmethod
@@ -62,7 +75,7 @@ class DirectorioFunciones:
             recursosFuncion['tI'] = 0
             recursosFuncion['tF'] = 0
             recursosFuncion['tC'] = 0
-            recursosFuncion['tDf'] = 0
+            recursosFuncion['tPointer'] = 0
             recursosFuncion['tB'] = 0
 
 

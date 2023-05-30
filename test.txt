@@ -2,13 +2,27 @@ script example02;
 
 var int -> x,y;
 var float -> f;
-var int[3] -> arreglo;
-var int[2,3] -> matriz;
 
+func void -> prueba(int -> lk){
+    put("llego");
+}
+
+func void -> hu(int -> lk){
+    put("hola");
+    prueba(lk);
+}
+
+func void -> aver(int -> kl){
+    var int -> hel;
+    hel = 28;
+    hu(hel);
+}
 
 DO
 {   
-    x = 10;
-    arreglo[1] = x;
-    matriz[2,1] = 0;
+    x = 2;
+    x = x + 1;
+    put(x);
+    put("hellou");
+
 }

@@ -709,6 +709,18 @@ def p_pnEndScript(p):
     '''
     # printDir()
     # dirFunc.endScript(currentScript)
+
+    # Contabilizar recursos que consumió main
+    dirFunc.registrosFunciones[currentScript][2]['vI'] = memoria.countGlInt - memoria.globalInt
+    dirFunc.registrosFunciones[currentScript][2]['vF'] = memoria.countGlFloat - memoria.globalFloat
+    dirFunc.registrosFunciones[currentScript][2]['vC'] = memoria.countGlC - memoria.globalC
+    dirFunc.registrosFunciones[currentScript][2]['vDf'] = memoria.countGlDf - memoria.globalDf
+    dirFunc.registrosFunciones[currentScript][2]['tI'] = memoria.countGlTempInt - memoria.globalTempInt
+    dirFunc.registrosFunciones[currentScript][2]['tF'] = memoria.countGlTempFloat - memoria.globalTempFloat
+    dirFunc.registrosFunciones[currentScript][2]['tC'] = memoria.countGlTempC - memoria.globalTempC
+    dirFunc.registrosFunciones[currentScript][2]['tPointer'] = memoria.countGlTempPointer - memoria.globalTempPointer
+    dirFunc.registrosFunciones[currentScript][2]['tB'] = memoria.countGlTempBool - memoria.globalTempBool
+
     p[0] = None
 
 # Checar en la llamada a la función que la función esté en el directorio de funciones
@@ -1688,6 +1700,8 @@ def p_pnArrCalc(p):
         isLocalTemp = True
     temporalPointerActual = memoria.getMemoriaTemporal('pointer',isLocalTemp)
     resultType = semantica.tablaSimbolos[semantica.convertion[s1Tipo]][semantica.convertion['int']]['+']
+    
+    s1 = getDirVirtual(s1)
 
     # + dirBase()
     nuevoCuadruplo = ['+',s1,dirBaseArreglo,temporalPointerActual]
@@ -1833,6 +1847,8 @@ with open(filename) as fp:
         pass
 
 
+printDir()
+
 print("LISTA DE CUADRUPLOS \n")
 index = 1
 for cuad in cuadruplos.listaCuadruplos:
@@ -1842,8 +1858,6 @@ for cuad in cuadruplos.listaCuadruplos:
     index += 1
 
 # print(*cuadruplos.listaCuadruplos, sep="\n")
-
-# printDir()
 
 # print("  \n\n TABLA CONSTANTES")
 print(tablaConst)
