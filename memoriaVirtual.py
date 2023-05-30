@@ -147,10 +147,10 @@ class MemoriaVirtual:
         return temp
     
     def reset(self):
-        self.countGlInt = 1000
-        self.countGlFloat = 2000
-        self.countGlC = 3000
-        self.countGlDf = 4000
+        # self.countGlInt = 1000
+        # self.countGlFloat = 2000
+        # self.countGlC = 3000
+        # self.countGlDf = 4000
 
         self.countLocInt = 5000
         self.countLocFloat = 6000

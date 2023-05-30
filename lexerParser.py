@@ -742,6 +742,21 @@ def p_pnGenerateEra(p):
 
     p[0] = None
 
+def getDirVirtual(argument):
+    if type(argument) is not int:
+            if currentFunction != "":
+                try:
+                    argument = dirFunc.registrosFunciones[currentFunction][3][argument][1]
+                    return argument
+                except:
+                    argument = dirFunc.registrosFunciones[currentScript][3][argument][1]
+                    return argument
+            else:
+                argument = dirFunc.registrosFunciones[currentScript][3][argument][1]
+                return argument
+    else:
+        return argument
+
 # Genera cuadruplo de parametro y checa tipo
 def p_pnCuadParametro(p):
     '''
@@ -760,6 +775,14 @@ def p_pnCuadParametro(p):
         sys.exit()
 
     if semantica.convertion[argumentTipo] == semantica.convertion[parametroActual]:
+        
+        # if type(argument) is not int:
+        #     if currentFunction != "":
+        #         argument = dirFunc.registrosFunciones[currentFunction][3][argument][1]
+        #     else:
+        #         argument = dirFunc.registrosFunciones[currentScript][3][argument][1]
+        argument = getDirVirtual(argument)
+
         # Generate cuadruplo Parameter
         nuevoCuadruplo = ['Parameter',argument,'',index]
         cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
@@ -994,6 +1017,8 @@ def p_pnCuadPlMi(p):
                     isLocalTemp = True
 
                 temporalActual = memoria.getMemoriaTemporal(resultType,isLocalTemp)
+                leftOperand = getDirVirtual(leftOperand)
+                rightOperand = getDirVirtual(rightOperand)
 
                 nuevoCuadruplo = [operador,leftOperand,rightOperand,temporalActual]
                 cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
@@ -1030,6 +1055,8 @@ def p_pnCuadMuDi(p):
                     isLocalTemp = True
 
                 temporalActual = memoria.getMemoriaTemporal(resultType,isLocalTemp)
+                leftOperand = getDirVirtual(leftOperand)
+                rightOperand = getDirVirtual(rightOperand)
 
                 nuevoCuadruplo = [operador,leftOperand,rightOperand,temporalActual]
                 cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
@@ -1069,6 +1096,8 @@ def p_pnCuadOpRelacional(p):
                     isLocalTemp = True
 
                 temporalActual = memoria.getMemoriaTemporal(resultType,isLocalTemp)
+                leftOperand = getDirVirtual(leftOperand)
+                rightOperand = getDirVirtual(rightOperand)
 
                 nuevoCuadruplo = [operador,leftOperand,rightOperand,temporalActual]
                 cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
@@ -1104,6 +1133,8 @@ def p_pnCuadOplog(p):
                     isLocalTemp = True
 
                 temporalActual = memoria.getMemoriaTemporal(resultType,isLocalTemp)
+                leftOperand = getDirVirtual(leftOperand)
+                rightOperand = getDirVirtual(rightOperand)
 
                 nuevoCuadruplo = [operador,leftOperand,rightOperand,temporalActual]
                 cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
@@ -1138,6 +1169,9 @@ def p_pnCuadAsign(p):
             operador = pilaOperadores.get()
             
             if semantica.convertion[valorTipo] == semantica.convertion[aAsignarTipo]:
+                valor = getDirVirtual(valor)
+                aAsignar = getDirVirtual(aAsignar)
+
                 nuevoCuadruplo = [operador,valor,"",aAsignar]
                 cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
             else:
@@ -1157,6 +1191,8 @@ def p_pnCuadEscribe(p):
             pilaTipo.get()
 
             operador = 'put'
+
+            toPrint = getDirVirtual(toPrint)
             
             nuevoCuadruplo = [operador,"", "",toPrint]
             cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
@@ -1195,6 +1231,7 @@ def p_pnCuadLee(p):
         pilaTipo.get()
 
         operador = 'get'
+        leerVariable = getDirVirtual(leerVariable)
 
         nuevoCuadruplo = [operador,"", "",leerVariable]
         cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
@@ -1246,6 +1283,7 @@ def p_pnCuadFuncEsp(p):
             isLocalTemp = True
 
         temporalActual = memoria.getMemoriaTemporal(resultType,isLocalTemp)
+        toCalculate = getDirVirtual(toCalculate)
 
         nuevoCuadruplo = [operador,toCalculate, "",temporalActual]
         cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
@@ -1259,6 +1297,8 @@ def p_pnCuadFuncEsp(p):
         pilaTipo.get()
 
         operador = top
+
+        toCalculate = getDirVirtual(toCalculate)
 
         nuevoCuadruplo = [operador,"", "",toCalculate]
         cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
@@ -1279,6 +1319,8 @@ def p_pnCheckBoolIf(p):
         sys.exit()
     else:
         result = pilaOperandos.get()
+
+        result = getDirVirtual(result)
 
         nuevoCuadruplo = ['GotoF',result,"","_"]
         cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
@@ -1370,6 +1412,8 @@ def p_pnCreateVControl(p):
 
         VControl = pilaOperandos.get()
         pilaOperandos.put(VControl)
+
+        VControl = getDirVirtual(VControl)
         
         pilaVControlLoop.put(VControl)
 
@@ -1382,6 +1426,8 @@ def p_pnCreateVControl(p):
         if tipoRes == 0:
             print("ERROR Type Mismatch. Variable en for no puede asignar el tipo resultante de la expresión")
         else:
+            exp = getDirVirtual(exp)
+
             nuevoCuadruplo = ['=',exp,"",VControl]
             cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
 
@@ -1403,6 +1449,8 @@ def p_pnCompControlFinal(p):
             isLocalTemp = True
 
         VFinal = memoria.getMemoriaTemporal(2,isLocalTemp)
+
+        exp = getDirVirtual(exp)
 
         nuevoCuadruplo = ['=',exp,"",VFinal]
         cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
@@ -1453,6 +1501,8 @@ def p_pnEndFor(p):
 
     debeSerIdOriginal = pilaOperandos.get()
     pilaOperandos.put(debeSerIdOriginal)
+
+    debeSerIdOriginal = getDirVirtual(debeSerIdOriginal)
 
     nuevoCuadruplo = ['=',temporalActual,"",debeSerIdOriginal]
     cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
@@ -1597,6 +1647,8 @@ def p_pnArrVerify(p):
 
     limSup = dirFunc.getLimSup(currentScript,currentFunction,topPilaDim[0],1)
 
+    s1 = getDirVirtual(s1)
+
     nuevoCuadruplo = ['Ver', s1, '', limSup]
     cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
     
@@ -1677,6 +1729,8 @@ def p_pnMatCalc(p):
         isLocalTemp = True
     temporalActual1 = memoria.getMemoriaTemporal(2,isLocalTemp)
 
+    s1 = getDirVirtual(s1)
+
     nuevoCuadruplo = ['*',s1,m1,temporalActual1]
     cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
 
@@ -1685,6 +1739,8 @@ def p_pnMatCalc(p):
     pilaDim.put(matrizActual)
 
     limSup = dirFunc.getLimSup(currentScript,currentFunction,matrizActual[0],2)
+
+    s2 = getDirVirtual(s2)
 
     nuevoCuadruplo = ['Ver', s2, '', limSup]
     cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
@@ -1786,8 +1842,11 @@ for cuad in cuadruplos.listaCuadruplos:
     index += 1
 
 # print(*cuadruplos.listaCuadruplos, sep="\n")
+
+# printDir()
+
 # print("  \n\n TABLA CONSTANTES")
-# print(tablaConst)
+print(tablaConst)
 
 data = {
     'cuads': cuadruplos.listaCuadruplos,
