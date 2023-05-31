@@ -828,6 +828,9 @@ while currentIp < len(cuadruplos):
         dim = cuadruplos[currentIp][1]
         limSup = cuadruplos[currentIp][3]
 
+        while 21000 <= dim < 22000 or 12000 <= dim < 13000:
+            dim = getValue(dim)
+        
         if getValue(dim) >= limSup:
             print("ERROR: Array/Matrix index out of range")
             sys.exit()

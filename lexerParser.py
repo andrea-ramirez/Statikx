@@ -1858,10 +1858,10 @@ def printDir():
 parser = yacc.yacc(debug=True)
 
 # filename = 'testPropuesta.txt'
-# filename = 'test.txt'
+filename = 'test.txt'
 # filename = 'testArrays.txt'
 # filename = 'testBubbleSort.txt'
-filename = 'testMultMatrices.txt'
+# filename = 'testMultMatrices.txt'
 # filename = 'testModulos.
 # filename = 'testArreglos.txt'
 # filename = 'testForLoop.txt'
