@@ -14,8 +14,8 @@ tablaConst = datos['tablaconst']
 currentScript = datos['script']
 dirsVirtuales = datos['direcciones']
 
-# Para acceder a variables
-currentFunction = "" # deberia ser pila
+nombreScript = cuadruplos[0][3]
+print("NOMBRE: {}".format(nombreScript))
 
 # Pila de current Ips 
 pilaCurrIps = LifoQueue(maxsize=0)
@@ -55,7 +55,6 @@ def createMemoriaLocal(recursosFuncion):
     currentMemoriaLocal.tempBool = ['-'] * recursosFuncion['tB']
 
     pilaNuevaMemoriasLocales.append(currentMemoriaLocal)
-
 
 # def resizeMemoriaGlobal(memoria,recursosFuncion):
 #     print("llego aqui")
@@ -728,7 +727,19 @@ while currentIp < len(cuadruplos):
     # Ret
     elif cuadruplos[currentIp][0] == 'Ret':
         retorno = cuadruplos[currentIp][3]
-        # Por ahora
+        direcRetFunction = cuadruplos[currentIp][1]
+
+        # Asignación a variable global de retorno de funcion
+        if 1000 <= direcRetFunction < 2000:
+            memoriaGlobal.globalInt[direcRetFunction - 1000] = getValue(retorno)
+        elif 2000 <= direcRetFunction < 3000:
+            memoriaGlobal.globalFloat[direcRetFunction - 2000] = getValue(retorno)
+        elif 3000 <= direcRetFunction < 4000:
+            memoriaGlobal.globalC[direcRetFunction - 3000] = getValue(retorno)
+        else:
+            print("Se está tratando de regresar algo en dirección {}".format(direcRetFunction))
+            sys.exit()
+
         currentIp += 1
 
     # ENDFUNC

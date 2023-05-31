@@ -3,30 +3,18 @@ script example02;
 var int -> x,y;
 var float -> f;
 
-func void -> prueba(int -> lk){
-    put("llego");
-    put(lk);
+func char -> ji(){
+    returns 'f';
 }
 
-func void -> hu(int -> lk){
-    put("hola");
-    prueba(lk);
-    put(lk);
-}
-
-func void -> aver(int -> kl){
-    var int -> hel;
-    hel = 28;
-    put(hel);
+func int -> suma(int -> a, int -> b){
+    returns (a + b);
 }
 
 DO
 {   
+    var int[2] -> arreglo;
     x = 2;
     x = x + 1;
-    put(x);
-    put("hellou");
-    prueba(x);
-    hu(9);
-    aver(89);
+    put(suma(x,8););
 }

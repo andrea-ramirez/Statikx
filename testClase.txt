@@ -1,0 +1,64 @@
+script example02; 
+
+!! Factorial de n recursivo
+func int -> fact(int -> n){
+    if(n == 0)
+    True{
+        returns 1;
+    }False{
+        returns n * fact(n - 1);;
+    }
+}
+
+!! Factorial de n iterativo
+func int -> factIterativo(int -> n){
+    var int -> res;
+    var int -> i;
+    res = 1;
+
+    for(i = 1,n+1){
+        res = res * i;
+    }
+    returns res;
+}
+
+!! Fibonacci de n recursivo
+func int -> fibonacci(int -> n){
+    if (n < 1 || n == 1)
+    True{
+        returns n;
+    }False{
+        returns fibonacci(n - 1); + fibonacci(n - 2);;
+    }
+}
+
+!! Fibonacci de n iterativo
+func int -> fibIterativo(int -> n){
+    var int -> prev2;
+    var int -> prev1;
+    var int -> current;
+    var int -> i;
+
+    prev2 = 0;
+    prev1 = 1;
+
+    for(i = 2,n+1){
+        current = prev2 + prev1;
+        prev2 = prev1;
+        prev1 = current;
+    }
+
+    returns current;
+}
+
+DO
+{   
+    put("FACTORIAL");
+    !!put(fact(5););
+    !!put(factIterativo(6););
+
+    !! Fibonacci
+    put("Fibonacci");
+    put(fibonacci(20););
+    put(fibIterativo(20););
+}

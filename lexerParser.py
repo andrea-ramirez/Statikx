@@ -691,8 +691,15 @@ def p_pnCloseCurrentFunction(p):
     '''
     pnCloseCurrentFunction : empty
     '''
-    # Borrar tabla de variables de la funcion
     global currentFunction
+    # Checar que sí regrese algo si es diferente de void
+    tipoFunction = dirFunc.registrosFunciones[currentFunction][0]
+    if cuadruplos.listaCuadruplos[-1][0] != 'Ret':
+        print("Se debe regresar un valor de tipo {} en la función {}".format(tipoFunction,currentFunction))
+        sys.exit()
+
+    # Borrar tabla de variables de la funcion
+
     # dirFunc.registrosFunciones[currentFunction][3] = {}
 
     currentFunction = ""
@@ -883,15 +890,20 @@ def p_pnCuadRet(p):
 
     tipoFunction = dirFunc.getTipoReturnFunction(currentFunction)
     if tipoFunction == 'void':
-        print("ERROR: No se puede regresar un {} en una funcion de tipo void".format(tipoFunction))
+        print("ERROR: No se puede incluir un returns en una funcion de tipo void".format(tipoFunction))
         sys.exit()
 
     # Checar que esté regresando el tipo de expresión de la funcion
     if semantica.convertion[retornoTipo] != semantica.convertion[tipoFunction]:
-        print("ERROR: Se quiere regresar un valor de tipo {} en una función que regresa {}".format(retornoTipo,tipoFunction))
+        print("ERROR: No se puede regresar un valor de tipo {} en una función que regresa {}".format(retornoTipo,tipoFunction))
         sys.exit()
 
-    nuevoCuadruplo = ['Ret','','',retorno]
+    # Agregar dirección virtual de la variable con el nombre de la funcion que regresa
+    direcCurFunc = dirFunc.registrosFunciones[currentScript][3][currentFunction][1]
+
+    retorno = getDirVirtual(retorno)
+
+    nuevoCuadruplo = ['Ret',direcCurFunc,'',retorno]
     cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
 
     p[0] = None
@@ -1829,7 +1841,8 @@ def printDir():
 parser = yacc.yacc(debug=True)
 
 # filename = 'testPropuesta.txt'
-filename = 'test.txt'
+# filename = 'test.txt'
+filename = 'testClase.txt'
 # filename = 'testModulos.
 # filename = 'testArreglos.txt'
 # filename = 'testForLoop.txt'
