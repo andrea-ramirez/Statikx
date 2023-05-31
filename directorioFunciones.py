@@ -173,7 +173,8 @@ class DirectorioFunciones:
         tablaVarActual = self.tablaVarActual(nombreMatriz,currentFunction,currentScript)
 
         # funcion[tablaVAR][arregloID][dimensiones][dim1][m1]
-        return self.registrosFunciones[tablaVarActual][3][nombreMatriz][2][0][1]
+
+        return int(self.registrosFunciones[tablaVarActual][3][nombreMatriz][2][0][1])
     
     @classmethod
     def getTipoReturnFunction(self,function):

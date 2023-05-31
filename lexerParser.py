@@ -1689,6 +1689,18 @@ def p_pnArrAccIncDim(p):
 
     p[0] = None
 
+def insertTablaConst(dirBase):
+    # No está dentro de la tabla de variables
+    if dirBase not in tablaConst:
+        direccion = memoria.countCteInt
+        tablaConst[dirBase] = ['2',direccion]
+        memoria.countCteInt += 1
+        return direccion
+    else:
+    # Está dentro de la tabla de variables
+        return tablaConst[dirBase][1]
+
+
 # Realiza cáculos de arreglos (1 dimension) para temp Pointer
 def p_pnArrCalc(p):
     '''
@@ -1707,6 +1719,8 @@ def p_pnArrCalc(p):
     pilaDim.put(top)
 
     dirBaseArreglo = dirFunc.getDirBaseArreglo(currentScript,currentFunction,top)
+    dirBaseArreglo = insertTablaConst(dirBaseArreglo)
+
     isLocalTemp = False
     if currentFunction != "":
         isLocalTemp = True
@@ -1756,6 +1770,7 @@ def p_pnMatCalc(p):
     temporalActual1 = memoria.getMemoriaTemporal(2,isLocalTemp)
 
     s1 = getDirVirtual(s1)
+    m1 = insertTablaConst(m1)
 
     nuevoCuadruplo = ['*',s1,m1,temporalActual1]
     cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
@@ -1784,6 +1799,8 @@ def p_pnMatCalc(p):
 
     # + dirBase()
     dirBaseMatriz = dirFunc.getDirBaseArreglo(currentScript,currentFunction,matrizActual[0])
+    dirBaseMatriz = insertTablaConst(dirBaseMatriz)
+
     isLocalTemp = False
     if currentFunction != "":
         isLocalTemp = True
@@ -1842,7 +1859,9 @@ parser = yacc.yacc(debug=True)
 
 # filename = 'testPropuesta.txt'
 # filename = 'test.txt'
-filename = 'testClase.txt'
+# filename = 'testArrays.txt'
+# filename = 'testBubbleSort.txt'
+filename = 'testMultMatrices.txt'
 # filename = 'testModulos.
 # filename = 'testArreglos.txt'
 # filename = 'testForLoop.txt'

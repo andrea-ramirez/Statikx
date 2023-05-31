@@ -15,7 +15,6 @@ currentScript = datos['script']
 dirsVirtuales = datos['direcciones']
 
 nombreScript = cuadruplos[0][3]
-print("NOMBRE: {}".format(nombreScript))
 
 # Pila de current Ips 
 pilaCurrIps = LifoQueue(maxsize=0)
@@ -55,25 +54,6 @@ def createMemoriaLocal(recursosFuncion):
     currentMemoriaLocal.tempBool = ['-'] * recursosFuncion['tB']
 
     pilaNuevaMemoriasLocales.append(currentMemoriaLocal)
-
-# def resizeMemoriaGlobal(memoria,recursosFuncion):
-#     print("llego aqui")
-#     print(recursosFuncion)
-    
-#     # global memoriaGlobal.globalInt
-
-#     memoria.globalInt = ['-'] * recursosFuncion['vI']
-#     memoria.globalFloat = ['-'] * recursosFuncion['vF']
-#     memoria.globalC = ['-'] * recursosFuncion['vC']
-#     memoria.globalDf = ['-'] * recursosFuncion['vDf']
-
-#     memoria.tempInt = ['-'] * recursosFuncion['tI']
-#     memoria.tempFloat = ['-'] * recursosFuncion['tF']
-#     memoria.tempC = ['-'] * recursosFuncion['tC']
-#     memoria.tempPointer = ['-'] * recursosFuncion['tPointer']
-#     memoria.tempBool = ['-'] * recursosFuncion['tB']
-
-#     print(memoria.globalInt)
 
 def getConstante(direccion):
     for const in tablaConst.keys():
@@ -242,6 +222,14 @@ while currentIp < len(cuadruplos):
             topMemLocal = pilaMemoriasLocales.get()
             pilaMemoriasLocales.put(topMemLocal)
 
+        # Checar si alguno de los operandos es tempPointer
+        if 21000 <= elemIzq < 22000 or 12000 <= elemIzq < 13000:
+            elemIzq = getValue(elemIzq)
+
+        if 21000 <= elemDer < 22000 or 12000 <= elemDer < 13000:
+            elemDer = getValue(elemDer)
+
+        # Hacer suma
 
         if 18000 <= resp < 19000:
         # global temp int
@@ -251,13 +239,7 @@ while currentIp < len(cuadruplos):
             memoriaGlobal.tempFloat[resp-19000] = getValue(elemIzq) + getValue(elemDer)
         elif 21000 <= resp < 22000:
         # global temp pointer
-            print("ESTAS SUMANDO POINTER - SE HACE DIFERENTE")
-            print(getValue(elemIzq))
-            memoriaGlobal.tempPointer[resp-21000] = getValue(elemIzq) + elemDer
-            print("Aqui")
-            print(memoriaGlobal.tempPointer[resp-21000])
-
-            # sys.exit()
+            memoriaGlobal.tempPointer[resp-21000] = getValue(elemIzq) + getValue(elemDer)
         elif 9000 <= resp < 10000:
         # local temp int
             topMemLocal.tempInt[resp-9000] = getValue(elemIzq) + getValue(elemDer)
@@ -271,6 +253,7 @@ while currentIp < len(cuadruplos):
         # local temp pointer
         elif 12000 <= resp < 13000:
             print("ESTAS SUMANDO POINTER - SE HACE DIFERENTE")
+            sys.exit()
             topMemLocal.tempPointer[resp-21000] = getValue(elemIzq) + getValue(elemDer)
             pilaMemoriasLocales.get()
             pilaMemoriasLocales.put(topMemLocal)
@@ -290,6 +273,14 @@ while currentIp < len(cuadruplos):
             topMemLocal = pilaMemoriasLocales.get()
             pilaMemoriasLocales.put(topMemLocal)
 
+        # Checar si alguno de los operandos es tempPointer
+        if 21000 <= elemIzq < 22000 or 12000 <= elemIzq < 13000:
+            elemIzq = getValue(elemIzq)
+
+        if 21000 <= elemDer < 22000 or 12000 <= elemDer < 13000:
+            elemDer = getValue(elemDer)
+
+        # Hacer resta
 
         if 18000 <= resp < 19000:
         # global temp int
@@ -336,6 +327,14 @@ while currentIp < len(cuadruplos):
             topMemLocal = pilaMemoriasLocales.get()
             pilaMemoriasLocales.put(topMemLocal)
 
+        # Checar si alguno de los operandos es tempPointer
+        if 21000 <= elemIzq < 22000 or 12000 <= elemIzq < 13000:
+            elemIzq = getValue(elemIzq)
+
+        if 21000 <= elemDer < 22000 or 12000 <= elemDer < 13000:
+            elemDer = getValue(elemDer)
+
+        # Hacer multiplicación
 
         if 18000 <= resp < 19000:
         # global temp int
@@ -382,6 +381,14 @@ while currentIp < len(cuadruplos):
             topMemLocal = pilaMemoriasLocales.get()
             pilaMemoriasLocales.put(topMemLocal)
 
+        # Checar si alguno de los operandos es tempPointer
+        if 21000 <= elemIzq < 22000 or 12000 <= elemIzq < 13000:
+            elemIzq = getValue(elemIzq)
+
+        if 21000 <= elemDer < 22000 or 12000 <= elemDer < 13000:
+            elemDer = getValue(elemDer)
+
+        # Hacer división
 
         if 18000 <= resp < 19000:
         # global temp int
@@ -428,6 +435,14 @@ while currentIp < len(cuadruplos):
             topMemLocal = pilaMemoriasLocales.get()
             pilaMemoriasLocales.put(topMemLocal)
 
+        # Checar si alguno de los operandos es tempPointer
+        if 21000 <= elemIzq < 22000 or 12000 <= elemIzq < 13000:
+            elemIzq = getValue(elemIzq)
+
+        if 21000 <= elemDer < 22000 or 12000 <= elemDer < 13000:
+            elemDer = getValue(elemDer)
+
+        # Hacer mayor que
 
         if 22000 <= resp < 23000:
         # global temp bool
@@ -453,6 +468,15 @@ while currentIp < len(cuadruplos):
             topMemLocal = pilaMemoriasLocales.get()
             pilaMemoriasLocales.put(topMemLocal)
 
+        # Checar si alguno de los operandos es tempPointer
+        if 21000 <= elemIzq < 22000 or 12000 <= elemIzq < 13000:
+            elemIzq = getValue(elemIzq)
+
+        if 21000 <= elemDer < 22000 or 12000 <= elemDer < 13000:
+            elemDer = getValue(elemDer)
+
+        # Hacer menor que
+
         if 22000 <= resp < 23000:
         # global temp bool
             memoriaGlobal.tempBool[resp-22000] = getValue(elemIzq) < getValue(elemDer)
@@ -477,6 +501,14 @@ while currentIp < len(cuadruplos):
             topMemLocal = pilaMemoriasLocales.get()
             pilaMemoriasLocales.put(topMemLocal)
 
+        # Checar si alguno de los operandos es tempPointer
+        if 21000 <= elemIzq < 22000 or 12000 <= elemIzq < 13000:
+            elemIzq = getValue(elemIzq)
+
+        if 21000 <= elemDer < 22000 or 12000 <= elemDer < 13000:
+            elemDer = getValue(elemDer)
+
+        # Hacer equals
 
         if 22000 <= resp < 23000:
         # global temp bool
@@ -502,6 +534,14 @@ while currentIp < len(cuadruplos):
             topMemLocal = pilaMemoriasLocales.get()
             pilaMemoriasLocales.put(topMemLocal)
 
+        # Checar si alguno de los operandos es tempPointer
+        if 21000 <= elemIzq < 22000 or 12000 <= elemIzq < 13000:
+            elemIzq = getValue(elemIzq)
+
+        if 21000 <= elemDer < 22000 or 12000 <= elemDer < 13000:
+            elemDer = getValue(elemDer)
+
+        # Hacer noequals
 
         if 22000 <= resp < 23000:
         # global temp bool
@@ -527,6 +567,14 @@ while currentIp < len(cuadruplos):
             topMemLocal = pilaMemoriasLocales.get()
             pilaMemoriasLocales.put(topMemLocal)
 
+        # Checar si alguno de los operandos es tempPointer
+        if 21000 <= elemIzq < 22000 or 12000 <= elemIzq < 13000:
+            elemIzq = getValue(elemIzq)
+
+        if 21000 <= elemDer < 22000 or 12000 <= elemDer < 13000:
+            elemDer = getValue(elemDer)
+
+        # Hacer AND
 
         if 22000 <= resp < 23000:
         # global temp bool
@@ -552,6 +600,14 @@ while currentIp < len(cuadruplos):
             topMemLocal = pilaMemoriasLocales.get()
             pilaMemoriasLocales.put(topMemLocal)
 
+        # Checar si alguno de los operandos es tempPointer
+        if 21000 <= elemIzq < 22000 or 12000 <= elemIzq < 13000:
+            elemIzq = getValue(elemIzq)
+
+        if 21000 <= elemDer < 22000 or 12000 <= elemDer < 13000:
+            elemDer = getValue(elemDer)
+
+        # Hacer OR
 
         if 22000 <= resp < 23000:
         # global temp bool
@@ -577,6 +633,16 @@ while currentIp < len(cuadruplos):
             topMemLocal = pilaMemoriasLocales.get()
             pilaMemoriasLocales.put(topMemLocal)
 
+        # Si es pointer se agarra el valor de la dirección que está en aAsignar
+        if 21000 <= aAsignar < 22000 or 12000 <= aAsignar < 13000:
+            aAsignar = getValue(aAsignar)
+        
+        # Si es pointer se agarra el valor de la dirección que está en 'valor'
+        if 21000 <= valor < 22000 or 12000 <= valor < 13000:
+            valor = getValue(valor)
+
+        # Hace asignación
+            
         # Global int
         if 1000 <= aAsignar < 2000:
             memoriaGlobal.globalInt[aAsignar - 1000] = getValue(valor)
@@ -627,9 +693,12 @@ while currentIp < len(cuadruplos):
         # Temp local pointer
         elif 12000 <= aAsignar < 13000:
             print("ASIGNANDO POINTERS, DEBE SER DIFERENTE")
+            print("NUNCA LLEAGAS")
+            sys.exit()
             topMemLocal.tempPointer[aAsignar - 12000] = getValue(valor)
             pilaMemoriasLocales.get()
             pilaMemoriasLocales.put(topMemLocal)
+            
         # Temp local BOOL - no creo que sea necesario? no tengo variables booleanas
         elif 13000 <= aAsignar < 14000:
             topMemLocal.tempB[aAsignar - 13000] = getValue(valor)
@@ -646,8 +715,14 @@ while currentIp < len(cuadruplos):
             memoriaGlobal.tempC[aAsignar - 20000] = getValue(valor)
         # GLOBAL TEMP pointer
         elif 21000 <= aAsignar < 22000:
+            print("NUNCA LLEAGAS")
+            sys.exit()
             print("ASIGNANDO POINTERS, DEBE SER DIFERENTE")
-            memoriaGlobal.tempPointer[aAsignar - 21000] = getValue(valor)
+            print(aAsignar)
+            aAsignar = getValue(aAsignar)
+            print(aAsignar)
+            # memoriaGlobal.tempPointer[aAsignar - 21000] = getValue(valor)
+            sys.exit()
         # GLOBAL TEMP bool = no creo que sea necesairo
         elif 22000 <= aAsignar < 23000:
             memoriaGlobal.tempBool[aAsignar - 22000] = getValue(valor)
@@ -660,11 +735,10 @@ while currentIp < len(cuadruplos):
     elif cuadruplos[currentIp][0] == 'put':
         toPrint = cuadruplos[currentIp][3]
 
-        if 14000 <= toPrint < 18000:
-            toPrint = getConstante(toPrint)
-            print("Statikx >> {}".format(toPrint))
-        else:
-            print("Statikx >> {}".format(getValue(toPrint)))
+        if 21000 <= toPrint < 22000 or 12000 <= toPrint < 13000:
+            toPrint = getValue(toPrint)
+
+        print("Statikx >> {}".format(getValue(toPrint)))
         currentIp += 1
 
 
@@ -753,18 +827,15 @@ while currentIp < len(cuadruplos):
     elif cuadruplos[currentIp][0] == 'Ver':
         dim = cuadruplos[currentIp][1]
         limSup = cuadruplos[currentIp][3]
-        print(cuadruplos[currentIp])
-        print(getValue(dim))
 
         if getValue(dim) >= limSup:
-            print("ERROR: Array index out of range")
+            print("ERROR: Array/Matrix index out of range")
             sys.exit()
 
         currentIp += 1
         
     # END
     elif cuadruplos[currentIp][0] == 'END':
-        print(currentIp + 1)
         print("TERMINO EL PROGRAMA")
         sys.exit()
 

@@ -3,18 +3,39 @@ script example02;
 var int -> x,y;
 var float -> f;
 
-func char -> ji(){
-    returns 'f';
-}
-
-func int -> suma(int -> a, int -> b){
-    returns (a + b);
-}
 
 DO
 {   
-    var int[2] -> arreglo;
-    x = 2;
-    x = x + 1;
-    put(suma(x,8););
+    var int[3] -> arreglo;
+    var int[3,3] -> matriz;
+    var int[5] -> hello;
+    var int -> i,j;
+
+    matriz[0,0] = 16;
+    x = 3;
+
+    for(i = 0,3){
+        for(j = 0,3){
+            matriz[i,j] = x;
+            x = x + i;
+        }
+    }
+    
+    for(i = 0,3){
+        for(j = 0,3){
+            put(matriz[i,j]);
+        }
+    }
+
+
+    !!for(i = 0,3){
+    !!    arreglo[i] = i;
+    !!}
+
+    i = 0;
+    !!for(i = 0,3){
+    !!    put(arreglo[i]);
+    !!}
+
+   
 }

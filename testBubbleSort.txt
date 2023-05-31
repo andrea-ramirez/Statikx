@@ -1,0 +1,31 @@
+script testBubble; 
+
+DO
+{   
+    var int[5] -> miArreglo;
+    var int -> i,j,temp;
+    
+    miArreglo[0] = 9;
+    miArreglo[1] = 78;
+    miArreglo[2] = 12;
+    miArreglo[3] = 0;
+    miArreglo[4] = 2;
+    
+    !! Testing bubble sort
+    put("Bubble Sort");
+    
+    for(i = 0,5-1){
+        for(j = 0,5-i-1){
+            if(miArreglo[j] > miArreglo[j + 1])
+            True{
+                temp = miArreglo[j];
+                miArreglo[j] = miArreglo[j+1];
+                miArreglo[j+1] = temp;
+            }
+        }
+    }
+
+    for(i = 0,5){
+        put(miArreglo[i]);
+    }
+}

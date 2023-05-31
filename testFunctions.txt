@@ -53,9 +53,10 @@ func int -> fibIterativo(int -> n){
 
 DO
 {   
+    !! Factorial
     put("FACTORIAL");
-    !!put(fact(5););
-    !!put(factIterativo(6););
+    put(fact(5););
+    put(factIterativo(6););
 
     !! Fibonacci
     put("Fibonacci");
