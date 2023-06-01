@@ -79,6 +79,7 @@ class DirectorioFunciones:
             recursosFuncion['tB'] = 0
 
 
+    # Crea lista de parámetros
     @classmethod
     def createListaParam(self, currentScript,currentFunction):
         funcionCrearListaParam = ""

@@ -252,9 +252,7 @@ while currentIp < len(cuadruplos):
             pilaMemoriasLocales.put(topMemLocal)
         # local temp pointer
         elif 12000 <= resp < 13000:
-            print("ESTAS SUMANDO POINTER - SE HACE DIFERENTE")
-            sys.exit()
-            topMemLocal.tempPointer[resp-21000] = getValue(elemIzq) + getValue(elemDer)
+            topMemLocal.tempPointer[resp-12000] = getValue(elemIzq) + getValue(elemDer)
             pilaMemoriasLocales.get()
             pilaMemoriasLocales.put(topMemLocal)
         else:
@@ -291,10 +289,7 @@ while currentIp < len(cuadruplos):
             memoriaGlobal.tempFloat[resp-19000] = getValue(elemIzq) - getValue(elemDer)
         elif 21000 <= resp < 22000:
         # global temp pointer
-            print("ESTAS RESTANDO POINTER - SE HACE DIFERENTE")
             memoriaGlobal.tempPointer[resp-21000] = getValue(elemIzq) - getValue(elemDer)
-            print("ALGO MAL")
-            sys.exit()
         elif 9000 <= resp < 10000:
         # local temp int
             topMemLocal.tempInt[resp-9000] = getValue(elemIzq) - getValue(elemDer)
@@ -307,8 +302,7 @@ while currentIp < len(cuadruplos):
             pilaMemoriasLocales.put(topMemLocal)
         # local temp pointer
         elif 12000 <= resp < 13000:
-            print("ESTAS RESTANDO POINTER - SE HACE DIFERENTE")
-            topMemLocal.tempPointer[resp-21000] = getValue(elemIzq) - getValue(elemDer)
+            topMemLocal.tempPointer[resp-12000] = getValue(elemIzq) - getValue(elemDer)
             pilaMemoriasLocales.get()
             pilaMemoriasLocales.put(topMemLocal)
         else:
@@ -345,10 +339,7 @@ while currentIp < len(cuadruplos):
             memoriaGlobal.tempFloat[resp-19000] = getValue(elemIzq) * getValue(elemDer)
         elif 21000 <= resp < 22000:
         # global temp pointer
-            print("ESTAS MULTIPLICANDO POINTER - SE HACE DIFERENTE")
             memoriaGlobal.tempPointer[resp-21000] = getValue(elemIzq) * getValue(elemDer)
-            print("ALGO MAL")
-            sys.exit()
         elif 9000 <= resp < 10000:
         # local temp int
             topMemLocal.tempInt[resp-9000] = getValue(elemIzq) * getValue(elemDer)
@@ -361,8 +352,7 @@ while currentIp < len(cuadruplos):
             pilaMemoriasLocales.put(topMemLocal)
         # local temp pointer
         elif 12000 <= resp < 13000:
-            print("ESTAS MULTIPLICANDO POINTER - SE HACE DIFERENTE")
-            topMemLocal.tempPointer[resp-21000] = getValue(elemIzq) * getValue(elemDer)
+            topMemLocal.tempPointer[resp-12000] = getValue(elemIzq) * getValue(elemDer)
             pilaMemoriasLocales.get()
             pilaMemoriasLocales.put(topMemLocal)
         else:
@@ -399,10 +389,7 @@ while currentIp < len(cuadruplos):
             memoriaGlobal.tempFloat[resp-19000] = getValue(elemIzq) / getValue(elemDer)
         elif 21000 <= resp < 22000:
         # global temp pointer
-            print("ESTAS DIVIDIENDO POINTER - SE HACE DIFERENTE")
             memoriaGlobal.tempPointer[resp-21000] = getValue(elemIzq) / getValue(elemDer)
-            print("ALGO MAL")
-            sys.exit()
         elif 9000 <= resp < 10000:
         # local temp int
             topMemLocal.tempInt[resp-9000] = getValue(elemIzq) / getValue(elemDer)
@@ -415,8 +402,7 @@ while currentIp < len(cuadruplos):
             pilaMemoriasLocales.put(topMemLocal)
         # local temp pointer
         elif 12000 <= resp < 13000:
-            print("ESTAS DIVIDIENDO POINTER - SE HACE DIFERENTE")
-            topMemLocal.tempPointer[resp-21000] = getValue(elemIzq) / getValue(elemDer)
+            topMemLocal.tempPointer[resp-12000] = getValue(elemIzq) / getValue(elemDer)
             pilaMemoriasLocales.get()
             pilaMemoriasLocales.put(topMemLocal)
         else:
@@ -731,7 +717,7 @@ while currentIp < len(cuadruplos):
         
         currentIp += 1
 
-    # PRINT
+    # ESCRIBE
     elif cuadruplos[currentIp][0] == 'put':
         toPrint = cuadruplos[currentIp][3]
 
@@ -739,6 +725,81 @@ while currentIp < len(cuadruplos):
             toPrint = getValue(toPrint)
 
         print("Statikx >> {}".format(getValue(toPrint)))
+        currentIp += 1
+
+    # LEE
+    elif cuadruplos[currentIp][0] == 'get':
+        print(cuadruplos[currentIp])
+        print("Ingresa el valor de la variable")
+
+        # Quieres que sea del tipo que se supone
+        aAsignar = cuadruplos[currentIp][3]
+        tipo = cuadruplos[currentIp][2]
+
+        while True:
+            a = input()
+            if (a == ''):
+                print("Digita otra vez")
+            else:
+
+                if tipo == 2:
+                    try:
+                        valor = int(a)
+                        print("VALOR INT {}".format(valor))
+                        break
+                    except:
+                        print("ERROR: Type Mismatch. \nDigita otra vez. Se espera un valor entero.")
+                        continue
+                elif tipo == 3:
+                    try:
+                        valor = float(a)
+                        print("VALOR FLOAT {}".format(valor))
+                        break
+                    except:
+                        print("ERROR: Type Mismatch. \nDigita otra vez. Se espera un valor flotante.")
+                        continue
+                elif tipo == 4:
+                    try:
+                        valor = ord(a)
+                        print("VALOR CHAR {}".format(valor))
+                        break
+                    except:
+                        print("ERROR: Type Mismatch. \nDigita otra vez. Se espera un valor char.")
+                        continue
+                else:
+                    print("ERROR: Cannot read this type of input fron console")
+                    sys.exit()
+
+        # Guardar valor leído
+        if len(list(pilaMemoriasLocales.queue)) > 0:
+            topMemLocal = pilaMemoriasLocales.get()
+            pilaMemoriasLocales.put(topMemLocal)
+
+        # Global int
+        if 1000 <= aAsignar < 2000:
+            memoriaGlobal.globalInt[aAsignar - 1000] = valor
+        # Global Float
+        elif 2000 <= aAsignar < 3000:
+            memoriaGlobal.globalFloat[aAsignar - 2000] = valor
+        # Global Char
+        elif 3000 <= aAsignar < 4000:
+            memoriaGlobal.globalC[aAsignar - 3000] = valor
+        # Local Int
+        elif 5000 <= aAsignar < 6000:
+            topMemLocal.localInt[aAsignar - 5000] = valor
+            pilaMemoriasLocales.get()
+            pilaMemoriasLocales.put(topMemLocal)
+        # Local float
+        elif 6000 <= aAsignar < 7000:
+            topMemLocal.localFloat[aAsignar - 6000] = valor
+            pilaMemoriasLocales.get()
+            pilaMemoriasLocales.put(topMemLocal)
+        # Local Chars
+        elif 7000 <= aAsignar < 8000:
+            topMemLocal.localC[aAsignar - 7000] = valor
+            pilaMemoriasLocales.get()
+            pilaMemoriasLocales.put(topMemLocal)
+
         currentIp += 1
 
 
@@ -831,7 +892,7 @@ while currentIp < len(cuadruplos):
         while 21000 <= dim < 22000 or 12000 <= dim < 13000:
             dim = getValue(dim)
         
-        if getValue(dim) >= limSup:
+        if getValue(dim) < 0 or getValue(dim) >= limSup:
             print("ERROR: Array/Matrix index out of range")
             sys.exit()
 
@@ -842,6 +903,6 @@ while currentIp < len(cuadruplos):
         print("TERMINO EL PROGRAMA")
         sys.exit()
 
-    else:
-        currentIp += 1
+    # else:
+    #     currentIp += 1
 

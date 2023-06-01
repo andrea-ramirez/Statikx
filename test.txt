@@ -1,25 +1,27 @@
 script example02; 
 
+var int -> y;
+var int[3] -> arreglo;
+
+func void -> aver(int -> kl){
+    get(y);
+    arreglo[2] = y;
+}
 
 DO
 {   
-    var int[1,2] -> m1;
-    var int[2,3] -> m2;
-    var int[4] -> arreglo;
+    var int -> x;
+    var int -> i;
+    x = 0;
 
-    m1[0,0] = 2;
-    m1[0,1] = 1;
+    arreglo[0] = 0;
+    arreglo[1] = 0;
+    arreglo[2] = 0;
 
-    m2[0,0] = 2;
-    m2[0,0] = 8;
-    m2[0,1] = 23;
-    m2[0,2] = 90;
-    m2[1,0] = 5;
-    m2[1,1] = 34;
-    m2[1,2] = 89;
+    aver(9);
 
-    arreglo[3] = 1;
+    for(i = 0,3){
+        put(arreglo[i]);
+    }
 
-    put(m2[1,m1[0,arreglo[3]]*2]);
-   
 }
