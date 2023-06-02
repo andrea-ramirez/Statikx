@@ -217,24 +217,11 @@ def p_tipo_simp(p):
     '''
     p[0] = None
 
-# def p_tipo_comp(p):
-#     '''
-#     tipo_comp : DATAFRAME 
-#               | file
-#     '''
-#     p[0] = None
-
 def p_copy(p):
     '''
     copy : READ_FILE LEFT_PARENT variable COMMA LETRERO pnCuadCopy RIGHT_PARENT SEMICOLON
     '''
     p[0] = None
-
-# def p_file(p):
-#     '''
-#     file : ID
-#     '''
-#     p[0] = None
 
 def p_variable(p):
     '''
@@ -423,7 +410,7 @@ def p_funcesp(p):
 
 def p_mean(p):
     '''
-    mean : MEAN LEFT_PARENT variable COMMA CTEI pnCuadFuncEsp RIGHT_PARENT SEMICOLON
+    mean : MEAN LEFT_PARENT variable COMMA exp pnCuadFuncEsp RIGHT_PARENT SEMICOLON
     '''
     p[0] = None
 
@@ -465,13 +452,13 @@ def p_staddes(p):
 
 def p_boxplot(p):
     '''
-    boxplot : BOXPLOT LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON
+    boxplot : BOXPLOT LEFT_PARENT variable COMMA LETRERO pnCuadBoxplot RIGHT_PARENT SEMICOLON
     '''
     p[0] = None
 
 def p_linreg(p):
     '''
-    linreg : LINREG LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON
+    linreg : LINREG LEFT_PARENT variable COMMA exp COMMA exp pnCuadLinReg RIGHT_PARENT SEMICOLON
     '''
     p[0] = None
 
@@ -1304,30 +1291,30 @@ def p_pnCuadCopy(p):
 
     p[0] = None
 
+# Generación de cuadruplos para funciones especiales que regresan un número
 def p_pnCuadFuncEsp(p):
     '''
     pnCuadFuncEsp : empty
     '''
-    index = p[-1]
-    data = p[-3]
     top = p[-5]
-    print("TOP")
-    print(top)
-    print(data)
-    print(index)
-    # Aquí no estoy manejando copy por el momento
-    funcEspReturn = ['mean','mode','median','variance','max','min','staddes']
-    funcEspGraficas = ['boxplot', 'linreg']
+    
+    funcEspReturn = ['mean','mode','median','variance','max','min','stadDes']
 
     if top in funcEspReturn:
-        # Checar si es un arreglo o dataframe en un futuro
-        print("al llamar funciones especiales, FALTA VALIDAR QUE SEA arreglo o dataframe y también su valor de retorno")
-        #cambiar result type, ahora está que regresan floats
         resultType = 3
+        newIndex = pilaOperandos.get()
+        tipoIndex = pilaTipo.get()
 
         toCalculate = pilaOperandos.get()
-        pilaTipo.get()
-        print("TOP PILA OPERANDOS {}".format(toCalculate))
+        tipoToCalculate = pilaTipo.get()
+
+        if semantica.convertion[tipoToCalculate] != 'dataframe':
+            print("ERROR: sólo se puede generar {} con una variable de tipo dataframe".format(top))
+            sys.exit()
+
+        if semantica.convertion[tipoIndex] != 2:
+            print("ERROR: Type Mismatch. Se espera una expresión de tipo entera para indexar el dataframe")
+            sys.exit()
 
         operador = top
 
@@ -1337,28 +1324,78 @@ def p_pnCuadFuncEsp(p):
 
         temporalActual = memoria.getMemoriaTemporal(resultType,isLocalTemp)
         toCalculate = getDirVirtual(toCalculate)
-        index = insertTablaConst(index)
+        newIndex = getDirVirtual(newIndex)
 
         # mean,df,index,res
-        nuevoCuadruplo = [operador,toCalculate,index,temporalActual]
+        nuevoCuadruplo = [operador,toCalculate,newIndex,temporalActual]
         cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
         pilaOperandos.put(temporalActual)
         pilaTipo.put(resultType)
 
-    elif top in funcEspGraficas:
+    p[0] = None
 
-        print("al llamar funciones especiales, FALTA VALIDAR QUE SEA arreglo o dataframe")
+# Generación de cuadruplos para boxplots
+def p_pnCuadBoxplot(p):
+    '''
+    pnCuadBoxplot : empty
+    '''
+    top = p[-5]
+
+    if top in 'boxplot':
         toCalculate = pilaOperandos.get()
-        pilaTipo.get()
+        tipoToCalculate = pilaTipo.get()
+        titulo = p[-1]
+        titulo = insertTablaConst(titulo,'letrero')
+
+        if semantica.convertion[tipoToCalculate] != 'dataframe':
+            print("ERROR: sólo se puede generar {} con una variable de tipo dataframe".format(top))
+            sys.exit()
 
         operador = top
 
         toCalculate = getDirVirtual(toCalculate)
 
-        nuevoCuadruplo = [operador,"", "",toCalculate]
+        nuevoCuadruplo = [operador,"", titulo,toCalculate]
         cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
 
     p[0] = None
+
+# Generación de cuadruplos para regresiones lineales
+def p_pnCuadLinReg(p):
+    '''
+    pnCuadLinReg : empty
+    '''
+    top = p[-7]
+
+    if top == 'linReg':
+        indexB = pilaOperandos.get()
+        tipoIndexB = pilaTipo.get()
+
+        indexA = pilaOperandos.get()
+        tipoIndexA = pilaTipo.get()
+
+        toCalculate = pilaOperandos.get()
+        tipoToCalculate = pilaTipo.get()
+
+        if semantica.convertion[tipoToCalculate] != 'dataframe':
+            print("ERROR: sólo se puede generar {} con una variable de tipo dataframe".format(top))
+            sys.exit()
+
+        if semantica.convertion[tipoIndexA] != 2 or semantica.convertion[tipoIndexB] != 2:
+            print("ERROR: Type Mismatch. Se espera una expresión de tipo entera para indexar el dataframe")
+            sys.exit()
+
+        operador = top
+
+        toCalculate = getDirVirtual(toCalculate)
+        indexA = getDirVirtual(indexA)
+        indexB = getDirVirtual(indexB)
+
+        nuevoCuadruplo = [operador,indexA,indexB,toCalculate]
+        cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
+
+    p[0] = None
+
 
 # Cuadruplos No lineales
 
@@ -1717,13 +1754,29 @@ def p_pnArrAccIncDim(p):
 
     p[0] = None
 
-def insertTablaConst(dirBase):
+def insertTablaConst(dirBase,tipo):
     # No está dentro de la tabla de variables
     if dirBase not in tablaConst:
-        direccion = memoria.countCteInt
-        tablaConst[dirBase] = ['2',direccion]
-        memoria.countCteInt += 1
-        return direccion
+        if tipo == '2':
+            direccion = memoria.countCteInt
+            tablaConst[dirBase] = [tipo,direccion]
+            memoria.countCteInt += 1
+            return direccion
+        elif tipo == '3':
+            direccion = memoria.countCteFloat
+            tablaConst[dirBase] = [tipo,direccion]
+            memoria.countCteFloat += 1
+            return direccion
+        elif tipo == '4':
+            direccion = memoria.countCteC
+            tablaConst[dirBase] = [tipo,direccion]
+            memoria.countCteC += 1
+            return direccion
+        elif tipo == 'letrero':
+            direccion = memoria.countCteLetrero
+            tablaConst[dirBase] = [tipo,direccion]
+            memoria.countCteLetrero += 1
+            return direccion
     else:
     # Está dentro de la tabla de variables
         return tablaConst[dirBase][1]
@@ -1747,7 +1800,7 @@ def p_pnArrCalc(p):
     pilaDim.put(top)
 
     dirBaseArreglo = dirFunc.getDirBaseArreglo(currentScript,currentFunction,top)
-    dirBaseArreglo = insertTablaConst(dirBaseArreglo)
+    dirBaseArreglo = insertTablaConst(dirBaseArreglo,'2')
 
     isLocalTemp = False
     if currentFunction != "":
@@ -1798,7 +1851,7 @@ def p_pnMatCalc(p):
     temporalActual1 = memoria.getMemoriaTemporal(2,isLocalTemp)
 
     s1 = getDirVirtual(s1)
-    m1 = insertTablaConst(m1)
+    m1 = insertTablaConst(m1,'2')
 
     nuevoCuadruplo = ['*',s1,m1,temporalActual1]
     cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
@@ -1827,7 +1880,7 @@ def p_pnMatCalc(p):
 
     # + dirBase()
     dirBaseMatriz = dirFunc.getDirBaseArreglo(currentScript,currentFunction,matrizActual[0])
-    dirBaseMatriz = insertTablaConst(dirBaseMatriz)
+    dirBaseMatriz = insertTablaConst(dirBaseMatriz,'2')
 
     isLocalTemp = False
     if currentFunction != "":

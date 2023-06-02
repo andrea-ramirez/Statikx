@@ -5,8 +5,8 @@ from memoriaVM import MemoriaGlobal
 from queue import LifoQueue
 import sys
 import pandas
-
-
+import matplotlib.pyplot as plt
+from scipy import stats
 
 datos = lexerParser.exportData()
 cuadruplos = datos['cuads']
@@ -38,6 +38,8 @@ memoriaGlobal.tempC = ['-'] * recursosMain['tC']
 memoriaGlobal.tempPointer = ['-'] * recursosMain['tPointer']
 memoriaGlobal.tempBool = ['-'] * recursosMain['tB']
 
+def modelarLineBestFit(x):
+            return slope * x + intercept
 
 #Definir vectores de cada memoria, cambiar size dependiendo de qué necesite
 def createMemoriaLocal(recursosFuncion):
@@ -942,7 +944,7 @@ while currentIp < len(cuadruplos):
     elif cuadruplos[currentIp][0] == 'mean':
         file = cuadruplos[currentIp][1]
         index = cuadruplos[currentIp][2]
-        index = getConstante(index)
+        index = getValue(index)
         dirResult = cuadruplos[currentIp][3]
 
         dataframe = pandas.read_csv(getValue(file))
@@ -970,9 +972,43 @@ while currentIp < len(cuadruplos):
 
         currentIp += 1
 
+    # boxplot
     elif cuadruplos[currentIp][0] == 'boxplot':
-        print("BOXPLOT")
-        file = cuadruplos[currentIp][1]
+        file = cuadruplos[currentIp][3]
+        titulo = cuadruplos[currentIp][2]
+
+        dataframe = pandas.read_csv(getValue(file))
+        boxplot = dataframe.boxplot(figsize = (5,5), rot = 45, fontsize= '8', grid = False,color = '#4e9186')
+        boxplot.plot()
+        titulo = getConstante(titulo)
+        titulo = titulo[:-1]
+        titulo = titulo[1:]
+        plt.title(titulo)
+        plt.show()
+
+        currentIp += 1
+
+    # linear Regression
+    elif cuadruplos[currentIp][0] == 'linReg':
+        indexX = cuadruplos[currentIp][1]
+        indexY = cuadruplos[currentIp][2]
+        file = cuadruplos[currentIp][3]
+
+        indexX = getValue(indexX)
+        indexY = getValue(indexY)
+
+        dataframe = pandas.read_csv(getValue(file))
+        x = dataframe.iloc[:,indexX]
+        y = dataframe.iloc[:,indexY]
+
+        slope, intercept, r, p, std_err = stats.linregress(x, y)
+
+        modelo = list(map(modelarLineBestFit, x))
+
+        plt.scatter(x, y, c='#4e9186')
+        plt.plot(x, modelo)
+        plt.title("Statikx Regresión Linear")
+        plt.show()
 
         currentIp += 1
         
@@ -981,6 +1017,4 @@ while currentIp < len(cuadruplos):
         print("TERMINO EL PROGRAMA")
         sys.exit()
 
-    # else:
-    #     currentIp += 1
 
