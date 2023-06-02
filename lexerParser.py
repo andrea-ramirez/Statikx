@@ -226,7 +226,7 @@ def p_tipo_simp(p):
 
 def p_copy(p):
     '''
-    copy : READ_FILE LEFT_PARENT LETRERO pnCuadCopy RIGHT_PARENT SEMICOLON
+    copy : READ_FILE LEFT_PARENT variable COMMA LETRERO pnCuadCopy RIGHT_PARENT SEMICOLON
     '''
     p[0] = None
 
@@ -423,7 +423,7 @@ def p_funcesp(p):
 
 def p_mean(p):
     '''
-    mean : MEAN LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON
+    mean : MEAN LEFT_PARENT variable COMMA CTEI pnCuadFuncEsp RIGHT_PARENT SEMICOLON
     '''
     p[0] = None
 
@@ -1276,18 +1276,31 @@ def p_pnCuadCopy(p):
     '''
     pnCuadCopy : empty
     '''
-    if p[-3] == 'copy':
+    if p[-5] == 'copy':
         # Checar que sea un letrero y que termine en .csv
         if p[-1][0] == '"' and p[-1].endswith('.csv"'):
+            df = pilaOperandos.get()
+            tipo = pilaTipo.get()
+
+            if semantica.convertion[tipo] != 'dataframe':
+                print("ERROR: Type Mismatch. Función 'copy' sólo se puede utilizar con variables de tipo dataframe")
+                sys.exit()
+
             toRead = p[-1]
+            toRead = toRead[:-1]
+            toRead = toRead[1:]
 
             operador = 'copy'
+            df = getDirVirtual(df)
 
-            nuevoCuadruplo = [operador,"", "",toRead]
+            nuevoCuadruplo = [operador,"", df,toRead]
             cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
         else:
             print("You can only read from .csv files")
             sys.exit()
+    else:
+        print("se leyó copy, pero no se generó el cuadruplo")
+        sys.exit()
 
     p[0] = None
 
@@ -1295,7 +1308,13 @@ def p_pnCuadFuncEsp(p):
     '''
     pnCuadFuncEsp : empty
     '''
-    top = p[-3]
+    index = p[-1]
+    data = p[-3]
+    top = p[-5]
+    print("TOP")
+    print(top)
+    print(data)
+    print(index)
     # Aquí no estoy manejando copy por el momento
     funcEspReturn = ['mean','mode','median','variance','max','min','staddes']
     funcEspGraficas = ['boxplot', 'linreg']
@@ -1308,6 +1327,7 @@ def p_pnCuadFuncEsp(p):
 
         toCalculate = pilaOperandos.get()
         pilaTipo.get()
+        print("TOP PILA OPERANDOS {}".format(toCalculate))
 
         operador = top
 
@@ -1317,8 +1337,10 @@ def p_pnCuadFuncEsp(p):
 
         temporalActual = memoria.getMemoriaTemporal(resultType,isLocalTemp)
         toCalculate = getDirVirtual(toCalculate)
+        index = insertTablaConst(index)
 
-        nuevoCuadruplo = [operador,toCalculate, "",temporalActual]
+        # mean,df,index,res
+        nuevoCuadruplo = [operador,toCalculate,index,temporalActual]
         cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
         pilaOperandos.put(temporalActual)
         pilaTipo.put(resultType)

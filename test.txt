@@ -1,27 +1,15 @@
 script example02; 
 
-var int -> y;
-var int[3] -> arreglo;
-
-func void -> aver(int -> kl){
-    get(y);
-    arreglo[2] = y;
-}
-
 DO
 {   
+    var dataframe -> df1;
     var int -> x;
-    var int -> i;
-    x = 0;
+    var float -> f;
 
-    arreglo[0] = 0;
-    arreglo[1] = 0;
-    arreglo[2] = 0;
-
-    aver(9);
-
-    for(i = 0,3){
-        put(arreglo[i]);
+    copy(df1,"2019.csv");
+    if(mean(df1,0); < mean(df1,1);)
+    True{
+        put("DEBE de salir");
     }
 
 }

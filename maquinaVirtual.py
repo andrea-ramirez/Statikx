@@ -4,7 +4,8 @@ from memoriaVM import MemoriaFuncion
 from memoriaVM import MemoriaGlobal
 from queue import LifoQueue
 import sys
-import copy
+import pandas
+
 
 
 datos = lexerParser.exportData()
@@ -721,10 +722,18 @@ while currentIp < len(cuadruplos):
     elif cuadruplos[currentIp][0] == 'put':
         toPrint = cuadruplos[currentIp][3]
 
+        # Checar si es un temporal Pointer
         if 21000 <= toPrint < 22000 or 12000 <= toPrint < 13000:
             toPrint = getValue(toPrint)
 
-        print("Statikx >> {}".format(getValue(toPrint)))
+        # Checar si es un dataframe
+        if 4000 <= toPrint < 5000 or 8000 <= toPrint < 9000:
+            print("\n\nDataframe: ")
+            dataframe = pandas.read_csv(getValue(toPrint))
+            print(dataframe.to_markdown(),"\n\n")
+        else:
+            print("Statikx >> {}".format(getValue(toPrint)))
+        
         currentIp += 1
 
     # LEE
@@ -799,6 +808,35 @@ while currentIp < len(cuadruplos):
             topMemLocal.localC[aAsignar - 7000] = valor
             pilaMemoriasLocales.get()
             pilaMemoriasLocales.put(topMemLocal)
+
+        currentIp += 1
+
+    # READ_FILE
+    elif cuadruplos[currentIp][0] == 'copy':
+        file = cuadruplos[currentIp][3]
+        dfaAsignar = cuadruplos[currentIp][2]
+
+        try:
+            dataframe = pandas.read_csv(file)
+
+            # Guardar valor leído
+            if len(list(pilaMemoriasLocales.queue)) > 0:
+                topMemLocal = pilaMemoriasLocales.get()
+                pilaMemoriasLocales.put(topMemLocal)
+
+            # Global df
+            if 4000 <= dfaAsignar < 5000:
+                memoriaGlobal.globalDf[dfaAsignar - 4000] = file
+            # Local df
+            elif 8000 <= dfaAsignar < 9000:
+                topMemLocal.localDf[dfaAsignar - 8000] = file
+                pilaMemoriasLocales.get()
+                pilaMemoriasLocales.put(topMemLocal)
+
+            print("Se copió el archivo {} a {} de forma exitosa".format(file,dfaAsignar))
+        
+        except:
+            print("ERROR: No se puede abrir el documento .csv")
 
         currentIp += 1
 
@@ -895,6 +933,46 @@ while currentIp < len(cuadruplos):
         if getValue(dim) < 0 or getValue(dim) >= limSup:
             print("ERROR: Array/Matrix index out of range")
             sys.exit()
+
+        currentIp += 1
+
+    # Funciones especiales
+
+    # mean
+    elif cuadruplos[currentIp][0] == 'mean':
+        file = cuadruplos[currentIp][1]
+        index = cuadruplos[currentIp][2]
+        index = getConstante(index)
+        dirResult = cuadruplos[currentIp][3]
+
+        dataframe = pandas.read_csv(getValue(file))
+        means = dataframe.mean(axis = 0,numeric_only = True)
+
+        if index >= len(means):
+            print("ERROR: Index in dataframe out of bound.")
+            sys.exit()
+        
+        promedioValor = float(means[index])
+        
+        if len(list(pilaMemoriasLocales.queue)) > 0:
+            topMemLocal = pilaMemoriasLocales.get()
+            pilaMemoriasLocales.put(topMemLocal)
+
+        # Global float, global temporal float, local float, temporal local float
+        if 2000 <= dirResult < 3000:
+            memoriaGlobal.globalFloat[dirResult - 2000] = promedioValor
+        elif 19000 <= dirResult < 20000:
+            memoriaGlobal.tempFloat[dirResult - 19000] = promedioValor
+        elif 6000 <= dirResult < 7000:
+            topMemLocal.localFloat[dirResult - 6000] = promedioValor
+        elif 10000 <= dirResult < 11000:
+            topMemLocal.tempFloat[dirResult - 10000] = promedioValor
+
+        currentIp += 1
+
+    elif cuadruplos[currentIp][0] == 'boxplot':
+        print("BOXPLOT")
+        file = cuadruplos[currentIp][1]
 
         currentIp += 1
         
