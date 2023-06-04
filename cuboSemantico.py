@@ -1,4 +1,4 @@
-# Regresa el tipo de valor del resultado de una operación entre dos elmentos con un tipo dado
+# Regresa el tipo de valor del resultado de una operación entre dos elementos con un tipo dado
 # error     -> 0
 # boolean   -> 1
 # int       -> 2

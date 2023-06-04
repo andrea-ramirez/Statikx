@@ -1,8 +1,21 @@
 script testingArrays; 
 
+var int[5] -> miArreglo;
+
+func void -> find(int -> n){
+    var int -> j;
+
+    for(j = 0,5){
+        if(miArreglo[j] == n)
+        True{
+            put("Se encontro en index");
+            put(j);
+        }
+    }
+}
+
 DO
 {   
-    var int[5] -> miArreglo;
     var int -> i;
     var int -> aBuscar;
     var char -> flag;
@@ -15,8 +28,9 @@ DO
 
     !! Find
     put("Find");
+    find(78);
 
-    aBuscar = 8;
+    aBuscar = 12;
     flag = 'f';
 
     for(i = 0,5){

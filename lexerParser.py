@@ -1911,10 +1911,10 @@ def printDir():
 parser = yacc.yacc(debug=True)
 
 # filename = 'testPropuesta.txt'
-filename = 'test.txt'
+# filename = 'test.txt'
 # filename = 'testArrays.txt'
 # filename = 'testBubbleSort.txt'
-# filename = 'testMultMatrices.txt'
+filename = 'testMultMatrices.txt'
 # filename = 'testModulos.
 # filename = 'testArreglos.txt'
 # filename = 'testForLoop.txt'
@@ -1934,7 +1934,7 @@ with open(filename) as fp:
 
 printDir()
 
-print("LISTA DE CUADRUPLOS \n")
+print("\n\nLISTA DE CUADRUPLOS \n")
 index = 1
 for cuad in cuadruplos.listaCuadruplos:
     temp = [index] + cuad
@@ -1942,8 +1942,8 @@ for cuad in cuadruplos.listaCuadruplos:
     print(cuad)
     index += 1
 
-
-print(tablaConst)
+print("\n\n\n")
+# print(tablaConst)
 
 data = {
     'cuads': cuadruplos.listaCuadruplos,
