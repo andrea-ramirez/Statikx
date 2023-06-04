@@ -1,14 +1,15 @@
-script example02; 
+script testStatikx; 
 
-
-func void -> prueba(float -> n,int -> f){
-    put("aver");
-    !!put(n);
-    !!put(o);
+func void -> aver(dataframe -> mi){
+    boxplot(mi,"Informacion clase Compis");
 }
 
 DO
 {   
-    
+    var dataframe -> df1;
 
+    copy(df1,"studentGrades.csv");
+
+    !! Boxplot
+    aver(df1);
 }

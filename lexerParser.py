@@ -1939,29 +1939,30 @@ def printDir():
 # Build the parser
 parser = yacc.yacc(debug=True)
 
-# filename = 'testPropuesta.txt'
-filename = 'test.txt'
-# filename = 'testArrays.txt'
-# filename = 'testBubbleSort.txt'
-# filename = 'testMultMatrices.txt'
-# filename = 'testModulos.
-# filename = 'testArreglos.txt'
-# filename = 'testForLoop.txt'
-# filename = 'testArreglo2.txt'
-# filename = 'testModulosNonVoid.txt'
-# filename = 'testFuncArreglos.txt'
-fp = codecs.open(filename, "r", "utf-8")
-text = fp.read()
-fp.close()
+# Ingresar nombre de archivo a correr
+print("Ingresa el nombre del archivo .txt \n")
+while True:
+    a = input()
+    if a.endswith(".txt") is False or a == "":
+        print("Digita otra el nombre del archivo")
+    else:
+        filename = a;
+        break
+
+try:
+    fp = codecs.open(filename, "r", "utf-8")
+    text = fp.read()
+    fp.close()
+except:
+    print("ERROR: No se pudo abrir el archivo .txt")
+    sys.exit()
+
 
 with open(filename) as fp:
     try:
         yacc.parse(text)
     except EOFError:
         pass
-
-
-printDir()
 
 print("\n\nLISTA DE CUADRUPLOS \n")
 index = 1
@@ -1971,15 +1972,12 @@ for cuad in cuadruplos.listaCuadruplos:
     print(cuad)
     index += 1
 
-print("\n\n\n")
-# print(tablaConst)
+print("\n\n")
 
 data = {
     'cuads': cuadruplos.listaCuadruplos,
     'dirfunc' : dirFunc.registrosFunciones,
     'tablaconst' : tablaConst,
-    'script' : currentScript,
-    'direcciones' : memoria,
 }
 
 # Función que exporta la variable data

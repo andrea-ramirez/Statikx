@@ -1,4 +1,4 @@
-script testingArrays; 
+script testFinc; 
 
 var int[5] -> miArreglo;
 

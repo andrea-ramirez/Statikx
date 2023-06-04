@@ -12,8 +12,6 @@ datos = lexerParser.exportData()
 cuadruplos = datos['cuads']
 dirFunc = datos['dirfunc']
 tablaConst = datos['tablaconst']
-currentScript = datos['script']
-dirsVirtuales = datos['direcciones']
 
 nombreScript = cuadruplos[0][3]
 
@@ -1039,7 +1037,7 @@ while currentIp < len(cuadruplos):
         dirResult = cuadruplos[currentIp][3]
 
         dataframe = pandas.read_csv(getValue(file))
-        medians = dataframe.median(axis = 1, skipna = True, numeric_only = True)
+        medians = dataframe.median(axis = 0, skipna = True, numeric_only = True)
 
         if index >= len(medians):
             print("ERROR: Index en dataframe fuera de rango. Máximo {}".format(len(medians)-1))
