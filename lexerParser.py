@@ -212,7 +212,7 @@ def p_llamada(p):
     llamada : ID pnCheckFunc LEFT_PARENT pnGenerateEra expp RIGHT_PARENT pnCheckNoParam SEMICOLON pnCuadGoSub pnHandleReturnValue
     expp : exp pnCuadParametro exppp
          | empty
-    exppp : COMMA pnUpdateK exp pnCuadParametro exppp
+    exppp : COMMA exp pnCuadParametro exppp
           | empty
     '''
     p[0] = None
@@ -720,7 +720,7 @@ def p_pnGenerateEra(p):
     cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
 
     #Counter para parámetros
-    dirFunc.registrosFunciones[currentLlamada][4][0] = 1 
+    dirFunc.registrosFunciones[currentLlamada][4][0] = 0
 
     # Agregar fondo falso
     pilaOperadores.put(" FF ")
@@ -749,6 +749,7 @@ def p_pnCuadParametro(p):
     '''
     pnCuadParametro : empty
     '''
+    dirFunc.registrosFunciones[currentLlamada][4][0] += 1
     argument = pilaOperandos.get()
     argumentTipo = pilaTipo.get()
 
@@ -761,24 +762,20 @@ def p_pnCuadParametro(p):
         print("ERROR: Se declaró un parámetro de más en la llamada a la función {}".format(currentLlamada))
         sys.exit()
 
+    parametroActual = listaParametrica[index]
+
+    
     if semantica.convertion[argumentTipo] == semantica.convertion[parametroActual]:
         argument = getDirVirtual(argument)
 
         # Generate cuadruplo Parameter
         nuevoCuadruplo = ['Parameter',argument,'',index]
         cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
+        # sys.exit()
     else:
-        print("ERROR: Lista Paramétrica no hace match con llamada")
+
+        print("ERROR: Lista Paramétrica no hace match de tipo con llamada")
         sys.exit()
-
-    p[0] = None
-
-# Actualiza K por nuevo parámetro
-def p_pnUpdateK(p):
-    '''
-    pnUpdateK : empty
-    '''
-    dirFunc.registrosFunciones[currentLlamada][4][0] += 1
 
     p[0] = None
 
@@ -790,8 +787,11 @@ def p_pnCheckNoParam(p):
     listaParametrica = dirFunc.registrosFunciones[currentLlamada][4]
     index = listaParametrica[0]
 
-    if index != len(listaParametrica)-1:
-        print("ERROR: en número de parámetros en la llamada de la función {} {}".format(currentLlamada, index))
+    listaParamSinK = listaParametrica[1:]
+
+    # Ver que K sea del mismo tamaño que la lista
+    if index != len(listaParamSinK):
+        print("ERROR: En número de parámetros de la funcion {}".format(currentLlamada))
         sys.exit()
 
     # Popear Fondo falso

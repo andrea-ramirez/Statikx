@@ -1,44 +1,14 @@
 script example02; 
 
-var float[4] -> ejem;
 
-func void -> prueba(char -> n){
+func void -> prueba(float -> n,int -> f){
     put("aver");
-    put(n);
-}
-
-func void -> prueba2(float -> n){
-    put("aver");
-    put(n);
-}
-
-func void -> imprime(int -> n){
-    var char[2,2] -> arrF;
-    var int -> i,j;
-
-    arrF[0,0] = 'h';
-    arrF[0,1] = 'o';
-    arrF[1,0] = 'l';
-    arrF[1,1] = 'a';
-
-    for(i = 0, 2){
-        for(j = 0,2){
-            prueba(arrF[i,j]);
-        }
-    }
-
-    ejem[0] = 2.3;
-    ejem[1] = 4.3;
-    ejem[2] = 3.3;
-    ejem[3] = 8.3;
-
-
-    for(i = 0,4){
-        prueba2(ejem[i]);
-    }
+    !!put(n);
+    !!put(o);
 }
 
 DO
 {   
-    imprime(5);
+    
+
 }

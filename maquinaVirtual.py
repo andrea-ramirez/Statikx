@@ -841,7 +841,6 @@ while currentIp < len(cuadruplos):
     # PARAM
     elif cuadruplos[currentIp][0] == 'Parameter':
         param = cuadruplos[currentIp][1]
-        indexP = cuadruplos[currentIp][3]
 
         topMemNueva = pilaNuevaMemoriasLocales[-1]
 
@@ -852,16 +851,29 @@ while currentIp < len(cuadruplos):
 
         # Global int, global temp int, local int, local temp int, constante int
         if 1000 <= param < 2000 or 18000 <= param < 19000 or 5000 <= param < 6000 or 9000 <= param < 10000 or 14000 <= param < 15000:
-            topMemNueva.localInt[indexP - 1] = getValue(param)
+            i = 0
+            while(topMemNueva.localInt[i] != '-'):
+                i += 1;
+            topMemNueva.localInt[i] = getValue(param)
+
         # Global float, global temp float, local float, local temp float, constante float
         elif 2000 <= param < 3000 or 19000 <= param < 20000 or 6000 <= param < 7000 or 10000 <= param < 11000 or 15000 <= param < 16000:
-            topMemNueva.localFloat[indexP - 1] = getValue(param)
+            i = 0
+            while(topMemNueva.localFloat[i] != '-'):
+                i += 1;
+            topMemNueva.localFloat[i] = getValue(param)
         # Global char, global temp char, local char, local temp char, constante char
         elif 3000 <= param < 4000 or 20000 <= param < 21000 or 7000 <= param < 8000 or 11000 <= param < 12000 or 16000 <= param < 17000:
-            topMemNueva.localC[indexP - 1] = getValue(param)
+            i = 0
+            while(topMemNueva.localC[i] != '-'):
+                i += 1;
+            topMemNueva.localC[i] = getValue(param)
         # Global df, local df
         elif 4000 <= param < 5000 or 8000 <= param < 9000:
-            topMemNueva.localDf[indexP - 1] = getValue(param)
+            i = 0
+            while(topMemNueva.localDf[i] != '-'):
+                i += 1;
+            topMemNueva.localDf[i] = getValue(param)
         # Global temp bool, local temp bool
         elif 22000 <= param < 23000 or 13000 <= param < 14000:
             print("No se puede pasar un valor booleano como parámetro")
