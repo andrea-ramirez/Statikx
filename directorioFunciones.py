@@ -112,22 +112,6 @@ class DirectorioFunciones:
             #insertar valor a tabla de variables
             self.registrosFunciones[funcionInsertarVariable][3][nameVariable] = [returnValue,"direccionVirtual"]
 
-
-    @classmethod
-    def isVarDeclared(self,nameVariable,currentScript,currentFunction):
-        # checar que sea una variable que ya esté declarada en la funcion o en el script
-        funcionActual = ""
-        if currentFunction == "":
-            funcionActual = currentScript
-        else:
-            funcionActual = currentFunction
-
-        if nameVariable in self.registrosFunciones[funcionActual][3]:
-            return True
-        else:
-            return False
-        
-    
     # Funciones de arreglos
     
     # Función que regresa si una variable es local o global. Me regresa el nombre de la funcion actual a checar la tabla de variables a la cual la variable ide pertenece
@@ -135,6 +119,9 @@ class DirectorioFunciones:
     def tablaVarActual(self,nombreVar,currentFunction, currentScript):
         try:
             # Local
+            print(nombreVar)
+            print(currentFunction)
+            print(currentScript)
             variable = self.registrosFunciones[currentFunction][3][nombreVar]
             return currentFunction
         except:
@@ -173,6 +160,12 @@ class DirectorioFunciones:
         tablaVarActual = self.tablaVarActual(nombreArreglo,currentFunction,currentScript)
         return self.registrosFunciones[tablaVarActual][3][nombreArreglo][1]
     
+    # Función que regresa el tipo de una variable dimensionada
+    @classmethod
+    def getTipoArrreglo(self,currentScript,currentFunction,nombreArreglo):
+        tablaVarActual = self.tablaVarActual(nombreArreglo,currentFunction,currentScript)
+        return self.registrosFunciones[tablaVarActual][3][nombreArreglo][0]
+    
     # Función que regresa y castea a int, la m de las variables con dos dimensiones
     @classmethod
     def getM1(self,currentScript,currentFunction,nombreMatriz):
@@ -191,10 +184,4 @@ class DirectorioFunciones:
     @classmethod
     def getVirtualAddress(self,function,variable):
         return self.registrosFunciones[function][3][variable][1]
-
-    # Función que elimina main del directorio de funciones
-    @classmethod
-    def endScript(self,nameScript):
-        self.registrosFunciones.pop(nameScript)
-
 

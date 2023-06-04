@@ -29,7 +29,6 @@ func void -> dos(int -> i, int -> j){
     }
 }
 
-
 DO
 { 
     get(k);

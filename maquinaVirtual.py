@@ -698,7 +698,7 @@ while currentIp < len(cuadruplos):
         # GLOBAL TEMP char
         elif 20000 <= aAsignar < 21000:
             memoriaGlobal.tempC[aAsignar - 20000] = getValue(valor)
-        # GLOBAL TEMP bool = no creo que sea necesairo
+        # GLOBAL TEMP bool
         elif 22000 <= aAsignar < 23000:
             memoriaGlobal.tempBool[aAsignar - 22000] = getValue(valor)
         else:
@@ -743,7 +743,6 @@ while currentIp < len(cuadruplos):
                 if tipo == 2:
                     try:
                         valor = int(a)
-                        print("VALOR INT {}".format(valor))
                         break
                     except:
                         print("ERROR: Type Mismatch. \nDigita otra vez. Se espera un valor entero.")
@@ -751,7 +750,6 @@ while currentIp < len(cuadruplos):
                 elif tipo == 3:
                     try:
                         valor = float(a)
-                        print("VALOR FLOAT {}".format(valor))
                         break
                     except:
                         print("ERROR: Type Mismatch. \nDigita otra vez. Se espera un valor flotante.")
@@ -759,7 +757,6 @@ while currentIp < len(cuadruplos):
                 elif tipo == 4:
                     try:
                         valor = ord(a)
-                        print("VALOR CHAR {}".format(valor))
                         break
                     except:
                         print("ERROR: Type Mismatch. \nDigita otra vez. Se espera un valor char.")
@@ -848,6 +845,11 @@ while currentIp < len(cuadruplos):
 
         topMemNueva = pilaNuevaMemoriasLocales[-1]
 
+        
+        # Checar si parametro apunta a memoria
+        if 21000 <= param < 22000 or 12000 <= param < 13000:
+            param = getValue(param)
+
         # Global int, global temp int, local int, local temp int, constante int
         if 1000 <= param < 2000 or 18000 <= param < 19000 or 5000 <= param < 6000 or 9000 <= param < 10000 or 14000 <= param < 15000:
             topMemNueva.localInt[indexP - 1] = getValue(param)
@@ -860,12 +862,6 @@ while currentIp < len(cuadruplos):
         # Global df, local df
         elif 4000 <= param < 5000 or 8000 <= param < 9000:
             topMemNueva.localDf[indexP - 1] = getValue(param)
-        # Global temp Pointer, local temp pointer
-        elif 21000 <= param < 22000 or 12000 <= param < 13000:
-            print("Todavía no implementado pointers")
-            sys.exit()
-            # Tengo que checar qué hay dentro de esa direccion y después ver qué tipo de variable es. Al final lo asigno a topMemNueva
-            topMemNueva.tempPointer[indexP - 1] = getValue(param)
         # Global temp bool, local temp bool
         elif 22000 <= param < 23000 or 13000 <= param < 14000:
             print("No se puede pasar un valor booleano como parámetro")

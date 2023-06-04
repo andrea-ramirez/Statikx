@@ -87,12 +87,12 @@ class MemoriaVirtual:
         self.tempInt = 9000
         self.tempFloat = 10000
         self.tempC = 11000
-        self.tempPointer = 12000 # Temp Pointer
+        self.tempPointer = 12000
         self.tempBool = 13000
         self.countTemInt = 9000
         self.countTemFloat = 10000
         self.countTemC = 11000
-        self.countTemPointer = 12000 # Temp Pointer
+        self.countTemPointer = 12000
         self.countTemBool = 13000
 
         self.CteInt = 14000
@@ -107,42 +107,81 @@ class MemoriaVirtual:
     # Función que regresa la siguiente dirección virtual de memoria displonible
     def getMemoriaTemporal(self,resultType,isLocal):
         temp = ""
-        print(resultType)
         if resultType == 1:
             if isLocal:
-                temp = self.countTemBool
-                self.countTemBool += 1
+                if self.countTemBool < (self.tempBool + 1000):
+                    temp = self.countTemBool
+                    self.countTemBool += 1
+                else:
+                    print("ERROR: Stack overflow. No hay más espacio para temporales locales booleanos")
+                    sys.exit()
             else:
-                temp = self.countGlTempBool
-                self.countGlTempBool += 1
+                if self.countGlTempBool < (self.globalTempBool + 1000):
+                    temp = self.countGlTempBool
+                    self.countGlTempBool += 1
+                else:
+                    print("ERROR: Stack overflow. No hay más espacio para temporales globales booleanos")
+                    sys.exit()
         elif resultType == 2:
             if isLocal:
-                temp = self.countTemInt
-                self.countTemInt += 1
+                if self.countTemInt < (self.tempInt + 1000):
+                    temp = self.countTemInt
+                    self.countTemInt += 1
+                else:
+                    print("ERROR: Stack overflow. No hay más espacio para temporales locales ints")
+                    sys.exit()
             else:
-                temp = self.countGlTempInt
-                self.countGlTempInt += 1
+                if self.countGlTempInt < (self.globalTempInt + 1000):
+                    temp = self.countGlTempInt
+                    self.countGlTempInt += 1
+                else:
+                    print("ERROR: Stack overflow. No hay más espacio para temporales globales ints")
+                    sys.exit()
         elif resultType == 3:
             if isLocal:
-                temp = self.countTemFloat
-                self.countTemFloat += 1
+                if self.countTemFloat < (self.tempFloat + 1000):
+                    temp = self.countTemFloat
+                    self.countTemFloat += 1
+                else:
+                    print("ERROR: Stack overflow. No hay más espacio para temporales locales floats")
+                    sys.exit()
             else:
-                temp = self.countGlTempFloat
-                self.countGlTempFloat += 1
+                if self.countGlTempFloat < (self.globalTempFloat + 1000):
+                    temp = self.countGlTempFloat
+                    self.countGlTempFloat += 1
+                else:
+                    print("ERROR: Stack overflow. No hay más espacio para temporales globales floats")
+                    sys.exit()
         elif resultType == 4:
             if isLocal:
-                temp = self.countTemC
-                self.countTemC += 1
+                if self.countTemC < (self.tempC + 1000):
+                    temp = self.countTemC
+                    self.countTemC += 1
+                else:
+                    print("ERROR: Stack overflow. No hay más espacio para temporales locales chars")
+                    sys.exit()
             else:
-                temp = self.countGlTempC
-                self.countGlTempC += 1
+                if self.countGlTempC < (self.globalTempC + 1000):
+                    temp = self.countGlTempC
+                    self.countGlTempC += 1
+                else:
+                    print("ERROR: Stack overflow. No hay más espacio para temporales globales chars")
+                    sys.exit()
         elif resultType == 'pointer':
             if isLocal:
-                temp = self.countTemPointer
-                self.countTemPointer += 1
+                if self.countTemPointer < (self.tempPointer + 1000):
+                    temp = self.countTemPointer
+                    self.countTemPointer += 1
+                else:
+                    print("ERROR: Stack overflow. No hay más espacio para temporales locales pointers")
+                    sys.exit()
             else:
-                temp = self.countGlTempPointer
-                self.countGlTempPointer += 1
+                if self.countGlTempPointer < (self.globalTempPointer + 1000):
+                    temp = self.countGlTempPointer
+                    self.countGlTempPointer += 1
+                else:
+                    print("ERROR: Stack overflow. No hay más espacio para temporales globales pointers")
+                    sys.exit()
         else:
             print("ERROR AL ASIGNAR TEMPORAL")
             sys.exit()
@@ -162,3 +201,45 @@ class MemoriaVirtual:
         self.countTemDf = 12000
         self.countTemBool = 13000
 
+    # Función que checa si una nueva variable llena el stack
+    # No checa stack para temporales
+    def isOverflow(self):
+        if self.countGlInt >= (self.globalInt + 1000):
+            print("ERROR: Stack Overflow.")
+            sys.exit()
+        elif self.countGlFloat >= (self.globalFloat + 1000):
+            print("ERROR: Stack Overflow.")
+            sys.exit()
+        elif self.countGlC >= (self.globalC + 1000):
+            print("ERROR: Stack Overflow.")
+            sys.exit()
+        elif self.countGlDf >= (self.globalDf + 1000):
+            print("ERROR: Stack Overflow.")
+            sys.exit()
+        elif self.countLocInt >= (self.localInt + 1000):
+            print("ERROR: Stack Overflow.")
+            sys.exit()
+        elif self.countLocFloat >= (self.localFloat + 1000):
+            print("ERROR: Stack Overflow.")
+            sys.exit()
+        elif self.countLocC >= (self.localC + 1000):
+            print("ERROR: Stack Overflow.")
+            sys.exit()
+        elif self.countLocDf >= (self.localDf + 1000):
+            print("ERROR: Stack Overflow.")
+            sys.exit()
+
+    # Función que checa si una nueva constante llena el stack
+    def isOverflowConstants(self):
+        if self.countCteInt >= (self.CteInt + 1000):
+            print("ERROR: Stack Overflow in constants.")
+            sys.exit()
+        elif self.countCteFloat >= (self.CteFloat + 1000):
+            print("ERROR: Stack Overflow in constants.")
+            sys.exit()
+        elif self.countCteC >= (self.CteC + 1000):
+            print("ERROR: Stack Overflow in constants.")
+            sys.exit()
+        elif self.countCteLetrero >= (self.CteLetrero + 1000):
+            print("ERROR: Stack Overflow in constants.")
+            sys.exit()

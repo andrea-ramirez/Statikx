@@ -538,6 +538,8 @@ def p_pnCheckNameTablaVar(p):
             memoria.countLocDf += 1
         else:
             print("Error al asignar posible memoria virtual")
+    
+    memoria.isOverflow()
 
     p[0] = None
 
@@ -572,6 +574,8 @@ def p_pnAddFuncinDir(p):
         else:
             print("Error al asignar posible memoria virtual a variable que representa funcion que regresa un valor")
             sys.exit()
+        
+        memoria.isOverflow()
 
     p[0] = None
 
@@ -591,17 +595,23 @@ def p_pnAddParametersTablaVar(p):
     if tipoActual == 2:
         dirFunc.registrosFunciones[currentFunction][3][p[-1]][1] = memoria.countLocInt
         memoria.countLocInt += 1
+
     elif tipoActual == 3:
         dirFunc.registrosFunciones[currentFunction][3][p[-1]][1] = memoria.countLocFloat
         memoria.countLocFloat += 1
+
     elif tipoActual == 4:
         dirFunc.registrosFunciones[currentFunction][3][p[-1]][1] = memoria.countLocC
         memoria.countLocC += 1
+
     elif tipoActual == 'dataframe':
         dirFunc.registrosFunciones[currentFunction][3][p[-1]][1] = memoria.countLocDf
         memoria.countLocDf += 1
+
     else:
         print("Error al asignar posible memoria virtual")
+    
+    memoria.isOverflow()
 
     p[0] = None
 
@@ -671,8 +681,6 @@ def p_pnEndScript(p):
     '''
     pnEndScript : empty
     '''
-
-    #dirFunc.endScript(currentScript)
 
     # Contabilizar recursos que consumió main
     dirFunc.registrosFunciones[currentScript][2]['vI'] = memoria.countGlInt - memoria.globalInt
@@ -875,6 +883,8 @@ def p_pnSaveCteI(p):
         tablaConst[p[-1]] = ['2',direccion]
         memoria.countCteInt += 1
 
+        memoria.isOverflowConstants()
+
     p[0] = None
 
 # Da de alta constante float en tabla de constantes si no está previamente
@@ -886,6 +896,8 @@ def p_pnSaveCteF(p):
         direccion = memoria.countCteFloat
         tablaConst[p[-1]] = ['3',direccion]
         memoria.countCteFloat += 1
+
+        memoria.isOverflowConstants()
     p[0] = None
 
 # Da de alta constante char en tabla de constantes si no está previamente
@@ -897,6 +909,8 @@ def p_pnSaveCteC(p):
         direccion = memoria.countCteC
         tablaConst[p[-1]] = ['4',direccion]
         memoria.countCteC += 1
+
+        memoria.isOverflowConstants()
     p[0] = None
 
 # Insertar fondo falso en pilaOperadores en ( exp )
@@ -1157,10 +1171,15 @@ def p_pnCuadAsign(p):
             valor = pilaOperandos.get()
             valorTipo = pilaTipo.get()
             aAsignar = pilaOperandos.get()
+            print(list(pilaTipo.queue))
             aAsignarTipo = pilaTipo.get()
 
             operador = pilaOperadores.get()
+
+            print(valorTipo)
+            print(aAsignarTipo)
             
+            # Se asignan si son del mismo tipo
             if semantica.convertion[valorTipo] == semantica.convertion[aAsignarTipo]:
                 valor = getDirVirtual(valor)
                 aAsignar = getDirVirtual(aAsignar)
@@ -1201,6 +1220,8 @@ def p_pnCuadEscribe(p):
                         direccion = memoria.countCteLetrero
                         tablaConst[p[-1]] = ['LETRERO',direccion]
                         memoria.countCteLetrero += 1
+                        memoria.isOverflowConstants()
+
                         toPrint = tablaConst[p[-1]][1]
                     else:
                         toPrint = tablaConst[p[-1]][1]
@@ -1563,6 +1584,8 @@ def p_pnEndFor(p):
         tablaConst[1] = ['2',direccion]
         memoria.countCteInt += 1
 
+        memoria.isOverflowConstants()
+
     topVC = pilaVControlLoop.get()
     pilaVControlLoop.put(topVC)
 
@@ -1755,10 +1778,10 @@ def insertTablaConst(dirBase,tipo):
             tablaConst[dirBase] = [tipo,direccion]
             memoria.countCteLetrero += 1
             return direccion
+        memoria.isOverflowConstants()
     else:
     # Está dentro de la tabla de variables
         return tablaConst[dirBase][1]
-
 
 # Realiza cáculos de arreglos (1 dimension) para temp Pointer
 def p_pnArrCalc(p):
@@ -1774,18 +1797,17 @@ def p_pnArrCalc(p):
         print("ERROR: Expresión de indexación en arreglos debe ser int")
         sys.exit() 
 
-    top = pilaDim.get()[0]
+    top = pilaDim.get()
     pilaDim.put(top)
 
-    dirBaseArreglo = dirFunc.getDirBaseArreglo(currentScript,currentFunction,top)
+    dirBaseArreglo = dirFunc.getDirBaseArreglo(currentScript,currentFunction,top[0])
     dirBaseArreglo = insertTablaConst(dirBaseArreglo,'2')
 
     isLocalTemp = False
     if currentFunction != "":
         isLocalTemp = True
     temporalPointerActual = memoria.getMemoriaTemporal('pointer',isLocalTemp)
-    resultType = semantica.tablaSimbolos[semantica.convertion[s1Tipo]][semantica.convertion['int']]['+']
-    
+
     s1 = getDirVirtual(s1)
 
     # + dirBase()
@@ -1793,7 +1815,10 @@ def p_pnArrCalc(p):
     cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
 
     pilaOperandos.put(temporalPointerActual)
-    pilaTipo.put(resultType)
+
+    # Se le asigna el tipo de la variable dimensionada al temporalPointer
+    topTipo = dirFunc.getTipoArrreglo(currentScript,currentFunction,top[0])
+    pilaTipo.put(topTipo)
 
     pilaDim.get()
 
@@ -1865,7 +1890,11 @@ def p_pnMatCalc(p):
     cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
 
     pilaOperandos.put(temporalPointerActual)
-    pilaTipo.put('int')
+
+    # Se le asigna el tipo de la variable dimensionada al temporalPointer
+    print("TOP: {}".format(top[0]))
+    topTipo = dirFunc.getTipoArrreglo(currentScript,currentFunction,top[0])
+    pilaTipo.put(topTipo)
 
     pilaDim.get()
 
@@ -1911,10 +1940,10 @@ def printDir():
 parser = yacc.yacc(debug=True)
 
 # filename = 'testPropuesta.txt'
-# filename = 'test.txt'
+filename = 'test.txt'
 # filename = 'testArrays.txt'
 # filename = 'testBubbleSort.txt'
-filename = 'testMultMatrices.txt'
+# filename = 'testMultMatrices.txt'
 # filename = 'testModulos.
 # filename = 'testArreglos.txt'
 # filename = 'testForLoop.txt'
