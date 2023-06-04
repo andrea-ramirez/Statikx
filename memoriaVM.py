@@ -1,3 +1,4 @@
+# Clase para una instancia de memoria local con los respectivas divisiones para el manejo de memoria
 class MemoriaFuncion:
     localInt = []
     localFloat = []
@@ -22,6 +23,7 @@ class MemoriaFuncion:
         self.tempPointer = []
         self.tempBool = []
 
+    # Función que imprime la información de la instancia de memoria local
     def print(self):
         print("Memoria locales enteros: {}".format(self.localInt))
         print("Memoria locales floats: {}".format(self.localFloat))
@@ -35,7 +37,7 @@ class MemoriaFuncion:
         print("Memoria temporales booleanos: {}".format(self.tempBool))
 
 
-
+# Clase para una instancia de memoria global con los respectivas divisiones para el manejo de memoria
 class MemoriaGlobal:
     globalInt = []
     globalFloat = []
@@ -60,6 +62,7 @@ class MemoriaGlobal:
         self.tempPointer = []
         self.tempBool = []
 
+    # Función que imprime la información de la instancia de memoria global
     def print(self):
         print(self.globalInt)
         print(self.globalFloat)

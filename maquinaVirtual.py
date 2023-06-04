@@ -38,10 +38,11 @@ memoriaGlobal.tempC = ['-'] * recursosMain['tC']
 memoriaGlobal.tempPointer = ['-'] * recursosMain['tPointer']
 memoriaGlobal.tempBool = ['-'] * recursosMain['tB']
 
+# Función utilizada para calcular la línea de best fit en la gráfica de regresión lineal
 def modelarLineBestFit(x):
             return slope * x + intercept
 
-#Definir vectores de cada memoria, cambiar size dependiendo de qué necesite
+# Crear nueva instancia de memoria Local y ajustar el tamaño de los arreglos de cada memoria
 def createMemoriaLocal(recursosFuncion):
     currentMemoriaLocal = MemoriaFuncion()
 
@@ -56,8 +57,10 @@ def createMemoriaLocal(recursosFuncion):
     currentMemoriaLocal.tempPointer = ['-'] * recursosFuncion['tPointer']
     currentMemoriaLocal.tempBool = ['-'] * recursosFuncion['tB']
 
+    # Insertar nueva instancia de memoria a pilaNuevaMemoriasLocales
     pilaNuevaMemoriasLocales.append(currentMemoriaLocal)
 
+# Función que regresa dirección vitual de una constante
 def getConstante(direccion):
     for const in tablaConst.keys():
         if tablaConst[const][1] == direccion:
@@ -68,6 +71,7 @@ def getConstante(direccion):
                 return const
     print("ERROR: No se encontró {} en tabla de constantes".format(direccion))
 
+# Función que regresa el valor guardado dentro de una dirección de memoria
 def getValue(direccion):
     # Locales
     if len(list(pilaMemoriasLocales.queue)) > 0:
@@ -78,70 +82,70 @@ def getValue(direccion):
     if 1000 <= direccion < 2000:
         # Int
         if memoriaGlobal.globalInt[direccion - 1000] == '-':
-            print("No hay valor en la direccion {} para globables ints".format(direccion))
+            print("ERROR: No hay valor en la dirección {} para globales ints".format(direccion))
             sys.exit()
         return memoriaGlobal.globalInt[direccion - 1000]
     elif 2000 <= direccion < 3000:
         # Float
         if memoriaGlobal.globalFloat[direccion - 2000] == '-':
-            print("No hay valor en la direccion {} para globables floats".format(direccion))
+            print("ERROR: No hay valor en la dirección {} para globales floats".format(direccion))
         return memoriaGlobal.globalFloat[direccion - 2000]
     elif 3000 <= direccion < 4000:
         # C
         if memoriaGlobal.globalC[direccion - 3000] == '-':
-            print("No hay valor en la direccion {} para globables chars".format(direccion))
+            print("ERROR: No hay valor en la dirección {} para globales chars".format(direccion))
         return memoriaGlobal.globalC[direccion - 3000]
     elif 4000 <= direccion < 5000:
         # Df
         if memoriaGlobal.globalDf[direccion - 4000] == '-':
-            print("No hay valor en la direccion {} para globables dfs".format(direccion))
+            print("ERROR: No hay valor en la dirección {} para globales dfs".format(direccion))
         return memoriaGlobal.globalDf[direccion - 4000]
     # Locales
     elif 5000 <= direccion < 6000:
         # Int
         if memoriaLocal.localInt[direccion - 5000] == '-':
-            print("No hay valor en la direccion {} para locales ints".format(direccion))
+            print("ERROR: No hay valor en la dirección {} para locales ints".format(direccion))
         return memoriaLocal.localInt[direccion - 5000]
     elif 6000 <= direccion < 7000:
         # Float
         if memoriaLocal.localFloat[direccion - 6000] == '-':
-            print("No hay valor en la direccion {} para locales floats".format(direccion))
+            print("ERROR: No hay valor en la dirección {} para locales floats".format(direccion))
         return memoriaLocal.localFloat[direccion - 6000]
     elif 7000 <= direccion < 8000:
         # Char
         if memoriaLocal.localC[direccion - 7000] == '-':
-            print("No hay valor en la direccion {} para locales chars".format(direccion))
+            print("ERROR: No hay valor en la dirección {} para locales chars".format(direccion))
         return memoriaLocal.localC[direccion - 7000]
     elif 8000 <= direccion < 9000:
         # Df
         if memoriaLocal.localDf[direccion - 8000] == '-':
-            print("No hay valor en la direccion {} para locales dfs".format(direccion))
+            print("ERROR: No hay valor en la dirección {} para locales dfs".format(direccion))
         return memoriaLocal.localDf[direccion - 8000]
     # Temporales
     elif 9000<= direccion < 10000:
         # Int
         if memoriaLocal.tempInt[direccion - 9000] == '-':
-            print("No hay valor en la direccion {} para temporales ints".format(direccion))
+            print("ERROR: No hay valor en la dirección {} para temporales ints".format(direccion))
         return memoriaLocal.tempInt[direccion - 9000]
     elif 10000 <= direccion < 11000:
         # Floats
         if memoriaLocal.tempFloat[direccion - 10000] == '-':
-            print("No hay valor en la direccion {} para temporales floats".format(direccion))
+            print("ERROR: No hay valor en la dirección {} para temporales floats".format(direccion))
         return memoriaLocal.tempFloat[direccion - 10000]
     elif 11000 <= direccion < 12000:
         # C
         if memoriaLocal.tempC[direccion - 11000] == '-':
-            print("No hay valor en la direccion {} para temporales chars".format(direccion))
+            print("ERROR: No hay valor en la dirección {} para temporales chars".format(direccion))
         return memoriaLocal.tempC[direccion - 11000]
     elif 12000 <= direccion < 13000:
         # Pointers
         if memoriaLocal.tempPointer[direccion - 12000] == '-':
-            print("No hay valor en la direccion {} para temporales pointers".format(direccion))
+            print("ERROR: No hay valor en la dirección {} para temporales pointers".format(direccion))
         return memoriaLocal.tempPointer[direccion - 12000]
     elif 13000 <= direccion < 14000:
         # Booleans
         if memoriaLocal.tempBool[direccion - 13000] == '-':
-            print("No hay valor en la direccion {} para temporales booleans".format(direccion))
+            print("ERROR: No hay valor en la dirección {} para temporales booleanos".format(direccion))
         return memoriaLocal.tempBool[direccion - 13000]
     # Constantes
     elif 14000 <= direccion < 18000:
@@ -150,40 +154,42 @@ def getValue(direccion):
     elif 18000 <= direccion < 19000:
         # Int
         if memoriaGlobal.tempInt[direccion - 18000] == '-':
-            print("No hay valor en la direccion {} para temporales globales ints".format(direccion))
+            print("ERROR: No hay valor en la dirección {} para temporales globales ints".format(direccion))
         return memoriaGlobal.tempInt[direccion - 18000]
     elif 19000 <= direccion < 20000:
         # Float
         if memoriaGlobal.tempFloat[direccion - 19000] == '-':
-            print("No hay valor en la direccion {} para temporales globales floats".format(direccion))
+            print("ERROR: No hay valor en la dirección {} para temporales globales floats".format(direccion))
         return memoriaGlobal.tempFloat[direccion - 19000]
     elif 20000 <= direccion < 21000:
         # C
         if memoriaGlobal.tempC[direccion - 20000] == '-':
-            print("No hay valor en la direccion {} para temporales globales chars".format(direccion))
+            print("ERROR: No hay valor en la dirección {} para temporales globales chars".format(direccion))
         return memoriaGlobal.tempC[direccion - 20000]
     elif 21000 <= direccion < 22000:
         # Pointer
         if memoriaGlobal.tempPointer[direccion - 21000] == '-':
-            print("No hay valor en la direccion {} para temporales globales pointers".format(direccion))
+            print("ERROR: No hay valor en la direccion {} para temporales globales pointers".format(direccion))
         return memoriaGlobal.tempPointer[direccion - 21000]
     elif 22000 <= direccion < 23000:
         # Bool
         if memoriaGlobal.tempBool[direccion - 22000] == '-':
-            print("No hay valor en la direccion {} para temporales globales booleanos".format(direccion))
+            print("ERROR: No hay valor en la dirección {} para temporales globales booleanos".format(direccion))
         return memoriaGlobal.tempBool[direccion - 22000]
     
     #Constantes
     else:
-        print("DIRECCION VIRTUAL DESCONOCIDA: {}".format(direccion))
+        print("ERROR: DIRECCION VIRTUAL DESCONOCIDA: {}".format(direccion))
         sys.exit()
 
+# Función utilizada para imprimir la pila de memorias locales
 def printPilaMemoriasLocales():
     index = 0
     for mem in list(pilaMemoriasLocales.queue):
         print("MEMORIA {}".format(index))
         mem.print()
         index += 1
+
 
 
 # Procesador
@@ -199,7 +205,7 @@ while currentIp < len(cuadruplos):
                 currentIp = dirFunc[cuadruplos[currentIp][3]][1] - 1
             else:
                 # Goto saltos condicinales
-                print("No debería llegar aquí")
+                print("ERRORL: Goto")
         except:
             salto = cuadruplos[currentIp][3]
             currentIp = salto - 1
@@ -213,7 +219,6 @@ while currentIp < len(cuadruplos):
             currentIp = salto - 1
         else:
             currentIp += 1
-
 
     # PLUS
     elif cuadruplos[currentIp][0] == '+':
@@ -259,7 +264,7 @@ while currentIp < len(cuadruplos):
             pilaMemoriasLocales.get()
             pilaMemoriasLocales.put(topMemLocal)
         else:
-            print("ALGO MAL")
+            print("ERROR: Dirección de respuesta a operación desconocida")
             sys.exit()
 
         currentIp += 1
@@ -309,7 +314,7 @@ while currentIp < len(cuadruplos):
             pilaMemoriasLocales.get()
             pilaMemoriasLocales.put(topMemLocal)
         else:
-            print("ALGO MAL")
+            print("ERROR: Dirección de respuesta a operación desconocida")
             sys.exit()
 
         currentIp += 1
@@ -359,7 +364,7 @@ while currentIp < len(cuadruplos):
             pilaMemoriasLocales.get()
             pilaMemoriasLocales.put(topMemLocal)
         else:
-            print("ALGO MAL")
+            print("ERROR: Dirección de respuesta a operación desconocida")
             sys.exit()
 
         currentIp += 1
@@ -409,7 +414,7 @@ while currentIp < len(cuadruplos):
             pilaMemoriasLocales.get()
             pilaMemoriasLocales.put(topMemLocal)
         else:
-            print("ALGO MAL")
+            print("ERROR: Dirección de respuesta a operación desconocida")
             sys.exit()
 
         currentIp += 1
@@ -442,7 +447,7 @@ while currentIp < len(cuadruplos):
             pilaMemoriasLocales.get()
             pilaMemoriasLocales.put(topMemLocal)
         else:
-            print("COMBINACION NO ESPERADA en MAYOR QUE")
+            print("ERROR: COMBINACION NO ESPERADA en MAYOR QUE")
             sys.exit()
 
         currentIp += 1
@@ -475,7 +480,7 @@ while currentIp < len(cuadruplos):
             pilaMemoriasLocales.get()
             pilaMemoriasLocales.put(topMemLocal)
         else:
-            print("COMBINACION NO ESPERADA en MENOR QUE")
+            print("ERROR: COMBINACION NO ESPERADA en MENOR QUE")
             sys.exit()
 
         currentIp += 1
@@ -508,7 +513,7 @@ while currentIp < len(cuadruplos):
             pilaMemoriasLocales.get()
             pilaMemoriasLocales.put(topMemLocal)
         else:
-            print("COMBINACION NO ESPERADA en EQUALS")
+            print("ERROR: COMBINACION NO ESPERADA en EQUALS")
             sys.exit()
 
         currentIp += 1
@@ -541,7 +546,7 @@ while currentIp < len(cuadruplos):
             pilaMemoriasLocales.get()
             pilaMemoriasLocales.put(topMemLocal)
         else:
-            print("COMBINACION NO ESPERADA en NOT EQUALS")
+            print("ERROR: COMBINACION NO ESPERADA en NOT EQUALS")
             sys.exit()
 
         currentIp += 1
@@ -574,7 +579,7 @@ while currentIp < len(cuadruplos):
             pilaMemoriasLocales.get()
             pilaMemoriasLocales.put(topMemLocal)
         else:
-            print("COMBINACION NO ESPERADA en AND")
+            print("ERROR: COMBINACION NO ESPERADA en AND")
             sys.exit()
 
         currentIp += 1
@@ -607,7 +612,7 @@ while currentIp < len(cuadruplos):
             pilaMemoriasLocales.get()
             pilaMemoriasLocales.put(topMemLocal)
         else:
-            print("COMBINACION NO ESPERADA en OR")
+            print("ERROR: COMBINACION NO ESPERADA en OR")
             sys.exit()
 
         currentIp += 1
@@ -679,15 +684,6 @@ while currentIp < len(cuadruplos):
             topMemLocal.tempC[aAsignar - 11000] = getValue(valor)
             pilaMemoriasLocales.get()
             pilaMemoriasLocales.put(topMemLocal)
-        # Temp local pointer
-        elif 12000 <= aAsignar < 13000:
-            print("ASIGNANDO POINTERS, DEBE SER DIFERENTE")
-            print("NUNCA LLEAGAS")
-            sys.exit()
-            topMemLocal.tempPointer[aAsignar - 12000] = getValue(valor)
-            pilaMemoriasLocales.get()
-            pilaMemoriasLocales.put(topMemLocal)
-            
         # Temp local BOOL - no creo que sea necesario? no tengo variables booleanas
         elif 13000 <= aAsignar < 14000:
             topMemLocal.tempB[aAsignar - 13000] = getValue(valor)
@@ -702,21 +698,12 @@ while currentIp < len(cuadruplos):
         # GLOBAL TEMP char
         elif 20000 <= aAsignar < 21000:
             memoriaGlobal.tempC[aAsignar - 20000] = getValue(valor)
-        # GLOBAL TEMP pointer
-        elif 21000 <= aAsignar < 22000:
-            print("NUNCA LLEAGAS")
-            sys.exit()
-            print("ASIGNANDO POINTERS, DEBE SER DIFERENTE")
-            print(aAsignar)
-            aAsignar = getValue(aAsignar)
-            print(aAsignar)
-            # memoriaGlobal.tempPointer[aAsignar - 21000] = getValue(valor)
-            sys.exit()
         # GLOBAL TEMP bool = no creo que sea necesairo
         elif 22000 <= aAsignar < 23000:
             memoriaGlobal.tempBool[aAsignar - 22000] = getValue(valor)
         else:
-            print("FALTA IMPLEMENTAR ASIGN CON {} TIPO DE VALOR".format(aAsignar))
+            print("ERROR: No se encuentra dirección {} para asignar".format(aAsignar))
+            sys.exit()
         
         currentIp += 1
 
@@ -778,7 +765,7 @@ while currentIp < len(cuadruplos):
                         print("ERROR: Type Mismatch. \nDigita otra vez. Se espera un valor char.")
                         continue
                 else:
-                    print("ERROR: Cannot read this type of input fron console")
+                    print("ERROR: No se puede leer este tipo de valor en consola")
                     sys.exit()
 
         # Guardar valor leído
@@ -839,6 +826,7 @@ while currentIp < len(cuadruplos):
         
         except:
             print("ERROR: No se puede abrir el documento .csv")
+            sys.exit()
 
         currentIp += 1
 
@@ -884,8 +872,7 @@ while currentIp < len(cuadruplos):
             sys.exit()
         # Constantes
         elif 17000 <= param < 18000:
-            # topMemNueva.localInt[indexP - 1] = getValue(param)
-            print("No se puede pasar un letrero como parámetro")
+            print("ERROR: No se puede pasar un letrero como parámetro")
             sys.exit()
 
         topMemNueva = pilaNuevaMemoriasLocales[-1]
@@ -933,7 +920,7 @@ while currentIp < len(cuadruplos):
             dim = getValue(dim)
         
         if getValue(dim) < 0 or getValue(dim) >= limSup:
-            print("ERROR: Array/Matrix index out of range")
+            print("ERROR: Array/Matrix index fuera de rango")
             sys.exit()
 
         currentIp += 1
@@ -951,7 +938,7 @@ while currentIp < len(cuadruplos):
         means = dataframe.mean(axis = 0,numeric_only = True)
 
         if index >= len(means):
-            print("ERROR: Index in dataframe out of bound.")
+            print("ERROR: Index en dataframe fuera de rango. Máximo {}".format(len(means)-1))
             sys.exit()
         
         promedioValor = float(means[index])
@@ -969,6 +956,166 @@ while currentIp < len(cuadruplos):
             topMemLocal.localFloat[dirResult - 6000] = promedioValor
         elif 10000 <= dirResult < 11000:
             topMemLocal.tempFloat[dirResult - 10000] = promedioValor
+
+        currentIp += 1
+
+    # max
+    elif cuadruplos[currentIp][0] == 'max':
+        file = cuadruplos[currentIp][1]
+        index = cuadruplos[currentIp][2]
+        index = getValue(index)
+        dirResult = cuadruplos[currentIp][3]
+
+        dataframe = pandas.read_csv(getValue(file))
+        maxs = dataframe.max(numeric_only = True)
+
+        if index >= len(maxs):
+            print("ERROR: Index in dataframe out of bound.")
+            sys.exit()
+
+        maxValor = float(maxs[index])
+        
+        if len(list(pilaMemoriasLocales.queue)) > 0:
+            topMemLocal = pilaMemoriasLocales.get()
+            pilaMemoriasLocales.put(topMemLocal)
+
+        # Global float, global temporal float, local float, temporal local float
+        if 2000 <= dirResult < 3000:
+            memoriaGlobal.globalFloat[dirResult - 2000] = maxValor
+        elif 19000 <= dirResult < 20000:
+            memoriaGlobal.tempFloat[dirResult - 19000] = maxValor
+        elif 6000 <= dirResult < 7000:
+            topMemLocal.localFloat[dirResult - 6000] = maxValor
+        elif 10000 <= dirResult < 11000:
+            topMemLocal.tempFloat[dirResult - 10000] = maxValor
+
+        currentIp += 1
+
+    # min
+    elif cuadruplos[currentIp][0] == 'min':
+        file = cuadruplos[currentIp][1]
+        index = cuadruplos[currentIp][2]
+        index = getValue(index)
+        dirResult = cuadruplos[currentIp][3]
+
+        dataframe = pandas.read_csv(getValue(file))
+        mins = dataframe.min(numeric_only = True)
+
+        if index >= len(mins):
+            print("ERROR: Index en dataframe fuera de rango. Máximo {}".format(len(mins)-1))
+            sys.exit()
+
+        minValor = float(mins[index])
+        
+        if len(list(pilaMemoriasLocales.queue)) > 0:
+            topMemLocal = pilaMemoriasLocales.get()
+            pilaMemoriasLocales.put(topMemLocal)
+
+        # Global float, global temporal float, local float, temporal local float
+        if 2000 <= dirResult < 3000:
+            memoriaGlobal.globalFloat[dirResult - 2000] = minValor
+        elif 19000 <= dirResult < 20000:
+            memoriaGlobal.tempFloat[dirResult - 19000] = minValor
+        elif 6000 <= dirResult < 7000:
+            topMemLocal.localFloat[dirResult - 6000] = minValor
+        elif 10000 <= dirResult < 11000:
+            topMemLocal.tempFloat[dirResult - 10000] = minValor
+
+        currentIp += 1
+
+    # median
+    elif cuadruplos[currentIp][0] == 'median':
+        file = cuadruplos[currentIp][1]
+        index = cuadruplos[currentIp][2]
+        index = getValue(index)
+        dirResult = cuadruplos[currentIp][3]
+
+        dataframe = pandas.read_csv(getValue(file))
+        medians = dataframe.median(axis = 1, skipna = True, numeric_only = True)
+
+        if index >= len(medians):
+            print("ERROR: Index en dataframe fuera de rango. Máximo {}".format(len(medians)-1))
+            sys.exit()
+
+        medianValor = float(medians[index])
+        
+        if len(list(pilaMemoriasLocales.queue)) > 0:
+            topMemLocal = pilaMemoriasLocales.get()
+            pilaMemoriasLocales.put(topMemLocal)
+
+        # Global float, global temporal float, local float, temporal local float
+        if 2000 <= dirResult < 3000:
+            memoriaGlobal.globalFloat[dirResult - 2000] = medianValor
+        elif 19000 <= dirResult < 20000:
+            memoriaGlobal.tempFloat[dirResult - 19000] = medianValor
+        elif 6000 <= dirResult < 7000:
+            topMemLocal.localFloat[dirResult - 6000] = medianValor
+        elif 10000 <= dirResult < 11000:
+            topMemLocal.tempFloat[dirResult - 10000] = medianValor
+
+        currentIp += 1
+
+    # standard deviation
+    elif cuadruplos[currentIp][0] == 'stadDes':
+        file = cuadruplos[currentIp][1]
+        index = cuadruplos[currentIp][2]
+        index = getValue(index)
+        dirResult = cuadruplos[currentIp][3]
+
+        dataframe = pandas.read_csv(getValue(file))
+        stdes = dataframe.std(axis = 0, skipna = True, numeric_only = True)
+
+        if index >= len(stdes):
+            print("ERROR: Index en dataframe fuera de rango. Máximo {}".format(len(stdes)-1))
+            sys.exit()
+
+        stdValor = float(stdes[index])
+        
+        if len(list(pilaMemoriasLocales.queue)) > 0:
+            topMemLocal = pilaMemoriasLocales.get()
+            pilaMemoriasLocales.put(topMemLocal)
+
+        # Global float, global temporal float, local float, temporal local float
+        if 2000 <= dirResult < 3000:
+            memoriaGlobal.globalFloat[dirResult - 2000] = stdValor
+        elif 19000 <= dirResult < 20000:
+            memoriaGlobal.tempFloat[dirResult - 19000] = stdValor
+        elif 6000 <= dirResult < 7000:
+            topMemLocal.localFloat[dirResult - 6000] = stdValor
+        elif 10000 <= dirResult < 11000:
+            topMemLocal.tempFloat[dirResult - 10000] = stdValor
+
+        currentIp += 1
+
+    # variance
+    elif cuadruplos[currentIp][0] == 'variance':
+        file = cuadruplos[currentIp][1]
+        index = cuadruplos[currentIp][2]
+        index = getValue(index)
+        dirResult = cuadruplos[currentIp][3]
+
+        dataframe = pandas.read_csv(getValue(file))
+        variances = dataframe.var(axis = 0, skipna = True, numeric_only = True)
+
+        if index >= len(variances):
+            print("ERROR: Index en dataframe fuera de rango. Máximo {}".format(len(variances)-1))
+            sys.exit()
+
+        varValor = float(variances[index])
+        
+        if len(list(pilaMemoriasLocales.queue)) > 0:
+            topMemLocal = pilaMemoriasLocales.get()
+            pilaMemoriasLocales.put(topMemLocal)
+
+        # Global float, global temporal float, local float, temporal local float
+        if 2000 <= dirResult < 3000:
+            memoriaGlobal.globalFloat[dirResult - 2000] = varValor
+        elif 19000 <= dirResult < 20000:
+            memoriaGlobal.tempFloat[dirResult - 19000] = varValor
+        elif 6000 <= dirResult < 7000:
+            topMemLocal.localFloat[dirResult - 6000] = varValor
+        elif 10000 <= dirResult < 11000:
+            topMemLocal.tempFloat[dirResult - 10000] = varValor
 
         currentIp += 1
 
@@ -1001,6 +1148,9 @@ while currentIp < len(cuadruplos):
         x = dataframe.iloc[:,indexX]
         y = dataframe.iloc[:,indexY]
 
+        titleX = dataframe.columns[indexX]
+        titleY = dataframe.columns[indexY]
+
         slope, intercept, r, p, std_err = stats.linregress(x, y)
 
         modelo = list(map(modelarLineBestFit, x))
@@ -1008,6 +1158,8 @@ while currentIp < len(cuadruplos):
         plt.scatter(x, y, c='#4e9186')
         plt.plot(x, modelo)
         plt.title("Statikx Regresión Linear")
+        plt.xlabel(titleX, fontsize=10, labelpad=15)
+        plt.ylabel(titleY, fontsize=10, labelpad=15)
         plt.show()
 
         currentIp += 1

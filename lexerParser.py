@@ -10,7 +10,7 @@ import sys
 from memoriaVirtual import MemoriaVirtual
 
 # Tabla de constantes
-# {nombre, tipo, direccionVirtual} Por ahora guardo el tipo, mientas no tenga el número de memoria con que checar el rango, o sea el tipo
+# {nombre: [tipo, direccionVirtual]}
 tablaConst = {}
 
 # Cubo Semántico
@@ -20,8 +20,10 @@ semantica = CuboSemantico()
 
 currentScript = ""
 currentFunction = ""
+# guarda tipo de variable o función cada vez que reconoce INT, FLOAT, CHAR, DATAFRAME y VOID
 currentTypeVar = ""
 currentLlamada = ""
+# Guarda id de variable dimensionada para conectar con lista de nodos
 currentDecID = ""
 arrSize = 1
 
@@ -36,7 +38,7 @@ pilaDim = LifoQueue(maxsize=0)
 # Iniciar Memoria virtual
 memoria = MemoriaVirtual()
 
-# For loop - debo cambiar a pila
+# Pila para variables de control de for loops
 pilaVControlLoop = LifoQueue(maxsize=0)
 
 #  LEXER
@@ -59,7 +61,6 @@ reserved = {
     'char' : 'CHAR',            # char
     'void' : 'VOID',            # void
     'mean' : 'MEAN',            # mean special function
-    'mode' : 'MODE',            # mode special function
     'median' : 'MEDIAN',        # median special function
     'variance' : 'VARIANCE',    # variance special function
     'max' : 'MAX',              # max special function
@@ -158,37 +159,10 @@ def t_newline(t):
 t_ignore  = ' \t'
 
 def t_error(t):
-  print("Illegal character '%s'" % t.value[0])
+  print("ERROR: Caracter ilegal '%s'" % t.value[0])
   t.lexer.skip(1)
 
-#lexer = lex.lex(debug=True)
 lexer = lex.lex()
-
-def test_lexer(fileName):
-    file = open(fileName)
-    accum = ""
-
-    while True:
-        line = file.readline()
-        if (line):
-            accum += line
-        else: 
-            break
-
-    lexer.input(accum)
-    while True:
-        tok = lexer.token()
-        if not tok:
-            break
-        print(tok)
-
-
-# test_lexer("testP.txt")
-
-precedence = (
-    ('left', 'PLUS', 'MINUS'),
-    ('left', 'MULT', 'DIV'),
-)
 
 # PARSER
 def p_programa(p):
@@ -396,7 +370,6 @@ def p_ciclof(p):
 def p_funcesp(p):
     '''
     funcesp : mean
-            | mode
             | median
             | variance
             | max
@@ -414,39 +387,33 @@ def p_mean(p):
     '''
     p[0] = None
 
-def p_mode(p):
-    '''
-    mode : MODE LEFT_PARENT variable  pnCuadFuncEsp RIGHT_PARENT SEMICOLON
-    '''
-    p[0] = None
-
 def p_median(p):
     '''
-    median : MEDIAN LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON
+    median : MEDIAN LEFT_PARENT variable COMMA exp pnCuadFuncEsp RIGHT_PARENT SEMICOLON
     '''
     p[0] = None
 
 def p_variance(p):
     '''
-    variance : VARIANCE LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON
+    variance : VARIANCE LEFT_PARENT variable COMMA exp pnCuadFuncEsp RIGHT_PARENT SEMICOLON
     '''
     p[0] = None
 
 def p_max(p):
     '''
-    max : MAX LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON
+    max : MAX LEFT_PARENT variable COMMA exp pnCuadFuncEsp RIGHT_PARENT SEMICOLON
     '''
     p[0] = None
 
 def p_min(p):
     '''
-    min : MIN LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON
+    min : MIN LEFT_PARENT variable COMMA exp pnCuadFuncEsp RIGHT_PARENT SEMICOLON
     '''
     p[0] = None
 
 def p_staddes(p):
     '''
-    staddes : STADDES LEFT_PARENT variable pnCuadFuncEsp RIGHT_PARENT SEMICOLON
+    staddes : STADDES LEFT_PARENT variable COMMA exp pnCuadFuncEsp RIGHT_PARENT SEMICOLON
     '''
     p[0] = None
 
@@ -470,10 +437,9 @@ def p_pnCrearDirFunc(p):
     '''
     pnCrearDirFunc : empty
     '''
-    p[0] = None
     global dirFunc 
     dirFunc = DirectorioFunciones()
-    # print("Se crea directorio de funciones")
+    p[0] = None
 
 #Genera el cuádruplo de Goto Main
 def p_pnCuadGotoMain(p):
@@ -502,14 +468,15 @@ def p_pnScriptFuncDir(p):
     dirFunc.insertNewScript(currentScript)
     p[0] = None
 
+# Función checa si ya existe una tabla de variables para esta función, y si no la tiene, la crea
 def p_pnCheckTablaVar(p):
     '''
     pnCheckTablaVar : empty
     '''
-    # Función checa si ya existe una tabla de variables para esta función
     dirFunc.createTablaVar(currentScript,currentFunction)
     p[0] = None
 
+# Función inicializa la lista paramétrica de la función actual
 def p_pnCrearListaParam(p):
     '''
     pnCrearListaParam : empty
@@ -517,13 +484,13 @@ def p_pnCrearListaParam(p):
     dirFunc.createListaParam(currentScript,currentFunction)
     p[0] = None
 
+# Función cambia la variable global currentTypeVar cuando se lee 
 def p_pnSaveTypeVar(p):
     '''
     pnSaveTypeVar : empty
     '''
     global currentTypeVar 
     currentTypeVar = p[-1]
-    # print("Se cambió currentTypeVar a: {}".format(currentTypeVar))
     p[0] = None
 
 # Función que inserta una variable en la tabla de variables. Le asigna una dirección virtual
@@ -539,7 +506,6 @@ def p_pnCheckNameTablaVar(p):
     tipoActual = semantica.convertion[currentTypeVar]
 
     #Asignar direccion virtual
-    # Hice esto porque no podía llevar memoria a directiorio de funciones como parametro por referencia
     if currentFunction == "":
         # es global
         if tipoActual == 2:
@@ -575,7 +541,9 @@ def p_pnCheckNameTablaVar(p):
 
     p[0] = None
 
-# Función 
+# Función que inserta una nueva función en el directorio de funciones.
+# Verifica que no exista otra función con el mismo nombre
+# Si la función es non-void, se crea una variable global con el nombre de la función
 def p_pnAddFuncinDir(p):
     '''
     pnAddFuncinDir : empty
@@ -614,11 +582,12 @@ def p_pnAddParametersTablaVar(p):
     '''
     # Checar que el parametro no exista en tabla de variables e insertar
     dirFunc.insertVariable(p[-1],currentTypeVar,currentScript,currentFunction)
+    # Inserta el tipo de parámetro en la lista paramétrica
     dirFunc.insertarParam(currentScript,currentFunction,currentTypeVar)
 
     tipoActual = semantica.convertion[currentTypeVar]
 
-    # Es variable local
+    # Contabilizar parámetros en recursos de la función como variables locales
     if tipoActual == 2:
         dirFunc.registrosFunciones[currentFunction][3][p[-1]][1] = memoria.countLocInt
         memoria.countLocInt += 1
@@ -633,7 +602,6 @@ def p_pnAddParametersTablaVar(p):
         memoria.countLocDf += 1
     else:
         print("Error al asignar posible memoria virtual")
-
 
     p[0] = None
 
@@ -666,7 +634,7 @@ def p_pnCountVarsINTOResources(p):
 
     p[0] = None
 
-# Agrega direccion inicial de funcion en directorio de funciones 
+# Función que grega direccion inicial de funcion en directorio de funciones 
 def p_pnDirecIniFunc(p):
     '''
     pnDirecIniFunc : empty
@@ -674,6 +642,9 @@ def p_pnDirecIniFunc(p):
     dirFunc.registrosFunciones[currentFunction][1] = cuadruplos.getCont()
     p[0] = None
 
+# Función que genera el cuádruplo de ENDFUNC
+# Verifica que regrese un valor is es diferente a void
+# Borra la tabla de variables de la función
 def p_pnCloseCurrentFunction(p):
     '''
     pnCloseCurrentFunction : empty
@@ -682,27 +653,26 @@ def p_pnCloseCurrentFunction(p):
     # Checar que sí regrese algo si es diferente de void
     tipoFunction = dirFunc.registrosFunciones[currentFunction][0]
     if tipoFunction != 'void' and cuadruplos.listaCuadruplos[-1][0] != 'Ret':
-        print("Se debe regresar un valor de tipo {} en la función {}".format(tipoFunction,currentFunction))
+        print("ERROR: Se debe regresar un valor de tipo {} en la función {}".format(tipoFunction,currentFunction))
         sys.exit()
 
     # Borrar tabla de variables de la funcion
-
-    # dirFunc.registrosFunciones[currentFunction][3] = {}
+    dirFunc.registrosFunciones[currentFunction][3] = {}
 
     currentFunction = ""
-
 
     nuevoCuadruplo = ['ENDFUNC','','','']
     cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
 
     p[0] = None
 
+# Contabiliza los recursos de main
 def p_pnEndScript(p):
     '''
     pnEndScript : empty
     '''
-    # printDir()
-    # dirFunc.endScript(currentScript)
+
+    #dirFunc.endScript(currentScript)
 
     # Contabilizar recursos que consumió main
     dirFunc.registrosFunciones[currentScript][2]['vI'] = memoria.countGlInt - memoria.globalInt
@@ -718,12 +688,13 @@ def p_pnEndScript(p):
     p[0] = None
 
 # Checar en la llamada a la función que la función esté en el directorio de funciones
+# Actualizar el valor de la variable currentLlamada
 def p_pnCheckFunc(p):
     '''
     pnCheckFunc : empty
     '''
     if p[-1] not in dirFunc.registrosFunciones:
-        print("La función {} no está definida".format(p[-1]))
+        print("ERROR: La función {} no está definida".format(p[-1]))
         sys.exit()
     else:
         global currentLlamada 
@@ -748,6 +719,7 @@ def p_pnGenerateEra(p):
 
     p[0] = None
 
+# Función que regresa la dirección virtual de argument
 def getDirVirtual(argument):
     if type(argument) is not int:
             if currentFunction != "":
@@ -761,9 +733,10 @@ def getDirVirtual(argument):
                 argument = dirFunc.registrosFunciones[currentScript][3][argument][1]
                 return argument
     else:
+        # Ya esa una dirección virtual
         return argument
 
-# Genera cuadruplo de parametro y checa tipo
+# Genera cuadruplo de parametro y verifica el tipo
 def p_pnCuadParametro(p):
     '''
     pnCuadParametro : empty
@@ -777,7 +750,7 @@ def p_pnCuadParametro(p):
     try:
         parametroActual = listaParametrica[index]
     except:
-        print("Se declaró un parámetro de más en la llamada a la funcion {}".format(currentLlamada))
+        print("ERROR: Se declaró un parámetro de más en la llamada a la función {}".format(currentLlamada))
         sys.exit()
 
     if semantica.convertion[argumentTipo] == semantica.convertion[parametroActual]:
@@ -787,7 +760,7 @@ def p_pnCuadParametro(p):
         nuevoCuadruplo = ['Parameter',argument,'',index]
         cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
     else:
-        print("Lista Parametrica no hace match con llamada")
+        print("ERROR: Lista Paramétrica no hace match con llamada")
         sys.exit()
 
     p[0] = None
@@ -801,7 +774,7 @@ def p_pnUpdateK(p):
 
     p[0] = None
 
-# Chequea K con lista paramétrica
+# Chequea K con lista paramétrica al final de la declaración de parámetros
 def p_pnCheckNoParam(p):
     '''
     pnCheckNoParam : empty
@@ -810,7 +783,7 @@ def p_pnCheckNoParam(p):
     index = listaParametrica[0]
 
     if index != len(listaParametrica)-1:
-        print("Error en número de parametros en la llamada de la funcion {} {}".format(currentLlamada, index))
+        print("ERROR: en número de parámetros en la llamada de la función {} {}".format(currentLlamada, index))
         sys.exit()
 
     # Popear Fondo falso
@@ -830,7 +803,7 @@ def p_pnCuadGoSub(p):
 
     p[0] = None
 
-# Parche Guadalupano
+# Parche Guadalupano. Genera cuadruplo que asigna valor de regreso en variable global a un temporal
 def p_pnHandleReturnValue(p):
     '''
     pnHandleReturnValue : empty
@@ -874,7 +847,7 @@ def p_pnCuadRet(p):
 
     tipoFunction = dirFunc.getTipoReturnFunction(currentFunction)
     if tipoFunction == 'void':
-        print("ERROR: No se puede incluir un returns en una funcion de tipo void".format(tipoFunction))
+        print("ERROR: No se puede incluir un returns en una función de tipo void".format(tipoFunction))
         sys.exit()
 
     # Checar que esté regresando el tipo de expresión de la funcion
@@ -926,7 +899,7 @@ def p_pnSaveCteC(p):
         memoria.countCteC += 1
     p[0] = None
 
-# Insertar fondo falso en pilaOperadores
+# Insertar fondo falso en pilaOperadores en ( exp )
 def p_pnSaveFondoFalso(p):
     '''
     pnSaveFondoFalso : empty
@@ -943,18 +916,18 @@ def p_pnPopFondoFalso(p):
         pilaOperadores.get()
     p[0] = None
 
-# Cuadruplos
-
+# Función que guarda operandos en pilaOperandos y su tipo en pilaTipos
+# Verifica que las variables estén declaradas
 def p_pnSaveOperandos(p):
     '''
     pnSaveOperandos : empty
     '''
     # checar que sea una variable declarada
     if currentFunction != "" and p[-1] not in dirFunc.registrosFunciones[currentFunction][3] and p[-1] not in dirFunc.registrosFunciones[currentScript][3]:
-        print("VARIABLE NO DECLARADA {}".format(p[-1]))
+        print("ERROR: VARIABLE NO DECLARADA {}".format(p[-1]))
         sys.exit()
     elif currentFunction == "" and p[-1] not in dirFunc.registrosFunciones[currentScript][3]:
-        print("VARIABLE NO DECLARADA {}".format(p[-1]))
+        print("ERROR: VARIABLE NO DECLARADA {}".format(p[-1]))
         sys.exit()
 
     # Insertar variable a pilaOperandos y pilaSaltos
@@ -979,6 +952,7 @@ def p_pnSaveOperandoConstante(p):
     pilaTipo.put(tablaConst[p[-2]][0])
     p[0] = None
 
+# Función que guarda operador para operaciones de suma y resta
 def p_pnSaveOperadorPlMi(p):
     '''
     pnSaveOperadorPlMi : empty
@@ -986,6 +960,7 @@ def p_pnSaveOperadorPlMi(p):
     pilaOperadores.put(p[-1])
     p[0] = None
 
+# Función que guarda operador para operaciones de multiplicación y división
 def p_pnSaveOperadorMuDi(p):
     '''
     pnSaveOperadorMuDi : empty
@@ -993,6 +968,7 @@ def p_pnSaveOperadorMuDi(p):
     pilaOperadores.put(p[-1])
     p[0] = None
 
+# Función que guarda operador para operaciones relacionales
 def p_pnSaveOperadorRel(p):
     '''
     pnSaveOperadorRel : empty
@@ -1000,6 +976,7 @@ def p_pnSaveOperadorRel(p):
     pilaOperadores.put(p[-1])
     p[0] = None
 
+# Función que guarda operador para operaciones lógicas
 def p_pnSaveOperadorLog(p):
     '''
     pnSaveOperadorLog : empty
@@ -1007,6 +984,7 @@ def p_pnSaveOperadorLog(p):
     pilaOperadores.put(p[-1])
     p[0] = None
 
+# Genera cuádruplo para operaciones de suma y resta
 def p_pnCuadPlMi(p):
     '''
     pnCuadPlMi : empty
@@ -1038,13 +1016,13 @@ def p_pnCuadPlMi(p):
                 cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
                 pilaOperandos.put(temporalActual)
                 pilaTipo.put(resultType)
-                # missing: if any operand were a temporal space, return it to AVAIL
             else:
                 print("ERROR: Type Mismatch")
                 sys.exit()
 
     p[0] = None
 
+# Genera cuádruplo para operaciones de multiplicación y divsión
 def p_pnCuadMuDi(p):
     '''
     pnCuadMuDi : empty
@@ -1076,7 +1054,6 @@ def p_pnCuadMuDi(p):
                 cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
                 pilaOperandos.put(temporalActual)
                 pilaTipo.put(resultType)
-                # missing: if any operand were a temporal space, return it to AVAIL
             else:
                 print("ERROR: Type Mismatch")
                 sys.exit()
@@ -1118,7 +1095,6 @@ def p_pnCuadOpRelacional(p):
                 cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
                 pilaOperandos.put(temporalActual)
                 pilaTipo.put(resultType)
-                # missing: if any operand were a temporal space, return it to AVAIL
             else:
                 print("ERROR: Type Mismatch")
                 sys.exit()
@@ -1156,7 +1132,6 @@ def p_pnCuadOplog(p):
                 cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
                 pilaOperandos.put(temporalActual)
                 pilaTipo.put(resultType)
-                # missing: if any operand were a temporal space, return it to AVAIL
             else:
                 print("ERROR: Type Mismatch")
                 sys.exit()
@@ -1193,13 +1168,13 @@ def p_pnCuadAsign(p):
                 nuevoCuadruplo = [operador,valor,"",aAsignar]
                 cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
             else:
-                print("Se deben asignar valores del mismo tipo")
+                print("ERROR: Se deben asignar valores del mismo tipo")
                 print("{} es {} \n {} es {}".format(valor,valorTipo,aAsignar,aAsignarTipo))
                 sys.exit()
 
     p[0] = None
 
-# Genera cuadruplo de escribeC
+# Genera cuadruplo de Escribe
 def p_pnCuadEscribe(p):
     '''
     pnCuadEscribe : empty
@@ -1235,17 +1210,17 @@ def p_pnCuadEscribe(p):
                     nuevoCuadruplo = [operador,"", "",toPrint]
                     cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
             except:
-                print("No se puede imprimir esto. Sólo se imprimen expresiones o letreros")
+                print("ERROR: No se puede imprimir esto")
                 sys.exit()
 
     p[0] = None
 
+# Genera cuadruplo de Lee
 def p_pnCuadLee(p):
     '''
     pnCuadLee : empty
     '''
     if p[-3] == 'get':
-        # Checar que lo que se está insertando es válido con respecto a tipos
         leerVariable = pilaOperandos.get()
         leerTipo = pilaTipo.get()
         
@@ -1255,10 +1230,10 @@ def p_pnCuadLee(p):
 
         nuevoCuadruplo = [operador,"", leerTipo,leerVariable]
         cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
-        print("Checar que lo que se lee es de un tipo de variable compatible")
 
     p[0] = None
 
+# Genera cuadruplo de Copy
 def p_pnCuadCopy(p):
     '''
     pnCuadCopy : empty
@@ -1283,11 +1258,8 @@ def p_pnCuadCopy(p):
             nuevoCuadruplo = [operador,"", df,toRead]
             cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
         else:
-            print("You can only read from .csv files")
+            print("ERROR: El archivo debe ser .csv")
             sys.exit()
-    else:
-        print("se leyó copy, pero no se generó el cuadruplo")
-        sys.exit()
 
     p[0] = None
 
@@ -1298,7 +1270,7 @@ def p_pnCuadFuncEsp(p):
     '''
     top = p[-5]
     
-    funcEspReturn = ['mean','mode','median','variance','max','min','stadDes']
+    funcEspReturn = ['mean','median','variance','max','min','stadDes']
 
     if top in funcEspReturn:
         resultType = 3
@@ -1407,7 +1379,7 @@ def p_pnCheckBoolIf(p):
     expTipo = pilaTipo.get()
 
     if expTipo != 1:
-        print("ERROR: Type Mismatch. Expected boolean condition in IF statement")
+        print("ERROR: Type Mismatch. Se espera un valor booleano")
         sys.exit()
     else:
         result = pilaOperandos.get()
@@ -1484,9 +1456,10 @@ def p_pnSaveForID(p):
     if topPila in dirFunc.registrosFunciones[funcionActual][3]:
         # Ver el tipo de la variable
         if semantica.convertion[dirFunc.registrosFunciones[funcionActual][3][topPila][0]] != 2:
-            print("ERROR: Type Mismatch. You can only use an id with int as type")
+            print("ERROR: Type Mismatch. Se debe utilizar una variable entera para inicializar el for loop")
             sys.exit()
         else:
+            # Guarda variable en pilaOperandos
             pilaOperandos.put(topPila)
             pilaTipo.put(semantica.convertion[dirFunc.registrosFunciones[funcionActual][3][topPila][0]])
     else:
@@ -1517,6 +1490,7 @@ def p_pnCreateVControl(p):
         controlTipo = pilaTipo.get()
         pilaTipo.put(controlTipo)
 
+        # Chequear que el tipo de control y el que resultó de la expresión sean iguales
         tipoRes = semantica.tablaSimbolos[semantica.convertion[controlTipo]][semantica.convertion[expTipo]]['==']
         
         if tipoRes == 0:
@@ -1583,6 +1557,7 @@ def p_pnEndFor(p):
 
     temporalActual = memoria.getMemoriaTemporal(2,isLocalTemp)
 
+    # Dar de alta 1 en tabla de constantes si todavía no está
     if 1 not in tablaConst:
         direccion = memoria.countCteInt
         tablaConst[1] = ['2',direccion]
@@ -1700,7 +1675,7 @@ def p_pnArrAddDim(p):
     p[0] = None
 
 
-# verificar variable dim, Inicializar el acceso de arreglo/matriz, poner fondo falso, #2
+# verificar variable dim, Inicializar el acceso de arreglo/matriz, poner fondo falso
 def p_pnArrIni(p):
     '''
     pnArrIni : empty
@@ -1711,12 +1686,12 @@ def p_pnArrIni(p):
 
     # Verificar que ID tiene dimensiones
     if dirFunc.isDim(ide,currentScript,currentFunction):
-        # Guardar nombre de arreglo
 
+        # Guardar nombre de arreglo y dimensión
         pilaDim.put([ide,1])
         pilaOperadores.put(" FF ")
     else:
-        print("variable no dimensionada")
+        print("ERROR: Variable no dimensionada")
         sys.exit()
 
     p[0] = None
@@ -1754,6 +1729,9 @@ def p_pnArrAccIncDim(p):
 
     p[0] = None
 
+# Función que inserta una constante en la tabla de constantes dependiendo del tipo
+# Usada mayormente para dar de alta las direcciones base de las variables dimensionadas
+# al momento de indexar arreglos
 def insertTablaConst(dirBase,tipo):
     # No está dentro de la tabla de variables
     if dirBase not in tablaConst:
@@ -1832,10 +1810,6 @@ def p_pnMatCalc(p):
     s1 = pilaOperandos.get()
     s1Tipo = pilaTipo.get()
 
-    if len(pilaTipo.queue) != len(pilaOperandos.queue):
-        print("algo mal sis")
-        sys.exit()
-
     if semantica.convertion[s2Tipo] != 2 or semantica.convertion[s1Tipo] != 2:
         print("ERROR: Expresión de indexación en arreglos debe ser int")
         sys.exit()
@@ -1910,7 +1884,6 @@ def p_pnCuadEND(p):
     '''
     pnCuadEND : empty
     '''
-
     nuevoCuadruplo = ['END','','','']
     cuadruplos.listaCuadruplos.append(nuevoCuadruplo)
     
@@ -1969,9 +1942,7 @@ for cuad in cuadruplos.listaCuadruplos:
     print(cuad)
     index += 1
 
-# print(*cuadruplos.listaCuadruplos, sep="\n")
 
-# print("  \n\n TABLA CONSTANTES")
 print(tablaConst)
 
 data = {
@@ -1980,8 +1951,8 @@ data = {
     'tablaconst' : tablaConst,
     'script' : currentScript,
     'direcciones' : memoria,
-    #maybe incluir memoria aquí
 }
 
+# Función que exporta la variable data
 def exportData():
     return data

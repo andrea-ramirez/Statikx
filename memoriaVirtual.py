@@ -1,5 +1,7 @@
 import sys
 
+# Clase que define los rangos para el direccionamiento de variables
+
 class MemoriaVirtual:
     #Rangos
     globalInt = 1000
@@ -34,12 +36,12 @@ class MemoriaVirtual:
     tempInt = 9000
     tempFloat = 10000
     tempC = 11000
-    tempPointer = 12000 # TEMPORAL POINTER
+    tempPointer = 12000
     tempBool = 13000
     countTemInt = 9000
     countTemFloat = 10000
     countTemC = 11000
-    countTemPointer = 12000 # TEMPORAL POINTER
+    countTemPointer = 12000
     countTemBool = 13000
 
     CteInt = 14000
@@ -102,6 +104,7 @@ class MemoriaVirtual:
         self.countCteC = 16000
         self.countCteLetrero = 17000
 
+    # Función que regresa la siguiente dirección virtual de memoria displonible
     def getMemoriaTemporal(self,resultType,isLocal):
         temp = ""
         print(resultType)
@@ -146,12 +149,8 @@ class MemoriaVirtual:
 
         return temp
     
+    # Función que cambia los contadores de recursos a su estado original
     def reset(self):
-        # self.countGlInt = 1000
-        # self.countGlFloat = 2000
-        # self.countGlC = 3000
-        # self.countGlDf = 4000
-
         self.countLocInt = 5000
         self.countLocFloat = 6000
         self.countLocC = 7000

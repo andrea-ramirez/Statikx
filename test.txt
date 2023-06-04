@@ -1,20 +1,19 @@
 script example02; 
 
+func int -> aver(){
+    returns 2;
+}
+
 DO
 {   
     var dataframe -> df1,df2;
     var int -> x;
-    var float -> f;
+    var float -> f,g,h,std,va,mea,mod;
     var int -> i;
 
     i = 2;
 
     copy(df1,"2019.csv");
-    put(mean(df1,i););
-    !!boxplot(df1,"Mi boxplot");
-    copy(df2,"studentGrades.csv");
-    !! x , y
-    linReg(df2,1,1+1);
-
-
+    h = median(df1,2);;
+    put(h);
 }

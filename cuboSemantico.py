@@ -1,11 +1,10 @@
-# Las constantes se redireccionan se buscan como de tipo simple que le corresponde
+# Regresa el tipo de valor del resultado de una operación entre dos elmentos con un tipo dado
 # error     -> 0
 # boolean   -> 1
 # int       -> 2
 # float     -> 3
 # char      -> 4
 
-#Hashmap of hashmaps anidados
 class CuboSemantico:
     tablaSimbolos = {
         1 : {
@@ -193,6 +192,8 @@ class CuboSemantico:
                 },
             },
     }
+
+    # Diccionario de conversiones, entre diferentes notaciones de los mismos tipo de variables
     convertion = {
         1 : 1,
         'int' : 2,
@@ -204,12 +205,8 @@ class CuboSemantico:
         'char' : 4,
         '4' : 4,
         4 : 4,
-        # Para checar que en asign, sólo se pueda entre variables de tipo dataframe
         'dataframe' : 'dataframe',
     }
     
     def _init_(self,tablaSimbolos):
         self.tablaSi = tablaSimbolos
-
-# prueba = CuboSemantico()
-# print(prueba.tablaSimbolos[1][2]['+'])

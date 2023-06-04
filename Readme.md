@@ -12,5 +12,4 @@ El avance para la entrega #7 / viernes 2 de junio es:
 - Completo Avance 5
 - Completo Avance 6
 - Completo Avance 7
-- Avance 8:
-    - Documentación en proceso
+- Completo Avance 8

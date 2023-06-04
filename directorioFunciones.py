@@ -1,9 +1,10 @@
 # Directorio de funciones
-# {string, [diferentesTipos]}
 # {nombre, [tipoRetorno, direccionInicio, numeroRecursos, tablaVar, listaParametros]}
 # tablaVar = {nombre : [tipo,direccionVirtual,dim]}
 
 import sys
+
+# Clase que registra las funciones de un script
 
 class DirectorioFunciones:
     registrosFunciones = {}
@@ -11,18 +12,8 @@ class DirectorioFunciones:
     
     def _init_(self):
         self.registrosFunciones = {}
-    
-    # Para ver si la variable es local o global. Me regresa el nombre de la funcion actual a checar la tabla de variables a la cual la variable ide pertenece
-    @classmethod
-    def tablaVarActual(self,nombreVar,currentFunction, currentScript):
-        try:
-            # Local
-            variable = self.registrosFunciones[currentFunction][3][nombreVar]
-            return currentFunction
-        except:
-            variable = self.registrosFunciones[currentScript][3][nombreVar]
-            return currentScript
 
+    # Función que inicializa un nuevo script en el directorio de funciones
     @classmethod
     def insertNewScript(self,nameScript):
         # Se crea con tabla de variables ya inicializada
@@ -40,8 +31,8 @@ class DirectorioFunciones:
             recursosScript['tPointer'] = 0
             recursosScript['tB'] = 0
 
-        # print("Inició registro de script {} en Directorio de Funciones \n".format(nameScript))
-
+    # Función que inserta una nueva función al directorio de funciones
+    # Chequea que no exista una función con ese mismo nombre
     @classmethod
     def insertNewFunction(self,nameFunction,returnValue):
         alreadyAFunction = nameFunction in self.registrosFunciones
@@ -53,6 +44,8 @@ class DirectorioFunciones:
             self.registrosFunciones[nameFunction] = [returnValue,"",{},""]
             # print("Se ha insertado al Directorio de Funciones la funcion {} con attributos {}".format(nameFunction,self.registrosFunciones[nameFunction]))
 
+    # Función que inicializa la tabla de variables para una función del directorio, si todavía no cuenta con una
+    # También inicializa el diccionario para conteo de recursos
     @classmethod
     def createTablaVar(self,currentScript,currentFunction):
         funcionAgregarTablaVar = ""
@@ -63,7 +56,6 @@ class DirectorioFunciones:
 
         if self.registrosFunciones[funcionAgregarTablaVar][3] == "":
             self.registrosFunciones[funcionAgregarTablaVar][3] = {}
-            # print("Se ha creado la tabla de variables de {}".format(funcionAgregarTablaVar))
 
         #También inicializa el diccionario de recursos de la funcion
         recursosFuncion = self.registrosFunciones[funcionAgregarTablaVar][2]
@@ -90,6 +82,7 @@ class DirectorioFunciones:
 
         self.registrosFunciones[funcionCrearListaParam].append([0])
 
+    # Función que inserta tipo de parámetro en la lista paramétrica
     @classmethod
     def insertarParam(self,currentScript,currentFunction,currentTypeVar):
         funcionCrearListaParam = ""
@@ -100,6 +93,7 @@ class DirectorioFunciones:
         
         self.registrosFunciones[funcionCrearListaParam][4].append(currentTypeVar)
 
+    # Función que inserta una variable a la tabla de variables de la función actual
     @classmethod
     def insertVariable(self,nameVariable,returnValue,currentScript,currentFunction):
         funcionInsertarVariable = ""
@@ -117,10 +111,7 @@ class DirectorioFunciones:
         else:
             #insertar valor a tabla de variables
             self.registrosFunciones[funcionInsertarVariable][3][nameVariable] = [returnValue,"direccionVirtual"]
-            
-            # print("Se ha insertado la variable {} en el registro de {}".format(nameVariable,funcionInsertarVariable))
 
-        # print(self.registrosFunciones[funcionInsertarVariable][3])
 
     @classmethod
     def isVarDeclared(self,nameVariable,currentScript,currentFunction):
@@ -138,7 +129,19 @@ class DirectorioFunciones:
         
     
     # Funciones de arreglos
-        
+    
+    # Función que regresa si una variable es local o global. Me regresa el nombre de la funcion actual a checar la tabla de variables a la cual la variable ide pertenece
+    @classmethod
+    def tablaVarActual(self,nombreVar,currentFunction, currentScript):
+        try:
+            # Local
+            variable = self.registrosFunciones[currentFunction][3][nombreVar]
+            return currentFunction
+        except:
+            variable = self.registrosFunciones[currentScript][3][nombreVar]
+            return currentScript
+    
+    # Función booleana que checa si una variable es dimensionada o no
     @classmethod
     def isDim(self,ide, currentScript, currentFunction):
         tablaVarIde = self.tablaVarActual(ide,currentFunction, currentScript)
@@ -164,11 +167,13 @@ class DirectorioFunciones:
             print("ERROR: No se pudo acceder con la dimension {} al arreglo {}".format(dimension,nombreArreglo))
             sys.exit()
 
+    # Función que regresa la dirección base de una variable dimensionada
     @classmethod
     def getDirBaseArreglo(self,currentScript,currentFunction,nombreArreglo):
         tablaVarActual = self.tablaVarActual(nombreArreglo,currentFunction,currentScript)
         return self.registrosFunciones[tablaVarActual][3][nombreArreglo][1]
     
+    # Función que regresa y castea a int, la m de las variables con dos dimensiones
     @classmethod
     def getM1(self,currentScript,currentFunction,nombreMatriz):
         tablaVarActual = self.tablaVarActual(nombreMatriz,currentFunction,currentScript)
@@ -177,17 +182,19 @@ class DirectorioFunciones:
 
         return int(self.registrosFunciones[tablaVarActual][3][nombreMatriz][2][0][1])
     
+    # Función que regresa el tipo de retorno de una función
     @classmethod
     def getTipoReturnFunction(self,function):
         return self.registrosFunciones[function][0]
     
+    # Función que regresa la dirección base de una variable global para parche guadalupano
     @classmethod
     def getVirtualAddress(self,function,variable):
-        # print("Address a regresar {}".format(self.registrosFunciones[function][3][variable][1]))
         return self.registrosFunciones[function][3][variable][1]
 
+    # Función que elimina main del directorio de funciones
     @classmethod
     def endScript(self,nameScript):
         self.registrosFunciones.pop(nameScript)
-        # print("Se eliminó el script {} del Directorio de Funciones".format(nameScript))
+
 
