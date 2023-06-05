@@ -1,0 +1,20 @@
+script testStatikx; 
+
+
+DO
+{   
+    var int[2,2] -> mi;
+    var int -> i,j,x;
+
+    for(i = 0, 2){
+        for(j = 0, 2){
+            get(mi[i,j]);
+        }
+    }
+
+    for(i = 0, 2){
+        for(j = 0, 2){
+            put(mi[i,j]);
+        }
+    }
+}

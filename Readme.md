@@ -6,6 +6,17 @@ A00825062
 
 Statikx es un lenguaje de alto nivel que funciona como una herramienta de análisis estadístico. A continuación existen ejemplos de cómo se puede utilizar
 
+# Correr Statikx
+
+Coloca tu archivo .stix y tus .csv en la misma carpeta que maquinaVirtual.py
+Corre la máquina virtual de la siguiente forma
+
+```
+python3 maquinaVirtual.py
+```
+
+# Manual
+
 ## Tipos de datos
 
 Statikx permite la declaración de variables de tipo:
@@ -210,6 +221,4 @@ DO
     
 }
 ```
-
-# Correr Statikx
 

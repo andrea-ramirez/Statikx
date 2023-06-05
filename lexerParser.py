@@ -1171,13 +1171,9 @@ def p_pnCuadAsign(p):
             valor = pilaOperandos.get()
             valorTipo = pilaTipo.get()
             aAsignar = pilaOperandos.get()
-            print(list(pilaTipo.queue))
             aAsignarTipo = pilaTipo.get()
 
             operador = pilaOperadores.get()
-
-            print(valorTipo)
-            print(aAsignarTipo)
             
             # Se asignan si son del mismo tipo
             if semantica.convertion[valorTipo] == semantica.convertion[aAsignarTipo]:
@@ -1892,7 +1888,6 @@ def p_pnMatCalc(p):
     pilaOperandos.put(temporalPointerActual)
 
     # Se le asigna el tipo de la variable dimensionada al temporalPointer
-    print("TOP: {}".format(top[0]))
     topTipo = dirFunc.getTipoArrreglo(currentScript,currentFunction,top[0])
     pilaTipo.put(topTipo)
 
@@ -1940,10 +1935,10 @@ def printDir():
 parser = yacc.yacc(debug=True)
 
 # Ingresar nombre de archivo a correr
-print("Ingresa el nombre del archivo .txt \n")
+print("Ingresa el nombre del archivo .stix \n")
 while True:
     a = input()
-    if a.endswith(".txt") is False or a == "":
+    if a.endswith(".stix") is False or a == "":
         print("Digita otra el nombre del archivo")
     else:
         filename = a;
@@ -1954,7 +1949,7 @@ try:
     text = fp.read()
     fp.close()
 except:
-    print("ERROR: No se pudo abrir el archivo .txt")
+    print("ERROR: No se pudo abrir el archivo .stix")
     sys.exit()
 
 
@@ -1964,15 +1959,15 @@ with open(filename) as fp:
     except EOFError:
         pass
 
-print("\n\nLISTA DE CUADRUPLOS \n")
-index = 1
-for cuad in cuadruplos.listaCuadruplos:
-    temp = [index] + cuad
-    cuad = temp
-    print(cuad)
-    index += 1
+# print("\n\nLISTA DE CUADRUPLOS \n")
+# index = 1
+# for cuad in cuadruplos.listaCuadruplos:
+#     temp = [index] + cuad
+#     cuad = temp
+#     print(cuad)
+#     index += 1
 
-print("\n\n")
+# print("\n\n")
 
 data = {
     'cuads': cuadruplos.listaCuadruplos,

@@ -725,7 +725,6 @@ while currentIp < len(cuadruplos):
 
     # LEE
     elif cuadruplos[currentIp][0] == 'get':
-        print(cuadruplos[currentIp])
         print("Ingresa el valor de la variable")
 
         # Quieres que sea del tipo que se supone
@@ -762,6 +761,10 @@ while currentIp < len(cuadruplos):
                 else:
                     print("ERROR: No se puede leer este tipo de valor en consola")
                     sys.exit()
+
+        # Si es pointer se agarra el valor de la dirección que está en aAsignar
+        if 21000 <= aAsignar < 22000 or 12000 <= aAsignar < 13000:
+            aAsignar = getValue(aAsignar)
 
         # Guardar valor leído
         if len(list(pilaMemoriasLocales.queue)) > 0:

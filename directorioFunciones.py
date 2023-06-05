@@ -119,9 +119,6 @@ class DirectorioFunciones:
     def tablaVarActual(self,nombreVar,currentFunction, currentScript):
         try:
             # Local
-            print(nombreVar)
-            print(currentFunction)
-            print(currentScript)
             variable = self.registrosFunciones[currentFunction][3][nombreVar]
             return currentFunction
         except:
