@@ -1,0 +1,21 @@
+script testStatikx; 
+
+
+DO
+{   
+    var dataframe -> df1,df2;
+
+    copy(df1,"2019.csv");
+    copy(df2,"studentGrades.csv");
+
+    boxplot(df2,"Rendimiento Estudiantes");
+    linReg(df1,3,8);
+
+    put(mean(df1,2););
+    put(median(df1,2););
+    put(max(df1,2););
+    put(min(df1,2););
+    put(stadDes(df1,2););
+    put(variance(df1,2););
+
+}
