@@ -339,7 +339,7 @@ def p_f(p):
     '''
     f : LEFT_PARENT pnSaveFondoFalso exp RIGHT_PARENT pnPopFondoFalso
       | CTEI pnSaveCteI  pnSaveOperandoConstante
-      | CTEF pnSaveCteF pnSaveOperandoConstante
+      | CTEF pnSaveCteF pnSaveOperandoConstanteFlotante
       | CTEC pnSaveCteC pnSaveOperandoConstante
       | variable
       | llamada
@@ -892,9 +892,10 @@ def p_pnSaveCteF(p):
     '''
     pnSaveCteF : empty
     '''
-    if p[-1] not in tablaConst:
+    newFloat = str(p[-1])
+    if newFloat not in tablaConst:
         direccion = memoria.countCteFloat
-        tablaConst[p[-1]] = ['3',direccion]
+        tablaConst[newFloat] = ['3',direccion]
         memoria.countCteFloat += 1
 
         memoria.isOverflowConstants()
@@ -964,6 +965,17 @@ def p_pnSaveOperandoConstante(p):
     '''
     pilaOperandos.put(tablaConst[p[-2]][1])
     pilaTipo.put(tablaConst[p[-2]][0])
+    p[0] = None
+
+# Insertar en pilaOperandos la constante de tipo float y su tipo en pilaTipo 
+def p_pnSaveOperandoConstanteFlotante(p):
+    '''
+    pnSaveOperandoConstanteFlotante : empty
+    '''
+    realNum = str(p[-2])
+    pilaOperandos.put(tablaConst[realNum][1])
+    pilaTipo.put(tablaConst[realNum][0])
+
     p[0] = None
 
 # Función que guarda operador para operaciones de suma y resta
@@ -1969,10 +1981,17 @@ with open(filename) as fp:
 
 # print("\n\n")
 
+# Se reestructura tablaConst para que ahora la dirección virtual sea la llave
+# { dirVirtual : [ valor, tipo ] }
+nuevaTablaConst = {}
+for x in tablaConst:
+    valores = tablaConst[x]
+    nuevaTablaConst[valores[1]] = [x,valores[0]]
+
 data = {
     'cuads': cuadruplos.listaCuadruplos,
     'dirfunc' : dirFunc.registrosFunciones,
-    'tablaconst' : tablaConst,
+    'tablaconst' : nuevaTablaConst,
 }
 
 # Función que exporta la variable data

@@ -13,8 +13,6 @@ cuadruplos = datos['cuads']
 dirFunc = datos['dirfunc']
 tablaConst = datos['tablaconst']
 
-nombreScript = cuadruplos[0][3]
-
 # Pila de current Ips 
 pilaCurrIps = LifoQueue(maxsize=0)
 
@@ -58,16 +56,13 @@ def createMemoriaLocal(recursosFuncion):
     # Insertar nueva instancia de memoria a pilaNuevaMemoriasLocales
     pilaNuevaMemoriasLocales.append(currentMemoriaLocal)
 
-# Función que regresa dirección vitual de una constante
+# Función que regresa valor de una constante
 def getConstante(direccion):
-    for const in tablaConst.keys():
-        if tablaConst[const][1] == direccion:
-            if tablaConst[const][0] == '4':
-                # Para constantes char
-                return chr(const)
-            else:
-                return const
-    print("ERROR: No se encontró {} en tabla de constantes".format(direccion))
+    if tablaConst[direccion][1] == '4':
+        return chr(tablaConst[direccion][0])
+    elif tablaConst[direccion][1] == '3':
+        return float(tablaConst[direccion][0])
+    return tablaConst[direccion][0]
 
 # Función que regresa el valor guardado dentro de una dirección de memoria
 def getValue(direccion):

@@ -15,6 +15,9 @@ func void -> prueba2(float -> n){
 func void -> imprime(int -> n){
     var char[2,2] -> arrF;
     var int -> i,j;
+    var int -> miFloat;
+
+    miFloat = 2;
 
     arrF[0,0] = 'h';
     arrF[0,1] = 'o';
@@ -27,7 +30,7 @@ func void -> imprime(int -> n){
         }
     }
 
-    ejem[0] = 2.3;
+    ejem[0] = 2.0;
     ejem[1] = 4.3;
     ejem[2] = 3.3;
     ejem[3] = 8.3;
